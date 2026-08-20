@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faisons connaissance — Agnès & Vous</title>
+<meta name="description" content="Accompagnement en équilibre nutritionnel et évolution professionnelle. Quelques questions pour faire connaissance — 2 minutes, sans engagement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sauge:#7D8D79;
+  --sauge-clair:#A8B5A4;
+  --terracotta:#B06D5D;
+  --beige:#F5F1E8;
+  --or:#C8A96B;
+  --encre:#33372F;
+  --encre-doux:#6B6F65;
+  --blanc:#FDFCF9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Jost',system-ui,sans-serif;
+  font-weight:300;
+  background:var(--beige);
+  color:var(--encre);
+  line-height:1.6;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ---------- Barre de progression ---------- */
+.progress-rail{
+  position:fixed;top:0;left:0;right:0;height:3px;
+  background:rgba(125,141,121,.15);z-index:50;
+}
+.progress-fill{
+  height:100%;width:0;background:var(--sauge);
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---------- Structure ---------- */
+.wrap{
+  flex:1;width:100%;max-width:640px;margin:0 auto;
+  padding:72px 24px 48px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.step{display:none;animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+.step.active{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .step{animation:none}
+  .progress-fill{transition:none}
+}
+
+/* ---------- Typographie ---------- */
+.eyebrow{
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--encre-doux);font-weight:400;margin-bottom:18px;
+}
+h1{
+  font-family:'Playfair Display',Georgia,serif;
+  font-weight:500;font-size:clamp(2rem,6vw,2.75rem);
+  line-height:1.15;letter-spacing:-.01em;margin-bottom:20px;
+}
+h2{
+  font-family:'Playfair Display',Georgia,serif;
+  font-weight:500;font-size:clamp(1.4rem,4.5vw,1.9rem);
+  line-height:1.25;margin-bottom:10px;
+}
+.sub{color:var(--encre-doux);font-size:1rem;margin-bottom:28px;max-width:52ch}
+.hint{font-size:.85rem;color:var(--encre-doux);margin-bottom:20px;font-style:italic}
+
+/* ---------- Options ---------- */
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.opt{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--blanc);
+  border:1px solid rgba(125,141,121,.25);
+  border-radius:3px;
+  padding:16px 18px;
+  cursor:pointer;
+  transition:border-color .2s,background .2s,transform .12s;
+  font-size:1rem;
+}
+.opt:hover{border-color:var(--sauge);transform:translateX(3px)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.mark{
+  flex:0 0 18px;height:18px;margin-top:4px;
+  border:1.5px solid var(--sauge-clair);
+  border-radius:50%;
+  position:relative;transition:.2s;
+}
+.opt[data-multi] .mark{border-radius:2px}
+.opt.on{border-color:var(--sauge);background:rgba(125,141,121,.07)}
+.opt.on .mark{border-color:var(--sauge);background:var(--sauge)}
+.opt.on .mark::after{
+  content:'';position:absolute;inset:0;margin:auto;
+  width:6px;height:6px;background:var(--blanc);border-radius:50%;
+}
+.opt[data-multi].on .mark::after{
+  width:9px;height:5px;border:1.5px solid var(--blanc);
+  border-top:0;border-right:0;background:none;border-radius:0;
+  transform:rotate(-45deg) translate(1px,-2px);
+}
+
+/* ---------- Champs ---------- */
+.field{margin-bottom:18px}
+label.lbl{display:block;font-size:.9rem;margin-bottom:7px;color:var(--encre-doux)}
+input[type=text],input[type=email],input[type=tel],textarea{
+  width:100%;font-family:inherit;font-size:1rem;font-weight:300;
+  padding:13px 15px;background:var(--blanc);color:var(--encre);
+  border:1px solid rgba(125,141,121,.25);border-radius:3px;
+  transition:border-color .2s;
+}
+input:focus,textarea:focus{outline:none;border-color:var(--sauge);box-shadow:0 0 0 3px rgba(125,141,121,.12)}
+textarea{min-height:96px;resize:vertical}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;color:var(--encre-doux);margin:22px 0}
+.consent input{margin-top:4px;accent-color:var(--sauge);width:17px;height:17px;flex:0 0 auto}
+
+/* ---------- Boutons ---------- */
+.nav{display:flex;align-items:center;gap:18px;margin-top:8px}
+button{font-family:inherit;font-size:.95rem;cursor:pointer;border:none}
+.next{
+  background:var(--terracotta);color:var(--blanc);
+  padding:14px 32px;border-radius:3px;letter-spacing:.03em;
+  transition:background .2s,transform .12s;
+}
+.next:hover{background:#9c5d4e}
+.next:active{transform:scale(.98)}
+.next:disabled{background:var(--sauge-clair);cursor:not-allowed}
+.back{background:none;color:var(--encre-doux);padding:6px 0;text-decoration:underline;text-underline-offset:4px}
+button:focus-visible,.opt:focus-within{outline:2px solid var(--or);outline-offset:3px}
+
+/* ---------- Accueil ---------- */
+.portrait{
+  width:88px;height:88px;border-radius:50%;object-fit:cover;
+  border:1px solid var(--or);margin-bottom:24px;display:block;
+}
+.rule{width:44px;height:1px;background:var(--or);margin:26px 0}
+.signature{font-family:'Playfair Display',serif;font-style:italic;color:var(--encre-doux);font-size:1.05rem}
+
+/* ---------- Merci ---------- */
+.card-link{
+  display:block;background:var(--blanc);border-left:2px solid var(--sauge);
+  padding:16px 18px;margin-bottom:10px;text-decoration:none;color:var(--encre);
+  transition:transform .15s,border-color .2s;
+}
+.card-link:hover{transform:translateX(4px);border-color:var(--terracotta)}
+.card-link strong{display:block;font-weight:500;margin-bottom:2px}
+.card-link span{font-size:.87rem;color:var(--encre-doux)}
+.err{color:var(--terracotta);font-size:.88rem;margin-top:12px;min-height:1.2em}
+footer{text-align:center;padding:24px;font-size:.78rem;color:var(--encre-doux)}
+.spinner{
+  display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="progress-rail"><div class="progress-fill" id="bar"></div></div>
+
+<div class="wrap">
+
+<!-- ============ ACCUEIL ============ -->
+<section class="step active" data-step="intro">
+  <!-- Remplacez par votre photo : <img class="portrait" src="photo.jpg" alt="Agnès"> -->
+  <p class="eyebrow">Agnès &amp; Vous · Corrèze</p>
+  <h1>Faisons connaissance</h1>
+  <p class="sub" style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;color:var(--encre)">Accompagner les personnes à mieux choisir ce qui leur correspond.</p>
+  <p class="sub">Quelques questions pour mieux comprendre où vous en êtes aujourd'hui et ce que vous recherchez : prendre soin de votre équilibre et de votre mieux-être, découvrir une possibilité d'activité complémentaire… ou peut-être les deux.</p>
+  <p class="sub">Cela ne vous prendra que deux minutes. Il n'y a ni bonne ni mauvaise réponse, et aucune démarche ne vous sera imposée.</p>
+  <div class="rule"></div>
+  <p class="sub">Après avoir exercé pendant 21 ans comme infirmière à domicile, j'accompagne aujourd'hui celles et ceux qui souhaitent faire évoluer leur équilibre personnel, professionnel ou financier, avec une approche humaine, personnalisée et fondée sur des éléments concrets.</p>
+  <p class="sub">Je ne pose aucun diagnostic et ne promets aucune solution miracle. Mon rôle est de vous écouter, de vous informer et de vous orienter en fonction de vos besoins et de vos aspirations.</p>
+  <p class="signature">Agnès</p>
+  <div class="nav" style="margin-top:28px">
+    <button class="next" onclick="go('q1')">Commencer</button>
+  </div>
+</section>
+
+<!-- ============ Q1 — AIGUILLAGE ============ -->
+<section class="step" data-step="q1">
+  <p class="eyebrow">Question 1</p>
+  <h2>Qu'est-ce qui vous amène aujourd'hui ?</h2>
+  <p class="hint">Choisissez ce qui vous ressemble le plus.</p>
+  <div class="options" data-name="entree" data-single>
+    <label class="opt"><input type="radio" name="entree" value="Santé"><span class="mark"></span><span>Mon énergie, mon sommeil, mon bien-être au quotidien</span></label>
+    <label class="opt"><input type="radio" name="entree" value="Activité"><span class="mark"></span><span>Mon avenir professionnel — j'ai besoin de changement</span></label>
+    <label class="opt"><input type="radio" name="entree" value="Les deux"><span class="mark"></span><span>Honnêtement, les deux</span></label>
+    <label class="opt"><input type="radio" name="entree" value="Recommandation"><span class="mark"></span><span>Je viens de la part de quelqu'un</span></label>
+  </div>
+</section>
+
+<!-- ============ BRANCHE SANTÉ ============ -->
+<section class="step" data-step="s1">
+  <p class="eyebrow">Votre quotidien</p>
+  <h2>Qu'est-ce qui vous pèse le plus en ce moment ?</h2>
+  <p class="hint">Plusieurs réponses possibles.</p>
+  <div class="options" data-name="gene">
+    <label class="opt" data-multi><input type="checkbox" name="gene" value="Fatigue persistante"><span class="mark"></span><span>Une fatigue qui ne passe pas, même après avoir dormi</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="gene" value="Douleurs / inflammation"><span class="mark"></span><span>Des douleurs, des raideurs, des inflammations</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="gene" value="Poids"><span class="mark"></span><span>Un poids qui ne bouge pas malgré mes efforts</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="gene" value="Digestion"><span class="mark"></span><span>La digestion, les ballonnements, l'inconfort</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="gene" value="Humeur"><span class="mark"></span><span>Une humeur en dents de scie, de l'irritabilité</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="gene" value="Peau / cheveux"><span class="mark"></span><span>La peau, les cheveux, les ongles</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="gene" value="Faire le point"><span class="mark"></span><span>Rien de précis, je veux faire le point</span></label>
+  </div>
+  <div class="nav"><button class="next" onclick="next()">Continuer</button><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<section class="step" data-step="s2">
+  <p class="eyebrow">Votre quotidien</p>
+  <h2>Avez-vous déjà entendu parler du rapport oméga-6 / oméga-3 ?</h2>
+  <div class="options" data-name="connaissance" data-single>
+    <label class="opt"><input type="radio" name="connaissance" value="Jamais"><span class="mark"></span><span>Non, jamais</span></label>
+    <label class="opt"><input type="radio" name="connaissance" value="Vaguement"><span class="mark"></span><span>Vaguement, sans vraiment savoir ce que c'est</span></label>
+    <label class="opt"><input type="radio" name="connaissance" value="Connaît le principe"><span class="mark"></span><span>Oui, je connais le principe</span></label>
+    <label class="opt"><input type="radio" name="connaissance" value="Déjà mesuré"><span class="mark"></span><span>Oui, et j'ai déjà fait mesurer le mien</span></label>
+  </div>
+  <div class="nav"><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<section class="step" data-step="s3">
+  <p class="eyebrow">Votre quotidien</p>
+  <h2>Une analyse permet de mesurer précisément votre équilibre en acides gras. Votre réaction ?</h2>
+  <p class="hint">C'est une mesure nutritionnelle, pas un examen médical.</p>
+  <div class="options" data-name="reaction" data-single>
+    <label class="opt"><input type="radio" name="reaction" value="Curieuse - veut comprendre"><span class="mark"></span><span>Ça m'intéresse, je veux comprendre comment ça marche</span></label>
+    <label class="opt"><input type="radio" name="reaction" value="Besoin d'en savoir plus"><span class="mark"></span><span>Curieux, mais j'ai besoin d'en savoir plus avant</span></label>
+    <label class="opt"><input type="radio" name="reaction" value="Sceptique"><span class="mark"></span><span>J'ai déjà tout essayé, je suis un peu sceptique</span></label>
+    <label class="opt"><input type="radio" name="reaction" value="Prêt à agir"><span class="mark"></span><span>Je veux le faire, dites-moi juste comment</span></label>
+  </div>
+  <div class="nav"><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<section class="step" data-step="s4">
+  <p class="eyebrow">Votre quotidien</p>
+  <h2>Avez-vous déjà fait des démarches pour améliorer ça ?</h2>
+  <div class="options" data-name="anteriorite" data-single>
+    <label class="opt"><input type="radio" name="anteriorite" value="Premier pas"><span class="mark"></span><span>Non, c'est mon premier pas</span></label>
+    <label class="opt"><input type="radio" name="anteriorite" value="Compléments grand public"><span class="mark"></span><span>Des compléments achetés en pharmacie ou en magasin</span></label>
+    <label class="opt"><input type="radio" name="anteriorite" value="Accompagnement pro"><span class="mark"></span><span>Un accompagnement avec un professionnel</span></label>
+    <label class="opt"><input type="radio" name="anteriorite" value="Plusieurs essais sans résultat"><span class="mark"></span><span>Plusieurs choses, sans résultat durable</span></label>
+  </div>
+  <div class="nav"><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<!-- ============ BRANCHE ACTIVITÉ ============ -->
+<section class="step" data-step="a1">
+  <p class="eyebrow">Votre situation</p>
+  <h2>Où en êtes-vous professionnellement ?</h2>
+  <div class="options" data-name="situation" data-single>
+    <label class="opt"><input type="radio" name="situation" value="En poste - épuisement"><span class="mark"></span><span>En poste, mais je m'épuise</span></label>
+    <label class="opt"><input type="radio" name="situation" value="En poste - veut construire à côté"><span class="mark"></span><span>En poste, ça va, mais je veux construire autre chose à côté</span></label>
+    <label class="opt"><input type="radio" name="situation" value="Reconversion / arrêt"><span class="mark"></span><span>En reconversion ou en arrêt</span></label>
+    <label class="opt"><input type="radio" name="situation" value="Indépendant - cherche complément"><span class="mark"></span><span>À mon compte, je cherche un complément</span></label>
+    <label class="opt"><input type="radio" name="situation" value="Autre"><span class="mark"></span><span>C'est plus compliqué à résumer</span></label>
+  </div>
+  <div class="nav"><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<section class="step" data-step="a2">
+  <p class="eyebrow">Votre situation</p>
+  <h2>Qu'est-ce qui compte le plus dans un projet professionnel ?</h2>
+  <p class="hint">Deux ou trois réponses maximum.</p>
+  <div class="options" data-name="moteurs">
+    <label class="opt" data-multi><input type="checkbox" name="moteurs" value="Temps et liberté"><span class="mark"></span><span>Retrouver du temps et de la liberté</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="moteurs" value="Revenu complémentaire"><span class="mark"></span><span>Un complément de revenu concret</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="moteurs" value="Sens"><span class="mark"></span><span>Donner du sens à ce que je fais</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="moteurs" value="Aider autrement"><span class="mark"></span><span>Continuer à aider les gens, autrement</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="moteurs" value="Apprendre"><span class="mark"></span><span>Apprendre et évoluer</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="moteurs" value="Indépendance"><span class="mark"></span><span>Ne plus dépendre d'un employeur</span></label>
+  </div>
+  <div class="nav"><button class="next" onclick="next()">Continuer</button><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<section class="step" data-step="a3">
+  <p class="eyebrow">Votre situation</p>
+  <h2>Combien de temps pourriez-vous réellement y consacrer par semaine ?</h2>
+  <p class="hint">Répondez sincèrement — il n'y a pas de bonne réponse, ça sert juste à ajuster.</p>
+  <div class="options" data-name="temps" data-single>
+    <label class="opt"><input type="radio" name="temps" value="Moins de 5h"><span class="mark"></span><span>Moins de 5 heures</span></label>
+    <label class="opt"><input type="radio" name="temps" value="5 à 10h"><span class="mark"></span><span>5 à 10 heures</span></label>
+    <label class="opt"><input type="radio" name="temps" value="10 à 15h"><span class="mark"></span><span>10 à 15 heures</span></label>
+    <label class="opt"><input type="radio" name="temps" value="Plus de 15h"><span class="mark"></span><span>Plus de 15 heures</span></label>
+    <label class="opt"><input type="radio" name="temps" value="Ne sait pas"><span class="mark"></span><span>Je ne sais pas encore</span></label>
+  </div>
+  <div class="nav"><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<section class="step" data-step="a4">
+  <p class="eyebrow">Votre situation</p>
+  <h2>Qu'est-ce qui vous freinerait le plus ?</h2>
+  <div class="options" data-name="frein" data-single>
+    <label class="opt"><input type="radio" name="frein" value="Le temps"><span class="mark"></span><span>Le temps</span></label>
+    <label class="opt"><input type="radio" name="frein" value="L'argent"><span class="mark"></span><span>L'investissement de départ</span></label>
+    <label class="opt"><input type="radio" name="frein" value="Ne sait pas vendre"><span class="mark"></span><span>Je ne me sens pas capable de vendre</span></label>
+    <label class="opt"><input type="radio" name="frein" value="Regard des autres"><span class="mark"></span><span>Le regard des autres</span></label>
+    <label class="opt"><input type="radio" name="frein" value="Manque de connaissance"><span class="mark"></span><span>Je ne connais pas assez le domaine</span></label>
+    <label class="opt"><input type="radio" name="frein" value="Aucun"><span class="mark"></span><span>Rien de particulier, je suis prêt à explorer</span></label>
+  </div>
+  <div class="nav"><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<!-- ============ BRANCHE RECOMMANDATION ============ -->
+<section class="step" data-step="r1">
+  <p class="eyebrow">Recommandation</p>
+  <h2>Qui vous a parlé de moi ?</h2>
+  <div class="field"><input type="text" id="recommandeur" placeholder="Son prénom, ou son prénom et nom"></div>
+  <p class="hint">Je la ou le remercierai — c'est important pour moi.</p>
+  <div class="nav"><button class="next" onclick="next()">Continuer</button><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<section class="step" data-step="r2">
+  <p class="eyebrow">Recommandation</p>
+  <h2>Et cette personne vous a dit quoi, en gros ?</h2>
+  <div class="options" data-name="motif_reco" data-single>
+    <label class="opt"><input type="radio" name="motif_reco" value="Santé"><span class="mark"></span><span>Que vous pouviez m'aider sur ma santé, mon énergie</span></label>
+    <label class="opt"><input type="radio" name="motif_reco" value="Activité"><span class="mark"></span><span>Que vous proposiez une activité complémentaire</span></label>
+    <label class="opt"><input type="radio" name="motif_reco" value="Contact simple"><span class="mark"></span><span>Juste de vous contacter</span></label>
+  </div>
+  <div class="nav"><button class="back" onclick="back()">Retour</button></div>
+</section>
+
+<!-- ============ COORDONNÉES ============ -->
+<section class="step" data-step="fin">
+  <p class="eyebrow">Dernière étape</p>
+  <h2>On se parle ?</h2>
+  <p class="sub">Je réponds personnellement, sous 24 heures.</p>
+
+  <div class="field"><label class="lbl" for="prenom">Prénom</label><input type="text" id="prenom" autocomplete="given-name"></div>
+  <div class="field"><label class="lbl" for="email">Email</label><input type="email" id="email" autocomplete="email"></div>
+  <div class="field"><label class="lbl" for="tel">Téléphone ou WhatsApp <span style="opacity:.7">— seulement si vous préférez qu'on échange par message</span></label><input type="tel" id="tel" autocomplete="tel"></div>
+  <div class="field"><label class="lbl" for="ville">Ville ou département <span style="opacity:.7">— pour vous proposer un rendez-vous près de chez vous</span></label><input type="text" id="ville"></div>
+
+  <p class="lbl" style="margin-top:24px">Comment préférez-vous qu'on entre en contact ?</p>
+  <div class="options" data-name="canal" data-single>
+    <label class="opt"><input type="radio" name="canal" value="Appel 20 min"><span class="mark"></span><span>Un appel de 20 minutes</span></label>
+    <label class="opt"><input type="radio" name="canal" value="Messages"><span class="mark"></span><span>Un échange par message, tranquillement</span></label>
+    <label class="opt"><input type="radio" name="canal" value="Visio de groupe"><span class="mark"></span><span>Une visio de groupe, pour découvrir sans pression</span></label>
+    <label class="opt"><input type="radio" name="canal" value="Événement présentiel"><span class="mark"></span><span>Un événement près de chez moi</span></label>
+    <label class="opt"><input type="radio" name="canal" value="Email seulement"><span class="mark"></span><span>Juste recevoir des informations par email pour l'instant</span></label>
+  </div>
+
+  <div class="field"><label class="lbl" for="libre">Vous voulez ajouter quelque chose ?</label><textarea id="libre" placeholder="Ce que vous voulez. C'est souvent ici que se dit l'essentiel."></textarea></div>
+
+  <label class="consent"><input type="checkbox" id="rgpd"><span>J'accepte qu'Agnès conserve mes coordonnées pour me recontacter. Aucune donnée n'est transmise à un tiers, et je peux demander leur suppression à tout moment.</span></label>
+
+  <div class="nav">
+    <button class="next" id="submitBtn" onclick="submitForm()">Envoyer</button>
+    <button class="back" onclick="back()">Retour</button>
+  </div>
+  <p class="err" id="err"></p>
+</section>
+
+<!-- ============ MERCI ============ -->
+<section class="step" data-step="merci">
+  <p class="eyebrow">C'est envoyé</p>
+  <h1 id="merciTitre">Merci.</h1>
+  <p class="sub" id="merciTexte">Je vous réponds personnellement sous 24 heures.</p>
+  <div class="rule"></div>
+  <div id="merciLiens"></div>
+  <p class="sub" style="margin-top:26px">Envie de suivre ce que je partage, sans rien devoir ?</p>
+  <a class="card-link" id="lienTelegram" href="#"><strong>Le canal Telegram</strong><span>Ce que je découvre, ce que j'apprends. Sans vente.</span></a>
+  <a class="card-link" id="lienWhatsapp" href="#"><strong>La communauté WhatsApp</strong><span>Pour échanger avec d'autres, en petit comité.</span></a>
+</section>
+
+</div>
+
+<footer>Agnès &amp; Vous · Objat, Corrèze · Vos données restent entre nous.<br>
+Accompagnement en équilibre nutritionnel et bien-être. Aucun diagnostic, aucun traitement, aucun suivi médical — ne remplace pas l'avis de votre médecin.</footer>
+
+<script>
+/* ============================================================
+   CONFIGURATION — les 4 seules lignes à modifier
+   Pour dupliquer ce formulaire : changez uniquement ce bloc.
+   ============================================================ */
+const CONFIG = {
+  ENDPOINT : "https://script.google.com/macros/s/VOTRE_ID_DEPLOIEMENT/exec",
+  SITE_PRODUIT  : "https://partagebienetre.github.io/lesecret/",
+  SITE_ACTIVITE : "https://partagebienetre.github.io/activite/",
+  TELEGRAM : "https://t.me/VOTRE_CANAL",
+  WHATSAPP : "https://chat.whatsapp.com/VOTRE_LIEN"
+};
+
+/* ---------- Parcours ---------- */
+const PARCOURS = {
+  "Santé"          : ["s1","s2","s3","s4","fin"],
+  "Activité"       : ["a1","a2","a3","a4","fin"],
+  "Les deux"       : ["s1","s2","s3","a1","a2","a4","fin"],
+  "Recommandation" : ["r1","r2","fin"]
+};
+const RECO_SUITE = {
+  "Santé"          : ["s1","s2","s3","fin"],
+  "Activité"       : ["a1","a2","a4","fin"],
+  "Contact simple" : ["fin"]
+};
+
+let chemin = ["intro","q1"];
+let index  = 0;
+const data = {};
+
+/* ---------- Navigation ---------- */
+function show(id){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  const el = document.querySelector('[data-step="'+id+'"]');
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  const total = Math.max(chemin.length-1,1);
+  document.getElementById('bar').style.width =
+    (id==='merci' ? 100 : Math.round(index/total*100)) + '%';
+}
+function go(id){ index = chemin.indexOf(id); if(index<0){chemin.push(id);index=chemin.length-1;} show(id); }
+function next(){ if(index < chemin.length-1){ index++; show(chemin[index]); } }
+function back(){ if(index > 0){ index--; show(chemin[index]); } }
+
+/* ---------- Sélection ---------- */
+document.querySelectorAll('.opt').forEach(opt=>{
+  opt.addEventListener('click', e=>{
+    // Le clic sur le <label> renvoie un clic synthétique vers l'<input>,
+    // qui remonte jusqu'ici. Sans ce filtre, chaque case bascule deux fois.
+    if(e.target.tagName === 'INPUT') return;
+    const input = opt.querySelector('input');
+    const group = opt.closest('.options');
+    if(input.type === 'radio'){
+      group.querySelectorAll('.opt').forEach(o=>o.classList.remove('on'));
+      opt.classList.add('on'); input.checked = true;
+      collect(group);
+      const isSingle = group.hasAttribute('data-single');
+      const isAiguillage = group.dataset.name === 'entree' || group.dataset.name === 'motif_reco';
+      if(isAiguillage) routage(group.dataset.name, input.value);
+      if(isSingle && group.closest('.step').dataset.step !== 'fin'){
+        setTimeout(next, 260);   // avance automatique : moins de clics, moins d'abandon
+      }
+    } else {
+      opt.classList.toggle('on'); input.checked = opt.classList.contains('on');
+      collect(group);
+    }
+  });
+});
+function collect(group){
+  const name = group.dataset.name;
+  const checked = [...group.querySelectorAll('input:checked')].map(i=>i.value);
+  data[name] = checked.join(' · ');
+}
+
+/* ---------- Aiguillage ---------- */
+function routage(nom, valeur){
+  if(nom === 'entree'){
+    chemin = ["intro","q1", ...PARCOURS[valeur]];
+  } else if(nom === 'motif_reco'){
+    chemin = ["intro","q1","r1","r2", ...RECO_SUITE[valeur]];
+  }
+  index = chemin.indexOf(nom === 'entree' ? 'q1' : 'r2');
+}
+
+/* ---------- Envoi ---------- */
+function submitForm(){
+  const err = document.getElementById('err');
+  const prenom = document.getElementById('prenom').value.trim();
+  const email  = document.getElementById('email').value.trim();
+
+  if(!prenom){ err.textContent = "Il me manque votre prénom."; return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ err.textContent = "Cette adresse email ne semble pas valide."; return; }
+  if(!document.getElementById('rgpd').checked){ err.textContent = "Cochez la case pour que je puisse vous recontacter."; return; }
+  err.textContent = "";
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Envoi…';
+
+  const payload = Object.assign({}, data, {
+    prenom, email,
+    telephone : document.getElementById('tel').value.trim(),
+    ville     : document.getElementById('ville').value.trim(),
+    message   : document.getElementById('libre').value.trim(),
+    recommandeur : (document.getElementById('recommandeur')||{}).value || "",
+    source    : new URLSearchParams(location.search).get('src') || "direct",
+    date      : new Date().toISOString()
+  });
+
+  fetch(CONFIG.ENDPOINT, {
+    method : 'POST',
+    mode   : 'no-cors',
+    headers: {'Content-Type':'text/plain;charset=utf-8'},
+    body   : JSON.stringify(payload)
+  }).then(afficherMerci).catch(afficherMerci);
+}
+
+/* ---------- Écran final ---------- */
+function afficherMerci(){
+  const branche = data.entree || "";
+  const prenom  = document.getElementById('prenom').value.trim();
+  document.getElementById('merciTitre').textContent = "Merci, " + prenom + ".";
+
+  const liens = document.getElementById('merciLiens');
+  let html = "";
+  const carte = (url,titre,desc)=>`<a class="card-link" href="${url}" target="_blank" rel="noopener"><strong>${titre}</strong><span>${desc}</span></a>`;
+
+  if(branche === "Santé" || data.motif_reco === "Santé"){
+    html = carte(CONFIG.SITE_PRODUIT, "Comprendre le principe", "En attendant ma réponse, voici sur quoi repose ma démarche.");
+  } else if(branche === "Activité" || data.motif_reco === "Activité"){
+    html = carte(CONFIG.SITE_ACTIVITE, "Comment je vois ce métier", "Le relationnel à une époque où tout s'automatise.");
+  } else if(branche === "Les deux"){
+    html = carte(CONFIG.SITE_PRODUIT, "Comprendre le principe", "Le versant santé de ma démarche.")
+         + carte(CONFIG.SITE_ACTIVITE, "Comment je vois ce métier", "Le versant activité.");
+  }
+  if(data.recommandeur || document.getElementById('recommandeur').value){
+    document.getElementById('merciTexte').textContent =
+      "Je vous réponds sous 24 heures. Et je remercie " + document.getElementById('recommandeur').value + " de votre part.";
+  }
+  liens.innerHTML = html;
+  document.getElementById('lienTelegram').href = CONFIG.TELEGRAM;
+  document.getElementById('lienWhatsapp').href = CONFIG.WHATSAPP;
+
+  chemin.push('merci'); index = chemin.length-1;
+  show('merci');
+}
+</script>
+</body>
+</html>
