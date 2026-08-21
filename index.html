@@ -47,110 +47,48 @@ body{
 .step{display:none;animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
 .step.active{display:block}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){
-  .step{animation:none}
-  .progress-fill{transition:none}
-}
-.eyebrow{
-  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--encre-doux);font-weight:400;margin-bottom:18px;
-}
-h1{
-  font-family:'Playfair Display',Georgia,serif;
-  font-weight:500;font-size:clamp(2rem,6vw,2.75rem);
-  line-height:1.15;letter-spacing:-.01em;margin-bottom:20px;
-}
-h2{
-  font-family:'Playfair Display',Georgia,serif;
-  font-weight:500;font-size:clamp(1.4rem,4.5vw,1.9rem);
-  line-height:1.25;margin-bottom:10px;
-}
+@media (prefers-reduced-motion:reduce){.step{animation:none}.progress-fill{transition:none}}
+.eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--encre-doux);font-weight:400;margin-bottom:18px}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(2rem,6vw,2.75rem);line-height:1.15;letter-spacing:-.01em;margin-bottom:20px}
+h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(1.4rem,4.5vw,1.9rem);line-height:1.25;margin-bottom:10px}
 .sub{color:var(--encre-doux);font-size:1rem;margin-bottom:28px;max-width:52ch}
 .hint{font-size:.85rem;color:var(--encre-doux);margin-bottom:20px;font-style:italic}
 .lbl{color:var(--encre-doux);font-size:.9rem;margin-bottom:7px;display:block}
 .options{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
-.opt{
-  display:flex;align-items:flex-start;gap:14px;
-  background:var(--blanc);
-  border:1px solid rgba(125,141,121,.25);
-  border-radius:3px;
-  padding:16px 18px;
-  cursor:pointer;
-  transition:border-color .2s,background .2s,transform .12s;
-  font-size:1rem;
-}
+.opt{display:flex;align-items:flex-start;gap:14px;background:var(--blanc);border:1px solid rgba(125,141,121,.25);border-radius:3px;padding:16px 18px;cursor:pointer;transition:border-color .2s,background .2s,transform .12s;font-size:1rem}
 .opt:hover{border-color:var(--sauge);transform:translateX(3px)}
 .opt input{position:absolute;opacity:0;pointer-events:none}
-.mark{
-  flex:0 0 18px;height:18px;margin-top:4px;
-  border:1.5px solid var(--sauge-clair);
-  border-radius:50%;
-  position:relative;transition:.2s;
-}
+.mark{flex:0 0 18px;height:18px;margin-top:4px;border:1.5px solid var(--sauge-clair);border-radius:50%;position:relative;transition:.2s}
 .opt[data-multi] .mark{border-radius:2px}
 .opt.on{border-color:var(--sauge);background:rgba(125,141,121,.07)}
 .opt.on .mark{border-color:var(--sauge);background:var(--sauge)}
-.opt.on .mark::after{
-  content:'';position:absolute;inset:0;margin:auto;
-  width:6px;height:6px;background:var(--blanc);border-radius:50%;
-}
-.opt[data-multi].on .mark::after{
-  width:9px;height:5px;border:1.5px solid var(--blanc);
-  border-top:0;border-right:0;background:none;border-radius:0;
-  transform:rotate(-45deg) translate(1px,-2px);
-}
+.opt.on .mark::after{content:'';position:absolute;inset:0;margin:auto;width:6px;height:6px;background:var(--blanc);border-radius:50%}
+.opt[data-multi].on .mark::after{width:9px;height:5px;border:1.5px solid var(--blanc);border-top:0;border-right:0;background:none;border-radius:0;transform:rotate(-45deg) translate(1px,-2px)}
 .field{margin-bottom:18px}
-input[type=text],input[type=email],input[type=tel],textarea{
-  width:100%;font-family:inherit;font-size:1rem;font-weight:300;
-  padding:13px 15px;background:var(--blanc);color:var(--encre);
-  border:1px solid rgba(125,141,121,.25);border-radius:3px;
-  transition:border-color .2s;
-}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;font-family:inherit;font-size:1rem;font-weight:300;padding:13px 15px;background:var(--blanc);color:var(--encre);border:1px solid rgba(125,141,121,.25);border-radius:3px;transition:border-color .2s}
 input:focus,textarea:focus{outline:none;border-color:var(--sauge);box-shadow:0 0 0 3px rgba(125,141,121,.12)}
 .consent{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;color:var(--encre-doux);margin:22px 0}
 .consent input{margin-top:4px;accent-color:var(--sauge);width:17px;height:17px;flex:0 0 auto}
-.nav{display:flex;align-items:center;gap:18px;margin-top:8px}
+.nav{display:flex;align-items:center;gap:18px;margin-top:8px;flex-wrap:wrap}
 button{font-family:inherit;font-size:.95rem;cursor:pointer;border:none}
-.next{
-  background:var(--terracotta);color:var(--blanc);
-  padding:14px 32px;border-radius:3px;letter-spacing:.03em;
-  transition:background .2s,transform .12s;
-}
+.next{background:var(--terracotta);color:var(--blanc);padding:14px 32px;border-radius:3px;letter-spacing:.03em;transition:background .2s,transform .12s}
 .next:hover{background:#9c5d4e}
 .next:active{transform:scale(.98)}
 .next:disabled{background:var(--sauge-clair);cursor:not-allowed}
 .back{background:none;color:var(--encre-doux);padding:6px 0;text-decoration:underline;text-underline-offset:4px}
 button:focus-visible{outline:2px solid var(--or);outline-offset:3px}
-.portrait{
-  width:88px;height:88px;border-radius:50%;object-fit:cover;
-  border:1px solid var(--or);margin-bottom:24px;display:block;
-}
 .rule{width:44px;height:1px;background:var(--or);margin:26px 0}
 .signature{font-family:'Playfair Display',serif;font-style:italic;color:var(--encre-doux);font-size:1.05rem}
-.card-link{
-  display:block;background:var(--blanc);border-left:2px solid var(--sauge);
-  padding:16px 18px;margin-bottom:10px;text-decoration:none;color:var(--encre);
-  transition:transform .15s,border-color .2s;
-}
+.card-link{display:block;background:var(--blanc);border-left:2px solid var(--sauge);padding:16px 18px;margin-bottom:10px;text-decoration:none;color:var(--encre);transition:transform .15s,border-color .2s}
 .card-link:hover{transform:translateX(4px);border-color:var(--terracotta)}
 .card-link strong{display:block;font-weight:500;margin-bottom:2px}
 .card-link span{font-size:.87rem;color:var(--encre-doux)}
 .err{color:var(--terracotta);font-size:.88rem;margin-top:12px;min-height:1.2em}
 footer{text-align:center;padding:24px;font-size:.78rem;color:var(--encre-doux)}
-.spinner{
-  display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);
-  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px;
-}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.socials{
-  display:flex;gap:16px;flex-wrap:wrap;margin:24px 0;
-}
-.social{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 16px;background:rgba(125,141,121,.1);
-  border-radius:3px;text-decoration:none;color:var(--encre);
-  font-size:.9rem;transition:background .2s;
-}
+.socials{display:flex;gap:16px;flex-wrap:wrap;margin:24px 0}
+.social{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(125,141,121,.1);border-radius:3px;text-decoration:none;color:var(--encre);font-size:.9rem;transition:background .2s}
 .social:hover{background:rgba(125,141,121,.2)}
 </style>
 </head>
@@ -163,9 +101,9 @@ footer{text-align:center;padding:24px;font-size:.78rem;color:var(--encre-doux)}
 <!-- ============ ACCUEIL ============ -->
 <section class="step active" data-step="intro">
   <p class="eyebrow">Agnès &amp; Vous · Corrèze</p>
-  <h1>Bienvenue</h1>
-  <p class="sub">Accompagner les personnes à mieux choisir ce qui leur correspond.</p>
-  <p class="hint">C'est pour vous si vous avez un problème ou un désir, et que vous cherchez à comprendre. Deux minutes pour faire connaissance.</p>
+  <h1>Bienvenue chez vous.</h1>
+  <p class="sub" style="font-style:italic;font-size:1.05rem">Accompagner les personnes à mieux choisir ce qui leur correspond.</p>
+  <p class="sub">Vous avez un problème ou un désir ? Vous êtes curieux de comprendre ou de découvrir ? Vous êtes au bon endroit. Deux minutes pour faire connaissance.</p>
   <div class="nav" style="margin-top:28px">
     <button class="next" onclick="go('q1')">Commencer</button>
   </div>
@@ -176,9 +114,9 @@ footer{text-align:center;padding:24px;font-size:.78rem;color:var(--encre-doux)}
   <p class="eyebrow">Question 1</p>
   <h2>Comment êtes-vous arrivé(e) ici ?</h2>
   <div class="options" data-name="source" data-single>
-    <label class="opt"><input type="radio" name="source" value="Recommandation"><span class="mark"></span><span>Je viens d'être recommandé(e)</span></label>
-    <label class="opt"><input type="radio" name="source" value="Réseaux"><span class="mark"></span><span>J'ai découvert sur les réseaux (Instagram, TikTok, etc.)</span></label>
-    <label class="opt"><input type="radio" name="source" value="Terrain"><span class="mark"></span><span>Événement, bouche-à-oreille direct</span></label>
+    <label class="opt"><input type="radio" name="source" value="Recommandation"><span class="mark"></span><span>Je viens de la part de quelqu'un</span></label>
+    <label class="opt"><input type="radio" name="source" value="Réseaux"><span class="mark"></span><span>J'ai découvert sur les réseaux sociaux</span></label>
+    <label class="opt"><input type="radio" name="source" value="Terrain"><span class="mark"></span><span>Un événement, bouche-à-oreille direct</span></label>
     <label class="opt"><input type="radio" name="source" value="Recherche"><span class="mark"></span><span>J'ai cherché directement</span></label>
   </div>
 </section>
@@ -187,16 +125,15 @@ footer{text-align:center;padding:24px;font-size:.78rem;color:var(--encre-doux)}
 <section class="step" data-step="q2">
   <p class="eyebrow">Question 2</p>
   <h2>Qu'est-ce qui vous intéresse ?</h2>
-  <p class="hint">Vous pouvez cocher plusieurs options.</p>
-  <div class="options" data-name="interets">
+  <p class="hint">Vous pouvez cocher une, plusieurs, ou aucune — c'est selon.</p>
+  <div class="options" data-name="interets" data-multi>
     <label class="opt" data-multi><input type="checkbox" name="interets" value="Bien-être"><span class="mark"></span><span>Mon bien-être et ma santé</span></label>
     <label class="opt" data-multi><input type="checkbox" name="interets" value="Activité"><span class="mark"></span><span>Mon évolution professionnelle</span></label>
     <label class="opt" data-multi><input type="checkbox" name="interets" value="IA"><span class="mark"></span><span>Apprendre à utiliser l'IA</span></label>
   </div>
   <div class="nav">
-    <button class="next" onclick="next()">Continuer</button>
+    <button class="next" onclick="continuer()">Continuer</button>
     <button class="back" onclick="back()">Retour</button>
-    <button class="back" onclick="skip()">Passer</button>
   </div>
   <p class="err" id="err"></p>
 </section>
@@ -247,7 +184,12 @@ footer{text-align:center;padding:24px;font-size:.78rem;color:var(--encre-doux)}
     <a class="social" href="https://t.me/testnutrition" target="_blank">Telegram</a>
   </div>
 
-  <div id="merciLiens" style="margin-top:28px"></div>
+  <div id="merciLiens" style="margin-top:28px">
+    <p style="font-size:.9rem;color:var(--encre-doux);margin-bottom:12px;">Explorez ce qui vous intéresse :</p>
+    <a class="card-link" href="https://agnesetvous.com/bilanbienetre"><strong>Bilan bien-être</strong><span>Comprendre votre équilibre</span></a>
+    <a class="card-link" href="https://agnesetvous.com/bilanactivite"><strong>Bilan activité</strong><span>Explorer une évolution professionnelle</span></a>
+    <a class="card-link" href="https://agnesetvous.com/bilania"><strong>Bilan IA</strong><span>Découvrir comment utiliser l'IA</span></a>
+  </div>
 
   <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(125,141,121,.2)">
     <a class="card-link" href="https://calendar.app.google/v4KtmbgVPWEHSejT8" target="_blank">
@@ -273,45 +215,45 @@ const data = {};
 function show(id){
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   const el = document.querySelector('[data-step="'+id+'"]');
-  el.classList.add('active');
+  if(el) el.classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
   const total = Math.max(chemin.length-1,1);
-  document.getElementById('bar').style.width =
-    (id==='merci' ? 100 : Math.round(index/total*100)) + '%';
+  document.getElementById('bar').style.width = (id==='merci' ? 100 : Math.round(index/total*100)) + '%';
 }
-function go(id){ index = chemin.indexOf(id); if(index<0){chemin.push(id);index=chemin.length-1;} show(id); }
-function next(){ 
+
+function go(id){ 
+  index = chemin.indexOf(id); 
+  if(index < 0){ chemin.push(id); index = chemin.length-1; } 
+  show(id); 
+}
+
+function continuer(){
   const err = document.getElementById('err');
-  const checked = [...document.querySelectorAll('input[name="interets"]:checked')].map(i=>i.value);
-  if(checked.length === 0){
-    err.textContent = "Choisissez au moins une option.";
-    return;
-  }
   err.textContent = "";
   if(index < chemin.length-1){ index++; show(chemin[index]); } 
 }
-function skip(){
-  document.querySelectorAll('input[name="interets"]').forEach(i=>i.checked=false);
-  data.interets = "";
-  if(index < chemin.length-1){ index++; show(chemin[index]); }
+
+function back(){ 
+  if(index > 0){ index--; show(chemin[index]); } 
 }
-function back(){ if(index > 0){ index--; show(chemin[index]); } }
 
 document.querySelectorAll('.opt').forEach(opt=>{
   opt.addEventListener('click', e=>{
     if(e.target.tagName === 'INPUT') return;
     const input = opt.querySelector('input');
     const group = opt.closest('.options');
+    
     if(input.type === 'radio'){
       group.querySelectorAll('.opt').forEach(o=>o.classList.remove('on'));
-      opt.classList.add('on'); input.checked = true;
+      opt.classList.add('on');
+      input.checked = true;
       collect(group);
-      const isSingle = group.hasAttribute('data-single');
-      if(isSingle){
-        setTimeout(next, 260);
+      if(group.hasAttribute('data-single')){
+        setTimeout(continuer, 260);
       }
     } else {
-      opt.classList.toggle('on'); input.checked = opt.classList.contains('on');
+      opt.classList.toggle('on');
+      input.checked = opt.classList.contains('on');
       collect(group);
     }
   });
@@ -320,7 +262,7 @@ document.querySelectorAll('.opt').forEach(opt=>{
 function collect(group){
   const name = group.dataset.name;
   const checked = [...group.querySelectorAll('input:checked')].map(i=>i.value);
-  data[name] = checked.join(' · ');
+  data[name] = checked.length > 0 ? checked.join(' · ') : "";
 }
 
 function submitForm(){
@@ -352,19 +294,10 @@ function submitForm(){
 }
 
 function afficherMerci(){
-  const prenom  = document.getElementById('prenom').value.trim();
+  const prenom = document.getElementById('prenom').value.trim();
   document.getElementById('merciTitre').textContent = "Merci, " + prenom + ".";
-
-  const liens = document.getElementById('merciLiens');
-  let html = `
-    <p style="font-size:.9rem;color:var(--encre-doux);margin-bottom:12px;">Explorez ce qui vous intéresse :</p>
-    <a class="card-link" href="https://agnesetvous.com/bilanbienetre"><strong>Bilan bien-être</strong><span>Comprendre votre équilibre</span></a>
-    <a class="card-link" href="https://agnesetvous.com/bilanactivite"><strong>Bilan activité</strong><span>Explorer une évolution professionnelle</span></a>
-    <a class="card-link" href="https://agnesetvous.com/bilania"><strong>Bilan IA</strong><span>Découvrir comment utiliser l'IA</span></a>
-  `;
-  liens.innerHTML = html;
-
-  chemin.push('merci'); index = chemin.length-1;
+  chemin.push('merci'); 
+  index = chemin.length-1;
   show('merci');
 }
 </script>
