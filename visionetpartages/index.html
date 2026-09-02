@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Où en êtes-vous ? — Agnès & Vous</title>
+<meta name="description" content="Quelques questions, sans obligation, pour mieux savoir où vous en êtes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sauge:#7D8D79;--sauge-clair:#A8B5A4;--sauge-bg:rgba(125,141,121,.07);
+  --terracotta:#B06D5D;--terracotta-doux:#c4897b;--beige:#F5F1E8;
+  --or:#C8A96B;--encre:#33372F;--encre-doux:#6B6F65;--blanc:#FDFCF9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Jost',system-ui,sans-serif;font-weight:300;background:var(--beige);color:var(--encre);line-height:1.7}
+.section{max-width:640px;margin:0 auto;padding:48px 24px;opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.section.visible{opacity:1;transform:none}
+.section.first{opacity:1;transform:none}
+.divider{width:44px;height:1px;background:var(--or);margin:20px auto}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(1.9rem,6vw,2.5rem);line-height:1.2;letter-spacing:-.01em;margin-bottom:20px;color:var(--encre);text-align:center}
+h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(1.3rem,4.5vw,1.7rem);line-height:1.3;margin-bottom:16px;color:var(--encre)}
+.sub{color:var(--encre-doux);font-size:1.05rem;font-weight:400;margin-bottom:14px;max-width:56ch}
+.signature{font-family:'Playfair Display',serif;font-style:italic;color:var(--terracotta);font-size:1.15rem;margin-top:16px}
+.badge{display:inline-block;background:var(--sauge-bg);border:1px solid rgba(125,141,121,.25);padding:6px 16px;border-radius:20px;font-size:.85rem;color:var(--sauge);margin-top:16px}
+.options{display:flex;flex-direction:column;gap:10px;margin:18px 0 24px}
+.opt{display:flex;align-items:center;gap:14px;background:var(--blanc);border:1.5px solid rgba(125,141,121,.2);border-radius:6px;padding:15px 18px;cursor:pointer;transition:all .25s ease;font-size:.98rem}
+.opt:hover{border-color:var(--sauge);background:var(--sauge-bg);transform:translateX(3px)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.mark{flex:0 0 19px;height:19px;border:1.5px solid var(--sauge-clair);border-radius:50%;position:relative;transition:.2s}
+.opt[data-multi] .mark{border-radius:4px}
+.opt.on{border-color:var(--sauge);background:var(--sauge-bg)}
+.opt.on .mark{border-color:var(--sauge);background:var(--sauge)}
+.opt.on .mark::after{content:'';position:absolute;inset:0;margin:auto;width:6px;height:6px;background:var(--blanc);border-radius:50%}
+.opt[data-multi].on .mark::after{width:8px;height:5px;border:1.5px solid var(--blanc);border-top:0;border-right:0;background:none;border-radius:0;transform:rotate(-45deg) translate(1px,-2px)}
+.opt-text{flex:1}
+.field{margin-bottom:16px}
+.lbl{display:block;font-size:.87rem;margin-bottom:6px;color:var(--encre-doux)}
+.facultatif{opacity:.65;font-style:italic}
+input[type=text],input[type=email],textarea{width:100%;font-family:inherit;font-size:.98rem;font-weight:300;padding:13px 15px;background:var(--blanc);color:var(--encre);border:1.5px solid rgba(125,141,121,.2);border-radius:6px;transition:border-color .2s}
+textarea{min-height:80px;resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:var(--sauge);box-shadow:0 0 0 3px rgba(125,141,121,.12)}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:.85rem;color:var(--encre-doux);margin:20px 0}
+.consent input{margin-top:4px;accent-color:var(--sauge);width:16px;height:16px;flex:0 0 auto}
+button{font-family:inherit;font-size:.95rem;cursor:pointer;border:none}
+.btn-primary{background:var(--terracotta);color:var(--blanc);padding:15px 32px;border-radius:6px;letter-spacing:.02em;transition:background .2s,transform .12s;font-size:.98rem}
+.btn-primary:hover{background:#9c5d4e}
+.btn-primary:active{transform:scale(.98)}
+.btn-skip{background:none;color:var(--encre-doux);padding:6px 0;text-decoration:underline;text-underline-offset:4px;font-size:.88rem;margin-left:12px}
+.rappel-facultatif{background:var(--sauge-bg);border-left:3px solid var(--sauge);padding:10px 14px;font-size:.85rem;color:var(--encre-doux);border-radius:0 6px 6px 0;margin-bottom:18px}
+.err{color:var(--terracotta);font-size:.85rem;margin-top:10px;min-height:1.2em}
+.spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:7px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none !important}
+footer{text-align:center;padding:28px 24px;font-size:.78rem;color:var(--encre-doux)}
+@media(max-width:480px){.section{padding:32px 20px}}
+</style>
+</head>
+<body>
+
+<!-- ============ ACCUEIL ============ -->
+<section class="section first" id="accueil">
+  <h1>Où en êtes-vous aujourd'hui ?</h1>
+  <p class="sub" style="text-align:center;margin:0 auto 14px">Vous avez fait partie de l'aventure, à un moment ou à un autre — que vous ayez testé les produits, l'activité, ou simplement été curieux(se).</p>
+  <p class="sub" style="text-align:center;margin:0 auto 14px">Je vous pose quelques questions pour mieux savoir où vous en êtes. <strong>Rien n'est obligatoire.</strong> Répondez à ce qui vous parle, passez le reste.</p>
+  <p class="sub" style="text-align:center;margin:0 auto 14px">Ça m'aide à mieux vous accompagner si vous le souhaitez — et, avec votre expérience, à mieux accompagner les personnes qui démarrent aujourd'hui.</p>
+  <p class="signature" style="text-align:center;display:block">Agnès</p>
+  <div style="text-align:center"><span class="badge">2 à 3 minutes, sans engagement</span></div>
+  <div style="text-align:center;margin-top:28px">
+    <button class="btn-primary" onclick="allerA('q1')">Commencer</button>
+  </div>
+</section>
+
+<div class="divider hidden" id="div1"></div>
+
+<!-- ============ Q1 — BRANCHE ============ -->
+<section class="section hidden" id="q1">
+  <h2>Avez-vous déjà consommé un produit ou testé l'activité ?</h2>
+  <div class="options" data-name="participation">
+    <label class="opt"><input type="radio" name="participation" value="Oui"><span class="mark"></span><span class="opt-text">Oui, j'ai consommé des produits et/ou testé l'activité</span></label>
+    <label class="opt"><input type="radio" name="participation" value="Non"><span class="mark"></span><span class="opt-text">Non, je n'ai jamais vraiment commencé</span></label>
+    <label class="opt"><input type="radio" name="participation" value="Ne sait plus"><span class="mark"></span><span class="opt-text">Je ne me souviens plus, c'était il y a trop longtemps</span></label>
+    <label class="opt"><input type="radio" name="participation" value="Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Je préfère ne pas répondre</span></label>
+  </div>
+</section>
+
+<div class="divider hidden" id="divOui"></div>
+
+<!-- ============ BRANCHE OUI ============ -->
+<section class="section hidden" id="brancheOui">
+  <div class="rappel-facultatif">Toutes les questions ci-dessous sont facultatives — répondez à ce qui vous parle.</div>
+
+  <h2>Consommez-vous encore un produit aujourd'hui ?</h2>
+  <div class="options" data-name="consommation_actuelle">
+    <label class="opt"><input type="radio" name="consommation_actuelle" value="Oui"><span class="mark"></span><span class="opt-text">Oui, encore aujourd'hui</span></label>
+    <label class="opt"><input type="radio" name="consommation_actuelle" value="Non"><span class="mark"></span><span class="opt-text">Non, j'ai arrêté</span></label>
+    <label class="opt"><input type="radio" name="consommation_actuelle" value="Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Je préfère ne pas répondre</span></label>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="quelProduit">Si oui, lequel ? <span class="facultatif">(facultatif)</span></label>
+    <input type="text" id="quelProduit" placeholder="Phycocyanine, X-Gold, filtration d'eau, BalanceOil...">
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="depuisQuand">Si vous avez arrêté, depuis combien de temps environ ? <span class="facultatif">(facultatif)</span></label>
+    <input type="text" id="depuisQuand" placeholder="Quelques mois, un an, plus longtemps...">
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="sponsor">Qui était votre sponsor à l'époque ? <span class="facultatif">(facultatif)</span></label>
+    <input type="text" id="sponsor">
+  </div>
+
+  <h2 style="margin-top:24px">Qu'avez-vous le plus aimé pendant cette période ?</h2>
+  <p class="sub" style="margin-bottom:12px">Vous pouvez cocher plusieurs réponses, ou aucune.</p>
+  <div class="options" data-name="aime_le_plus" data-multi>
+    <label class="opt" data-multi><input type="checkbox" name="aime_le_plus" value="Les produits"><span class="mark"></span><span class="opt-text">Les produits eux-mêmes</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="aime_le_plus" value="La communauté"><span class="mark"></span><span class="opt-text">La communauté, l'équipe</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="aime_le_plus" value="Les rencontres"><span class="mark"></span><span class="opt-text">Les rencontres</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="aime_le_plus" value="Complément de revenu"><span class="mark"></span><span class="opt-text">Le complément de revenu</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="aime_le_plus" value="Apprendre"><span class="mark"></span><span class="opt-text">Apprendre de nouvelles choses</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="aime_le_plus" value="Rien de particulier"><span class="mark"></span><span class="opt-text">Rien de particulier</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="aime_le_plus" value="Autre / Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Autre / je préfère ne pas répondre</span></label>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="evolutionRessentie">Avez-vous constaté une évolution personnelle ou de bien-être pendant cette période ? <span class="facultatif">(facultatif)</span></label>
+    <textarea id="evolutionRessentie"></textarea>
+  </div>
+
+  <h2 style="margin-top:24px">Pourquoi avez-vous mis de côté l'activité ou les produits ?</h2>
+  <div class="options" data-name="raison_arret" data-multi>
+    <label class="opt" data-multi><input type="checkbox" name="raison_arret" value="Manque de temps"><span class="mark"></span><span class="opt-text">Manque de temps</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="raison_arret" value="Autres priorités"><span class="mark"></span><span class="opt-text">D'autres priorités à gérer</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="raison_arret" value="Pas assez de résultats"><span class="mark"></span><span class="opt-text">Pas assez de résultats perçus</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="raison_arret" value="Coût"><span class="mark"></span><span class="opt-text">Le coût</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="raison_arret" value="Plus d'intérêt"><span class="mark"></span><span class="opt-text">Plus vraiment d'intérêt</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="raison_arret" value="Ne sait pas trop"><span class="mark"></span><span class="opt-text">Je ne sais pas trop pourquoi</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="raison_arret" value="Autre / Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Autre / je préfère ne pas répondre</span></label>
+  </div>
+
+  <div style="margin-top:8px">
+    <button class="btn-primary" onclick="allerA('commun')">Continuer</button>
+  </div>
+</section>
+
+<div class="divider hidden" id="divNon"></div>
+
+<!-- ============ BRANCHE NON (jamais commencé) ============ -->
+<section class="section hidden" id="brancheNon">
+  <div class="rappel-facultatif">Toutes les questions ci-dessous sont facultatives.</div>
+
+  <h2>Qu'est-ce qui vous a freiné à l'époque ?</h2>
+  <div class="options" data-name="frein_depart" data-multi>
+    <label class="opt" data-multi><input type="checkbox" name="frein_depart" value="Manque de temps"><span class="mark"></span><span class="opt-text">Manque de temps</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="frein_depart" value="Pas su m'y prendre"><span class="mark"></span><span class="opt-text">Je n'ai pas su comment m'y prendre</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="frein_depart" value="Doutes"><span class="mark"></span><span class="opt-text">Des doutes sur l'activité</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="frein_depart" value="Priorités différentes"><span class="mark"></span><span class="opt-text">Des priorités différentes à ce moment-là</span></label>
+    <label class="opt" data-multi><input type="checkbox" name="frein_depart" value="Autre / Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Autre / je préfère ne pas répondre</span></label>
+  </div>
+
+  <h2 style="margin-top:24px">Êtes-vous toujours curieux(se) du sujet aujourd'hui ?</h2>
+  <div class="options" data-name="curiosite_actuelle">
+    <label class="opt"><input type="radio" name="curiosite_actuelle" value="Oui"><span class="mark"></span><span class="opt-text">Oui</span></label>
+    <label class="opt"><input type="radio" name="curiosite_actuelle" value="Peut-être"><span class="mark"></span><span class="opt-text">Peut-être</span></label>
+    <label class="opt"><input type="radio" name="curiosite_actuelle" value="Non"><span class="mark"></span><span class="opt-text">Non</span></label>
+    <label class="opt"><input type="radio" name="curiosite_actuelle" value="Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Je préfère ne pas répondre</span></label>
+  </div>
+
+  <div style="margin-top:8px">
+    <button class="btn-primary" onclick="allerA('commun')">Continuer</button>
+  </div>
+</section>
+
+<div class="divider hidden" id="divCommun"></div>
+
+<!-- ============ QUESTIONS COMMUNES ============ -->
+<section class="section hidden" id="commun">
+  <div class="rappel-facultatif">Toutes les questions ci-dessous sont facultatives.</div>
+
+  <h2>Comment décririez-vous votre situation aujourd'hui ?</h2>
+  <div class="options" data-name="situation_actuelle">
+    <label class="opt"><input type="radio" name="situation_actuelle" value="Veut arrêter et ne plus rien recevoir"><span class="mark"></span><span class="opt-text">Je veux arrêter et ne plus rien recevoir</span></label>
+    <label class="opt"><input type="radio" name="situation_actuelle" value="Simplement curieux"><span class="mark"></span><span class="opt-text">Je suis simplement curieux(se) de voir où ça en est</span></label>
+    <label class="opt"><input type="radio" name="situation_actuelle" value="Autres priorités"><span class="mark"></span><span class="opt-text">J'ai eu d'autres priorités à gérer</span></label>
+    <label class="opt"><input type="radio" name="situation_actuelle" value="Ne sait pas comment s'y remettre"><span class="mark"></span><span class="opt-text">Je ne sais pas trop comment m'y remettre</span></label>
+    <label class="opt"><input type="radio" name="situation_actuelle" value="Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Je préfère ne pas répondre</span></label>
+  </div>
+
+  <h2 style="margin-top:24px">Saviez-vous que Xelliss a été racheté par Zinzino ?</h2>
+  <p class="sub" style="margin-bottom:12px">Un rachat qui a renforcé la solidité de l'entreprise derrière les produits.</p>
+  <div class="options" data-name="connait_rachat">
+    <label class="opt"><input type="radio" name="connait_rachat" value="Oui je savais"><span class="mark"></span><span class="opt-text">Oui, je savais</span></label>
+    <label class="opt"><input type="radio" name="connait_rachat" value="Non je l'apprends"><span class="mark"></span><span class="opt-text">Non, je l'apprends</span></label>
+    <label class="opt"><input type="radio" name="connait_rachat" value="Ca m'interesse"><span class="mark"></span><span class="opt-text">Ça m'intéresse d'en savoir plus</span></label>
+    <label class="opt"><input type="radio" name="connait_rachat" value="Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Je préfère ne pas répondre</span></label>
+  </div>
+
+  <div class="field" style="margin-top:20px">
+    <label class="lbl" for="conditionRelance">Qu'est-ce qui vous ferait dire oui aujourd'hui, si quelque chose devait changer ? <span class="facultatif">(facultatif)</span></label>
+    <textarea id="conditionRelance"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="personneRecontact">Y a-t-il une personne de l'équipe avec qui vous aimeriez reprendre contact ? <span class="facultatif">(facultatif)</span></label>
+    <input type="text" id="personneRecontact">
+  </div>
+
+  <h2 style="margin-top:24px">Comment préférez-vous qu'on reste en contact ?</h2>
+  <div class="options" data-name="preference_contact">
+    <label class="opt"><input type="radio" name="preference_contact" value="Message prive"><span class="mark"></span><span class="opt-text">Par message privé</span></label>
+    <label class="opt"><input type="radio" name="preference_contact" value="Uniquement posts groupe"><span class="mark"></span><span class="opt-text">Uniquement les posts du groupe</span></label>
+    <label class="opt"><input type="radio" name="preference_contact" value="Rien pour l'instant"><span class="mark"></span><span class="opt-text">Rien pour l'instant</span></label>
+    <label class="opt"><input type="radio" name="preference_contact" value="Retirer du groupe"><span class="mark"></span><span class="opt-text">Je préfère qu'on me retire du groupe</span></label>
+    <label class="opt"><input type="radio" name="preference_contact" value="Ne souhaite pas répondre"><span class="mark"></span><span class="opt-text">Je préfère ne pas répondre</span></label>
+  </div>
+
+  <div style="margin-top:8px">
+    <button class="btn-primary" onclick="allerA('fin')">Continuer</button>
+  </div>
+</section>
+
+<div class="divider hidden" id="divFin"></div>
+
+<!-- ============ COORDONNÉES ============ -->
+<section class="section hidden" id="fin">
+  <h2>Pour vous identifier</h2>
+  <p class="sub">Juste de quoi savoir qui a répondu — le reste des coordonnées est facultatif.</p>
+
+  <div class="field">
+    <label class="lbl" for="prenom">Prénom <span style="opacity:.7">(obligatoire)</span></label>
+    <input type="text" id="prenom">
+  </div>
+  <div class="field">
+    <label class="lbl" for="nom">Nom <span class="facultatif">(facultatif, utile pour vous retrouver dans le groupe)</span></label>
+    <input type="text" id="nom">
+  </div>
+  <div class="field">
+    <label class="lbl" for="email">Email <span class="facultatif">(facultatif)</span></label>
+    <input type="email" id="email">
+  </div>
+  <div class="field">
+    <label class="lbl" for="telephone">Téléphone <span class="facultatif">(facultatif)</span></label>
+    <input type="text" id="telephone">
+  </div>
+
+  <label class="consent"><input type="checkbox" id="rgpd"><span>J'accepte que mes réponses soient conservées par Agnès pour mieux me connaître et, si je le souhaite, être recontacté(e). Aucune donnée n'est transmise à un tiers.</span></label>
+
+  <div>
+    <button class="btn-primary" id="submitBtn" onclick="envoyer()">Envoyer mes réponses</button>
+  </div>
+  <p class="err" id="err"></p>
+</section>
+
+<!-- ============ MERCI ============ -->
+<section class="section hidden" id="merci">
+  <h1 id="merciTitre">Merci.</h1>
+  <p class="sub" style="text-align:center;margin:0 auto 8px">Ce que vous venez de partager m'est vraiment utile — que vous ayez tout coché ou juste répondu à une question.</p>
+  <p class="sub" style="text-align:center;margin:0 auto 8px">Si vous avez laissé vos coordonnées et souhaité un contact, je reviendrai vers vous personnellement.</p>
+  <p class="signature" style="text-align:center;display:block;margin-top:20px">Agnès</p>
+</section>
+
+<footer>Agnès &amp; Vous · Vos réponses restent confidentielles.</footer>
+
+<script>
+const CONFIG = {
+  ENDPOINT : "https://script.google.com/macros/s/AKfycbzNqtmhnJTpfK-m4QiZRP99L5Fc1xyyKXY7KDLQQKMwpoAbAs64XZM897_kETntVdgsjw/exec"
+};
+
+const data = {};
+let chemin = ['accueil'];
+
+const observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){ if(entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.section').forEach(function(s){ observer.observe(s); });
+
+document.querySelectorAll('.opt input').forEach(function(input){
+  input.addEventListener('change', function(){
+    const opt = input.closest('.opt');
+    const group = input.closest('.options');
+
+    if(input.type === 'radio'){
+      group.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('on'); });
+      opt.classList.add('on');
+      collect(group);
+
+      // Branchement automatique après Q1
+      if(group.dataset.name === 'participation'){
+        setTimeout(function(){
+          if(input.value === 'Oui'){ allerA('brancheOui'); }
+          else if(input.value === 'Ne souhaite pas répondre'){ allerA('commun'); }
+          else { allerA('brancheNon'); } // Non ou Ne sait plus -> branche allégée
+        }, 300);
+      }
+    } else {
+      opt.classList.toggle('on', input.checked);
+      collect(group);
+    }
+  });
+});
+
+function collect(group){
+  const name = group.dataset.name;
+  const inputs = group.querySelectorAll('input:checked');
+  const values = [];
+  inputs.forEach(function(i){ values.push(i.value); });
+  data[name] = values.length > 0 ? values.join(' / ') : "";
+}
+
+function afficher(id){
+  const el = document.getElementById(id);
+  if(el){ el.classList.remove('hidden'); el.classList.add('visible'); observer.observe(el); }
+}
+
+function allerA(id){
+  const dividerMap = { 'q1':'div1', 'brancheOui':'divOui', 'brancheNon':'divNon', 'commun':'divCommun', 'fin':'divFin' };
+  if(dividerMap[id]) afficher(dividerMap[id]);
+  afficher(id);
+  chemin.push(id);
+  setTimeout(function(){
+    document.getElementById(id).scrollIntoView({behavior:'smooth', block:'center'});
+  }, 100);
+}
+
+function envoyer(){
+  const err = document.getElementById('err');
+  const prenom = document.getElementById('prenom').value.trim();
+
+  if(!prenom){ err.textContent = "Le prénom est nécessaire pour vous identifier."; return; }
+  if(!document.getElementById('rgpd').checked){ err.textContent = "Cochez la case pour envoyer vos réponses."; return; }
+  err.textContent = "";
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Envoi...';
+
+  document.querySelectorAll('.options').forEach(function(group){ collect(group); });
+
+  const payload = Object.assign({}, data, {
+    prenom: prenom,
+    nom: document.getElementById('nom').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    telephone: document.getElementById('telephone').value.trim(),
+    quelProduit: document.getElementById('quelProduit') ? document.getElementById('quelProduit').value.trim() : "",
+    depuisQuand: document.getElementById('depuisQuand') ? document.getElementById('depuisQuand').value.trim() : "",
+    sponsor: document.getElementById('sponsor') ? document.getElementById('sponsor').value.trim() : "",
+    evolutionRessentie: document.getElementById('evolutionRessentie') ? document.getElementById('evolutionRessentie').value.trim() : "",
+    conditionRelance: document.getElementById('conditionRelance').value.trim(),
+    personneRecontact: document.getElementById('personneRecontact').value.trim(),
+    consentement: "Oui",
+    date: new Date().toISOString()
+  });
+
+  fetch(CONFIG.ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload)
+  }).then(afficherMerci).catch(afficherMerci);
+}
+
+function afficherMerci(){
+  const prenom = document.getElementById('prenom').value.trim();
+  document.getElementById('fin').classList.add('hidden');
+  afficher('merci');
+  document.getElementById('merciTitre').textContent = "Merci " + prenom;
+  setTimeout(function(){
+    document.getElementById('merci').scrollIntoView({behavior:'smooth', block:'start'});
+  }, 100);
+}
+</script>
+</body>
+</html>
