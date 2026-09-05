@@ -39,11 +39,28 @@
             margin-bottom: 50px;
             padding-bottom: 30px;
             border-bottom: 1px solid var(--color-border);
+            position: relative;
+        }
+
+        header .audio-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        header .audio-btn:hover {
+            opacity: 1;
         }
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 10px;
             color: var(--color-sage);
         }
@@ -52,20 +69,6 @@
             color: #888;
             font-size: 0.95rem;
             margin-bottom: 20px;
-        }
-
-        header .audio-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-left: 15px;
-            opacity: 0.5;
-            transition: opacity 0.2s;
-        }
-
-        header .audio-btn:hover {
-            opacity: 1;
         }
 
         .preamble {
@@ -583,13 +586,20 @@
             <button type="button" class="audio-btn" id="btn-audio-toggle" title="Écouter les questions">🔇</button>
         </header>
 
-        <div class="preamble">
-            <p><strong>Faire le point. Comprendre. Agir. Mesurer l'évolution.</strong></p>
-            <p>Parce qu'avant de chercher à évoluer, il est utile de savoir d'où l'on part.</p>
-            <p>Ce bilan vous permet de créer un point de départ personnel à partir de votre situation actuelle, de vos aspirations, de vos priorités et de votre propre perception de votre vie.</p>
-            <p><strong>Il n'y a ni bonne ni mauvaise réponse.</strong></p>
-            <p>Durée indicative : environ 20 à 25 minutes.</p>
-            <p><em>Répondez spontanément : ce bilan doit refléter où vous en êtes aujourd'hui, et non ce que vous pensez devoir répondre.</em></p>
+        <div class="preamble-container" style="margin-bottom: 40px;">
+            <button type="button" id="btn-preamble-toggle" style="width: 100%; padding: 15px; background: var(--color-beige); border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer; font-weight: 600; color: var(--color-sage); text-align: left; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center;">
+                ℹ️ À propos de ce bilan
+                <span id="preamble-arrow" style="font-size: 1.2rem;">▼</span>
+            </button>
+            
+            <div id="preamble-content" class="preamble" style="display: none; margin-top: 0; border-radius: 0 0 4px 4px; border-top: none;">
+                <p><strong>Faire le point. Comprendre. Agir. Mesurer l'évolution.</strong></p>
+                <p>Parce qu'avant de chercher à évoluer, il est utile de savoir d'où l'on part.</p>
+                <p>Ce bilan vous permet de créer un point de départ personnel à partir de votre situation actuelle, de vos aspirations, de vos priorités et de votre propre perception de votre vie.</p>
+                <p><strong>Il n'y a ni bonne ni mauvaise réponse.</strong></p>
+                <p>Durée indicative : environ 20 à 25 minutes.</p>
+                <p><em>Répondez spontanément : ce bilan doit refléter où vous en êtes aujourd'hui, et non ce que vous pensez devoir répondre.</em></p>
+            </div>
         </div>
 
         <div class="progress-indicator">
@@ -1570,6 +1580,19 @@ https://agnesetvous.com/bilan</textarea>
             document.addEventListener('touchstart', resetInactivityTimer);
             resetInactivityTimer();
         }
+
+        // ==========================================
+        // PRÉAMBULE ACCORDÉON
+        // ==========================================
+        const btnPreambleToggle = document.getElementById('btn-preamble-toggle');
+        const preambleContent = document.getElementById('preamble-content');
+        const preambleArrow = document.getElementById('preamble-arrow');
+
+        btnPreambleToggle.addEventListener('click', () => {
+            const isOpen = preambleContent.style.display !== 'none';
+            preambleContent.style.display = isOpen ? 'none' : 'block';
+            preambleArrow.textContent = isOpen ? '▼' : '▲';
+        });
 
         // ==========================================
         // MENTIONS LÉGALES ACCORDÉON
