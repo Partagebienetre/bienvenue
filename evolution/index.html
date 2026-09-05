@@ -1401,9 +1401,13 @@ https://agnesetvous.com/bilan</textarea>
 
         document.querySelectorAll('input[type="range"]').forEach(input => {
             input.addEventListener('input', (e) => {
-                const displayId = e.target.name.replace(/q|p/, '') + '_display';
+                // Extraire l'ID du display (avant le premier underscore)
+                const baseName = e.target.name.split('_')[0];
+                const displayId = baseName + '_display';
                 const displayEl = document.getElementById(displayId);
-                if (displayEl) displayEl.textContent = e.target.value;
+                if (displayEl) {
+                    displayEl.textContent = e.target.value;
+                }
                 saveProgress();
             });
         });
