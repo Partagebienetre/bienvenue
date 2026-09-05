@@ -1,1 +1,1595 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Point de Départ — Bilan d'Évolution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-sage: #7D8D79;
+            --color-terracotta: #B06D5D;
+            --color-beige: #F5F1E8;
+            --color-gold: #C8A96B;
+            --color-text: #333;
+            --color-light: #F9F9F9;
+            --color-border: #E8E8E8;
+        }
+
+        body {
+            font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-light);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--color-sage);
+        }
+
+        header .subtitle {
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        header .audio-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: 15px;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        header .audio-btn:hover {
+            opacity: 1;
+        }
+
+        .preamble {
+            background: var(--color-beige);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .preamble p {
+            margin-bottom: 12px;
+        }
+
+        .preamble p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--color-sage);
+            margin-bottom: 10px;
+        }
+
+        .section-number {
+            font-size: 0.85rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--color-border);
+            border-radius: 2px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--color-sage);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .question-group {
+            margin-bottom: 35px;
+        }
+
+        .question-label {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--color-text);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--color-terracotta);
+        }
+
+        .optional {
+            font-size: 0.85rem;
+            color: #999;
+            font-weight: normal;
+            display: block;
+            margin-top: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-sage);
+            background-color: #fafafa;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            margin-top: 4px;
+            cursor: pointer;
+            accent-color: var(--color-sage);
+        }
+
+        .checkbox-item label,
+        .radio-item label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 12px;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--color-border);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-sage);
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-sage);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .slider-value {
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--color-sage);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--color-sage);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #6b7867;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-sage);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-light);
+            border-color: var(--color-sage);
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .conditional {
+            display: none;
+        }
+
+        .conditional.show {
+            display: block;
+        }
+
+        .info-box {
+            background: rgba(125, 141, 121, 0.05);
+            border-left: 3px solid var(--color-sage);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        /* End Screen */
+        .end-screen {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .end-screen.active {
+            display: block;
+        }
+
+        .end-screen h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--color-sage);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .end-screen-content {
+            text-align: center;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .end-screen-content p {
+            margin-bottom: 15px;
+        }
+
+        .doors-section {
+            margin: 50px 0;
+        }
+
+        .doors-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--color-sage);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .doors-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .doors-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .door {
+            background: white;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .door:hover {
+            border-color: var(--color-sage);
+            background: var(--color-beige);
+            transform: translateY(-2px);
+        }
+
+        .door-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .door-title {
+            font-weight: 600;
+            color: var(--color-sage);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .door-description {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .wellbeing-section,
+        .share-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #f0f0f0;
+            opacity: 0.75;
+        }
+
+        .wellbeing-section p,
+        .share-section p {
+            font-size: 0.95rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .wellbeing-section .btn-small,
+        .share-section .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--color-border);
+            background: white;
+            color: var(--color-sage);
+            margin: 0 auto;
+            display: inline-block;
+        }
+
+        .wellbeing-section .btn-small:hover,
+        .share-section .btn-small:hover {
+            background: var(--color-beige);
+            border-color: var(--color-sage);
+        }
+
+        .disclaimer {
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 40px;
+            line-height: 1.6;
+        }
+
+        .final-button {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .final-button button {
+            padding: 16px 40px;
+            font-size: 1.1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--color-border);
+            margin-top: 60px;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            font-size: 0.85rem;
+            color: #999;
+            line-height: 1.6;
+        }
+
+        footer h4 {
+            color: var(--color-text);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+
+            .doors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mon Point de Départ</h1>
+            <p class="subtitle">Bilan d'Évolution Personnelle et Professionnelle</p>
+            <button type="button" class="audio-btn" id="btn-audio-toggle" title="Écouter les questions">🔇</button>
+        </header>
+
+        <div class="preamble">
+            <p><strong>Faire le point. Comprendre. Agir. Mesurer l'évolution.</strong></p>
+            <p>Parce qu'avant de chercher à évoluer, il est utile de savoir d'où l'on part.</p>
+            <p>Ce bilan vous permet de créer un point de départ personnel à partir de votre situation actuelle, de vos aspirations, de vos priorités et de votre propre perception de votre vie.</p>
+            <p><strong>Il n'y a ni bonne ni mauvaise réponse.</strong></p>
+            <p>Durée indicative : environ 20 à 25 minutes.</p>
+            <p><em>Répondez spontanément : ce bilan doit refléter où vous en êtes aujourd'hui, et non ce que vous pensez devoir répondre.</em></p>
+        </div>
+
+        <div class="progress-indicator">
+            <span id="current-section">Partie 1 sur 10</span>
+            <span id="progress-percent">0%</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- FORMULAIRE -->
+        <form id="questionnaire-form">
+            
+            <!-- PARTIE 1 -->
+            <section class="section active" data-section="1">
+                <div class="section-header">
+                    <div class="section-number">Partie 1</div>
+                    <h2 class="section-title">Ma situation aujourd'hui</h2>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label required">Quelle(s) situation(s) correspond(ent) à votre situation actuelle ?</label>
+                    <span class="optional">Plusieurs réponses possibles</span>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="salarie_temps_plein" id="q1_1">
+                            <label for="q1_1">Salarié(e) à temps plein</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="salarie_temps_partiel" id="q1_2">
+                            <label for="q1_2">Salarié(e) à temps partiel</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="fonctionnaire" id="q1_3">
+                            <label for="q1_3">Fonctionnaire / agent public</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="independant" id="q1_4">
+                            <label for="q1_4">Indépendant(e) / profession libérale</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="entrepreneur" id="q1_5">
+                            <label for="q1_5">Entrepreneur(e) / chef(fe) d'entreprise</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="artisan" id="q1_6">
+                            <label for="q1_6">Artisan(e) / commerçant(e)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="retraite" id="q1_7">
+                            <label for="q1_7">Retraité(e)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="parent_foyer" id="q1_8">
+                            <label for="q1_8">Parent au foyer</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="etudiant" id="q1_9">
+                            <label for="q1_9">Étudiant(e)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="recherche_emploi" id="q1_10">
+                            <label for="q1_10">En recherche d'emploi</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="en_reconversion" id="q1_11">
+                            <label for="q1_11">En réflexion / reconversion</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="sans_activite" id="q1_12">
+                            <label for="q1_12">Sans activité professionnelle actuellement</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="autre" id="q1_13">
+                            <label for="q1_13">Autre</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q1_situation" value="prefer_ne_pas_repondre" id="q1_14">
+                            <label for="q1_14">Je préfère ne pas répondre</label>
+                        </div>
+                    </div>
+                    <div class="conditional" id="q1_autre_field">
+                        <input type="text" name="q1_autre_precision" placeholder="Si vous le souhaitez, précisez" style="margin-top: 15px;">
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">Certaines responsabilités personnelles ont-elles aujourd'hui une influence importante sur vos choix ou votre organisation ?</label>
+                    <span class="optional">Plusieurs réponses possibles</span>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q7_responsabilites" value="couple" id="q7_1">
+                            <label for="q7_1">Vie de couple / foyer</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q7_responsabilites" value="enfants_charge" id="q7_2">
+                            <label for="q7_2">Enfant(s) à charge</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q7_responsabilites" value="projet_familial" id="q7_3">
+                            <label for="q7_3">Projet familial</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q7_responsabilites" value="aidant" id="q7_4">
+                            <label for="q7_4">Je suis aidant(e)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q7_responsabilites" value="aucune" id="q7_5">
+                            <label for="q7_5">Aucune particulièrement</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="q7_responsabilites" value="autre" id="q7_6">
+                            <label for="q7_6">Autre</label>
+                        </div>
+                    </div>
+                    <div class="conditional" id="q7_autre_field">
+                        <input type="text" name="q7_autre_precision" placeholder="Si vous le souhaitez, précisez" style="margin-top: 15px;">
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label required">À titre personnel, comment vous situez-vous aujourd'hui ?</label>
+                    <span class="optional">Échelle 1 à 10</span>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <div class="slider-labels">
+                            <span>Épanouissement global</span>
+                            <span>1 = pas épanoui(e) — 10 = pleinement épanoui(e)</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" name="q8a_epanouissement" min="1" max="10" value="5" class="slider">
+                            <span class="slider-value" id="q8a_display">5</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <div class="slider-labels">
+                            <span>Vie personnelle</span>
+                            <span>1 = insatisfait(e) — 10 = satisfait(e)</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" name="q8b_personnelle" min="1" max="10" value="5" class="slider">
+                            <span class="slider-value" id="q8b_display">5</span>
+                        </div>
+                    </div>
+
+                    <div id="q8c_group" class="conditional" style="margin-bottom: 0;">
+                        <div class="slider-labels">
+                            <span>Vie professionnelle</span>
+                            <span>1 = insatisfait(e) — 10 = satisfait(e)</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" name="q8c_professionnelle" min="1" max="10" value="5" class="slider">
+                            <span class="slider-value" id="q8c_display">5</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PARTIES 2-9 : Structurées rapidement (sera étendue) -->
+            <section class="section" data-section="2">
+                <div class="section-header">
+                    <div class="section-number">Partie 2</div>
+                    <h2 class="section-title">Ce que j'aimerais voir évoluer</h2>
+                </div>
+                <div class="info-box">Cette partie contient les questions sur vos priorités, motivations et aspirations.</div>
+                <div class="question-group">
+                    <label class="question-label required">Quelles dimensions aimeriez-vous faire évoluer ?</label>
+                    <textarea name="p2_dimensions" placeholder="Épanouissement, temps, liberté, finances, relations, santé..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">Qu'est-ce qui vous motive particulièrement ?</label>
+                    <textarea name="p2_motivations" placeholder="Liberté, revenus, proches, apprentissage, transmission..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">De quoi aimeriez-vous avoir davantage ?</label>
+                    <textarea name="p2_davantage" placeholder="Temps, liberté, sérénité, proches..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">De quoi aimeriez-vous avoir moins ?</label>
+                    <textarea name="p2_moins" placeholder="Stress, charge mentale, horaires imposés..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">Ce que je veux préserver</label>
+                    <textarea name="p2_preserver" placeholder="Stabilité, revenus, famille, liberté..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Envie d'évolution</label>
+                    <div class="slider-labels">
+                        <span>1 = aucun besoin — 10 = très forte envie</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" name="p2_envie_evolution" min="1" max="10" value="5" class="slider">
+                        <span class="slider-value" id="p2_envie_display">5</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" data-section="3">
+                <div class="section-header">
+                    <div class="section-number">Partie 3</div>
+                    <h2 class="section-title">Ce qui m'anime et mes forces</h2>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Ce qui me donne de l'énergie</label>
+                    <textarea name="p3_energie" placeholder="Écouter, créer, aider, organiser, apprendre..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Mes qualités principales</label>
+                    <textarea name="p3_qualites" placeholder="Écoute, empathie, organisation, créativité..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Mes valeurs</label>
+                    <textarea name="p3_valeurs" placeholder="Famille, liberté, authenticité, utilité..."></textarea>
+                </div>
+            </section>
+
+            <section class="section" data-section="4">
+                <div class="section-header">
+                    <div class="section-number">Partie 4</div>
+                    <h2 class="section-title">Ma sécurité aujourd'hui et demain</h2>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Impact d'une baisse/interruption du revenu principal</label>
+                    <div class="slider-labels">
+                        <span>1 = peu de conséquences — 10 = difficultés très rapides</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" name="p4_impact_revenu" min="1" max="10" value="5" class="slider">
+                        <span class="slider-value" id="p4_impact_display">5</span>
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">Qu'avez-vous déjà construit/préparé pour l'avenir ?</label>
+                    <textarea name="p4_preparation_avenir" placeholder="Épargne, assurances, diversification..."></textarea>
+                </div>
+            </section>
+
+            <section class="section" data-section="5">
+                <div class="section-header">
+                    <div class="section-number">Partie 5</div>
+                    <h2 class="section-title">Ma façon de travailler et le changement</h2>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Besoin de cadre ou autonomie ?</label>
+                    <div class="slider-labels">
+                        <span>1 = cadre — 7 = liberté</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" name="p5_cadre_autonomie" min="1" max="7" value="4" class="slider">
+                        <span class="slider-value" id="p5_cadre_display">4</span>
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Rapport à l'incertitude</label>
+                    <div class="slider-labels">
+                        <span>1 = besoin de certitude — 7 = tolérance</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" name="p5_incertitude" min="1" max="7" value="4" class="slider">
+                        <span class="slider-value" id="p5_incertitude_display">4</span>
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Besoin d'accompagnement</label>
+                    <div class="slider-labels">
+                        <span>1 = accompagnement — 7 = autonomie</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" name="p5_accompagnement" min="1" max="7" value="4" class="slider">
+                        <span class="slider-value" id="p5_accompagnement_display">4</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" data-section="6">
+                <div class="section-header">
+                    <div class="section-number">Partie 6</div>
+                    <h2 class="section-title">Ma manière de communiquer et décider</h2>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Comment je prends une décision importante</label>
+                    <textarea name="p6_decision" placeholder="Rapidement, après analyse, en discutant..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Ce qui m'agace dans un projet</label>
+                    <textarea name="p6_agace" placeholder="Manque de clarté, pression, absence de sens..."></textarea>
+                </div>
+            </section>
+
+            <section class="section" data-section="7">
+                <div class="section-header">
+                    <div class="section-number">Partie 7</div>
+                    <h2 class="section-title">Freins et ressources</h2>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Mes freins</label>
+                    <textarea name="p7_freins" placeholder="Temps, finances, peur, manque de confiance..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">Ce qui m'a aidé(e) à avancer</label>
+                    <textarea name="p7_ressources" placeholder="Soutien, petit pas, confiance..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Disponibilité actuelle pour agir</label>
+                    <div class="slider-labels">
+                        <span>1 = indisponible — 10 = très disponible</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" name="p7_disponibilite" min="1" max="10" value="5" class="slider">
+                        <span class="slider-value" id="p7_disponibilite_display">5</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" data-section="8">
+                <div class="section-header">
+                    <div class="section-number">Partie 8</div>
+                    <h2 class="section-title">Argent, projets et liberté</h2>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Un revenu supplémentaire serait…</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="p8_revenu_supp" value="non_necessaire" id="p8_1">
+                            <label for="p8_1">Non nécessaire</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="p8_revenu_supp" value="apprecie" id="p8_2">
+                            <label for="p8_2">Apprécié mais non indispensable</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="p8_revenu_supp" value="important" id="p8_3">
+                            <label for="p8_3">Important</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="p8_revenu_supp" value="essentiel" id="p8_4">
+                            <label for="p8_4">Essentiel/urgent</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">Qu'est-ce qui vous donnerait envie de vous lever le matin ?</label>
+                    <textarea name="p8_lever_matin" placeholder="Passion, famille, projet, contribution..."></textarea>
+                </div>
+            </section>
+
+            <section class="section" data-section="9">
+                <div class="section-header">
+                    <div class="section-number">Partie 9</div>
+                    <h2 class="section-title">Ma vision et mes rêves</h2>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Qui aimeriez-vous être davantage ?</label>
+                    <textarea name="p9_qui_etre" placeholder="Plus créatif, plus libre, plus serein..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Que feriez-vous davantage si vous aviez le choix ?</label>
+                    <textarea name="p9_faire_davantage" placeholder="Voyager, créer, enseigner, reposer..."></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">Avez-vous un rêve que vous avez mis de côté ?</label>
+                    <textarea name="p9_reve_cote" placeholder="Si oui, lequel ?"></textarea>
+                </div>
+                <div class="question-group">
+                    <label class="question-label">Dans 3-5 ans, qu'aimeriez-vous pouvoir vous dire ?</label>
+                    <textarea name="p9_3_5_ans" placeholder="Situation idéale..."></textarea>
+                </div>
+            </section>
+
+            <section class="section" data-section="10">
+                <div class="section-header">
+                    <div class="section-number">Partie 10</div>
+                    <h2 class="section-title">Et maintenant ?</h2>
+                </div>
+                <div class="question-group">
+                    <label class="question-label required">Après ce bilan, comment regardez-vous votre situation ?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="p10_perspective" value="convient" id="p10_1">
+                            <label for="p10_1">Elle me convient plutôt bien</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="p10_perspective" value="ameliorer" id="p10_2">
+                            <label for="p10_2">Je souhaite améliorer certains aspects</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="p10_perspective" value="prise_conscience" id="p10_3">
+                            <label for="p10_3">J'ai pris conscience de choses</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="p10_perspective" value="evolution" id="p10_4">
+                            <label for="p10_4">Je ressens une envie d'évolution</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="p10_perspective" value="changement" id="p10_5">
+                            <label for="p10_5">Mon envie de changement est confirmée</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label required">Ce que vous aimeriez retenir de ce bilan</label>
+                    <textarea name="p10_retenir" placeholder="LA chose essentielle pour vous..."></textarea>
+                </div>
+            </section>
+
+            <!-- IDENTITÉ & CONSENTEMENTS -->
+            <section class="section" data-section="11">
+                <div class="section-header">
+                    <div class="section-number">Identité & Consentements</div>
+                    <h2 class="section-title">Vos coordonnées</h2>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label required">Prénom</label>
+                    <input type="text" name="prenom" required>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label required">Email</label>
+                    <input type="email" name="email" required>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label required">Téléphone</label>
+                    <input type="tel" name="telephone" required>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">Nom</label>
+                    <input type="text" name="nom">
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">Tranche d'âge</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="age_tranche" value="18_25" id="age_1">
+                            <label for="age_1">18-25 ans</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="age_tranche" value="26_35" id="age_2">
+                            <label for="age_2">26-35 ans</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="age_tranche" value="36_45" id="age_3">
+                            <label for="age_3">36-45 ans</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="age_tranche" value="46_55" id="age_4">
+                            <label for="age_4">46-55 ans</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="age_tranche" value="56_65" id="age_5">
+                            <label for="age_5">56-65 ans</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="age_tranche" value="65plus" id="age_6">
+                            <label for="age_6">65 ans et plus</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label required">Souhaitez-vous échanger après avoir découvert votre bilan ?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="apres_bilan" value="oui" id="apres_1" required>
+                            <label for="apres_1">Oui</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="apres_bilan" value="peut_etre" id="apres_2" required>
+                            <label for="apres_2">Peut-être, je veux d'abord découvrir mon bilan</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="apres_bilan" value="non" id="apres_3" required>
+                            <label for="apres_3">Non, je veux simplement mon bilan</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group" style="background: rgba(125, 141, 121, 0.05); padding: 20px; border-radius: 4px; margin-top: 30px;">
+                    <label class="question-label required">Consentements</label>
+                    
+                    <div class="checkbox-item" style="margin-bottom: 20px;">
+                        <input type="checkbox" name="consentement_traitement" id="consent_1" required>
+                        <label for="consent_1"><strong>J'accepte que mes réponses et coordonnées soient utilisées pour établir et transmettre mon bilan.</strong></label>
+                    </div>
+
+                    <div class="checkbox-item" style="margin-bottom: 20px;">
+                        <input type="checkbox" name="consentement_donnees_sante" id="consent_2">
+                        <label for="consent_2"><strong>J'accepte que mes données concernant bien-être soient traitées.</strong></label>
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="consentement_marketing" id="consent_3">
+                        <label for="consent_3">J'accepte de recevoir des informations ultérieures (optionnel)</label>
+                    </div>
+                </div>
+            </section>
+
+            <div class="button-group" style="margin-top: 50px;">
+                <button type="button" class="btn-secondary" id="btn-previous" style="display: none;">← Précédent</button>
+                <button type="button" class="btn-primary" id="btn-next">Suivant →</button>
+            </div>
+        </form>
+
+        <!-- ÉCRAN DE FIN -->
+        <div class="end-screen">
+            <h2>Votre bilan est terminé 🌱</h2>
+            
+            <div class="end-screen-content">
+                <p>Merci d'avoir pris ce temps pour vous.</p>
+                <p>Vous venez de créer votre Point de Départ : une photographie de votre situation à un instant donné, de ce qui compte pour vous, de ce que vous souhaitez préserver, de ce que vous aimeriez peut-être faire évoluer, mais aussi de vos forces, de vos aspirations et de vos envies.</p>
+                <p>Ce bilan n'a pas vocation à vous dire ce que vous devez faire. Il est là pour vous aider à mieux comprendre où vous en êtes aujourd'hui et à choisir librement ce que vous souhaitez en faire.</p>
+            </div>
+
+            <div class="doors-section">
+                <h3 class="doors-title">Et maintenant ?</h3>
+                <p style="text-align: center; color: #666; margin-bottom: 25px;">Plusieurs chemins sont possibles. Choisissez simplement celui qui vous correspond aujourd'hui.</p>
+                
+                <div class="doors-grid">
+                    <div class="door" data-door="profiter">
+                        <div class="door-emoji">🌱</div>
+                        <div class="door-title">Profiter de mon bilan</div>
+                        <div class="door-description">Recevoir mon Point de Départ, le conserver et y revenir plus tard</div>
+                    </div>
+
+                    <div class="door" data-door="comprendre">
+                        <div class="door-emoji">🔎</div>
+                        <div class="door-title">Mieux comprendre</div>
+                        <div class="door-description">Approfondir certains éléments et poursuivre ma réflexion</div>
+                    </div>
+
+                    <div class="door" data-door="decouvrir">
+                        <div class="door-emoji">🧭</div>
+                        <div class="door-title">Découvrir les possibilités</div>
+                        <div class="door-description">Explorer différentes pistes correspondant à mes aspirations</div>
+                    </div>
+
+                    <div class="door" data-door="revenus">
+                        <div class="door-emoji">🌿</div>
+                        <div class="door-title">Revenus & liberté complémentaires</div>
+                        <div class="door-description">Découvrir d'autres façons de développer mes revenus ou ma liberté</div>
+                    </div>
+
+                    <div class="door" data-door="evolution">
+                        <div class="door-emoji">🚀</div>
+                        <div class="door-title">Faire évoluer quelque chose</div>
+                        <div class="door-description">J'ai une envie, une idée ou un projet à faire avancer</div>
+                    </div>
+
+                    <div class="door" data-door="echanger">
+                        <div class="door-emoji">💬</div>
+                        <div class="door-title">Échanger sur mon bilan</div>
+                        <div class="door-description">Prendre un temps d'échange avec la personne qui m'a transmis ce bilan</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIEN-ÊTRE (optionnel, discret) -->
+            <div class="wellbeing-section" id="wellbeing-section" style="display: none;">
+                <p>Et si le fait de découvrir, de faire le point aussi sur votre bien-être était intéressant pour vous, voici le lien d'un second bilan plus court.</p>
+                <button type="button" class="btn-small" onclick="window.open('https://agnesetvous.com/bilan', '_blank')">💚 Bilan Bien-être</button>
+            </div>
+
+            <!-- PARTAGER (discret) -->
+            <div class="share-section">
+                <p>Et si ce bilan pouvait être utile à quelqu'un autour de vous ? 🌱</p>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Peut-être qu'en répondant à ces questions, vous avez pensé à une personne de votre entourage qui, elle aussi, aurait besoin de faire le point, prendre du recul ou réfléchir à la suite.</p>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Si vous pensez que cette démarche pourrait lui être utile, vous pouvez simplement lui transmettre le lien vers ce bilan. Elle pourra le réaliser à son tour, librement, à son rythme et sans engagement.</p>
+                <button type="button" class="btn-small" id="btn-share-open">→ Partager le bilan</button>
+            </div>
+
+            <div class="disclaimer">
+                <p>Vous n'avez personne en tête ? Aucun problème.<br>Votre bilan est avant tout le vôtre.</p>
+                <p style="margin-top: 20px; font-size: 0.85rem;">Vous n'avez pas besoin de décider maintenant. Votre bilan reste un outil personnel. Vous pourrez y revenir, faire évoluer votre réflexion et refaire ce bilan plus tard pour observer ce qui a changé.</p>
+            </div>
+
+            <div class="final-button">
+                <button type="button" class="btn-primary" id="btn-discover-bilan">Découvrir mon Point de Départ</button>
+            </div>
+        </div>
+
+        <!-- MODAL PARTAGE -->
+        <div class="modal" id="share-modal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="document.getElementById('share-modal').classList.remove('active')">&times;</span>
+                <h3 style="font-family: 'Playfair Display', serif; color: var(--color-sage); margin-bottom: 20px;">Partager ce bilan</h3>
+                <p style="margin-bottom: 20px; color: #666;">Voici un message prêt à partager. Vous pouvez le modifier selon vos envies.</p>
+                
+                <textarea id="share-message" style="width: 100%; padding: 15px; border: 1px solid var(--color-border); border-radius: 4px; font-size: 0.95rem; margin-bottom: 20px; min-height: 120px;">Je viens de faire un bilan qui m'a permis de prendre un peu de recul sur ma vie personnelle et professionnelle, ce qui compte pour moi et ce que j'ai éventuellement envie de faire évoluer.
+
+J'ai pensé que ça pourrait aussi t'intéresser. Si tu as envie de le faire, je te partage le lien. C'est simplement un temps de réflexion pour soi, sans engagement.
+
+https://agnesetvous.com/bilan</textarea>
+
+                <p style="font-weight: 600; margin-bottom: 10px; color: var(--color-text);">Partager via :</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+                    <button type="button" onclick="shareVia('whatsapp')" style="padding: 10px 15px; background: #25D366; color: white; border: none; border-radius: 4px; cursor: pointer;">📱 WhatsApp</button>
+                    <button type="button" onclick="shareVia('sms')" style="padding: 10px 15px; background: #00B8E6; color: white; border: none; border-radius: 4px; cursor: pointer;">💬 SMS</button>
+                    <button type="button" onclick="shareVia('email')" style="padding: 10px 15px; background: #EA4335; color: white; border: none; border-radius: 4px; cursor: pointer;">📧 Email</button>
+                    <button type="button" onclick="shareVia('copy')" style="padding: 10px 15px; background: var(--color-sage); color: white; border: none; border-radius: 4px; cursor: pointer;">🔗 Copier</button>
+                </div>
+
+                <p style="font-size: 0.85rem; color: #999; text-align: center;">Vous n'avez personne en tête ? Aucun problème. Votre bilan est avant tout le vôtre.</p>
+            </div>
+        </div>
+
+        <!-- MODAL REPRISE SESSION -->
+        <div class="modal" id="resume-modal">
+            <div class="modal-content" style="max-width: 500px;">
+                <h3 style="font-family: 'Playfair Display', serif; color: var(--color-sage); margin-bottom: 15px; text-align: center;">Bienvenue de retour !</h3>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Nous avons retrouvé votre questionnaire en cours. Souhaitez-vous le continuer ou recommencer ?</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button type="button" id="btn-resume" style="padding: 12px 24px; background: var(--color-sage); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Continuer</button>
+                    <button type="button" id="btn-restart" style="padding: 12px 24px; background: transparent; color: var(--color-sage); border: 1px solid var(--color-sage); border-radius: 4px; cursor: pointer; font-weight: 600;">Recommencer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENTIONS LÉGALES EN ACCORDÉON -->
+        <footer>
+            <div style="margin-top: 60px;">
+                <button type="button" id="btn-legal-toggle" style="width: 100%; padding: 15px; background: var(--color-light); border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer; font-weight: 600; color: var(--color-sage); text-align: left; font-size: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    📋 Mentions légales & Confidentialité
+                    <span id="legal-arrow" style="font-size: 1.2rem;">▼</span>
+                </button>
+                
+                <div id="legal-content" style="display: none; padding: 20px; background: var(--color-beige); border-radius: 0 0 4px 4px; border: 1px solid var(--color-border); border-top: none; margin-bottom: 30px;">
+                    <p style="margin-bottom: 15px;"><strong>Protection des données</strong><br>Les informations que vous fournissez sont utilisées uniquement pour établir votre bilan et vous le transmettre. Elles ne seront jamais partagées sans votre consentement explicite. Vous disposez d'un droit d'accès, de modification et de suppression de vos données.</p>
+                    
+                    <p style="margin-bottom: 15px;"><strong>Confidentialité</strong><br>Ce bilan est confidentiel et personnel. Vos réponses restent entre vous et la personne qui vous l'a proposé.</p>
+                    
+                    <p style="margin-bottom: 15px;"><strong>Stockage local</strong><br>Ce formulaire utilise le stockage local de votre navigateur pour sauvegarder vos réponses au fur et à mesure. Aucune donnée n'est transmise tant que vous ne soumettez pas le formulaire.</p>
+                    
+                    <p style="margin-bottom: 0;"><strong>Responsabilité</strong><br>Ce bilan est à titre informatif et ne constitue pas un diagnostic, un conseil juridique ou un conseil financier. Consultez un professionnel si nécessaire.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const STORAGE_KEY = 'bilan_session';
+        const INACTIVITY_TIMEOUT = 15 * 60 * 1000;
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // ==========================================
+        // VARIABLES GLOBALES
+        // ==========================================
+        const form = document.getElementById('questionnaire-form');
+        const sections = document.querySelectorAll('.section');
+        const totalSections = sections.length;
+        let currentSection = 0;
+        let audioEnabled = false;
+        let inactivityTimer = null;
+        let selectedDoor = null;
+
+        const btnPrevious = document.getElementById('btn-previous');
+        const btnNext = document.getElementById('btn-next');
+        const btnAudio = document.getElementById('btn-audio-toggle');
+        const endScreen = document.querySelector('.end-screen');
+        const resumeModal = document.getElementById('resume-modal');
+        const shareModal = document.getElementById('share-modal');
+
+        // ==========================================
+        // AUDIO WEB SPEECH
+        // ==========================================
+        function speakText(text) {
+            if (!audioEnabled) return;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.95;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        btnAudio.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            btnAudio.textContent = audioEnabled ? '🔊' : '🔇';
+            btnAudio.style.opacity = audioEnabled ? '1' : '0.5';
+            if (audioEnabled) {
+                const title = document.querySelector('.section.active .section-title');
+                if (title) speakText(title.textContent);
+            }
+        });
+
+        // ==========================================
+        // LOCALSTORAGE
+        // ==========================================
+        function saveProgress() {
+            const formData = new FormData(form);
+            const data = {
+                section: currentSection,
+                timestamp: new Date().toISOString(),
+                responses: Object.fromEntries(formData),
+                selectedDoor: selectedDoor
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    for (const [key, value] of Object.entries(data.responses)) {
+                        const input = form.querySelector(`[name="${key}"]`);
+                        if (input) {
+                            if (input.type === 'checkbox' || input.type === 'radio') {
+                                input.checked = true;
+                            } else {
+                                input.value = value;
+                            }
+                        }
+                    }
+                    selectedDoor = data.selectedDoor;
+                    return data.section;
+                } catch (e) {
+                    console.error('Erreur chargement:', e);
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        function clearSavedProgress() {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+
+        // ==========================================
+        // PROGRESS
+        // ==========================================
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('current-section').textContent = `Partie ${currentSection + 1} sur ${totalSections}`;
+            document.getElementById('progress-percent').textContent = Math.round(progress) + '%';
+        }
+
+        // ==========================================
+        // SHOW SECTION
+        // ==========================================
+        function showSection(index) {
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+
+            btnPrevious.style.display = index === 0 ? 'none' : 'block';
+            btnNext.textContent = index === totalSections - 1 ? 'Envoyer ✓' : 'Suivant →';
+
+            updateProgress();
+            handleConditionals();
+            updateSliderDisplays();
+
+            if (audioEnabled) {
+                const title = document.querySelector('.section.active .section-title');
+                if (title) speakText(title.textContent);
+            }
+
+            window.scrollTo(0, 0);
+            saveProgress();
+        }
+
+        // ==========================================
+        // CONDITIONALS
+        // ==========================================
+        function handleConditionals() {
+            const hasActivity = Array.from(document.querySelectorAll('input[name="q1_situation"]:checked'))
+                .some(el => ['salarie_temps_plein', 'salarie_temps_partiel', 'fonctionnaire', 'independant', 
+                           'entrepreneur', 'artisan', 'retraite', 'recherche_emploi'].includes(el.value));
+
+            document.getElementById('q8c_group').classList.toggle('show', hasActivity);
+
+            const q1Autre = document.querySelector('input[name="q1_situation"][value="autre"]:checked');
+            document.getElementById('q1_autre_field').classList.toggle('show', !!q1Autre);
+
+            const q7Autre = document.querySelector('input[name="q7_responsabilites"][value="autre"]:checked');
+            document.getElementById('q7_autre_field').classList.toggle('show', !!q7Autre);
+        }
+
+        // ==========================================
+        // SLIDER DISPLAY
+        // ==========================================
+        function updateSliderDisplays() {
+            document.querySelectorAll('input[type="range"]').forEach(slider => {
+                const displayId = slider.name.replace(/q|p/, '') + '_display';
+                const displayEl = document.getElementById(displayId);
+                if (displayEl) displayEl.textContent = slider.value;
+            });
+        }
+
+        // ==========================================
+        // EVENT LISTENERS
+        // ==========================================
+        document.querySelectorAll('input[name="q1_situation"], input[name="q7_responsabilites"]').forEach(input => {
+            input.addEventListener('change', () => {
+                handleConditionals();
+                saveProgress();
+            });
+        });
+
+        form.addEventListener('input', saveProgress);
+
+        document.querySelectorAll('input[type="range"]').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const displayId = e.target.name.replace(/q|p/, '') + '_display';
+                const displayEl = document.getElementById(displayId);
+                if (displayEl) displayEl.textContent = e.target.value;
+                saveProgress();
+            });
+        });
+
+        // ==========================================
+        // NAVIGATION
+        // ==========================================
+        btnNext.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentSection < totalSections - 1) {
+                currentSection++;
+                showSection(currentSection);
+            } else {
+                submitForm();
+            }
+        });
+
+        btnPrevious.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentSection > 0) {
+                currentSection--;
+                showSection(currentSection);
+            }
+        });
+
+        // ==========================================
+        // SUBMIT
+        // ==========================================
+        function submitForm() {
+            document.querySelector('.container').style.display = 'none';
+            endScreen.classList.add('active');
+
+            // Vérifier bien-être
+            const wellBeingScore = parseFloat(document.querySelector('input[name="q8b_personnelle"]').value);
+            if (wellBeingScore < 7) {
+                document.getElementById('wellbeing-section').style.display = 'block';
+            }
+
+            // Données pour webhook
+            const formData = new FormData(form);
+            const data = {
+                timestamp: new Date().toISOString(),
+                prenom: formData.get('prenom'),
+                email: formData.get('email'),
+                responses: Object.fromEntries(formData)
+            };
+            console.log('Bilan complété:', data);
+
+            // ⚠️ REMPLACE CETTE URL PAR TON URL WEBHOOK
+            const webhookUrl = 'https://script.google.com/macros/d/TON_SCRIPT_ID_ICI/usercontent';
+
+            // Envoyer à Apps Script
+            fetch(webhookUrl, {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('✅ Bilan envoyé avec succès :', result);
+                clearSavedProgress();
+            })
+            .catch(error => {
+                console.error('❌ Erreur lors de l\'envoi :', error);
+                alert('Une erreur s\'est produite. Vos données sont sauvegardées localement. Essayez à nouveau plus tard.');
+            });
+        }
+
+        // ==========================================
+        // PORTES DE SORTIE
+        // ==========================================
+        document.querySelectorAll('.door').forEach(door => {
+            door.addEventListener('click', () => {
+                selectedDoor = door.getAttribute('data-door');
+                saveProgress();
+                console.log('Porte sélectionnée:', selectedDoor);
+                // Rediriger ou afficher suite selon la porte
+            });
+        });
+
+        // ==========================================
+        // PARTAGE
+        // ==========================================
+        document.getElementById('btn-share-open').addEventListener('click', () => {
+            shareModal.classList.add('active');
+        });
+
+        function shareVia(platform) {
+            const message = document.getElementById('share-message').value;
+            const url = 'https://agnesetvous.com/bilan';
+            
+            if (platform === 'whatsapp') {
+                window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+            } else if (platform === 'sms') {
+                window.open(`sms:?body=${encodeURIComponent(message)}`, '_blank');
+            } else if (platform === 'email') {
+                window.open(`mailto:?subject=Un bilan d'évolution personnelle&body=${encodeURIComponent(message)}`, '_blank');
+            } else if (platform === 'copy') {
+                navigator.clipboard.writeText(message).then(() => {
+                    alert('Lien copié !');
+                    shareModal.classList.remove('active');
+                });
+            }
+        }
+
+        // ==========================================
+        // DÉCOUVRIR BILAN
+        // ==========================================
+        document.getElementById('btn-discover-bilan').addEventListener('click', () => {
+            // Ici : rediriger vers le PDF du bilan ou page de résultats
+            alert('Redirection vers votre Point de Départ...');
+        });
+
+        // ==========================================
+        // SESSION PERSISTANTE
+        // ==========================================
+        document.getElementById('btn-resume').addEventListener('click', () => {
+            resumeModal.classList.remove('active');
+            const savedSection = loadProgress();
+            if (savedSection !== null) currentSection = savedSection;
+            showSection(currentSection);
+        });
+
+        document.getElementById('btn-restart').addEventListener('click', () => {
+            clearSavedProgress();
+            resumeModal.classList.remove('active');
+            currentSection = 0;
+            form.reset();
+            showSection(0);
+        });
+
+        // ==========================================
+        // POPUP FERMETURE
+        // ==========================================
+        window.addEventListener('beforeunload', (e) => {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved && currentSection < totalSections - 1) {
+                if (!isMobile) {
+                    e.preventDefault();
+                    e.returnValue = 'Vos réponses sont sauvegardées. Vous pourrez continuer plus tard.';
+                }
+            }
+        });
+
+        // ==========================================
+        // INACTIVITÉ MOBILE
+        // ==========================================
+        if (isMobile) {
+            function resetInactivityTimer() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(() => {
+                    if (!confirm('Êtes-vous toujours là ? Continuez ou vos réponses resteront sauvegardées.')) {
+                        window.close();
+                    }
+                }, INACTIVITY_TIMEOUT);
+            }
+
+            document.addEventListener('mousemove', resetInactivityTimer);
+            document.addEventListener('keypress', resetInactivityTimer);
+            document.addEventListener('scroll', resetInactivityTimer);
+            document.addEventListener('touchstart', resetInactivityTimer);
+            resetInactivityTimer();
+        }
+
+        // ==========================================
+        // MENTIONS LÉGALES ACCORDÉON
+        // ==========================================
+        const btnLegalToggle = document.getElementById('btn-legal-toggle');
+        const legalContent = document.getElementById('legal-content');
+        const legalArrow = document.getElementById('legal-arrow');
+
+        btnLegalToggle.addEventListener('click', () => {
+            const isOpen = legalContent.style.display !== 'none';
+            legalContent.style.display = isOpen ? 'none' : 'block';
+            legalArrow.textContent = isOpen ? '▼' : '▲';
+        });
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        const savedSection = loadProgress();
+        if (savedSection !== null && savedSection > 0) {
+            resumeModal.classList.add('active');
+        } else {
+            showSection(0);
+        }
+    </script>
+</body>
+</html>
 
