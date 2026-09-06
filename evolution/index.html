@@ -582,15 +582,6 @@ footer{margin-top:50px}
 <div class="ci"><input type="checkbox" name="q17" value="pnpr" id="q17_18"><label for="q17_18">Je préfère ne pas répondre</label></div>
 </div></div>
 
-<div class="qg"><label class="ql">18. Cette évolution serait avant tout…</label><span class="hint">Facultative</span>
-<div class="rg">
-<div class="ri"><input type="radio" name="q18" value="moi" id="q18_1"><label for="q18_1">Pour moi</label></div>
-<div class="ri"><input type="radio" name="q18" value="proches" id="q18_2"><label for="q18_2">Pour les personnes importantes pour moi</label></div>
-<div class="ri"><input type="radio" name="q18" value="les_deux" id="q18_3"><label for="q18_3">Pour moi et pour elles, les deux sont difficilement séparables</label></div>
-<div class="ri"><input type="radio" name="q18" value="nsp" id="q18_4"><label for="q18_4">Je ne sais pas</label></div>
-<div class="ri"><input type="radio" name="q18" value="pnpr" id="q18_5"><label for="q18_5">Je préfère ne pas répondre</label></div>
-</div></div>
-
 <div class="qg"><label class="ql required">19. Qu'aimeriez-vous absolument préserver ?</label><span class="hint">Jusqu'à 5 réponses</span>
 <div class="cg">
 <div class="ci"><input type="checkbox" name="q19" value="securite_fin" id="q19_1"><label for="q19_1">Ma sécurité financière</label></div>
@@ -2225,6 +2216,30 @@ document.getElementById('btn-audio').addEventListener('click', () => {
 function speak(t) { if (!audioOn) return; const u = new SpeechSynthesisUtterance(t); u.lang = 'fr-FR'; u.rate = 0.95; speechSynthesis.cancel(); speechSynthesis.speak(u); }
 
 // ============================================================
+// QUESTIONS DYNAMIQUES (Q11, Q16, Q88, Q100, Q117)
+// ============================================================
+function populateDynamic(sourceName, targetId, radioName, type) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  const checked = document.querySelectorAll(`input[name="${sourceName}"]:checked`);
+  const filtered = Array.from(checked).filter(c => !['autre','nsp','pnpr','aucun','rien','pas_besoin','nc','depend','mal_identifier'].includes(c.value));
+  
+  // Mémoriser la sélection actuelle
+  const currentSel = target.querySelector(`input[name="${radioName}"]:checked`);
+  const currentVal = currentSel ? currentSel.value : null;
+  
+  target.innerHTML = '';
+  filtered.forEach((c, i) => {
+    const label = c.closest('.ci').querySelector('label').textContent.trim();
+    const div = document.createElement('div');
+    div.className = 'ri';
+    const id = `${radioName}_${i}`;
+    div.innerHTML = `<input type="radio" name="${radioName}" value="${c.value}" id="${id}"${c.value === currentVal ? ' checked' : ''}><label for="${id}">${label}</label>`;
+    target.appendChild(div);
+  });
+}
+
+// ============================================================
 // LOGIQUE CONDITIONNELLE
 // ============================================================
 function handleCond() {
@@ -2286,6 +2301,13 @@ function handleCond() {
   const q99count = document.querySelectorAll('input[name="q99"]:checked').length;
   const q100 = document.getElementById('q100_grp');
   if (q100) q100.classList.toggle('show', q99count > 1);
+
+  // ====== QUESTIONS DYNAMIQUES ======
+  populateDynamic('q9', 'q11_dynamic', 'q11_dyn', 'radio');
+  populateDynamic('q15', 'q16_dynamic', 'q16_dyn', 'radio');
+  populateDynamic('q87', 'q88_dynamic', 'q88_dyn', 'radio');
+  populateDynamic('q99', 'q100_dynamic', 'q100_dyn', 'radio');
+  populateDynamic('q116', 'q117_dynamic', 'q117_dyn', 'radio');
 
   // Q115 exprimer → si Q114 = oui ou peut_etre
   const q114 = document.querySelector('input[name="q114"]:checked');
@@ -2396,10 +2418,33 @@ function submitForm() {
 // ============================================================
 function selectDoor(door) {
   selectedDoor = door;
+  // Retour visuel
   document.querySelectorAll('.door').forEach(d => {
-    d.style.borderColor = d.getAttribute('onclick').includes(door) ? 'var(--sage)' : 'var(--border)';
-    d.style.background = d.getAttribute('onclick').includes(door) ? 'var(--beige)' : 'white';
+    const isDoor = d.getAttribute('onclick').includes("'" + door + "'");
+    d.style.borderColor = isDoor ? 'var(--sage)' : 'var(--border)';
+    d.style.background = isDoor ? 'var(--beige)' : 'white';
   });
+  
+  // Messages par porte
+  const messages = {
+    profiter: 'Votre bilan vous sera envoyé par email. Prenez le temps de le relire et d\'y revenir quand vous le souhaiterez.',
+    comprendre: 'La personne qui vous a transmis ce bilan pourra vous aider à mieux comprendre vos résultats si vous le souhaitez.',
+    decouvrir: 'Plusieurs pistes existent selon vos aspirations. Un échange pourrait vous aider à y voir plus clair.',
+    revenus: 'Il existe des approches progressives et compatibles avec votre situation actuelle. Un échange sans engagement pourrait vous éclairer.',
+    evolution: 'Votre envie d\'évolution mérite d\'être accompagnée. La personne qui vous a proposé ce bilan peut vous y aider.',
+    echanger: 'La personne qui vous a transmis ce bilan vous recontactera pour convenir d\'un moment d\'échange.'
+  };
+  
+  // Afficher ou mettre à jour le message
+  let msgEl = document.getElementById('door-message');
+  if (!msgEl) {
+    msgEl = document.createElement('div');
+    msgEl.id = 'door-message';
+    msgEl.style.cssText = 'text-align:center;padding:20px;margin:20px 0;background:var(--beige);border-radius:8px;color:var(--sage);font-size:.95rem;line-height:1.6;animation:fadeIn .3s ease-in';
+    document.querySelector('.doors-grid').insertAdjacentElement('afterend', msgEl);
+  }
+  msgEl.textContent = messages[door] || '';
+  save();
 }
 
 // ============================================================
