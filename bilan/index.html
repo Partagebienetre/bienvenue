@@ -257,9 +257,9 @@ function partagerBilan() {
    Remplacer la chaîne vide par l'URL qui se termine par /exec
    ══════════════════════════════════════════════════════════════ */
 // À renseigner avec VOTRE déploiement Apps Script (/exec).
-const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwf7DvkRURN_mIPNde_CobAqOaajK0PuFJbzSWjAOmNg3q2kMbVJEz2Cj9dBjImft2pLA/exec';
+const ENDPOINT = '';
 // Même lien à renseigner dans LIEN_ESSENTIEL du script Google.
-const LIEN_ESSENTIEL = 'https://agnesetvous.com/essentiel';
+const LIEN_ESSENTIEL = '';
 
 /* ── État du formulaire ── */
 const reponses = {};
@@ -313,7 +313,7 @@ const ETAPES = [
     {id:'q22_choix_complements', type:'radio', texte:"Comment avez-vous principalement choisi ces compléments ?",
       afficherSi:{champ:'q20_complements', valeurs:["Oui, quotidiennement","Oui, de temps en temps"]},
       options:["Après avoir vu une publicité ou une publication sur les réseaux sociaux","Sur les conseils d'un proche ou d'une personne de confiance","Sur les conseils d'un professionnel du bien-être","Sur les conseils d'un professionnel de santé","À la suite de mes propres recherches","Autre"]},
-    {id:'q23_objectif_complements', type:'radio', texte:"Dans quel objectif principal les prenez-vous ?",
+    {id:'q23_objectif_complements', type:'checkbox', texte:"Dans quels objectifs les prenez-vous ?", sousTexte:"Plusieurs réponses possibles.",
       afficherSi:{champ:'q20_complements', valeurs:["Oui, quotidiennement","Oui, de temps en temps"]},
       options:["Préserver mon bien-être et ma forme","Améliorer un aspect particulier de mon bien-être","Répondre à un besoin ou un inconfort particulier","Combler un manque ou une carence identifiée","Sur recommandation d'un professionnel","Autre"]}
   ]
@@ -352,7 +352,7 @@ const ETAPES = [
 {
   titre:"Qu'attendez-vous de ce bilan ?",
   questions:[
-    {id:'q32_attentes', type:'radio', texte:"Qu'aimeriez-vous principalement obtenir grâce à ce bilan ?",
+    {id:'q32_attentes', type:'checkbox', texte:"Qu’attendez-vous de ce bilan ?", sousTexte:"Plusieurs réponses possibles.",
       options:["Faire simplement le point","Mieux comprendre où j'en suis","Identifier mes priorités","Savoir ce que je pourrais améliorer","Recevoir des informations ou des conseils adaptés à ma situation","Être accompagné(e) pour mettre certaines choses en place","Je ne sais pas encore"]},
     {id:'q33_message_libre', type:'textarea', texte:"Y a-t-il quelque chose d'important concernant votre bien-être que vous souhaiteriez me signaler ?", sousTexte:"Quelques mots suffisent. Vous pouvez laisser cette case vide si vous n'avez rien à ajouter.", placeholder:"Champ libre facultatif"}
   ]
@@ -631,4 +631,3 @@ renderEtape();
 </script>
 </body>
 </html>
-
