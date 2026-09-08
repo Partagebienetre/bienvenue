@@ -1,1 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bilan bien-être — Agnès & Vous</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sauge:#7D8D79;--sauge-clair:#A8B5A4;--sauge-bg:rgba(125,141,121,.08);
+  --terracotta:#B06D5D;--beige:#F5F1E8;--or:#C8A96B;
+  --encre:#33372F;--encre-doux:#6B6F65;--blanc:#FDFCF9;--erreur:#B3543F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Jost',system-ui,sans-serif;font-weight:300;
+  background:var(--beige);color:var(--encre);line-height:1.6;
+  min-height:100vh;padding:24px 16px 60px;
+}
+.wrap{max-width:640px;margin:0 auto}
+.entete{text-align:center;margin-bottom:22px}
+.entete h1{
+  font-family:'Playfair Display',Georgia,serif;font-weight:600;
+  font-size:1.9rem;color:var(--encre);margin-bottom:8px;
+}
+.entete p{color:var(--encre-doux);font-size:.98rem;max-width:480px;margin:0 auto}
+
+.progress-track{height:6px;background:#E7E1D3;border-radius:6px;overflow:hidden;margin:20px 0}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--sauge),var(--or));border-radius:6px;transition:width .3s ease}
+.etape-label{text-align:center;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--sauge);margin-bottom:24px}
+
+.carte{
+  background:var(--blanc);border-radius:12px;box-shadow:0 8px 32px rgba(51,55,47,.08);
+  padding:32px 26px;
+}
+.etape-titre{
+  font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:1.3rem;
+  margin-bottom:22px;color:var(--encre);
+}
+.question{margin-bottom:30px}
+.question:last-child{margin-bottom:0}
+.q-texte{font-size:1rem;font-weight:400;margin-bottom:4px;color:var(--encre)}
+.q-obligatoire{color:var(--terracotta)}
+.q-sous{font-size:.82rem;color:var(--encre-doux);margin-bottom:12px}
+
+/* Slider */
+.slider-wrap{margin-top:10px;--pastille-curseur:#A6AAA3}
+.slider-wrap.actif{--pastille-curseur:var(--sauge)}
+.slider-wrap:not(.actif) .slider-valeur{color:#858980}
+.slider-legende{display:flex;justify-content:space-between;font-size:.76rem;color:var(--encre-doux);margin-top:6px}
+input[type=range]{
+  width:100%;height:6px;border-radius:6px;background:#E7E1D3;appearance:none;-webkit-appearance:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  appearance:none;-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--pastille-curseur,#A6AAA3);border:3px solid var(--blanc);box-shadow:0 2px 6px rgba(0,0,0,.25);cursor:pointer;
+}
+input[type=range]::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;background:var(--pastille-curseur,#A6AAA3);border:3px solid var(--blanc);
+  box-shadow:0 2px 6px rgba(0,0,0,.25);cursor:pointer;
+}
+.slider-valeur{
+  text-align:center;font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--sauge);margin-top:4px;
+}
+
+/* Radio / checkbox lists */
+.choix-liste{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.choix-item{
+  display:flex;align-items:flex-start;gap:10px;padding:11px 14px;
+  background:var(--beige);border:1.5px solid transparent;border-radius:8px;cursor:pointer;
+  font-size:.95rem;transition:border-color .15s;
+}
+.choix-item:hover{border-color:var(--sauge-clair)}
+.choix-item.selected{border-color:var(--sauge);background:var(--sauge-bg)}
+.choix-item input{margin-top:3px;accent-color:var(--sauge)}
+
+textarea,.champ-input,select{
+  width:100%;font-family:inherit;font-size:1rem;padding:12px 14px;
+  background:var(--beige);border:1.5px solid transparent;border-radius:8px;
+  color:var(--encre);margin-top:8px;
+}
+textarea:focus,.champ-input:focus,select:focus{outline:none;border-color:var(--sauge)}
+textarea{min-height:80px;resize:vertical}
+
+.sous-champ{margin-top:10px;padding-left:2px}
+
+.consentements{display:flex;flex-direction:column;gap:14px;margin:22px 0}
+.consent-item{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;color:var(--encre-doux)}
+.consent-item input{margin-top:3px;accent-color:var(--sauge);flex-shrink:0}
+.consent-note{font-size:.78rem;color:var(--encre-doux);font-style:italic;margin-top:-6px;margin-left:26px}
+
+.apres-bilan{
+  background:var(--sauge-bg);border:1px solid rgba(125,141,121,.3);border-radius:10px;
+  padding:18px 20px;margin:22px 0;font-size:.92rem;line-height:1.65;
+}
+.apres-bilan h3{font-family:'Playfair Display',serif;font-weight:600;font-size:1.05rem;margin-bottom:10px;color:var(--sauge)}
+.apres-bilan ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.apres-bilan li{padding-left:22px;position:relative}
+.apres-bilan li::before{content:'✓';position:absolute;left:0;color:var(--sauge);font-weight:600}
+
+.nav-boutons{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+button.nav-btn{
+  font-family:inherit;font-size:.95rem;font-weight:500;cursor:pointer;border:none;border-radius:8px;padding:14px 22px;transition:all .2s;
+}
+.btn-precedent{background:transparent;color:var(--encre-doux);border:1.5px solid #E7E1D3!important}
+.btn-suivant{background:var(--sauge);color:#fff;margin-left:auto}
+.btn-suivant:hover{background:#6a7967}
+.btn-envoyer{background:var(--terracotta);color:#fff;width:100%;padding:16px;font-size:1.02rem}
+.btn-envoyer:hover{background:#9c5d4e}
+.btn-envoyer:disabled{opacity:.5;cursor:not-allowed}
+.erreur-msg{color:var(--erreur);font-size:.85rem;text-align:center;margin-top:12px;min-height:1.2em}
+
+.merci{display:none;text-align:center}
+.merci.visible{display:block}
+.merci h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--sauge);margin-bottom:14px}
+.merci p{color:var(--encre-doux);font-size:.98rem;margin-bottom:16px;text-align:left}
+.merci .btn-decouvrir{
+  display:inline-block;background:var(--sauge);color:#fff;text-decoration:none;
+  border-radius:30px;padding:15px 30px;font-size:1rem;font-weight:500;margin:10px 0 22px;
+}
+.merci .btn-decouvrir:hover{background:#6a7967}
+.merci .signature{font-style:italic;color:var(--encre-doux);margin-top:20px;text-align:left}
+
+.form-hidden{display:none}
+
+.confidentialite-note{
+  background:var(--beige);border-radius:8px;padding:14px 16px;margin:20px 0;
+  font-size:.85rem;color:var(--encre-doux);line-height:1.55;
+}
+.confidentialite-note strong{display:block;color:var(--encre);margin-bottom:6px;font-size:.86rem}
+.confidentialite-note a{color:var(--sauge);text-decoration:underline}
+
+.footer-ml{max-width:640px;margin:32px auto 0;text-align:center}
+.ml-toggle{
+  background:none;border:none;color:var(--encre-doux);font-family:inherit;font-size:.82rem;
+  cursor:pointer;text-decoration:underline;padding:8px;
+}
+.ml-panel{
+  display:none;text-align:left;background:var(--blanc);border-radius:10px;
+  padding:20px 22px;margin-top:10px;font-size:.82rem;color:var(--encre-doux);line-height:1.6;
+}
+.ml-panel.visible{display:block}
+.ml-panel p{margin-bottom:14px}
+.ml-panel p:last-child{margin-bottom:0}
+
+.partage-bloc{
+  margin-top:26px;padding-top:22px;border-top:1px solid #E7E1D3;text-align:center;
+}
+.partage-texte{font-size:.9rem;color:var(--encre-doux);margin-bottom:12px}
+.btn-partager{
+  font-family:inherit;font-size:.92rem;font-weight:500;cursor:pointer;
+  background:var(--sauge-bg);color:var(--sauge);border:1.5px solid var(--sauge);
+  border-radius:30px;padding:12px 24px;transition:all .2s;
+}
+.btn-partager:hover{background:var(--sauge);color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="entete">
+    <p style="color:var(--terracotta);font-weight:500;letter-spacing:.08em">Agnès &amp; Vous</p>
+    <h1>Bilan bien-être</h1>
+    <p>Prenez quelques minutes pour faire le point sur votre bien-être actuel — il n'y a ni bonne ni mauvaise réponse.</p>
+  </div>
+
+  <div id="questionnaire">
+    <div class="progress-track"><div class="progress-bar" id="barreProgres"></div></div>
+    <div class="etape-label" id="labelEtape">Étape 1 / 8</div>
+
+    <div class="carte">
+      <div id="contenuEtape"></div>
+      <p class="erreur-msg" id="erreurMsg"></p>
+      <div class="nav-boutons">
+        <button class="nav-btn btn-precedent" id="btnPrecedent" onclick="etapePrecedente()">← Précédent</button>
+        <button class="nav-btn btn-suivant" id="btnSuivant" onclick="etapeSuivante()">Suivant →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="carte merci" id="merci">
+    <h2>Merci d'avoir pris ce temps pour vous 🌿</h2>
+    <p>Votre demande a été transmise. La réception reste à confirmer par e-mail.</p>
+    <p>Vous venez de faire une première chose importante : prendre quelques minutes pour observer où vous en êtes aujourd'hui, ce que vous ressentez et ce que vous aimeriez éventuellement améliorer.</p>
+    <p>Maintenant, j'aimerais partager avec vous une information essentielle. Avant de parler de solutions, de compléments ou même d'accompagnement, je trouve important de commencer par comprendre ce qui se passe à la base : au niveau de nos cellules.</p>
+    <p>Je vous invite donc à prendre quelques minutes pour découvrir cette information.</p>
+    <div style="text-align:center">
+      <a id="lienEssentiel" class="btn-decouvrir" href="#information-a-configurer" target="_blank" rel="noopener">DÉCOUVRIR L'INFORMATION</a>
+    </div>
+    <p><strong>Vous n'avez pas le temps maintenant ?</strong><br>Pas de problème. Après l’enregistrement de votre bilan, un e-mail contenant le lien vous sera envoyé. Si vous ne le recevez pas, vérifiez vos courriers indésirables ou contactez-moi à contact@agnesetvous.com.</p>
+    <p><strong>Et ensuite ?</strong><br>Je prendrai personnellement contact avec vous rapidement. Nous pourrons reprendre ensemble les éléments importants de votre bilan, échanger sur vos priorités et voir quels conseils pourraient être les plus adaptés à votre situation.</p>
+    <p class="signature">À très bientôt,<br>Agnès, Agnès &amp; Vous.</p>
+
+    <div class="partage-bloc">
+      <p class="partage-texte">Une amie ou un proche pourrait aussi avoir envie de faire le point sur son bien-être ?</p>
+      <button class="btn-partager" id="btnPartager" onclick="partagerBilan()">Partager à un(e) ami(e)</button>
+    </div>
+  </div>
+  <footer id="mentions-legales" class="footer-ml">
+    <button class="ml-toggle" onclick="toggleMentionsLegales()" aria-expanded="false" id="mlToggle">Mentions légales ▾</button>
+    <div class="ml-panel" id="mlPanel">
+      <p><strong>Éditrice</strong><br>
+      Agnès Esclaire Riera — Entreprise individuelle<br>
+      SIRET : 502 712 466 00056<br>
+      142 chemin des Chouans, 19130 Objat, France<br>
+      Directrice de la publication : Agnès Esclaire Riera</p>
+
+      <p><strong>Contact</strong><br>
+      Email : contact@agnesetvous.com<br>
+      Téléphone : +33 6 63 93 21 12<br>
+      Site : agnesetvous.com</p>
+
+      <p><strong>Hébergement</strong><br>
+      Ce site est hébergé par GitHub Pages<br>
+      GitHub, Inc. — 88 Colin P. Kelly Jr. Street,<br>
+      San Francisco, CA 94107, États-Unis</p>
+
+      <p><strong>Données personnelles</strong><br>
+      Les informations que vous transmettez volontairement dans ce bilan (y compris les éventuelles informations relatives à votre santé) servent uniquement à traiter votre demande, préparer notre échange et vous recontacter à ce sujet. Les réponses sont enregistrées dans un Google Sheets privé, via Google Apps Script, accessible à Agnès Esclaire Riera pour ce suivi. Elles ne sont ni vendues ni cédées à des fins commerciales. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression : écrivez à contact@agnesetvous.com.</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+function toggleMentionsLegales() {
+  const panel = document.getElementById('mlPanel');
+  const btn = document.getElementById('mlToggle');
+  const ouvert = panel.classList.toggle('visible');
+  btn.setAttribute('aria-expanded', ouvert);
+  btn.textContent = ouvert ? 'Mentions légales ▴' : 'Mentions légales ▾';
+}
+
+function partagerBilan() {
+  const lienPorteEntree = 'https://agnesetvous.com';
+  const texte = "Je viens de faire mon bilan bien-être avec Agnès — tu peux faire le tien aussi :";
+  const btn = document.getElementById('btnPartager');
+
+  if (navigator.share) {
+    navigator.share({ title: 'Agnès & Vous', text: texte, url: lienPorteEntree }).catch(() => {});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(lienPorteEntree).then(() => {
+      const original = btn.textContent;
+      btn.textContent = '✓ Lien copié !';
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    });
+  }
+}
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   CONFIGURATION — à compléter une fois le Google Apps Script
+   déployé (Google Sheet dédiée "Bilans").
+   Remplacer la chaîne vide par l'URL qui se termine par /exec
+   ══════════════════════════════════════════════════════════════ */
+// À renseigner avec VOTRE déploiement Apps Script (/exec).
+const ENDPOINT = '';
+// Même lien à renseigner dans LIEN_ESSENTIEL du script Google.
+const LIEN_ESSENTIEL = '';
+
+/* ── État du formulaire ── */
+const reponses = {};
+let etapeActuelle = 0;
+
+/* ── Définition des 8 étapes ── */
+const ETAPES = [
+{
+  titre: "Comment vous sentez-vous aujourd'hui ?",
+  questions: [
+    {id:'q1_energie', type:'slider', texte:"Comment évaluez-vous votre niveau d'énergie au quotidien ?", bas:"très peu d'énergie", haut:"beaucoup d'énergie"},
+    {id:'q2_moral', type:'slider', texte:"Comment évaluez-vous votre moral et votre état d'esprit général ?", bas:"très mauvais", haut:"excellent"},
+    {id:'q3_stress', type:'slider', texte:"Comment évaluez-vous votre capacité à gérer le stress du quotidien ?", bas:"très difficile", haut:"excellente"},
+    {id:'q4_sommeil_qualite', type:'slider', texte:"Comment évaluez-vous la qualité de votre sommeil ?", bas:"très mauvaise", haut:"excellente"},
+    {id:'q5_sommeil_recup', type:'slider', texte:"Au réveil, vous sentez-vous reposé(e) et récupéré(e) ?", bas:"pas du tout", haut:"complètement"},
+    {id:'q6_concentration', type:'slider', texte:"Comment évaluez-vous votre concentration et votre mémoire ?", bas:"très insatisfaisantes", haut:"excellentes"}
+  ]
+},
+{
+  titre:"Votre confort physique",
+  questions:[
+    {id:'q7_articulaire', type:'slider', texte:"Comment évaluez-vous votre confort articulaire ?", bas:"inconfort important", haut:"aucun inconfort"},
+    {id:'q8_musculaire', type:'slider', texte:"Comment évaluez-vous votre confort musculaire et votre souplesse ?", bas:"inconfort important", haut:"excellent confort"},
+    {id:'q9_digestif', type:'slider', texte:"Comment évaluez-vous votre confort digestif ?", bas:"inconfort important", haut:"excellent confort"},
+    {id:'q10_transit', type:'slider', texte:"Comment évaluez-vous votre transit intestinal ?", bas:"très insatisfaisant", haut:"parfaitement satisfaisant"},
+    {id:'q11_peau', type:'slider', texte:"Comment évaluez-vous l'état et le confort de votre peau ?", bas:"très insatisfaisants", haut:"excellents"},
+    {id:'q12_cheveux_ongles', type:'slider', texte:"Comment évaluez-vous la qualité de vos cheveux et de vos ongles ?", bas:"très insatisfaisante", haut:"excellente"},
+    {id:'q13_visuel_auditif', type:'slider', texte:"Comment évaluez-vous votre confort visuel et/ou auditif au quotidien ?", bas:"gêne importante", haut:"aucune gêne"},
+    {id:'q14_forme_physique', type:'slider', texte:"Comment évaluez-vous votre forme physique générale ?", bas:"très mauvaise", haut:"excellente"},
+    {id:'q15_bien_corps', type:'slider', texte:"Aujourd'hui, à quel point vous sentez-vous bien dans votre corps ?", bas:"pas bien du tout", haut:"vraiment très bien"}
+  ]
+},
+{
+  titre:"Votre quotidien et vos habitudes",
+  questions:[
+    {id:'q16_alimentation', type:'radio', texte:"Quel type d'alimentation correspond le mieux à vos habitudes actuelles ?",
+      options:["Omnivore — je consomme des aliments d'origine animale et végétale","Flexitarienne — je mange de tout mais limite volontairement ma consommation de viande","Pescétarienne — je ne mange pas de viande mais consomme du poisson","Végétarienne — je ne consomme ni viande ni poisson","Végane / végétalienne — je ne consomme pas de produits d'origine animale","Autre"],
+      autreDeclenche:"Autre", autreId:'q16_autre', autrePlaceholder:"Précisez en quelques mots — facultatif"},
+    {id:'q17_intolerances', type:'radio', texte:"Avez-vous des intolérances, sensibilités ou restrictions alimentaires particulières ?",
+      options:["Oui","Non","Je ne sais pas"],
+      autreDeclenche:"Oui", autreId:'q17_detail', autrePlaceholder:"Si vous le souhaitez, précisez lesquelles — facultatif"},
+    {id:'q18_activite', type:'radio', texte:"À quelle fréquence pratiquez-vous une activité physique ?", sousTexte:"Sport, marche, vélo, jardinage, activité professionnelle physique…",
+      options:["Tous les jours ou presque","3 à 4 fois par semaine","1 à 2 fois par semaine","Occasionnellement","Très rarement","Jamais"]},
+    {id:'q19_eau', type:'radio', texte:"En moyenne, quelle quantité d'eau buvez-vous par jour ?",
+      options:["Moins de 0,5 litre","Entre 0,5 et 1 litre","Entre 1 et 1,5 litre","Plus de 1,5 litre","Cela varie beaucoup selon les jours","Je ne sais pas"]},
+    {id:'q20_complements', type:'radio', texte:"Prenez-vous actuellement des compléments alimentaires ?",
+      options:["Oui, quotidiennement","Oui, de temps en temps","Non","J'en ai pris auparavant, mais plus actuellement"]},
+    {id:'q21_types_complements', type:'checkbox', texte:"Quels types de compléments prenez-vous actuellement ?", sousTexte:"Plusieurs réponses possibles.",
+      afficherSi:{champ:'q20_complements', valeurs:["Oui, quotidiennement","Oui, de temps en temps"]},
+      options:["Vitamines / minéraux","Oméga-3","Magnésium","Probiotiques / confort digestif","Collagène","Articulations / mobilité","Sommeil / relaxation","Énergie / vitalité","Autres","Je ne sais pas exactement"]},
+    {id:'q22_choix_complements', type:'radio', texte:"Comment avez-vous principalement choisi ces compléments ?",
+      afficherSi:{champ:'q20_complements', valeurs:["Oui, quotidiennement","Oui, de temps en temps"]},
+      options:["Après avoir vu une publicité ou une publication sur les réseaux sociaux","Sur les conseils d'un proche ou d'une personne de confiance","Sur les conseils d'un professionnel du bien-être","Sur les conseils d'un professionnel de santé","À la suite de mes propres recherches","Autre"]},
+    {id:'q23_objectif_complements', type:'radio', texte:"Dans quel objectif principal les prenez-vous ?",
+      afficherSi:{champ:'q20_complements', valeurs:["Oui, quotidiennement","Oui, de temps en temps"]},
+      options:["Préserver mon bien-être et ma forme","Améliorer un aspect particulier de mon bien-être","Répondre à un besoin ou un inconfort particulier","Combler un manque ou une carence identifiée","Sur recommandation d'un professionnel","Autre"]}
+  ]
+},
+{
+  titre:"Quelques informations importantes",
+  sousTitre:"Ces questions sont facultatives. Elles peuvent simplement m'aider à mieux comprendre votre situation avant notre échange.",
+  questions:[
+    {id:'q24_medicaments', type:'radio', texte:"Prenez-vous actuellement un ou plusieurs médicaments de façon régulière ?", sousTexte:"Il n'est pas nécessaire d'indiquer le nom de vos médicaments dans ce questionnaire.",
+      options:["Oui","Non","Je préfère ne pas répondre"]},
+    {id:'q25_vesicule', type:'radio', texte:"Avez-vous subi une ablation de la vésicule biliaire ?",
+      options:["Oui","Non","Je ne sais pas","Je préfère ne pas répondre"]}
+  ]
+},
+{
+  titre:"Ce que vous aimeriez améliorer ou préserver",
+  questions:[
+    {id:'q26_priorites', type:'checkbox', texte:"Aujourd'hui, qu'aimeriez-vous améliorer ou préserver en priorité ?", sousTexte:"Plusieurs réponses possibles.",
+      options:["Mon énergie / ma vitalité","Mon sommeil / ma récupération","Ma gestion du stress","Mon moral / mon bien-être émotionnel","Ma concentration / ma mémoire","Mon confort digestif / mon transit","Mon confort articulaire","Mon confort musculaire / ma souplesse","Ma forme physique","Mon poids / ma silhouette","Ma peau","Mes cheveux / mes ongles","Mon alimentation","Mon activité physique","Mon bien-être général","Préserver ma forme et mon bien-être dans le temps","Rien de particulier actuellement","Autre"]},
+    {id:'q27_priorite_principale', type:'select-dynamique', texte:"Et s'il ne fallait en choisir qu'UNE, quelle serait votre priorité aujourd'hui ?",
+      sourceId:'q26_priorites'}
+  ]
+},
+{
+  titre:"Prendre soin de vous",
+  questions:[
+    {id:'q28_priorite_bienetre', type:'radio', texte:"Aujourd'hui, prendre davantage soin de votre bien-être est pour vous…",
+      options:["Une vraie priorité","Important, même si je manque parfois de temps","Quelque chose auquel je pense sans vraiment passer à l'action","Pas vraiment une priorité actuellement"]},
+    {id:'q29_satisfaction', type:'slider', texte:"Êtes-vous satisfait(e) de ce que vous mettez actuellement en place pour prendre soin de vous ?", bas:"pas du tout satisfait(e)", haut:"totalement satisfait(e)"},
+    {id:'q30_pret_changer', type:'radio', texte:"Si vous identifiiez des changements simples susceptibles d'améliorer votre bien-être, seriez-vous prêt(e) à les mettre en place ?",
+      options:["Oui, tout à fait","Oui, s'ils restent simples et compatibles avec mon quotidien","Peut-être, j'aimerais d'abord comprendre ce qui pourrait m'être utile","Je ne sais pas encore","Non, pas actuellement"]},
+    {id:'q31_freins', type:'checkbox', texte:"Qu'est-ce qui pourrait aujourd'hui vous freiner ?", sousTexte:"Plusieurs réponses possibles.",
+      options:["Le manque de temps","Le manque d'énergie","Le manque de motivation","Je ne sais pas vraiment quoi mettre en place","J'ai déjà essayé plusieurs choses sans résultat satisfaisant","Le budget","Mes contraintes familiales","Mes contraintes professionnelles","J'ai du mal à tenir de nouvelles habitudes dans le temps","Rien de particulier","Autre"]}
+  ]
+},
+{
+  titre:"Qu'attendez-vous de ce bilan ?",
+  questions:[
+    {id:'q32_attentes', type:'radio', texte:"Qu'aimeriez-vous principalement obtenir grâce à ce bilan ?",
+      options:["Faire simplement le point","Mieux comprendre où j'en suis","Identifier mes priorités","Savoir ce que je pourrais améliorer","Recevoir des informations ou des conseils adaptés à ma situation","Être accompagné(e) pour mettre certaines choses en place","Je ne sais pas encore"]},
+    {id:'q33_message_libre', type:'textarea', texte:"Y a-t-il quelque chose d'important concernant votre bien-être que vous souhaiteriez me signaler ?", sousTexte:"Quelques mots suffisent. Vous pouvez laisser cette case vide si vous n'avez rien à ajouter.", placeholder:"Champ libre facultatif"}
+  ]
+},
+{
+  titre:"Faisons connaissance",
+  sousTitre:"Ces quelques informations me permettront de vous recontacter afin d'échanger avec vous sur vos réponses.",
+  questions:[
+    {id:'prenom', type:'text', texte:"Votre prénom", obligatoire:true},
+    {id:'nom', type:'text', texte:"Votre nom"},
+    {id:'email', type:'email', texte:"Votre adresse e-mail", obligatoire:true},
+    {id:'telephone', type:'tel', texte:"Votre numéro de téléphone", obligatoire:true},
+
+  ],
+  dernier:true
+}
+];
+
+/* ── Rendu d'une étape ── */
+function renderEtape() {
+  const etape = ETAPES[etapeActuelle];
+  const conteneur = document.getElementById('contenuEtape');
+  let html = '<div class="etape-titre">' + etape.titre + '</div>';
+  if (etape.sousTitre) html += '<p class="q-sous" style="margin-bottom:22px">' + etape.sousTitre + '</p>';
+
+  etape.questions.forEach(q => {
+    if (q.afficherSi && !doitAfficher(q.afficherSi)) return;
+    html += renderQuestion(q);
+  });
+
+  conteneur.innerHTML = html;
+
+  // ré-attacher les valeurs déjà saisies + écouteurs
+  etape.questions.forEach(q => attacherEcouteurs(q));
+
+  document.getElementById('barreProgres').style.width = ((etapeActuelle) / (ETAPES.length - 1) * 100) + '%';
+  document.getElementById('labelEtape').textContent = 'Étape ' + (etapeActuelle + 1) + ' / ' + ETAPES.length;
+  document.getElementById('btnPrecedent').style.visibility = etapeActuelle === 0 ? 'hidden' : 'visible';
+  document.getElementById('btnSuivant').textContent = etape.dernier ? '' : 'Suivant →';
+  document.getElementById('btnSuivant').style.display = etape.dernier ? 'none' : 'inline-block';
+  document.getElementById('erreurMsg').textContent = '';
+
+  // Étape finale : ajouter consentements + bloc "après bilan" + bouton envoyer
+  if (etape.dernier) {
+    conteneur.innerHTML += renderFinDeFormulaire();
+    attacherEcouteursConsentement();
+  }
+}
+
+function doitAfficher(cond) {
+  const val = reponses[cond.champ];
+  return val && cond.valeurs.includes(val);
+}
+
+function renderQuestion(q) {
+  const oblig = q.obligatoire ? ' <span class="q-obligatoire">*</span>' : '';
+  let inner = '';
+
+  if (q.type === 'slider') {
+    const actif = reponses[q.id] !== undefined;
+    const val = actif ? reponses[q.id] : 5;
+    inner = `
+      <div class="slider-wrap${actif ? ' actif' : ''}">
+        <input type="range" min="1" max="10" value="${val}" id="${q.id}" aria-label="${escAttr(q.texte)}" aria-valuetext="${actif ? val : 'Pas de réponse'}" oninput="majSlider('${q.id}')">
+        <div class="slider-valeur" id="${q.id}_valeur">${actif ? val : '—'}</div>
+        <div class="slider-legende"><span>${q.bas}</span><span>${q.haut}</span></div>
+      </div>`;
+  } else if (q.type === 'radio') {
+    inner = '<div class="choix-liste">' + q.options.map(opt => {
+      const checked = reponses[q.id] === opt ? 'checked' : '';
+      const sel = reponses[q.id] === opt ? ' selected' : '';
+      return `<label class="choix-item${sel}"><input type="radio" name="${q.id}" value="${escAttr(opt)}" ${checked} onchange="majRadio('${q.id}')"> <span>${opt}</span></label>`;
+    }).join('') + '</div>';
+    if (q.autreDeclenche) {
+      const show = reponses[q.id] === q.autreDeclenche ? '' : ' style="display:none"';
+      const valTxt = reponses[q.autreId] || '';
+      inner += `<div class="sous-champ" id="${q.id}_sous"${show}><input type="text" class="champ-input" id="${q.autreId}" placeholder="${q.autrePlaceholder}" value="${escAttr(valTxt)}" oninput="reponses['${q.autreId}']=this.value"></div>`;
+    }
+  } else if (q.type === 'checkbox') {
+    const selectionnees = reponses[q.id] || [];
+    inner = '<div class="choix-liste">' + q.options.map(opt => {
+      const checked = selectionnees.includes(opt) ? 'checked' : '';
+      const sel = selectionnees.includes(opt) ? ' selected' : '';
+      return `<label class="choix-item${sel}"><input type="checkbox" value="${escAttr(opt)}" ${checked} onchange="majCheckbox('${q.id}', this)"> <span>${opt}</span></label>`;
+    }).join('') + '</div>';
+  } else if (q.type === 'select-dynamique') {
+    const source = reponses[q.sourceId] || [];
+    const val = reponses[q.id] || '';
+    if (source.length === 0) {
+      inner = '<p class="q-sous">Sélectionnez d\'abord une ou plusieurs priorités ci-dessus.</p>';
+    } else {
+      inner = `<select class="champ-input" id="${q.id}" onchange="reponses['${q.id}']=this.value">
+        <option value="">— Choisir —</option>
+        ${source.map(opt => `<option value="${escAttr(opt)}" ${val === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+      </select>`;
+    }
+  } else if (q.type === 'textarea') {
+    inner = `<textarea id="${q.id}" placeholder="${q.placeholder || ''}" oninput="reponses['${q.id}']=this.value">${reponses[q.id] || ''}</textarea>`;
+  } else if (q.type === 'text' || q.type === 'email' || q.type === 'tel' || q.type === 'date') {
+    inner = `<input type="${q.type}" class="champ-input" id="${q.id}" value="${escAttr(reponses[q.id] || '')}" oninput="reponses['${q.id}']=this.value">`;
+
+  }
+
+  return `<div class="question">
+      <div class="q-texte">${q.texte || ''}${oblig}</div>
+      ${q.sousTexte ? `<div class="q-sous">${q.sousTexte}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+function renderFinDeFormulaire() {
+  return `
+    <div class="apres-bilan">
+      <h3>ET APRÈS VOTRE BILAN ?</h3>
+      <p style="margin-bottom:12px">Une fois votre bilan envoyé :</p>
+      <ul>
+        <li>Vous accéderez immédiatement à une information essentielle pour mieux comprendre comment prendre soin de nos cellules et de notre équilibre au quotidien.</li>
+        <li>Vous recevrez également le lien par e-mail, afin de pouvoir retrouver cette information facilement et la consulter tranquillement, même si vous fermez cette page.</li>
+        <li>Je prendrai ensuite personnellement contact avec vous rapidement afin que nous puissions échanger sur votre bilan, vos priorités et vos besoins, et que je puisse vous apporter des conseils plus personnalisés.</li>
+      </ul>
+      <p style="margin-top:12px">Vous restez bien entendu libre de la suite que vous souhaitez donner à cet échange.</p>
+    </div>
+
+    <div class="confidentialite-note">
+      <strong>Confidentialité et utilisation de vos données</strong>
+      <p>Les informations que vous transmettez dans ce questionnaire sont utilisées afin de traiter votre demande, analyser les réponses de votre bilan bien-être, préparer notre échange et vous recontacter à ce sujet. Certaines réponses peuvent concerner votre santé ou votre bien-être. Vous êtes libre de ne pas répondre aux questions facultatives. Vos données ne sont utilisées que pour ces finalités et conservées de manière sécurisée. Vous pouvez exercer vos droits et retirer votre consentement — voir les <a href="#mentions-legales">mentions légales</a> ci-dessous.</p>
+    </div>
+
+    <div class="consentements">
+      <label class="consent-item">
+        <input type="checkbox" id="consent_info" onchange="reponses['consent_info']=this.checked">
+        <span>J'ai lu et compris les informations concernant ce bilan et son absence de visée médicale.</span>
+      </label>
+      <label class="consent-item">
+        <input type="checkbox" id="consent_donnees" onchange="reponses['consent_donnees']=this.checked">
+        <span>J'accepte que les informations que je renseigne dans ce questionnaire, y compris les éventuelles informations relatives à ma santé, soient utilisées afin de réaliser mon bilan bien-être, préparer notre échange et me recontacter à ce sujet.</span>
+      </label>
+      <p class="consent-note">Vous pouvez retirer votre consentement selon les modalités précisées dans les mentions légales.</p>
+    </div>
+
+    <button class="nav-btn btn-envoyer" id="btnEnvoyer" onclick="envoyerBilan()">ENVOYER MON BILAN ET DÉCOUVRIR L'INFORMATION</button>
+  `;
+}
+
+function escAttr(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+
+function emailValide(email) {
+  if (!email) return false;
+  var arobase = email.indexOf('@');
+  if (arobase < 1) return false;
+  var domaine = email.slice(arobase + 1);
+  if (domaine.indexOf('.') < 1) return false;
+  if (email.indexOf(' ') !== -1) return false;
+  return true;
+}
+
+/* ── Écouteurs ── */
+function attacherEcouteurs(q) {
+  // Les curseurs sans interaction restent sans réponse.
+}
+
+function majSlider(id) {
+  const curseur = document.getElementById(id);
+  const v = curseur.value;
+  curseur.closest('.slider-wrap').classList.add('actif');
+  curseur.setAttribute('aria-valuetext', v);
+  reponses[id] = Number(v);
+  document.getElementById(id + '_valeur').textContent = v;
+}
+
+function majRadio(id) {
+  const checked = document.querySelector(`input[name="${id}"]:checked`);
+  reponses[id] = checked ? checked.value : null;
+  renderEtape(); // pour affichage conditionnel (autre, Q21-23...)
+}
+
+function majCheckbox(id, input) {
+  if (!reponses[id]) reponses[id] = [];
+  if (input.checked) {
+    if (!reponses[id].includes(input.value)) reponses[id].push(input.value);
+  } else {
+    reponses[id] = reponses[id].filter(v => v !== input.value);
+  }
+  if (id === 'q26_priorites') renderEtape(); // rafraîchit la liste déroulante Q27
+  else {
+    input.closest('.choix-item').classList.toggle('selected', input.checked);
+  }
+}
+
+function attacherEcouteursConsentement() {}
+
+/* ── Navigation ── */
+function validerEtape() {
+  const etape = ETAPES[etapeActuelle];
+  if (etape.dernier) {
+    for (const q of etape.questions) {
+      if (q.obligatoire && !reponses[q.id]) {
+        document.getElementById('erreurMsg').textContent = 'Merci de renseigner votre ' + q.texte.toLowerCase() + '.';
+        return false;
+      }
+    }
+    if (reponses['email'] && !emailValide(reponses['email'])) {
+      document.getElementById('erreurMsg').textContent = 'Cette adresse email ne semble pas valide.';
+      return false;
+    }
+  }
+  return true;
+}
+
+function etapeSuivante() {
+  if (!validerEtape()) return;
+  if (etapeActuelle < ETAPES.length - 1) {
+    etapeActuelle++;
+    renderEtape();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+function etapePrecedente() {
+  if (etapeActuelle > 0) {
+    etapeActuelle--;
+    renderEtape();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+/* ── Envoi ── */
+function envoyerBilan() {
+  if (!reponses['prenom'] || !reponses['email'] || !reponses['telephone']) {
+    document.getElementById('erreurMsg').textContent = 'Merci de renseigner votre prénom, votre email et votre téléphone.';
+    return;
+  }
+  if (!emailValide(reponses['email'])) {
+    document.getElementById('erreurMsg').textContent = 'Cette adresse email ne semble pas valide.';
+    return;
+  }
+  if (!reponses['consent_info'] || !reponses['consent_donnees']) {
+    document.getElementById('erreurMsg').textContent = 'Merci de cocher les deux cases de consentement pour envoyer votre bilan.';
+    return;
+  }
+
+  const btn = document.getElementById('btnEnvoyer');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+
+  const payload = Object.assign({}, reponses, { date: new Date().toISOString() });
+
+  const finir = () => {
+    document.getElementById('questionnaire').style.display = 'none';
+    document.getElementById('merci').classList.add('visible');
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+
+  const echec = (message) => {
+    document.getElementById('erreurMsg').textContent = message;
+    btn.disabled = false;
+    btn.textContent = "ENVOYER MON BILAN ET DÉCOUVRIR L'INFORMATION";
+  };
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(ENDPOINT) || !/^https:\/\//.test(LIEN_ESSENTIEL)) {
+    echec('Ce formulaire est en cours de configuration. Aucun bilan n’a été envoyé. Contact : contact@agnesetvous.com.');
+    return;
+  }
+  document.getElementById('lienEssentiel').href = LIEN_ESSENTIEL;
+
+  fetch(ENDPOINT, {
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain;charset=UTF-8'},
+    body: JSON.stringify(payload)
+  }).then(finir).catch(() => echec('L’envoi n’a pas pu être confirmé. Vérifiez votre connexion. Si vous recevez un e-mail de confirmation, ne renvoyez pas le bilan.')); 
+}
+
+/* ── Démarrage ── */
+renderEtape();
+</script>
+</body>
+</html>
 
