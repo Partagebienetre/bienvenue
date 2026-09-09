@@ -289,7 +289,7 @@ const CHAPTERS=[
 ];
 
 function A(){return STATE.answers;}
-const STATE={idx:0,answers:{},others:{},contact:{},consent:false};
+const STATE={idx:0,answers:{},others:{},contact:{},consent:false,recontact:false};
 const app=document.getElementById('app');
 const nav=document.getElementById('nav');
 
@@ -367,9 +367,9 @@ function renderQuestion(q){
     }
   }else if(q.type==='scale'){inner=renderScale(q);}
   else if(q.type==='text'){const v=A()[q.id]||'';
-    inner=`<input class="text" type="text" value="${esc(v)}" oninput="setText('${q.id}',this.value)" placeholder="${q.placeholder||'Votre réponse (facultatif)…'}">`;}
+    inner=`<input class="text" type="text" value="${esc(v)}" maxlength="6000" oninput="setText('${q.id}',this.value)" placeholder="${q.placeholder||'Votre réponse (facultatif)…'}">`;}
   else if(q.type==='longtext'){const v=A()[q.id]||'';
-    inner=`<textarea oninput="setText('${q.id}',this.value)" placeholder="Écrivez librement (facultatif)…">${esc(v)}</textarea>`;}
+    inner=`<textarea maxlength="6000" oninput="setText('${q.id}',this.value)" placeholder="Écrivez librement (facultatif)…">${esc(v)}</textarea>`;}
   return `<div class="q ${q.compact?'compact':''}" id="q_${q.id}">
     ${q.domainHead?`<div class="domain-head">${q.domainHead}</div>`:''}
     <div class="q-text">${q.q}</div>
@@ -443,7 +443,10 @@ function renderContact(){
     <div class="field"><label>Téléphone <span>(facultatif)</span></label><input class="text" type="tel" value="${esc(c.phone||'')}" oninput="STATE.contact.phone=this.value" placeholder="Votre numéro"></div>
     <div class="consent ${STATE.consent?'checked':''}" onclick="STATE.consent=!STATE.consent;render()">
       <div class="box">${svgCheck}</div>
-      <span>J'accepte que ${esc(CONFIG.partner.name)} conserve mes réponses pour préparer et m'envoyer mon bilan. Mes données ne seront ni vendues ni transmises à des tiers.</span></div>
+      <span>J’accepte que ${esc(CONFIG.partner.name)} traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m’envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ${esc(CONFIG.partner.email)}.</span></div>
+    <label class="consent"><input type="checkbox" style="margin-top:5px" ${STATE.recontact?'checked':''} onchange="STATE.recontact=this.checked">
+      <span>Je souhaite qu’Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l’envoi du carnet.</span></label>
+    <p id="sendError" role="alert" style="color:#A34D3E;margin-top:18px"></p>
     <div style="margin-top:28px">
       <button class="btn btn-primary" style="width:100%" id="btnSubmit" onclick="submitForm()">Découvrir mon bilan</button>
       <div style="text-align:center;margin-top:12px"><button class="skip-scale" onclick="goBack()">Revenir en arrière</button></div>
@@ -470,29 +473,119 @@ function buildPayload(){
     if(q.domain&&typeof A()[q.id]==='number'){(dom[q.domain]=dom[q.domain]||[]).push(A()[q.id]);}});});
   const roue=Object.keys(dom).map(d=>({domaine:d,moyenne:Math.round((dom[d].reduce((a,b)=>a+b,0)/dom[d].length)*10)/10,notes:dom[d]}));
   return {partenaire:CONFIG.partner.id,origin:URL_ORIGIN,ref:URL_REF,date:new Date().toISOString(),
-    contact:{prenom:STATE.contact.prenom||'',email:STATE.contact.email||'',phone:STATE.contact.phone||'',consentement:STATE.consent},
+    contact:{prenom:STATE.contact.prenom||'',email:STATE.contact.email||'',phone:STATE.contact.phone||'',consentement:STATE.consent,recontact:STATE.recontact},
     impressions:{global:A().imp_global,perso:A().imp_perso,pro:A().imp_pro},roueDeVie:roue,reponses:seen};
 }
-function submitForm(){
-  const payload=buildPayload();const btn=document.getElementById('btnSubmit');
-  if(btn){btn.textContent='Envoi en cours…';btn.disabled=true;}
-  console.log('PAYLOAD BILAN →',payload);
-  const done=()=>{CHAPTERS.push({type:'thanks'});STATE.idx=CHAPTERS.length-1;render();};
-  if(CONFIG.webhookUrl&&CONFIG.webhookUrl.trim()!==''){
-    fetch(CONFIG.webhookUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(done).catch(done);
-  }else{setTimeout(done,500);}
+// Chaque secteur montre une note sur 10 ; une valeur absente reste vide.
+const DOMAINES_ROUE = [
+ ['rv_sante','Santé & énergie'],['rv_temps','Temps & liberté'],
+ ['rv_finances','Finances & niveau de vie'],['rv_travail','Travail / activité'],
+ ['rv_relations','Relations & entourage'],['rv_epano','Épanouissement personnel'],
+ ['rv_securite','Sécurité & avenir'],['rv_sens','Sens & utilité'],
+ ['rv_evolution','Évolution & accomplissement'],['rv_equilibre','Équilibre de vie']
+];
+function donneesRoues() {
+ const impressions=['imp_global','imp_perso','imp_pro'].map(id=>typeof A()[id]==='number'?A()[id]:null);
+ const domaines=DOMAINES_ROUE.map(([key])=>{
+  const notes=[0,1,2].map(i=>A()[key+'_'+i]).filter(v=>typeof v==='number');
+  return notes.length?notes.reduce((a,b)=>a+b,0)/notes.length:null;
+ });
+ return {impressions,domaines};
 }
+function dessinerRoue(labels,values) {
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=860;
+ const c=canvas.getContext('2d'); const cx=600,cy=430,r=285,n=labels.length;
+ c.fillStyle='#FFFFFF';c.fillRect(0,0,1200,860);
+ const angle=i=>-Math.PI/2+(i-.5)*Math.PI*2/n;
+ for(let i=0;i<n;i++){
+  if(values[i]===null)continue;
+  c.beginPath();c.moveTo(cx,cy);c.arc(cx,cy,r*values[i]/10,angle(i),angle(i+1));c.closePath();
+  c.fillStyle=i%2?'#A6B7A3':'#6E8B72';c.fill();
+ }
+ c.strokeStyle='#D8DED5';c.lineWidth=2;
+ for(let j=1;j<=10;j++){c.beginPath();c.arc(cx,cy,r*j/10,0,Math.PI*2);c.stroke();}
+ for(let i=0;i<n;i++){
+  c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+r*Math.cos(angle(i)),cy+r*Math.sin(angle(i)));c.stroke();
+  const mid=(angle(i)+angle(i+1))/2,lx=cx+(r+65)*Math.cos(mid),ly=cy+(r+65)*Math.sin(mid);
+  const words=labels[i].split(' '),lines=[];let line='';
+  for(const w of words){if((line+' '+w).trim().length>21&&line){lines.push(line);line=w;}else line=(line+' '+w).trim();}lines.push(line);
+  c.textAlign=Math.cos(mid)>.35?'left':Math.cos(mid)<-.35?'right':'center';
+  c.fillStyle='#2E3830';c.font='23px Arial';
+  lines.forEach((t,k)=>c.fillText(t,lx,ly+(k-(lines.length-1)/2)*28));
+  c.font='bold 25px Arial';c.fillStyle=values[i]===null?'#8A8A7E':'#6E8B72';
+  c.fillText(values[i]===null?'—':(Math.round(values[i]*10)/10).toLocaleString('fr-FR')+' / 10',lx,ly+(lines.length+1)/2*28);
+ }
+ c.textAlign='center';c.font='18px Arial';
+ for(const j of [2,4,6,8,10]){c.fillStyle='#FFFFFF';c.fillRect(cx-14,cy+r*j/10-12,28,22);c.fillStyle='#526150';c.fillText(String(j),cx,cy+r*j/10+5);}
+ return canvas.toDataURL('image/png');
+}
+function imagesRoues(){
+ const v=donneesRoues();
+ return {impressions:dessinerRoue(['Épanouissement général','Vie personnelle','Vie professionnelle'],v.impressions),domaines:dessinerRoue(DOMAINES_ROUE.map(d=>d[1]),v.domaines)};
+}
+function besoinSanteExplicite(texte){
+ const s=String(texte||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ return s.split(/[.!?;\n]/).some(phrase=>{
+  if(/\b(ne|pas|aucun|sans|ni)\b/.test(phrase))return false;
+  return /(?:ameliorer|retrouver|preserver)\s+(?:ma|la|une meilleure)\s+sante|(?:plus|davantage)\s+de\s+sante|(?:besoin|envie|souhaite|voudrais|aimerais).{0,45}(?:meilleure sante|bonne sante|plus d.energie|moins de fatigue)/.test(phrase);
+ });
+}
+
+function invitationSante(){
+ const s=donneesRoues().domaines[0];
+ return (s!==null&&s<7)||(A().ferait_du_bien||[]).includes('Améliorer ma santé')||(A().fait_le_tour||[]).includes('Ma santé qui me préoccupe')||[A().reve,A().prise_conscience,STATE.others.ferait_du_bien,STATE.others.fait_le_tour].some(besoinSanteExplicite);
+}
+function verifierReception(id){
+ return new Promise((resolve,reject)=>{
+  const nom='retourBilan_'+id.replace(/-/g,'')+'_'+Date.now();
+  const balise=document.createElement('script');
+  const fin=()=>{clearTimeout(delai);delete window[nom];balise.remove();};
+  const delai=setTimeout(()=>{fin();reject(new Error('Délai dépassé'));},15000);
+  window[nom]=data=>{fin();resolve(data);};
+  balise.onerror=()=>{fin();reject(new Error('Vérification indisponible'));};
+  balise.src=CONFIG.webhookUrl+'?action=status&id='+encodeURIComponent(id)+'&callback='+nom;
+  document.head.appendChild(balise);
+ });
+}
+async function submitForm(){
+ const btn=document.getElementById('btnSubmit'),error=document.getElementById('sendError');
+ error.textContent='';
+ if(!STATE.contact.prenom?.trim()||!/^\S+@[^\s@]+\.[^\s@]+$/.test(STATE.contact.email||'')){
+  error.textContent='Indiquez votre prénom et une adresse e-mail valide.';return;
+ }
+ if(!STATE.consent){error.textContent='Votre accord est nécessaire pour préparer et envoyer votre carnet.';return;}
+ if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(CONFIG.webhookUrl)){
+  error.textContent='Le formulaire est en cours de configuration. Contact : '+CONFIG.partner.email;return;
+ }
+ btn.disabled=true;btn.textContent='Préparation de votre carnet…';
+ try{
+  if(!STATE.submissionId){
+   STATE.submissionId=crypto.randomUUID();
+   STATE.pendingPayload=Object.assign(buildPayload(),{submissionId:STATE.submissionId,roues:imagesRoues()});
+  }
+  await fetch(CONFIG.webhookUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(STATE.pendingPayload)});
+  let resultat=await verifierReception(STATE.submissionId);
+  for(let i=0;i<8&&resultat.status==='EN_COURS';i++){
+   await new Promise(r=>setTimeout(r,3000));resultat=await verifierReception(STATE.submissionId);
+  }
+  if(resultat.status!=='ENVOYE')throw new Error('Le carnet n’a pas encore été confirmé comme envoyé. Contactez '+CONFIG.partner.email+' si vous ne le recevez pas. Référence : '+STATE.submissionId);
+  CHAPTERS.push({type:'thanks'});STATE.idx=CHAPTERS.length-1;render();
+ }catch(e){error.textContent=e.message||'Réception non confirmée. Vérifiez vos e-mails avant de réessayer.';btn.disabled=false;btn.textContent='Vérifier / réessayer l’envoi';}
+}
+
 function renderThanks(){
   nav.style.display='none';
   const prenom=STATE.contact.prenom?', '+esc(STATE.contact.prenom):'';
   const first=esc(CONFIG.partner.name.split(' ')[0]);
-  const shareUrl=location.origin+location.pathname+'?origin='+encodeURIComponent(CONFIG.partner.id);
+  const shareUrl='https://agnesetvous.com/evolution?origin='+encodeURIComponent(CONFIG.partner.id);
   const shareMsg=encodeURIComponent("Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : "+shareUrl);
   app.innerHTML=`<div class="screen thanks">
     <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="${CONFIG.brand.accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
     <h1>Félicitations${prenom}.</h1>
-    <p>Vous avez pris ce temps pour vous, et c'est déjà beaucoup. Votre carnet « Mon Point de Départ » vous parvient par email dans quelques instants${STATE.contact.email?' à '+esc(STATE.contact.email):''}.</p>
+    <p>Vous avez pris ce temps pour vous, et c'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d’envoi par e-mail${STATE.contact.email?' à '+esc(STATE.contact.email):''}.</p>
     <p style="font-size:15px">Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.</p>
+    ${invitationSante()?`<div class="share"><h3>Prendre un temps pour votre bien-être</h3><p>Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.</p><a class="btn btn-primary" style="display:inline-block;text-decoration:none" href="https://agnesetvous.com/bilan" target="_blank" rel="noopener">Faire mon bilan bien-être</a></div>`:''}
+    <p style="margin-top:20px">${STATE.recontact?'Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.':'Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à '+esc(CONFIG.partner.email)+'.'}</p>
     <div class="doors">
       <div class="doors-title">Et ensuite ? Plusieurs chemins, tous ouverts.</div>
       <div class="doors-sub">Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.</div>
