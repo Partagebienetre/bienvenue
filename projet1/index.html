@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Découvrir une activité relationnelle</title>
+  <meta name="description" content="Un parcours interactif pour comprendre le marketing relationnel, faire le point sur vos attentes et découvrir si ce modèle peut vous correspondre." />
+  <style>
+    :root{
+      --sage:#81977c;
+      --sage-dark:#5f735a;
+      --sage-soft:#eef3ec;
+      --terra:#c87a5b;
+      --terra-dark:#a95f43;
+      --cream:#fbf8f3;
+      --ink:#273128;
+      --muted:#667168;
+      --line:#dfe7dc;
+      --white:#ffffff;
+      --shadow:0 12px 36px rgba(39,49,40,.08);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:linear-gradient(180deg,var(--cream),#fff 42%,var(--sage-soft));
+      color:var(--ink);
+      line-height:1.55;
+    }
+    button,input,textarea{font:inherit}
+    .shell{width:min(980px,calc(100% - 28px));margin:0 auto}
+    header{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(12px);
+      background:rgba(251,248,243,.88);
+      border-bottom:1px solid rgba(129,151,124,.15);
+    }
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+    .brand{font-weight:800;letter-spacing:.02em}
+    .brand small{display:block;font-weight:500;color:var(--muted);font-size:.76rem;margin-top:2px}
+    .progress-wrap{display:flex;align-items:center;gap:10px;min-width:220px}
+    .progress{height:8px;flex:1;background:#e7ece5;border-radius:999px;overflow:hidden}
+    .progress > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sage),var(--terra));transition:width .35s ease}
+    .step-label{font-size:.82rem;color:var(--muted);white-space:nowrap}
+    main{padding:38px 0 56px}
+    .hero{
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      border-radius:30px;
+      padding:clamp(28px,5vw,54px);
+      margin-bottom:22px;
+    }
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--sage-soft);color:var(--sage-dark);padding:7px 11px;border-radius:999px;font-size:.82rem;font-weight:700}
+    h1{font-size:clamp(2rem,5vw,3.7rem);line-height:1.03;margin:18px 0 16px;letter-spacing:-.03em}
+    .lead{font-size:clamp(1.04rem,2.1vw,1.24rem);color:var(--muted);max-width:760px}
+    .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+    .mini-card{padding:18px;background:#fff;border:1px solid var(--line);border-radius:18px}
+    .mini-card strong{display:block;margin-bottom:4px}
+    .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:28px}
+    .btn{border:0;border-radius:999px;padding:13px 20px;font-weight:800;cursor:pointer;transition:.2s ease;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+    .btn-primary{background:var(--terra);color:#fff}
+    .btn-primary:hover{background:var(--terra-dark);transform:translateY(-1px)}
+    .btn-secondary{background:var(--sage-soft);color:var(--sage-dark)}
+    .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .note{font-size:.9rem;color:var(--muted)}
+    .panel{
+      display:none;
+      background:rgba(255,255,255,.95);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      padding:clamp(24px,4vw,42px);
+      margin-bottom:20px;
+      animation:fade .25s ease;
+    }
+    .panel.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    h2{font-size:clamp(1.55rem,3vw,2.2rem);line-height:1.15;margin:0 0 12px}
+    h3{margin:24px 0 10px;font-size:1.08rem}
+    .sub{color:var(--muted);margin-top:0}
+    .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0 6px}
+    .choice{position:relative}
+    .choice input{position:absolute;opacity:0;pointer-events:none}
+    .choice label{display:block;height:100%;padding:15px 16px;background:#fff;border:1.5px solid var(--line);border-radius:16px;cursor:pointer;transition:.2s ease}
+    .choice input:checked + label{border-color:var(--sage);background:var(--sage-soft);box-shadow:0 0 0 3px rgba(129,151,124,.10)}
+    .choice label:hover{border-color:#bdcdb8}
+    textarea{width:100%;min-height:100px;border:1.5px solid var(--line);border-radius:16px;padding:14px;background:#fff;color:var(--ink);resize:vertical}
+    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:22px 0}
+    .flow div{background:var(--sage-soft);border-radius:16px;padding:14px 8px;text-align:center;font-weight:800;font-size:.94rem}
+    .explain{background:#fff8f4;border-left:4px solid var(--terra);padding:16px 18px;border-radius:14px;margin:18px 0}
+    .support-box{background:var(--sage-soft);border-radius:18px;padding:20px;margin:20px 0}
+    .support-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .support-steps div{background:#fff;border-radius:14px;padding:15px;border:1px solid var(--line);font-weight:800;text-align:center}
+    details{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;margin-top:10px}
+    summary{cursor:pointer;font-weight:800}
+    .result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0}
+    .result-card{border:1px solid var(--line);border-radius:17px;padding:18px;background:#fff}
+    .result-card span{display:block;color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+    .result-card strong{font-size:1.04rem}
+    .final-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+    .final-actions .btn{border-radius:16px;min-height:58px;text-align:center}
+    .legal{font-size:.82rem;color:var(--muted);margin-top:24px}
+    .hidden{display:none!important}
+    @media (max-width:760px){
+      .hero-grid,.support-steps,.final-actions,.result-grid{grid-template-columns:1fr}
+      .choices{grid-template-columns:1fr}
+      .flow{grid-template-columns:1fr 1fr}
+      .progress-wrap{min-width:150px}
+      .topbar{align-items:flex-start}
+      .brand small{display:none}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="shell topbar">
+    <div class="brand">Agnès & Vous<small>Parcours de découverte d'une activité relationnelle</small></div>
+    <div class="progress-wrap" aria-label="Progression du parcours">
+      <div class="progress"><span id="progressBar"></span></div>
+      <div class="step-label" id="stepLabel">Introduction</div>
+    </div>
+  </div>
+</header>
+
+<main class="shell">
+  <section class="hero" id="intro">
+    <span class="eyebrow">Découvrir avant de décider</span>
+    <h1>Et si une activité pouvait s’adapter à ta vie, plutôt que l’inverse&nbsp;?</h1>
+    <p class="lead">Ce parcours t’aide à comprendre ce qu’est réellement le marketing relationnel, à identifier ce qui pourrait te correspondre et à faire le point sur la place que tu voudrais — ou non — donner à ce type de projet.</p>
+
+    <div class="hero-grid">
+      <div class="mini-card"><strong>Comprendre</strong><span>Le modèle, sans jargon ni promesse irréaliste.</span></div>
+      <div class="mini-card"><strong>Te situer</strong><span>Quelques questions pour réfléchir à tes attentes.</span></div>
+      <div class="mini-card"><strong>Décider librement</strong><span>Aucune obligation de poursuivre ensuite.</span></div>
+    </div>
+
+    <div class="explain"><strong>Important :</strong> ce parcours ne présente volontairement pas encore l’entreprise partenaire. L’objectif est d’abord de comprendre le concept et de voir s’il mérite, pour toi, d’être approfondi.</div>
+
+    <div class="cta-row">
+      <button class="btn btn-primary" onclick="goTo(1)">Commencer le parcours</button>
+      <span class="note">Environ 6 à 8 minutes</span>
+    </div>
+  </section>
+
+  <form id="projectForm" novalidate>
+    <section class="panel" data-step="1">
+      <span class="eyebrow">Étape 1</span>
+      <h2>Qu’est-ce que tu recherches aujourd’hui&nbsp;?</h2>
+      <p class="sub">Il n’y a pas de bonne réponse. L’objectif est simplement de comprendre ce qui t’a amené jusqu’ici.</p>
+      <div class="choices" id="motivations">
+        <div class="choice"><input type="checkbox" id="m1" name="motivation" value="Un complément de revenus"><label for="m1">Un complément de revenus</label></div>
+        <div class="choice"><input type="checkbox" id="m2" name="motivation" value="Plus de liberté ou de flexibilité"><label for="m2">Plus de liberté ou de flexibilité</label></div>
+        <div class="choice"><input type="checkbox" id="m3" name="motivation" value="Une activité qui a du sens"><label for="m3">Une activité qui a du sens</label></div>
+        <div class="choice"><input type="checkbox" id="m4" name="motivation" value="Préparer une reconversion"><label for="m4">Préparer une reconversion</label></div>
+        <div class="choice"><input type="checkbox" id="m5" name="motivation" value="Rencontrer et aider davantage de personnes"><label for="m5">Rencontrer et aider davantage de personnes</label></div>
+        <div class="choice"><input type="checkbox" id="m6" name="motivation" value="Simplement comprendre ce modèle"><label for="m6">Simplement comprendre ce modèle</label></div>
+      </div>
+      <h3>Si l’un de ces objectifs devenait réalité, qu’est-ce que cela changerait concrètement pour toi&nbsp;? <span class="note">(facultatif)</span></h3>
+      <textarea id="projection" placeholder="Quelques mots suffisent..."></textarea>
+      <div class="cta-row"><button type="button" class="btn btn-primary" onclick="goTo(2)">Continuer</button></div>
+    </section>
+
+    <section class="panel" data-step="2">
+      <span class="eyebrow">Étape 2</span>
+      <h2>Concrètement, qu’est-ce que le marketing relationnel&nbsp;?</h2>
+      <p class="sub">Le principe est simple : une entreprise conçoit des produits ou services et gère l’infrastructure. Des partenaires indépendants choisissent de les faire connaître et d’accompagner les personnes qui s’y intéressent.</p>
+
+      <div class="flow" aria-label="Étapes du marketing relationnel">
+        <div>Écouter</div><div>Partager</div><div>Connecter</div><div>Accompagner</div><div>Développer</div>
+      </div>
+
+      <div class="explain"><strong>Oui, il y a bien une activité commerciale.</strong> Elle repose sur la commercialisation de produits ou services réels. La différence est que l’approche se fait principalement par recommandation, relation et accompagnement plutôt que par publicité traditionnelle ou vente en magasin.</div>
+
+      <h3>Cette manière de fonctionner te semble-t-elle naturelle&nbsp;?</h3>
+      <div class="choices">
+        <div class="choice"><input type="radio" id="natural1" name="natural" value="Oui, plutôt"><label for="natural1">Oui, plutôt</label></div>
+        <div class="choice"><input type="radio" id="natural2" name="natural" value="Peut-être, avec un cadre"><label for="natural2">Peut-être, avec un cadre</label></div>
+        <div class="choice"><input type="radio" id="natural3" name="natural" value="Je ne sais pas encore"><label for="natural3">Je ne sais pas encore</label></div>
+        <div class="choice"><input type="radio" id="natural4" name="natural" value="Pas vraiment"><label for="natural4">Pas vraiment</label></div>
+      </div>
+
+      <div class="support-box">
+        <strong>Indépendant, mais jamais seul.</strong>
+        <p style="margin-bottom:0">Le but n’est pas de savoir tout faire avant de commencer. Une progression saine ressemble plutôt à ceci :</p>
+        <div class="support-steps"><div>Je te montre</div><div>Nous faisons ensemble</div><div>Tu deviens autonome</div></div>
+      </div>
+
+      <div class="cta-row"><button type="button" class="btn btn-ghost" onclick="goTo(1)">Retour</button><button type="button" class="btn btn-primary" onclick="goTo(3)">Continuer</button></div>
+    </section>
+
+    <section class="panel" data-step="3">
+      <span class="eyebrow">Étape 3</span>
+      <h2>Est-ce que ce type d’activité pourrait s’adapter à ta façon d’être&nbsp;?</h2>
+      <p class="sub">Il n’existe pas un profil unique. Certains sont très relationnels, d’autres plus discrets, certains aiment le digital, d’autres préfèrent le contact local.</p>
+
+      <h3>Comment aimerais-tu développer une activité&nbsp;?</h3>
+      <div class="choices">
+        <div class="choice"><input type="checkbox" id="mode1" name="mode" value="Localement"><label for="mode1">Localement, en rencontrant des personnes</label></div>
+        <div class="choice"><input type="checkbox" id="mode2" name="mode" value="En ligne"><label for="mode2">En ligne, avec des outils digitaux</label></div>
+        <div class="choice"><input type="checkbox" id="mode3" name="mode" value="Les deux"><label for="mode3">Un mélange des deux</label></div>
+        <div class="choice"><input type="checkbox" id="mode4" name="mode" value="Je ne sais pas"><label for="mode4">Je ne sais pas encore</label></div>
+      </div>
+
+      <h3>Qu’est-ce qui te ressemble le plus&nbsp;?</h3>
+      <div class="choices">
+        <div class="choice"><input type="checkbox" id="q1" name="quality" value="J’aime transmettre ce que j’apprécie"><label for="q1">J’aime transmettre ce que j’apprécie</label></div>
+        <div class="choice"><input type="checkbox" id="q2" name="quality" value="J’aime aider ou conseiller"><label for="q2">J’aime aider ou conseiller</label></div>
+        <div class="choice"><input type="checkbox" id="q3" name="quality" value="Je suis plutôt réservé(e)"><label for="q3">Je suis plutôt réservé(e)</label></div>
+        <div class="choice"><input type="checkbox" id="q4" name="quality" value="J’aime rencontrer de nouvelles personnes"><label for="q4">J’aime rencontrer de nouvelles personnes</label></div>
+        <div class="choice"><input type="checkbox" id="q5" name="quality" value="Je suis à l’aise avec le digital"><label for="q5">Je suis à l’aise avec le digital</label></div>
+        <div class="choice"><input type="checkbox" id="q6" name="quality" value="J’ai besoin d’être accompagné(e)"><label for="q6">J’ai besoin d’être accompagné(e) au démarrage</label></div>
+      </div>
+
+      <h3>Quand tu démarres quelque chose de nouveau, de quoi as-tu le plus besoin&nbsp;?</h3>
+      <div class="choices">
+        <div class="choice"><input type="radio" id="need1" name="need" value="Une méthode claire"><label for="need1">Une méthode claire</label></div>
+        <div class="choice"><input type="radio" id="need2" name="need" value="Un accompagnement régulier"><label for="need2">Un accompagnement régulier</label></div>
+        <div class="choice"><input type="radio" id="need3" name="need" value="Un groupe ou une équipe"><label for="need3">Un groupe ou une équipe</label></div>
+        <div class="choice"><input type="radio" id="need4" name="need" value="Beaucoup d’autonomie"><label for="need4">Beaucoup d’autonomie</label></div>
+      </div>
+
+      <details>
+        <summary>Peut-on exercer ce type d’activité en parallèle de son métier&nbsp;?</summary>
+        <p>Souvent oui, mais certains statuts, contrats de travail ou professions réglementées peuvent imposer des règles particulières. Si tu souhaites aller plus loin, il faudra vérifier ce qui s’applique précisément à ta situation avant tout démarrage.</p>
+      </details>
+
+      <div class="cta-row"><button type="button" class="btn btn-ghost" onclick="goTo(2)">Retour</button><button type="button" class="btn btn-primary" onclick="goTo(4)">Continuer</button></div>
+    </section>
+
+    <section class="panel" data-step="4">
+      <span class="eyebrow">Étape 4</span>
+      <h2>Quelle place pourrais-tu donner à ce projet&nbsp;?</h2>
+      <p class="sub">Une activité relationnelle peut rester très légère ou devenir plus importante avec le temps. Le but ici n’est pas de prévoir tes résultats, mais de mesurer ton niveau d’envie et de disponibilité.</p>
+
+      <h3>Quel niveau d’ambition te correspond le mieux aujourd’hui&nbsp;?</h3>
+      <div class="choices">
+        <div class="choice"><input type="radio" id="amb1" name="ambition" value="Découvrir"><label for="amb1">Découvrir, sans objectif particulier</label></div>
+        <div class="choice"><input type="radio" id="amb2" name="ambition" value="Autofinancer"><label for="amb2">Autofinancer ma consommation / mes besoins</label></div>
+        <div class="choice"><input type="radio" id="amb3" name="ambition" value="Complément"><label for="amb3">Créer un complément de revenus</label></div>
+        <div class="choice"><input type="radio" id="amb4" name="ambition" value="Activité"><label for="amb4">Construire une véritable activité</label></div>
+        <div class="choice"><input type="radio" id="amb5" name="ambition" value="Reconversion"><label for="amb5">Envisager une reconversion à terme</label></div>
+      </div>
+
+      <h3>Combien de temps pourrais-tu y consacrer chaque semaine&nbsp;?</h3>
+      <div class="choices">
+        <div class="choice"><input type="radio" id="time1" name="time" value="Moins de 2 heures"><label for="time1">Moins de 2 heures</label></div>
+        <div class="choice"><input type="radio" id="time2" name="time" value="2 à 5 heures"><label for="time2">2 à 5 heures</label></div>
+        <div class="choice"><input type="radio" id="time3" name="time" value="5 à 10 heures"><label for="time3">5 à 10 heures</label></div>
+        <div class="choice"><input type="radio" id="time4" name="time" value="Plus de 10 heures"><label for="time4">Plus de 10 heures</label></div>
+      </div>
+
+      <h3>Si cette activité fonctionnait bien pour toi, quel objectif financier te semblerait intéressant à terme&nbsp;?</h3>
+      <div class="choices">
+        <div class="choice"><input type="radio" id="inc1" name="income" value="Aucun objectif financier"><label for="inc1">Aucun objectif financier précis</label></div>
+        <div class="choice"><input type="radio" id="inc2" name="income" value="Jusqu’à 300 € / mois"><label for="inc2">Jusqu’à 300 € / mois</label></div>
+        <div class="choice"><input type="radio" id="inc3" name="income" value="300 à 800 € / mois"><label for="inc3">300 à 800 € / mois</label></div>
+        <div class="choice"><input type="radio" id="inc4" name="income" value="800 à 1 500 € / mois"><label for="inc4">800 à 1 500 € / mois</label></div>
+        <div class="choice"><input type="radio" id="inc5" name="income" value="Plus de 1 500 € / mois"><label for="inc5">Plus de 1 500 € / mois</label></div>
+      </div>
+      <p class="note">Ces montants sont des aspirations personnelles, pas des estimations ni des garanties de revenus.</p>
+
+      <div class="cta-row"><button type="button" class="btn btn-ghost" onclick="goTo(3)">Retour</button><button type="button" class="btn btn-primary" onclick="showSummary()">Voir ma synthèse</button></div>
+    </section>
+
+    <section class="panel" data-step="5">
+      <span class="eyebrow">Étape 5</span>
+      <h2>Voilà ce que je retiens de ton projet aujourd’hui</h2>
+      <p class="sub">Ce n’est ni un diagnostic ni un classement. C’est simplement une photographie de ce que tu as exprimé pendant ce parcours.</p>
+
+      <div class="result-grid">
+        <div class="result-card"><span>Ce que tu recherches</span><strong id="summaryMotivation">—</strong></div>
+        <div class="result-card"><span>La place que tu pourrais lui donner</span><strong id="summaryTime">—</strong></div>
+        <div class="result-card"><span>Ta façon naturelle d’avancer</span><strong id="summaryStyle">—</strong></div>
+        <div class="result-card"><span>Ton niveau d’ambition actuel</span><strong id="summaryAmbition">—</strong></div>
+      </div>
+
+      <div class="support-box">
+        <strong>Tu n’as encore aucune décision à prendre.</strong>
+        <p style="margin-bottom:0">La prochaine étape consiste simplement à découvrir avec quelle entreprise nous travaillons, ce que nous proposons concrètement et comment le modèle fonctionne réellement.</p>
+      </div>
+
+      <div class="final-actions">
+        <a class="btn btn-primary" href="/partenariat">Découvrir l’entreprise</a>
+        <a class="btn btn-secondary" href="https://agnesetvous.com">J’ai encore des questions</a>
+        <button type="button" class="btn btn-ghost" onclick="notForMe()">Ce n’est pas pour moi</button>
+      </div>
+
+      <div id="notForMeBox" class="hidden" style="margin-top:20px">
+        <div class="explain"><strong>Merci d’être allé(e) au bout du parcours.</strong> Si ce modèle ne te correspond pas, c’est déjà une information utile. Tu peux simplement t’arrêter ici, sans aucune suite.</div>
+      </div>
+
+      <details>
+        <summary>Tu as pensé à quelqu’un pendant cette présentation&nbsp;?</summary>
+        <p>Tu peux lui transmettre directement l’adresse de cette page afin qu’il ou elle découvre le concept à son rythme, sans engagement.</p>
+      </details>
+
+      <p class="legal">Ce parcours est une présentation générale d’un modèle d’activité indépendante. Il ne constitue ni une promesse de revenus, ni un conseil juridique, fiscal ou professionnel. Les conditions concrètes, obligations et rémunérations éventuelles dépendent de l’entreprise partenaire, du statut choisi et de l’activité réellement développée.</p>
+
+      <div class="cta-row"><button type="button" class="btn btn-ghost" onclick="goTo(4)">Modifier mes réponses</button></div>
+    </section>
+  </form>
+</main>
+
+<script>
+  let currentStep = 0;
+  const totalSteps = 5;
+
+  function goTo(step){
+    currentStep = step;
+    document.getElementById('intro').style.display = step === 0 ? 'block' : 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', Number(p.dataset.step) === step));
+    const pct = step === 0 ? 0 : (step / totalSteps) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('stepLabel').textContent = step === 0 ? 'Introduction' : `Étape ${step} / ${totalSteps}`;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function checkedValues(name){
+    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value);
+  }
+
+  function checkedOne(name){
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '';
+  }
+
+  function sentenceList(arr, fallback){
+    if(!arr.length) return fallback;
+    if(arr.length === 1) return arr[0];
+    if(arr.length === 2) return arr.join(' et ');
+    return arr.slice(0,-1).join(', ') + ' et ' + arr[arr.length-1];
+  }
+
+  function inferStyle(){
+    const modes = checkedValues('mode');
+    const qualities = checkedValues('quality');
+    const need = checkedOne('need');
+    let parts = [];
+    if(modes.length) parts.push(sentenceList(modes,'').toLowerCase());
+    if(qualities.includes('Je suis plutôt réservé(e)')) parts.push('avec une approche plutôt posée et progressive');
+    if(qualities.includes('J’aime rencontrer de nouvelles personnes')) parts.push('avec un vrai goût du contact');
+    if(qualities.includes('Je suis à l’aise avec le digital')) parts.push('avec une bonne aisance digitale');
+    if(need) parts.push(`en privilégiant ${need.toLowerCase()}`);
+    return parts.length ? parts.join(', ') : 'Tu sembles encore en phase d’exploration, ce qui est parfaitement normal.';
+  }
+
+  function showSummary(){
+    const motivation = sentenceList(checkedValues('motivation'), 'Tu es surtout venu(e) découvrir le concept.');
+    const time = checkedOne('time') || 'Tu n’as pas encore défini de temps précis.';
+    const ambition = checkedOne('ambition') || 'Tu es encore en phase de découverte.';
+    document.getElementById('summaryMotivation').textContent = motivation;
+    document.getElementById('summaryTime').textContent = time;
+    document.getElementById('summaryStyle').textContent = inferStyle();
+    document.getElementById('summaryAmbition').textContent = ambition;
+    goTo(5);
+  }
+
+  function notForMe(){
+    document.getElementById('notForMeBox').classList.remove('hidden');
+  }
+
+  goTo(0);
+</script>
+</body>
+</html>
