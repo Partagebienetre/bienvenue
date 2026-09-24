@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Point de Départ — Bilan d'évolution personnelle et professionnelle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+   BILAN D'ÉVOLUTION PERSONNELLE ET PROFESSIONNELLE — « Mon Point de Départ »
+   PARTENAIRES : pour dupliquer, modifiez UNIQUEMENT le bloc CONFIG ci-dessous.
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+<script>
+/* ═══ ▼▼▼ BLOC À PERSONNALISER — SEULE PARTIE À MODIFIER ▼▼▼ ═══
+   Remplacez le texte entre les guillemets " ". Gardez guillemets et virgules. */
+const CONFIG = {
+  partner: {
+    name:  "Agnès Esclaire Riera",       // Votre nom complet
+    email: "contact@agnesetvous.com",    // Votre email
+    phone: "+33 6 63 93 21 12",          // Votre téléphone
+    id:    "agnes"                        // Identifiant court, sans espace (ex : "sylvie")
+  },
+  webhookUrl: "",   // Adresse de votre Apps Script (finit par /exec). Laissez "" pour l'instant.
+  langueActive: "fr",   // Langue active par défaut
+  langues: [            // Passez "dispo" à true quand la traduction d'une langue est prête
+    { code:"fr", label:"Français", dispo:true  },
+    { code:"es", label:"Español",  dispo:false },
+    { code:"de", label:"Deutsch",  dispo:false },
+    { code:"en", label:"English",  dispo:false }
+  ],
+  brand: {
+    paper:"#FBFAF7", ink:"#2E3830", accent:"#6E8B72",
+    accentSoft:"#E9EEE8", line:"#E3E0D7", muted:"#8A8A7E"
+  },
+  // Mentions légales — remplacez par VOS informations si vous dupliquez ce bilan
+  legal: {
+    raisonSociale: "Agnès & Vous — Agnès Esclaire Riera",
+    statut:        "Entreprise individuelle (micro-entreprise)",
+    siret:         "502 712 466 00056",     // à vérifier / adapter
+    adresse:       "",                        // Adresse complète (obligatoire) — à compléter
+    ville:         "Objat (19)",
+    conservation:  "3 ans après notre dernier contact"
+  }
+};
+/* ═══ ▲▲▲ FIN DU BLOC À PERSONNALISER — NE RIEN MODIFIER EN DESSOUS ▲▲▲ ═══ */
+</script>
+<style>
+  :root{--paper:#FBFAF7;--ink:#2E3830;--accent:#6E8B72;--accent-soft:#E9EEE8;--line:#E3E0D7;--muted:#8A8A7E;
+    --serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,-apple-system,sans-serif;--maxw:640px;--radius:14px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .topbar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+  .progress-track{height:4px;background:var(--line)}
+  .progress-fill{height:4px;background:var(--accent);width:0%;transition:width .35s ease}
+  .topbar-inner{max-width:var(--maxw);margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .step-label{font-size:13px;color:var(--muted)}
+  .brand-tag{font-family:var(--serif);font-size:15px;color:var(--accent);font-weight:500}
+  .listen-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid transparent;border-radius:999px;padding:6px 13px;cursor:pointer;white-space:nowrap}
+  .listen-btn:hover{border-color:var(--accent)}
+  .listen-btn.on{background:var(--accent);color:#fff}
+  .lang-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .lang-chip{font-family:var(--sans);font-size:13.5px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:7px 15px;cursor:pointer}
+  .lang-chip:hover:not(:disabled){border-color:var(--accent)}
+  .lang-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .lang-chip:disabled{color:var(--muted);cursor:default;opacity:.55}
+  .lang-chip.soon::after{content:' · bientôt';font-weight:400;font-size:11px}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:32px 20px 140px}
+  .screen{animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.screen{animation:none}.progress-fill{transition:none}}
+  .chapter-eyebrow{font-size:14px;color:var(--accent);font-weight:600;margin-bottom:6px}
+  h1.chapter{font-family:var(--serif);font-weight:500;font-size:29px;line-height:1.15;margin-bottom:14px;letter-spacing:-.01em}
+  .chapter-intro{color:var(--muted);font-size:16px;margin-bottom:26px;max-width:52ch}
+  .legend{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 15px;font-size:14px;color:var(--muted);margin-bottom:26px;display:flex;justify-content:space-between;gap:12px}
+  .legend b{color:var(--ink);font-weight:600}
+  .group-sub{font-family:var(--serif);font-size:15px;color:var(--accent);font-weight:600;margin:22px 0 12px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+  .group-sub:first-child{margin-top:2px}
+  .q{margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+  .q.compact{margin-bottom:16px;padding-bottom:16px}
+  .q:last-of-type{border-bottom:none;margin-bottom:8px}
+  .domain-head{font-family:var(--serif);font-size:19px;color:var(--ink);font-weight:500;margin:14px 0 14px}
+  .q-text{font-size:18px;font-weight:500;margin-bottom:4px}
+  .q.compact .q-text{font-size:16.5px;font-weight:400;margin-bottom:9px}
+  .q-hint{font-size:14.5px;color:var(--muted);margin-bottom:14px}
+  .q-text + .options,.q-text + .scale{margin-top:14px}
+  .options{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;align-items:flex-start;gap:12px;cursor:pointer;border:1.5px solid var(--line);border-radius:var(--radius);padding:13px 15px;background:#fff;transition:border-color .12s,background .12s;user-select:none}
+  .opt:hover{border-color:#c9c6bb}
+  .opt.selected{border-color:var(--accent);background:var(--accent-soft)}
+  .opt .box{flex-shrink:0;width:22px;height:22px;border-radius:6px;border:1.8px solid #b8b5aa;background:#fff;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:.12s}
+  .opt.selected .box{border-color:var(--accent);background:var(--accent)}
+  .opt .box svg{width:13px;height:13px;opacity:0;transition:.12s}
+  .opt.selected .box svg{opacity:1}
+  .opt .lbl{font-size:16.5px;line-height:1.4}
+  .opt.escape{border-style:dashed;background:transparent}
+  .opt.escape .lbl{color:var(--muted);font-size:15.5px}
+  .opt.escape.selected{background:var(--accent-soft);border-style:solid}
+  .maxnote{font-size:13.5px;color:var(--muted);margin-top:10px}
+  .other-field{margin-top:9px}
+  .other-field input{width:100%;border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 15px;font-family:var(--sans);font-size:16px;color:var(--ink);background:#fff}
+  .other-field input:focus{outline:none;border-color:var(--accent)}
+  textarea,input.text{width:100%;border:1.5px solid var(--line);border-radius:var(--radius);padding:14px 15px;font-family:var(--sans);font-size:16px;color:var(--ink);background:#fff;resize:vertical;line-height:1.5}
+  textarea{min-height:104px}
+  textarea:focus,input.text:focus{outline:none;border-color:var(--accent)}
+  .slider-wrap{margin-top:8px}
+  .slider-valeur{text-align:center;font-family:var(--serif);font-size:1.5rem;color:var(--accent);margin-bottom:2px;font-variant-numeric:tabular-nums;line-height:1.1}
+  .slider-wrap.untouched .slider-valeur{color:#b8b5aa;font-size:1.2rem}
+  input[type=range]{width:100%;height:6px;border-radius:6px;background:var(--line);appearance:none;-webkit-appearance:none;outline:none;margin:2px 0}
+  input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.22);cursor:pointer}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.22);cursor:pointer}
+  .slider-wrap.untouched input[type=range]::-webkit-slider-thumb{background:#c2bfb4}
+  .slider-wrap.untouched input[type=range]::-moz-range-thumb{background:#c2bfb4}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--accent);outline-offset:2px}
+  .slider-legende{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:7px;gap:12px}
+  .skip-scale{margin-top:9px;font-size:14px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:3px 0;font-family:var(--sans)}
+  .nav{position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:1px solid var(--line);z-index:20}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:14px 20px;display:flex;gap:12px;align-items:center}
+  .btn{font-family:var(--sans);font-size:16.5px;font-weight:600;cursor:pointer;border-radius:var(--radius);padding:14px 26px;border:1.5px solid var(--accent);transition:.12s;white-space:nowrap}
+  .btn-primary{background:var(--accent);color:#fff;flex:1;text-align:center}
+  .btn-primary:hover{filter:brightness(.95)}
+  .btn-ghost{background:transparent;color:var(--accent);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--accent)}
+  .btn-primary:disabled{opacity:.5;cursor:default}
+  .intro-hero{padding-top:14px}
+  .intro-hero .kicker{font-family:var(--serif);color:var(--accent);font-size:16px;margin-bottom:18px;font-weight:500}
+  .intro-hero h1{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.12;margin-bottom:20px;letter-spacing:-.015em}
+  .intro-hero p{font-size:17px;margin-bottom:16px}
+  .intro-points{list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:12px}
+  .intro-points li{display:flex;gap:12px;align-items:flex-start;font-size:16px}
+  .intro-points .dot{flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:8px}
+  .intro-note{font-size:14.5px;color:var(--muted);border-left:2px solid var(--accent);padding-left:14px;margin-top:20px;font-style:italic}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:15px;font-weight:500;margin-bottom:7px}
+  .field label span{color:var(--muted);font-weight:400}
+  .consent{display:flex;gap:12px;align-items:flex-start;margin-top:8px;cursor:pointer}
+  .consent .box{flex-shrink:0;width:22px;height:22px;border-radius:6px;border:1.8px solid #b8b5aa;background:#fff;margin-top:1px;display:flex;align-items:center;justify-content:center}
+  .consent.checked .box{border-color:var(--accent);background:var(--accent)}
+  .consent .box svg{width:13px;height:13px;opacity:0}
+  .consent.checked .box svg{opacity:1}
+  .consent span{font-size:14.5px;color:var(--muted);line-height:1.45}
+  .legal-link{background:none;border:none;color:var(--accent);text-decoration:underline;text-underline-offset:2px;cursor:pointer;font-family:var(--sans);font-size:inherit;padding:0}
+  .legal-note{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.45}
+  .legal-footer{text-align:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+  .legal-footer .legal-link{color:var(--muted);font-size:13px}
+  .legal-modal{position:fixed;inset:0;z-index:60;background:rgba(46,56,48,.5);display:none;overflow-y:auto;padding:22px}
+  .legal-modal.open{display:block}
+  .legal-panel{background:#fff;max-width:600px;margin:20px auto;border-radius:16px;padding:30px 26px 34px;position:relative;box-shadow:0 14px 44px rgba(0,0,0,.22)}
+  .legal-close{position:absolute;right:14px;top:12px;background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1;padding:6px}
+  .legal-body h2{font-family:var(--serif);font-weight:500;font-size:21px;margin:24px 0 12px;color:var(--ink)}
+  .legal-body h2:first-child{margin-top:2px}
+  .legal-body p{font-size:14.5px;color:var(--ink);margin-bottom:14px;line-height:1.5}
+  .legal-body strong{font-weight:600}
+  .thanks{text-align:center;padding-top:20px}
+  .thanks .mark{width:60px;height:60px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 22px}
+  .thanks .mark svg{width:28px;height:28px}
+  .thanks h1{font-family:var(--serif);font-weight:500;font-size:28px;margin-bottom:14px}
+  .thanks p{color:var(--muted);font-size:16.5px;margin-bottom:10px}
+  .doors{margin-top:34px;text-align:left}
+  .doors-title{font-family:var(--serif);font-size:20px;margin-bottom:6px}
+  .doors-sub{color:var(--muted);font-size:15px;margin-bottom:18px}
+  .door{display:flex;gap:14px;align-items:flex-start;padding:15px 0;border-top:1px solid var(--line)}
+  .door .emoji{font-size:22px;flex-shrink:0;line-height:1.3}
+  .door .d-t{font-weight:600;font-size:16px}
+  .door .d-d{font-size:14.5px;color:var(--muted);margin-top:2px}
+  .share{margin-top:32px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .share h3{font-family:var(--serif);font-weight:500;font-size:19px;margin-bottom:6px}
+  .share p{font-size:15px;color:var(--muted);margin-bottom:16px}
+  .share-btns{display:flex;flex-wrap:wrap;gap:10px}
+  .share-btns a,.share-btns button{font-family:var(--sans);font-size:15px;font-weight:500;cursor:pointer;text-decoration:none;border:1.5px solid var(--line);border-radius:10px;padding:11px 16px;color:var(--ink);background:#fff}
+  .share-btns a:hover,.share-btns button:hover{border-color:var(--accent)}
+  .sig{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+  .sig strong{color:var(--ink);font-weight:600}
+  @media (max-width:420px){body{font-size:16px}.intro-hero h1{font-size:29px}h1.chapter{font-size:25px}
+    .num{min-width:30px;padding:9px 0;font-size:15px}.num.compact{min-width:24px;padding:6px 0;font-size:13px}
+    .btn{padding:13px 18px;font-size:15.5px}.legend{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="topbar-inner"><span class="step-label" id="stepLabel"></span><button class="listen-btn" id="listenBtn" onclick="toggleSpeak()" aria-label="Écouter cette page">🔊 Écouter</button></div>
+</div>
+<div class="wrap"><div id="app"></div></div>
+<div class="legal-modal" id="legalModal" onclick="if(event.target===this)closeLegal()"><div class="legal-panel" id="legalPanel"></div></div>
+<div class="nav" id="nav" style="display:none"><div class="nav-inner">
+  <button class="btn btn-ghost" id="btnBack" onclick="goBack()">Précédent</button>
+  <button class="btn btn-primary" id="btnNext" onclick="goNext()">Continuer</button>
+</div></div>
+
+<script>
+(function(){const b=CONFIG.brand,r=document.documentElement.style;
+  r.setProperty('--paper',b.paper);r.setProperty('--ink',b.ink);r.setProperty('--accent',b.accent);
+  r.setProperty('--accent-soft',b.accentSoft);r.setProperty('--line',b.line);r.setProperty('--muted',b.muted);})();
+
+const params=new URLSearchParams(location.search);
+const URL_ORIGIN=params.get('origin')||params.get('shared_by')||'';
+const URL_REF=params.get('ref')||'';
+const svgCheck='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const REFUSE='Je préfère ne pas répondre';
+const UNSURE='Je ne sais pas';
+const PIVOT_PARFAIT="Je me sens à ma place et je ne veux rien changer, tout est parfait pour moi";
+
+function domaine(key,label,affs){
+  return affs.map((a,i)=>({id:key+'_'+i,type:'scale',compact:true,domain:label,q:a,domainHead:(i===0?label:null),
+    scale:{min:"Pas du tout d'accord",max:"Tout à fait d'accord"}}));
+}
+
+const CHAPTERS=[
+{type:'intro'},
+
+{ eyebrow:"Étape 1 · Premières impressions", title:"Trois premières impressions",
+  intro:"Sans réfléchir longtemps, à combien situeriez-vous ces trois ressentis aujourd'hui ? Il n'y a ni bonne ni mauvaise réponse : c'est votre regard, à l'instant présent.",
+  questions:[
+    {id:'imp_global',type:'scale',q:"Mon épanouissement, de façon générale",scale:{min:"Pas du tout épanoui·e",max:"Pleinement épanoui·e"}},
+    {id:'imp_perso',type:'scale',q:"Mon épanouissement dans ma vie personnelle",scale:{min:"Très faible",max:"Très fort"}},
+    {id:'imp_pro',type:'scale',q:"Mon épanouissement dans ma vie professionnelle",
+      hint:"Si vous n'avez pas d'activité professionnelle en ce moment, vous pouvez passer cette question.",
+      scale:{min:"Très faible",max:"Très fort"}},
+  ]},
+
+{ eyebrow:"Étape 2 · Ma roue de vie (1/2)", title:"Ma roue de vie",
+  intro:"Dix domaines de votre vie, explorés chacun sous trois angles. Notez à quel point chaque phrase vous correspond aujourd'hui. Cette photographie vous appartient : ni note, ni jugement.",
+  questions:[
+    ...domaine('rv_sante',"Santé & énergie",[
+      "Je me sens en bonne forme physique","J'ai de l'énergie pour mener mes journées","Je récupère bien et mon sommeil me satisfait"]),
+    ...domaine('rv_temps',"Temps & liberté",[
+      "J'ai suffisamment de temps pour ce qui compte vraiment pour moi","Je me sens libre d'organiser mes journées comme je le souhaite","Je me sens serein·e dans mon rythme de vie"]),
+    ...domaine('rv_finances',"Finances & niveau de vie",[
+      "Mon niveau de vie me convient","Je me sens serein·e vis-à-vis de mon argent au quotidien","Je peux m'offrir ce qui compte pour moi"]),
+    ...domaine('rv_travail',"Travail / activité",[
+      "Je prends du plaisir dans ce que je fais de mes journées","Mon activité me permet d'exprimer ce que je sais faire","Je me sens reconnu·e et apprécié·e à ma juste valeur"]),
+    ...domaine('rv_relations',"Relations & entourage",[
+      "Je suis entouré·e de personnes sur qui je peux compter","Mes relations proches me font du bien","Je suis satisfait·e de la place des autres dans ma vie"]),
+  ]},
+
+{ eyebrow:"Étape 3 · Ma roue de vie (2/2)", title:"Ma roue de vie",
+  intro:"Encore cinq domaines, sur le même principe.",
+  questions:[
+    ...domaine('rv_epano',"Épanouissement personnel",[
+      "Je me sens bien dans ma peau","Je vis en accord avec mes valeurs profondes","Je me sens épanoui·e dans ma vie personnelle"]),
+    ...domaine('rv_securite',"Sécurité & avenir",[
+      "Je me sens confiant·e face à mon avenir","Ma situation actuelle me procure un sentiment de stabilité","Je me sens prêt·e à faire face aux imprévus"]),
+    ...domaine('rv_sens',"Sens & utilité",[
+      "Ce que je vis a du sens à mes yeux","J'ai le sentiment d'être utile aux autres","Je me sens à ma place dans ce que j'apporte"]),
+    ...domaine('rv_evolution',"Évolution & accomplissement",[
+      "J'ai le sentiment de progresser et d'apprendre","Je réalise des choses dont je suis fier·ère","J'avance vers ce qui compte pour moi"]),
+    ...domaine('rv_equilibre',"Équilibre de vie",[
+      "Je trouve un bon équilibre entre ma vie personnelle et mon travail","Je concilie mes différentes responsabilités sereinement","Ma vie me semble harmonieuse dans son ensemble"]),
+  ]},
+
+{ eyebrow:"Étape 4 · Ma vie aujourd'hui", title:"Ma vie aujourd'hui",
+  intro:"Quelques repères, simplement pour situer d'où vous partez.",
+  questions:[
+    {id:'situation_perso',type:'multi',q:"Votre situation personnelle, aujourd'hui",
+      options:["Je vis en couple","J'ai un ou des enfants à charge","Je suis proche aidant·e","Je vis seul·e"],allowOther:true},
+    {id:'situation_pro',type:'multi',q:"Votre situation professionnelle, aujourd'hui",
+      hint:"Plusieurs réponses possibles.",escapes:['refuse'],
+      options:[
+        {group:"Activité professionnelle"},
+        "Salarié(e) à temps plein","Salarié(e) à temps partiel","Fonctionnaire / agent du service public",
+        "Profession libérale","Entrepreneur(e) individuel(le) ou avec associé(s)","Artisan(e) / commerçant(e)",
+        "Intermittent(e) du spectacle","Artiste / créateur(trice)","Élu(e) / activité politique ou publique",
+        "Investisseur(se)","Rentier(ère)","J'exerce plusieurs activités professionnelles","J'ai plusieurs sources de revenus",
+        {group:"Transition"},
+        "En recherche d'emploi","En réflexion / reconversion professionnelle","En formation","Étudiant(e)","En arrêt de travail","En invalidité",
+        {group:"Autres situations"},
+        "Retraité(e)","Parent au foyer","Aidant(e)","Sans activité professionnelle actuellement"],
+      allowOther:true},
+    {id:'domaine_activite',type:'text',q:"Dans quel(s) domaine(s) exercez-vous ou avez-vous exercé ?",
+      placeholder:"Ex. : santé, enseignement, bâtiment, finance…"},
+  ]},
+
+{ eyebrow:"Étape 5 · Ce qui compte pour moi", title:"Ce qui compte pour moi, et ce que j'ai en moi",
+  intro:"Vos repères et vos ressources — souvent plus nombreux qu'on ne le croit.",
+  questions:[
+    {id:'valeurs',type:'multi',q:"Vos valeurs les plus importantes",
+      hint:"Choisissez celles qui comptent vraiment pour vous (3 environ).",
+      options:["Liberté","Sécurité","Famille","Honnêteté","Respect","Partage & entraide","Santé","Réussite","Créativité","Sérénité","Authenticité","Accomplissement"],allowOther:true},
+    {id:'energie',type:'multi',q:"Ce qui vous donne naturellement de l'énergie",
+      options:["Créer, fabriquer","Aider, transmettre","Apprendre, comprendre","Être dans la nature","Échanger, rencontrer","Relever un défi","Prendre soin des miens","Avoir du temps pour moi","Organiser, structurer","Bouger, me dépenser","Le calme, la solitude choisie"],allowOther:true},
+  ]},
+
+{ eyebrow:"Étape 6 · Mes envies", title:"Mes envies, et ce dont j'ai fait le tour",
+  intro:"Le cœur de cette réflexion. Prenez le temps que vous voulez.",
+  questions:[
+    {id:'ferait_du_bien',type:'multi',q:"En ce moment, qu'est-ce qui vous ferait vraiment du bien ?",
+      exclusive:["Rien de particulier, je savoure ce que j'ai"],
+      options:["Souffler, alléger ma charge","Améliorer ma santé","Retrouver de l'élan, de la nouveauté","Avoir plus de temps à moi","Me sentir plus libre","Des relations qui me nourrissent (amicales, amoureuses…)","Donner plus de sens à mes journées","Un projet qui soit vraiment à moi","Me sentir plus en sécurité","Rien de particulier, je savoure ce que j'ai"],allowOther:true},
+    {id:'fait_le_tour',type:'multi',q:"Y a-t-il des choses dont vous avez fait le tour, qui pèsent ou ne vous conviennent plus ?",
+      exclusive:["Non, tout me convient"],
+      options:["Les journées qui se ressemblent trop","La sensation de courir après le temps","Faire passer tout le monde avant moi","Le manque de perspectives","La fatigue qui s'accumule","Ma santé qui me préoccupe","Un manque de liens, de relations","Le sentiment de ne pas avancer","Une forme de lassitude","Non, tout me convient"],allowOther:true},
+  ]},
+
+{ eyebrow:"Étape 7 · Ma motivation, mes rêves", title:"Ma motivation, mes rêves",
+  intro:"Ce qui vous met en mouvement, et ce dont vous rêvez.",
+  questions:[
+    {id:'motivation',type:'multi',q:"Si vous deviez vous investir dans quelque chose, qu'est-ce qui vous motiverait le plus ?",
+      hint:"Jusqu'à 5 réponses.",maxSelect:5,exclusive:["Je ne sais pas encore"],escapes:['none'],
+      options:["La liberté financière","La liberté de mon temps","Diversifier mes revenus","Préparer ma retraite","Être mon propre patron","Voyager","Rencontrer de nouvelles personnes","Grandir personnellement","Laisser un héritage, transmettre","Je ne sais pas encore"],allowOther:true},
+    {id:'reve',type:'longtext',q:"Si vous aviez toute la santé, les finances et le temps nécessaires…",
+      hint:"Qui seriez-vous ? Qu'oseriez-vous ? Que feriez-vous ? Où vivriez-vous, et avec qui ?"},
+  ]},
+
+{ eyebrow:"Étape 8 · Et maintenant", title:"Et maintenant ?",
+  intro:"Vous voilà au bout de ce temps de réflexion. Encore quelques mots, si vous le souhaitez.",
+  questions:[
+    {id:'pivot',type:'multi',q:"En faisant ce point, qu'est-ce qui vous ressemble le plus ?",
+      escapes:['refuse'],exclusive:[PIVOT_PARFAIT],
+      options:[PIVOT_PARFAIT,
+        "Je me sens à ma place, mais je suis ouvert·e à relever de nouveaux défis",
+        "J'ai déjà des projets en cours que j'aimerais mener plus loin",
+        "Je me sens bien, avec l'envie de faire évoluer une ou deux choses",
+        "Quelque chose ne me convient plus, sans que je sache encore quoi",
+        "Je sens qu'un vrai changement serait nécessaire","Je suis en plein questionnement"]},
+    {id:'suite',type:'multi',q:"Ce que vous imaginez pour la suite, ce serait plutôt…",
+      escapes:['refuse'],
+      showIf:()=>!(Array.isArray(A().pivot)&&A().pivot.includes(PIVOT_PARFAIT)),
+      options:["Continuer sur ma lancée, en préservant ce qui fonctionne","Relever de nouveaux défis, explorer de nouvelles envies","De petits ajustements dans mon quotidien","Un changement progressif, à mon rythme","Une transformation plus profonde","Je ne sais pas encore, j'explore"]},
+    {id:'prise_conscience',type:'longtext',q:"Quelle prise de conscience cette réflexion vous a-t-elle apportée ?"},
+  ]},
+
+{type:'contact'}
+];
+
+function A(){return STATE.answers;}
+const STATE={idx:0,answers:{},others:{},contact:{},consent:false,recontact:false};
+const app=document.getElementById('app');
+const nav=document.getElementById('nav');
+
+function visibleQuestions(ch){return ch.questions?ch.questions.filter(q=>!q.showIf||q.showIf()):[];}
+function optionValues(q){
+  const vals=[];
+  (q.options||[]).forEach(o=>{if(typeof o==='string')vals.push(o);});
+  if(q.allowOther)vals.push('__OTHER__');
+  const esc=q.escapes||['unsure','refuse'];
+  if(esc.includes('unsure'))vals.push(UNSURE);
+  if(esc.includes('refuse'))vals.push(REFUSE);
+  return vals;
+}
+function isExclusive(q,val){if(val===UNSURE||val===REFUSE)return true;return (q.exclusive||[]).includes(val);}
+
+function render(){
+  const ch=CHAPTERS[STATE.idx];
+  stopSpeak();
+  window.scrollTo({top:0,behavior:'instant'});
+  updateProgress();
+  if(ch.type==='intro')return renderIntro();
+  if(ch.type==='contact')return renderContact();
+  if(ch.type==='thanks')return renderThanks();
+  renderChapter(ch);
+}
+function updateProgress(){
+  const steps=CHAPTERS.filter(c=>c.type!=='intro'&&c.type!=='thanks');
+  const done=CHAPTERS.slice(0,STATE.idx+1).filter(c=>c.type!=='intro'&&c.type!=='thanks').length;
+  document.getElementById('progressFill').style.width=Math.min(100,(done/steps.length)*100)+'%';
+  const ch=CHAPTERS[STATE.idx];
+  document.getElementById('stepLabel').textContent=(ch.eyebrow||(ch.type==='contact'?'Dernière étape':''));
+}
+function renderIntro(){
+  nav.style.display='none';
+  app.innerHTML=`<div class="screen intro-hero">
+    ${renderLangChips()}
+    <div class="kicker">Un temps pour vous</div>
+    <h1>Faire le point.<br>Comprendre. Avancer.</h1>
+    <p>Ce bilan vous est offert. C'est un temps de réflexion pour créer une photographie de votre situation aujourd'hui : votre <strong>Point de Départ</strong>. Vous pourrez le refaire dans quelques mois pour mesurer votre évolution — par rapport à vous-même, et à personne d'autre.</p>
+    <ul class="intro-points">
+      <li><span class="dot"></span><span>Environ 15 à 20 minutes, à votre rythme.</span></li>
+      <li><span class="dot"></span><span>Aucune question n'est obligatoire. Vous pouvez passer, ou répondre « je ne sais pas ».</span></li>
+      <li><span class="dot"></span><span>À la fin, vous recevrez par email votre carnet personnel, avec vos réponses.</span></li>
+    </ul>
+    <p class="intro-note">Même si vous ne donnez jamais aucune suite, ce temps doit vous être utile à vous. C'est la seule promesse de ce bilan.</p>
+    <div style="margin-top:30px"><button class="btn btn-primary" style="width:100%" onclick="goNext()">Commencer mon bilan</button></div>
+    <div class="legal-footer"><button class="legal-link" onclick="openLegal()">Mentions légales & confidentialité</button></div>
+  </div>`;
+}
+function renderChapter(ch){
+  nav.style.display='block';
+  const qs=visibleQuestions(ch);
+  let html=`<div class="screen"><div class="chapter-eyebrow">${ch.eyebrow}</div>
+    <h1 class="chapter">${ch.title}</h1>
+    ${ch.intro?`<p class="chapter-intro">${ch.intro}</p>`:''}
+    ${ch.legend?`<div class="legend"><span><b>0</b> — Pas du tout d'accord</span><span>Tout à fait d'accord — <b>10</b></span></div>`:''}`;
+  qs.forEach(q=>html+=renderQuestion(q));
+  html+=`</div>`;
+  app.innerHTML=html;
+  document.getElementById('btnBack').style.visibility=(STATE.idx<=1)?'hidden':'visible';
+}
+function renderQuestion(q){
+  let inner='';
+  if(q.type==='multi'||q.type==='single'){
+    inner='<div class="options">';let strIdx=0;
+    (q.options||[]).forEach(o=>{
+      if(typeof o!=='string'){inner+=`<div class="group-sub">${o.group}</div>`;return;}
+      inner+=optRow(q,strIdx++,o,false);
+    });
+    if(q.allowOther)inner+=otherRow(q,strIdx++);
+    const esc=q.escapes||['unsure','refuse'];
+    if(esc.includes('unsure'))inner+=optRow(q,strIdx++,UNSURE,true);
+    if(esc.includes('refuse'))inner+=optRow(q,strIdx++,REFUSE,true);
+    inner+='</div>';
+    if(q.maxSelect){
+      const n=Array.isArray(A()[q.id])?A()[q.id].filter(v=>!isExclusive(q,v)).length:0;
+      inner+=`<div class="maxnote">${n} / ${q.maxSelect} sélectionné${n>1?'s':''}</div>`;
+    }
+  }else if(q.type==='scale'){inner=renderScale(q);}
+  else if(q.type==='text'){const v=A()[q.id]||'';
+    inner=`<input class="text" type="text" value="${esc(v)}" maxlength="6000" oninput="setText('${q.id}',this.value)" placeholder="${q.placeholder||'Votre réponse (facultatif)…'}">`;}
+  else if(q.type==='longtext'){const v=A()[q.id]||'';
+    inner=`<textarea maxlength="6000" oninput="setText('${q.id}',this.value)" placeholder="Écrivez librement (facultatif)…">${esc(v)}</textarea>`;}
+  return `<div class="q ${q.compact?'compact':''}" id="q_${q.id}">
+    ${q.domainHead?`<div class="domain-head">${q.domainHead}</div>`:''}
+    <div class="q-text">${q.q}</div>
+    ${q.hint?`<div class="q-hint">${q.hint}</div>`:''}
+    ${inner}</div>`;
+}
+function optRow(q,idx,label,isEscape){
+  const cur=A()[q.id];
+  const sel=(q.type==='single')?(cur===label):(Array.isArray(cur)&&cur.includes(label));
+  return `<div class="opt ${isEscape?'escape':''} ${sel?'selected':''}" onclick="toggle('${q.id}',${idx})">
+    <div class="box">${svgCheck}</div><div class="lbl">${label}</div></div>`;
+}
+function otherRow(q,idx){
+  const active=Array.isArray(A()[q.id])&&A()[q.id].includes('__OTHER__');
+  const v=STATE.others[q.id]||'';
+  return `<div class="opt ${active?'selected':''}" onclick="toggle('${q.id}',${idx})">
+    <div class="box">${svgCheck}</div><div class="lbl">Autre…</div></div>
+    ${active?`<div class="other-field"><input type="text" value="${esc(v)}" oninput="setOther('${q.id}',this.value)" placeholder="Précisez…" onclick="event.stopPropagation()"></div>`:''}`;
+}
+function renderScale(q){
+  const has=typeof A()[q.id]==='number';
+  const val=has?A()[q.id]:0;
+  return `<div class="slider-wrap ${has?'':'untouched'}" id="${q.id}_wrap">
+    <div class="slider-valeur" id="${q.id}_val">${has?val:'—'}</div>
+    <input type="range" min="0" max="10" step="1" value="${val}" id="${q.id}" aria-label="${esc(q.q)}" oninput="majSlider('${q.id}')" onchange="majSlider('${q.id}')">
+    ${q.scale?`<div class="slider-legende"><span>${q.scale.min}</span><span>${q.scale.max}</span></div>`:''}
+  </div>`;
+}
+function toggle(id,idx){
+  const q=findQ(id);const vals=optionValues(q);const val=vals[idx];const cur=A();
+  if(q.type==='single'){cur[id]=(cur[id]===val)?undefined:val;reRender(id);return;}
+  if(!Array.isArray(cur[id]))cur[id]=[];
+  const arr=cur[id];const selected=arr.includes(val);
+  if(val==='__OTHER__'){
+    if(selected){cur[id]=arr.filter(v=>v!=='__OTHER__');delete STATE.others[id];}
+    else{if(q.maxSelect&&arr.filter(v=>!isExclusive(q,v)).length>=q.maxSelect){flashMax(id);return;}
+      cur[id]=arr.filter(v=>!isExclusive(q,v)).concat('__OTHER__');STATE.others[id]='';}
+    reRender(id);return;
+  }
+  if(isExclusive(q,val)){cur[id]=selected?[]:[val];if(!selected)delete STATE.others[id];reRender(id);return;}
+  if(selected){cur[id]=arr.filter(v=>v!==val);}
+  else{let base=arr.filter(v=>!isExclusive(q,v));
+    if(q.maxSelect&&base.length>=q.maxSelect){flashMax(id);return;}
+    base.push(val);cur[id]=base;}
+  reRender(id);
+}
+function flashMax(id){const el=document.querySelector('#q_'+id+' .maxnote');
+  if(el){el.style.color=CONFIG.brand.accent;el.style.fontWeight='600';setTimeout(()=>{el.style.color='';el.style.fontWeight='';},900);}}
+function setOther(id,v){STATE.others[id]=v;}
+function setText(id,v){A()[id]=v;}
+function majSlider(id){
+  const el=document.getElementById(id);const v=Number(el.value);
+  A()[id]=v;
+  const vb=document.getElementById(id+'_val');if(vb)vb.textContent=v;
+  const w=document.getElementById(id+'_wrap');if(w)w.classList.remove('untouched');
+}
+function reRender(id){const q=findQ(id);if(!q)return;const el=document.getElementById('q_'+id);
+  if(el){const t=document.createElement('div');t.innerHTML=renderQuestion(q);el.replaceWith(t.firstElementChild);}}
+function findQ(id){for(const ch of CHAPTERS)if(ch.questions){const f=ch.questions.find(x=>x.id===id);if(f)return f;}return null;}
+function goNext(){if(STATE.idx<CHAPTERS.length-1){STATE.idx++;render();}}
+function goBack(){if(STATE.idx>0){STATE.idx--;render();}}
+
+function renderContact(){
+  nav.style.display='none';const c=STATE.contact;
+  app.innerHTML=`<div class="screen">
+    <div class="chapter-eyebrow">Dernière étape</div>
+    <h1 class="chapter">Recevoir mon carnet</h1>
+    <p class="chapter-intro">Indiquez où vous souhaitez recevoir votre carnet personnel « Mon Point de Départ ». Il reprendra les questions que vous avez vues et vos réponses — un document qui vous appartient, à conserver, relire et compléter.</p>
+    <div class="field"><label>Prénom</label><input class="text" type="text" value="${esc(c.prenom||'')}" oninput="STATE.contact.prenom=this.value" placeholder="Votre prénom"></div>
+    <div class="field"><label>Email</label><input class="text" type="email" value="${esc(c.email||'')}" oninput="STATE.contact.email=this.value" placeholder="vous@email.com"></div>
+    <div class="field"><label>Téléphone <span>(facultatif)</span></label><input class="text" type="tel" value="${esc(c.phone||'')}" oninput="STATE.contact.phone=this.value" placeholder="Votre numéro"></div>
+    <div class="consent ${STATE.consent?'checked':''}" onclick="STATE.consent=!STATE.consent;render()">
+      <div class="box">${svgCheck}</div>
+      <span>J’accepte que ${esc(CONFIG.partner.name)} traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m’envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ${esc(CONFIG.partner.email)}.</span></div>
+    <label class="consent"><input type="checkbox" style="margin-top:5px" ${STATE.recontact?'checked':''} onchange="STATE.recontact=this.checked">
+      <span>Je souhaite qu’Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l’envoi du carnet.</span></label>
+    <p class="legal-note">En envoyant ce bilan, vous acceptez notre <button class="legal-link" onclick="openLegal()">politique de confidentialité</button>.</p>
+    <p id="sendError" role="alert" style="color:#A34D3E;margin-top:18px"></p>
+    <div style="margin-top:28px">
+      <button class="btn btn-primary" style="width:100%" id="btnSubmit" onclick="submitForm()">Découvrir mon bilan</button>
+      <div style="text-align:center;margin-top:12px"><button class="skip-scale" onclick="goBack()">Revenir en arrière</button></div>
+    </div></div>`;
+}
+function buildPayload(){
+  const seen=[];
+  CHAPTERS.forEach(ch=>{if(!ch.questions)return;
+    visibleQuestions(ch).forEach(q=>{
+      let ans=A()[q.id];let repondu=true;
+      if(ans===undefined||ans===''||(Array.isArray(ans)&&ans.length===0)){ans='';repondu=false;}
+      if(ans===REFUSE){repondu=false;}
+      if(ans===UNSURE){repondu=false;}
+      if(Array.isArray(ans)){
+        ans=ans.map(v=>v==='__OTHER__'?('Autre : '+(STATE.others[q.id]||'')):v);
+        if(ans.some(v=>v===UNSURE||v===REFUSE))repondu=false;
+        ans=ans.join(' · ');
+      }
+      seen.push({etape:ch.title,id:q.id,question:q.q,type:q.type,reponse:String(ans),repondu:repondu});
+    });
+  });
+  const dom={};
+  CHAPTERS.forEach(ch=>{if(!ch.questions)return;ch.questions.forEach(q=>{
+    if(q.domain&&typeof A()[q.id]==='number'){(dom[q.domain]=dom[q.domain]||[]).push(A()[q.id]);}});});
+  const roue=Object.keys(dom).map(d=>({domaine:d,moyenne:Math.round((dom[d].reduce((a,b)=>a+b,0)/dom[d].length)*10)/10,notes:dom[d]}));
+  return {partenaire:CONFIG.partner.id,langue:CONFIG.langueActive||'fr',origin:URL_ORIGIN,ref:URL_REF,date:new Date().toISOString(),
+    contact:{prenom:STATE.contact.prenom||'',email:STATE.contact.email||'',phone:STATE.contact.phone||'',consentement:STATE.consent,recontact:STATE.recontact},
+    impressions:{global:A().imp_global,perso:A().imp_perso,pro:A().imp_pro},roueDeVie:roue,reponses:seen};
+}
+// Chaque secteur montre une note sur 10 ; une valeur absente reste vide.
+const DOMAINES_ROUE = [
+ ['rv_sante','Santé & énergie'],['rv_temps','Temps & liberté'],
+ ['rv_finances','Finances & niveau de vie'],['rv_travail','Travail / activité'],
+ ['rv_relations','Relations & entourage'],['rv_epano','Épanouissement personnel'],
+ ['rv_securite','Sécurité & avenir'],['rv_sens','Sens & utilité'],
+ ['rv_evolution','Évolution & accomplissement'],['rv_equilibre','Équilibre de vie']
+];
+function donneesRoues() {
+ const impressions=['imp_global','imp_perso','imp_pro'].map(id=>typeof A()[id]==='number'?A()[id]:null);
+ const domaines=DOMAINES_ROUE.map(([key])=>{
+  const notes=[0,1,2].map(i=>A()[key+'_'+i]).filter(v=>typeof v==='number');
+  return notes.length?notes.reduce((a,b)=>a+b,0)/notes.length:null;
+ });
+ return {impressions,domaines};
+}
+function dessinerRoue(labels,values) {
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=860;
+ const c=canvas.getContext('2d'); const cx=600,cy=430,r=285,n=labels.length;
+ c.fillStyle='#FFFFFF';c.fillRect(0,0,1200,860);
+ const angle=i=>-Math.PI/2+(i-.5)*Math.PI*2/n;
+ for(let i=0;i<n;i++){
+  if(values[i]===null)continue;
+  c.beginPath();c.moveTo(cx,cy);c.arc(cx,cy,r*values[i]/10,angle(i),angle(i+1));c.closePath();
+  c.fillStyle=i%2?'#A6B7A3':'#6E8B72';c.fill();
+ }
+ c.strokeStyle='#D8DED5';c.lineWidth=2;
+ for(let j=1;j<=10;j++){c.beginPath();c.arc(cx,cy,r*j/10,0,Math.PI*2);c.stroke();}
+ for(let i=0;i<n;i++){
+  c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+r*Math.cos(angle(i)),cy+r*Math.sin(angle(i)));c.stroke();
+  const mid=(angle(i)+angle(i+1))/2,lx=cx+(r+65)*Math.cos(mid),ly=cy+(r+65)*Math.sin(mid);
+  const words=labels[i].split(' '),lines=[];let line='';
+  for(const w of words){if((line+' '+w).trim().length>21&&line){lines.push(line);line=w;}else line=(line+' '+w).trim();}lines.push(line);
+  c.textAlign=Math.cos(mid)>.35?'left':Math.cos(mid)<-.35?'right':'center';
+  c.fillStyle='#2E3830';c.font='23px Arial';
+  lines.forEach((t,k)=>c.fillText(t,lx,ly+(k-(lines.length-1)/2)*28));
+  c.font='bold 25px Arial';c.fillStyle=values[i]===null?'#8A8A7E':'#6E8B72';
+  c.fillText(values[i]===null?'—':(Math.round(values[i]*10)/10).toLocaleString('fr-FR')+' / 10',lx,ly+(lines.length+1)/2*28);
+ }
+ c.textAlign='center';c.font='18px Arial';
+ for(const j of [2,4,6,8,10]){c.fillStyle='#FFFFFF';c.fillRect(cx-14,cy+r*j/10-12,28,22);c.fillStyle='#526150';c.fillText(String(j),cx,cy+r*j/10+5);}
+ return canvas.toDataURL('image/png');
+}
+function imagesRoues(){
+ const v=donneesRoues();
+ return {impressions:dessinerRoue(['Épanouissement général','Vie personnelle','Vie professionnelle'],v.impressions),domaines:dessinerRoue(DOMAINES_ROUE.map(d=>d[1]),v.domaines)};
+}
+function besoinSanteExplicite(texte){
+ const s=String(texte||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ return s.split(/[.!?;\n]/).some(phrase=>{
+  if(/\b(ne|pas|aucun|sans|ni)\b/.test(phrase))return false;
+  return /(?:ameliorer|retrouver|preserver)\s+(?:ma|la|une meilleure)\s+sante|(?:plus|davantage)\s+de\s+sante|(?:besoin|envie|souhaite|voudrais|aimerais).{0,45}(?:meilleure sante|bonne sante|plus d.energie|moins de fatigue)/.test(phrase);
+ });
+}
+
+function invitationSante(){
+ const s=donneesRoues().domaines[0];
+ return (s!==null&&s<7)||(A().ferait_du_bien||[]).includes('Améliorer ma santé')||(A().fait_le_tour||[]).includes('Ma santé qui me préoccupe')||[A().reve,A().prise_conscience,STATE.others.ferait_du_bien,STATE.others.fait_le_tour].some(besoinSanteExplicite);
+}
+function verifierReception(id){
+ return new Promise((resolve,reject)=>{
+  const nom='retourBilan_'+id.replace(/-/g,'')+'_'+Date.now();
+  const balise=document.createElement('script');
+  const fin=()=>{clearTimeout(delai);delete window[nom];balise.remove();};
+  const delai=setTimeout(()=>{fin();reject(new Error('Délai dépassé'));},15000);
+  window[nom]=data=>{fin();resolve(data);};
+  balise.onerror=()=>{fin();reject(new Error('Vérification indisponible'));};
+  balise.src=CONFIG.webhookUrl+'?action=status&id='+encodeURIComponent(id)+'&callback='+nom;
+  document.head.appendChild(balise);
+ });
+}
+async function submitForm(){
+ const btn=document.getElementById('btnSubmit'),error=document.getElementById('sendError');
+ error.textContent='';
+ if(!STATE.contact.prenom?.trim()||!/^\S+@[^\s@]+\.[^\s@]+$/.test(STATE.contact.email||'')){
+  error.textContent='Indiquez votre prénom et une adresse e-mail valide.';return;
+ }
+ if(!STATE.consent){error.textContent='Votre accord est nécessaire pour préparer et envoyer votre carnet.';return;}
+ if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(CONFIG.webhookUrl)){
+  error.textContent='Le formulaire est en cours de configuration. Contact : '+CONFIG.partner.email;return;
+ }
+ btn.disabled=true;btn.textContent='Préparation de votre carnet…';
+ try{
+  if(!STATE.submissionId){
+   STATE.submissionId=crypto.randomUUID();
+   STATE.pendingPayload=Object.assign(buildPayload(),{submissionId:STATE.submissionId,roues:imagesRoues()});
+  }
+  await fetch(CONFIG.webhookUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(STATE.pendingPayload)});
+  let resultat=await verifierReception(STATE.submissionId);
+  for(let i=0;i<8&&resultat.status==='EN_COURS';i++){
+   await new Promise(r=>setTimeout(r,3000));resultat=await verifierReception(STATE.submissionId);
+  }
+  if(resultat.status!=='ENVOYE')throw new Error('Le carnet n’a pas encore été confirmé comme envoyé. Contactez '+CONFIG.partner.email+' si vous ne le recevez pas. Référence : '+STATE.submissionId);
+  CHAPTERS.push({type:'thanks'});STATE.idx=CHAPTERS.length-1;render();
+ }catch(e){error.textContent=e.message||'Réception non confirmée. Vérifiez vos e-mails avant de réessayer.';btn.disabled=false;btn.textContent='Vérifier / réessayer l’envoi';}
+}
+
+function renderThanks(){
+  nav.style.display='none';
+  const prenom=STATE.contact.prenom?', '+esc(STATE.contact.prenom):'';
+  const first=esc(CONFIG.partner.name.split(' ')[0]);
+  const shareUrl='https://agnesetvous.com/evolution?origin='+encodeURIComponent(CONFIG.partner.id);
+  const shareMsg=encodeURIComponent("Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : "+shareUrl);
+  app.innerHTML=`<div class="screen thanks">
+    <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="${CONFIG.brand.accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h1>Félicitations${prenom}.</h1>
+    <p>Vous avez pris ce temps pour vous, et c'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d’envoi par e-mail${STATE.contact.email?' à '+esc(STATE.contact.email):''}.</p>
+    <p style="font-size:15px">Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.</p>
+    ${invitationSante()?`<div class="share"><h3>Prendre un temps pour votre bien-être</h3><p>Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.</p><a class="btn btn-primary" style="display:inline-block;text-decoration:none" href="https://agnesetvous.com/bilan" target="_blank" rel="noopener">Faire mon bilan bien-être</a></div>`:''}
+    <p style="margin-top:20px">${STATE.recontact?'Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.':'Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à '+esc(CONFIG.partner.email)+'.'}</p>
+    <div class="doors">
+      <div class="doors-title">Et ensuite ? Plusieurs chemins, tous ouverts.</div>
+      <div class="doors-sub">Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.</div>
+      <div class="door"><span class="emoji">🌱</span><div><div class="d-t">Profiter de votre bilan</div><div class="d-d">Le garder pour vous, tout simplement.</div></div></div>
+      <div class="door"><span class="emoji">🔎</span><div><div class="d-t">Mieux vous comprendre</div><div class="d-d">Approfondir ce que vos réponses ont fait ressortir.</div></div></div>
+      <div class="door"><span class="emoji">🧭</span><div><div class="d-t">Découvrir des possibilités</div><div class="d-d">Explorer différentes pistes qui correspondent à vos aspirations.</div></div></div>
+      <div class="door"><span class="emoji">🌿</span><div><div class="d-t">Plus de liberté ou de revenus</div><div class="d-d">Y compris en parallèle d'une activité que vous souhaitez conserver.</div></div></div>
+      <div class="door"><span class="emoji">🚀</span><div><div class="d-t">Faire avancer un projet</div><div class="d-d">Lorsqu'une envie existe déjà et attend son heure.</div></div></div>
+      <div class="door"><span class="emoji">💬</span><div><div class="d-t">Échanger avec ${first}</div><div class="d-d">Bénéficier d'un regard extérieur, si vous le souhaitez.</div></div></div>
+    </div>
+    <div class="share">
+      <h3>Et si ce bilan pouvait être utile à quelqu'un ?</h3>
+      <p>Vous pouvez transmettre le lien à une personne de votre entourage. Elle bénéficiera exactement de la même liberté que vous.</p>
+      <div class="share-btns">
+        <a href="https://wa.me/?text=${shareMsg}" target="_blank" rel="noopener">Partager sur WhatsApp</a>
+        <a href="sms:?&body=${shareMsg}">Par SMS</a>
+        <button onclick="copyLink('${shareUrl}')">Copier le lien</button>
+      </div>
+    </div>
+    <div class="sig"><strong>${esc(CONFIG.partner.name)}</strong><br>${esc(CONFIG.partner.email)}${CONFIG.partner.phone?' · '+esc(CONFIG.partner.phone):''}</div>
+    <div class="legal-footer"><button class="legal-link" onclick="openLegal()">Mentions légales & confidentialité</button></div>
+  </div>`;
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('stepLabel').textContent='';
+}
+function copyLink(url){navigator.clipboard?.writeText(url).then(()=>{event.target.textContent='Lien copié ✓';}).catch(()=>{prompt('Copiez ce lien :',url);});}
+/* ── Sélecteur de langue ── */
+function renderLangChips(){
+  const list=CONFIG.langues||[{code:'fr',label:'Français',dispo:true}];
+  if(list.length<=1)return '';
+  return '<div class="lang-row">'+list.map(function(l){
+    if(l.dispo)return `<button class="lang-chip ${l.code===CONFIG.langueActive?'active':''}" onclick="setLangue('${l.code}')">${l.label}</button>`;
+    return `<button class="lang-chip soon" disabled aria-disabled="true">${l.label}</button>`;
+  }).join('')+'</div>';
+}
+function setLangue(code){
+  const l=(CONFIG.langues||[]).find(x=>x.code===code);
+  if(!l||!l.dispo)return;
+  CONFIG.langueActive=code;
+  render();
+}
+
+/* ── Lecture à voix haute (synthèse vocale du navigateur) ── */
+function voiceLang(l){return {fr:'fr-FR',en:'en-GB',es:'es-ES',de:'de-DE'}[l]||'fr-FR';}
+function getSpeechText(){
+  const src=document.getElementById('app');if(!src)return '';
+  const node=src.cloneNode(true);
+  node.querySelectorAll('.slider-valeur').forEach(e=>e.remove()); // enlève les "—"/chiffres des curseurs
+  return (node.textContent||'').replace(/\s+/g,' ').trim();
+}
+function setListenBtn(on){const b=document.getElementById('listenBtn');if(b){b.classList.toggle('on',on);b.innerHTML=on?'⏹ Arrêter':'🔊 Écouter';}}
+let speakKeepAlive=null;
+function stopSpeak(){if(speakKeepAlive){clearInterval(speakKeepAlive);speakKeepAlive=null;}if('speechSynthesis' in window){window.speechSynthesis.cancel();}setListenBtn(false);}
+function toggleSpeak(){
+  if(!('speechSynthesis' in window)){alert("La lecture à voix haute n'est pas disponible sur ce navigateur.");return;}
+  if(window.speechSynthesis.speaking||window.speechSynthesis.pending){stopSpeak();return;}
+  const u=new SpeechSynthesisUtterance(getSpeechText());
+  u.lang=voiceLang(CONFIG.langueActive||'fr');u.rate=1;
+  u.onend=stopSpeak;u.onerror=stopSpeak;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(u);setListenBtn(true);
+  // Correctif Chrome : relance la lecture toutes les 10 s pour éviter qu'elle se coupe
+  speakKeepAlive=setInterval(function(){if(window.speechSynthesis.speaking){window.speechSynthesis.pause();window.speechSynthesis.resume();}else{clearInterval(speakKeepAlive);speakKeepAlive=null;}},10000);
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderLegal(){
+  const L=CONFIG.legal||{},p=CONFIG.partner;
+  return `<button class="legal-close" onclick="closeLegal()" aria-label="Fermer">✕</button>
+  <div class="legal-body">
+    <h2>Mentions légales</h2>
+    <p><strong>Éditeur</strong><br>
+      ${esc(L.raisonSociale||p.name)}<br>
+      ${esc(L.statut||'')}${L.siret?' · SIRET '+esc(L.siret):''}<br>
+      ${L.adresse?esc(L.adresse)+'<br>':''}${esc(L.ville||'')}<br>
+      ${esc(p.email)}${p.phone?' · '+esc(p.phone):''}</p>
+    <p><strong>Directeur de la publication</strong><br>${esc(p.name)}</p>
+    <p><strong>Hébergeur</strong><br>Ce site est hébergé par GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
+    <p><strong>Propriété intellectuelle</strong><br>La structure et le contenu de ce bilan appartiennent à son éditeur ; toute reproduction sans autorisation est interdite. Les réponses que vous saisissez, elles, vous appartiennent.</p>
+
+    <h2>Confidentialité & données personnelles (RGPD)</h2>
+    <p><strong>Responsable du traitement</strong><br>${esc(p.name)} — ${esc(p.email)}.</p>
+    <p><strong>Données recueillies</strong><br>Votre prénom, votre email, votre téléphone (facultatif) et les réponses que vous donnez au bilan. Certaines réponses peuvent refléter votre ressenti de bien-être ou de santé : elles ne sont recueillies qu'avec votre consentement explicite, et vous restez libre de ne répondre à aucune question.</p>
+    <p><strong>Pourquoi</strong><br>Uniquement pour préparer votre carnet personnel et vous l'envoyer — et, si vous l'avez expressément demandé en cochant la case prévue, pour vous recontacter afin d'approfondir votre bilan.</p>
+    <p><strong>Base légale</strong><br>Votre consentement (articles 6 et, pour d'éventuelles données de santé, 9 du RGPD). Vous pouvez le retirer à tout moment.</p>
+    <p><strong>Destinataires</strong><br>Vos données sont réservées à ${esc(p.name)}. Elles ne sont ni vendues ni transmises à des tiers. Elles sont enregistrées via des outils Google (Google Sheets), qui agit comme sous-traitant ; un stockage hors Union européenne peut être encadré par les clauses contractuelles types de la Commission européenne.</p>
+    <p><strong>Durée de conservation</strong><br>Vos données sont conservées ${esc(L.conservation||'le temps nécessaire à votre accompagnement')}, puis supprimées.</p>
+    <p><strong>Vos droits</strong><br>Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité. Pour les exercer, écrivez à ${esc(p.email)}. Vous pouvez aussi introduire une réclamation auprès de la CNIL (www.cnil.fr).</p>
+    <p style="margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)">Bilan « Mon Point de Départ » conçu par <strong>Agnès &amp; Vous</strong> — agnesetvous.com</p>
+  </div>`;
+}
+function openLegal(){const pn=document.getElementById('legalPanel');pn.innerHTML=renderLegal();pn.parentNode.scrollTop=0;document.getElementById('legalModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeLegal(){document.getElementById('legalModal').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLegal();});
+
+render();
+</script>
+</body>
+</html>
