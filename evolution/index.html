@@ -37,11 +37,11 @@ const CONFIG = {
   },
   // Mentions légales — remplacez par VOS informations si vous dupliquez ce bilan
   legal: {
-    raisonSociale: "Agnès & Vous — Agnès Esclaire Riera", // à vérifier / adapter
-    statut:        "Entreprise individuelle",
+    raisonSociale: "Agnès & Vous — Agnès Esclaire Riera",
+    statut:        "Entreprise individuelle (micro-entreprise)",
     siret:         "502 712 466 00056",     // à vérifier / adapter
     adresse:       "",                        // Adresse complète — à compléter ou pas
-    ville:         "Objat (19)",   // Adresse complète — à compléter
+    ville:         "Objat (19) France",
     conservation:  "3 ans après notre dernier contact"
   }
 };
@@ -515,7 +515,8 @@ const I18N={ es:{
   "Votre prénom":"Su nombre","Votre numéro":"Su número",
   "J'accepte que ":"Acepto que ",
   " traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m'envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ":" trate mis respuestas, incluidas mis posibles indicaciones de salud, para preparar y enviarme mi cuaderno. Los datos se guardan en sus herramientas privadas de Google. Puedo retirar mi consentimiento escribiendo a ",
-  "Je souhaite qu'Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":"Deseo que Agnès se ponga en contacto conmigo más adelante para profundizar en mi balance personal y profesional. Esta elección es opcional y no condiciona el envío del cuaderno.",
+  "Je souhaite être recontacté·e par ":"Deseo que ",
+  " pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":" se ponga en contacto conmigo más adelante para profundizar en mi balance personal y profesional. Esta elección es opcional y no condiciona el envío del cuaderno.",
   "En envoyant ce bilan, vous acceptez notre ":"Al enviar este balance, acepta nuestra ",
   "politique de confidentialité":"política de privacidad",
   "Découvrir mon bilan":"Descubrir mi balance","Revenir en arrière":"Volver atrás",
@@ -696,7 +697,8 @@ de:{
   "Votre prénom":"Ihr Vorname","Votre numéro":"Ihre Nummer",
   "J'accepte que ":"Ich bin damit einverstanden, dass ",
   " traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m'envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ":" meine Antworten verarbeitet, einschließlich meiner etwaigen Gesundheitsangaben, um mein Heft zu erstellen und mir zuzusenden. Die Daten werden in ihren privaten Google-Tools gespeichert. Ich kann meine Einwilligung widerrufen, indem ich schreibe an ",
-  "Je souhaite qu'Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":"Ich möchte, dass Agnès sich später bei mir meldet, um meine persönliche und berufliche Standortbestimmung zu vertiefen. Diese Wahl ist freiwillig und hat keinen Einfluss auf den Versand des Hefts.",
+  "Je souhaite être recontacté·e par ":"Ich möchte, dass ",
+  " pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":" sich später bei mir meldet, um meine persönliche und berufliche Standortbestimmung zu vertiefen. Diese Wahl ist freiwillig und hat keinen Einfluss auf den Versand des Hefts.",
   "En envoyant ce bilan, vous acceptez notre ":"Mit dem Absenden dieser Standortbestimmung akzeptieren Sie unsere ",
   "politique de confidentialité":"Datenschutzerklärung",
   "Découvrir mon bilan":"Meine Standortbestimmung entdecken","Revenir en arrière":"Zurückgehen",
@@ -876,7 +878,8 @@ en:{
   "Votre prénom":"Your first name","Votre numéro":"Your number",
   "J'accepte que ":"I agree that ",
   " traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m'envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ":" may process my answers, including any health-related details, to prepare and send me my booklet. The data is stored in their private Google tools. I can withdraw my consent by writing to ",
-  "Je souhaite qu'Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":"I'd like Agnès to get back to me later to explore my personal and professional assessment further. This is optional and does not affect the sending of the booklet.",
+  "Je souhaite être recontacté·e par ":"I'd like ",
+  " pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":" to get back to me later to explore my personal and professional assessment further. This is optional and does not affect the sending of the booklet.",
   "En envoyant ce bilan, vous acceptez notre ":"By submitting this assessment, you accept our ",
   "politique de confidentialité":"privacy policy",
   "Découvrir mon bilan":"Discover my assessment","Revenir en arrière":"Go back",
@@ -1056,7 +1059,7 @@ function renderContact(){
       <div class="box">${svgCheck}</div>
       <span>${t('J\'accepte que ')}${esc(CONFIG.partner.name)}${t(' traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m\'envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ')}${esc(CONFIG.partner.email)}.</span></div>
     <label class="consent"><input type="checkbox" style="margin-top:5px" ${STATE.recontact?'checked':''} onchange="STATE.recontact=this.checked">
-      <span>${t('Je souhaite qu\'Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l\'envoi du carnet.')}</span></label>
+      <span>${t('Je souhaite être recontacté·e par ')}${esc(CONFIG.partner.name.split(' ')[0])}${t(' pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l\'envoi du carnet.')}</span></label>
     <p class="legal-note">${t('En envoyant ce bilan, vous acceptez notre ')}<button class="legal-link" onclick="openLegal()">${t('politique de confidentialité')}</button>.</p>
     <p id="sendError" role="alert" style="color:#A34D3E;margin-top:18px"></p>
     <div style="margin-top:28px">
@@ -1287,7 +1290,7 @@ function renderLegal(){
     <p><strong>Destinataires</strong><br>Vos données sont réservées à ${esc(p.name)}. Elles ne sont ni vendues ni transmises à des tiers. Elles sont enregistrées via des outils Google (Google Sheets), qui agit comme sous-traitant ; un stockage hors Union européenne peut être encadré par les clauses contractuelles types de la Commission européenne.</p>
     <p><strong>Durée de conservation</strong><br>Vos données sont conservées ${esc(L.conservation||'le temps nécessaire à votre accompagnement')}, puis supprimées.</p>
     <p><strong>Vos droits</strong><br>Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité. Pour les exercer, écrivez à ${esc(p.email)}. Vous pouvez aussi introduire une réclamation auprès de la CNIL (www.cnil.fr).</p>
-    <p style="margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)">Bilan « Mon Point de Départ » conçu par <strong>Agnès &amp; Vous</strong> — agnesetvous.com</p>
+    <p style="margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)">Ce site a été créé par <strong>Agnès &amp; Vous</strong></p>
   </div>`;
 }
 function openLegal(){const pn=document.getElementById('legalPanel');pn.innerHTML=renderLegal();pn.parentNode.scrollTop=0;document.getElementById('legalModal').classList.add('open');document.body.style.overflow='hidden';}
