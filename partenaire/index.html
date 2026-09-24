@@ -92,6 +92,52 @@
     .nav-links a { text-decoration: none; }
     .nav-links a:hover { color: var(--ink); }
 
+    .utility-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .language-switcher {
+      display: inline-flex;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+    }
+
+    .lang-button,
+    .audio-button {
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .lang-button {
+      padding: 7px 10px;
+    }
+
+    .lang-button[aria-pressed="true"] {
+      color: var(--paper);
+      background: var(--ink);
+    }
+
+    .audio-button {
+      min-height: 34px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .audio-button:hover { color: var(--ink); }
+
     .button {
       display: inline-flex;
       align-items: center;
@@ -585,6 +631,7 @@
     @media (max-width: 940px) {
       .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
       .nav-links { width: 100%; overflow-x: auto; padding-bottom: 2px; }
+      .utility-controls { width: 100%; justify-content: flex-start; }
       .hero-inner, .section-head, .split, .proof-grid, .interest, .founders-feature, .innovation-feature { grid-template-columns: 1fr; }
       .hero-inner { min-height: auto; padding: 54px 0; }
       .cards-3, .partner-path, .visual-board { grid-template-columns: 1fr; }
@@ -604,15 +651,24 @@
     <nav class="nav" aria-label="Navigation principale">
       <a class="brand" href="#top">
         <span class="brand-mark">Z</span>
-        <span>Agnès & Vous vous présente Zinzino</span>
+        <span id="brandTitle">Agnès & Vous vous présente Zinzino</span>
       </a>
       <div class="nav-links">
         <a href="#valeurs">Valeurs</a>
         <a href="#histoire">Histoire</a>
-        <a href="#concept">Concept santé</a>
+        <a href="#concept">Concept nutrition</a>
         <a href="#qualite">Qualité</a>
         <a href="#activite">Activité</a>
         <a href="#question">Ton intérêt</a>
+      </div>
+      <div class="utility-controls" aria-label="Langue et audio">
+        <div class="language-switcher" aria-label="Choisir la langue">
+          <button class="lang-button" type="button" data-lang="fr" aria-pressed="true">FR</button>
+          <button class="lang-button" type="button" data-lang="en" aria-pressed="false">EN</button>
+          <button class="lang-button" type="button" data-lang="es" aria-pressed="false">ES</button>
+        </div>
+        <button class="audio-button" type="button" id="readScreenButton">Lire l'écran</button>
+        <button class="audio-button" type="button" id="stopAudioButton">Arrêter</button>
       </div>
     </nav>
   </header>
@@ -794,7 +850,7 @@
               et de comparer l'évolution ensuite.
             </p>
             <div class="cta-row">
-              <a class="button secondary" href="https://agnesetvous.com/essentiel/">Découvrir le concept prévention santé</a>
+              <a class="button secondary js-essential-link" href="../essentiel/">Découvrir le concept de la nutrition basée sur des tests avec Zinzino</a>
             </div>
           </div>
           <div class="panel">
@@ -1015,8 +1071,8 @@
               Choisis ce qui t'attire le plus. Cette réponse reste pour toi et t'aide à préparer la suite.
             </div>
             <div class="cta-row">
-              <a class="button primary" href="https://agnesetvous.com/demarrage/">Continuer vers le démarrage</a>
-              <a class="button secondary" href="https://agnesetvous.com/essentiel/">Revoir le concept prévention santé</a>
+              <a class="button primary js-start-link" href="../demarrage/">Continuer vers le démarrage</a>
+              <a class="button secondary js-essential-link" href="../essentiel/">Découvrir le concept de la nutrition basée sur des tests avec Zinzino</a>
             </div>
             <p class="fine-print">
               Aucune promesse de revenu. La rémunération d'une activité partenaire est variable
@@ -1035,13 +1091,13 @@
         <div>
           <h2>Mentions légales</h2>
           <p><strong>Éditeur</strong><br>
-            Agnès &amp; Vous — Agnès Esclaire Riera<br>
-            Entreprise individuelle · SIRET 502 712 466 00056<br>
-            Objat (19)<br>
-            <a href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a> · <a href="tel:+33663932112">+33 6 63 93 21 12</a>
+            <span data-config="legalEditor">Agnès &amp; Vous — Agnès Esclaire Riera</span><br>
+            <span data-config="legalStatus">Entreprise individuelle · SIRET 502 712 466 00056</span><br>
+            <span data-config="legalCity">Objat (19)</span><br>
+            <a data-config="contactEmail" href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a> · <a data-config="contactPhone" href="tel:+33663932112">+33 6 63 93 21 12</a>
           </p>
           <p><strong>Directeur de la publication</strong><br>
-            Agnès Esclaire Riera
+            <span data-config="publicationDirector">Agnès Esclaire Riera</span>
           </p>
           <p><strong>Hébergeur</strong><br>
             Ce site est hébergé par GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.
@@ -1055,7 +1111,7 @@
         <div>
           <h2>Confidentialité &amp; données personnelles (RGPD)</h2>
           <p><strong>Responsable du traitement</strong><br>
-            Agnès Esclaire Riera — <a href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a>.
+            <span data-config="dataController">Agnès Esclaire Riera</span> — <a data-config="contactEmail" href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a>.
           </p>
           <p><strong>Données recueillies</strong><br>
             Votre prénom, votre email, votre téléphone (facultatif) et les réponses ne sont recueillies qu'avec votre consentement explicite,
@@ -1065,7 +1121,7 @@
             Votre consentement (articles 6 et, pour d'éventuelles données de santé, 9 du RGPD). Vous pouvez le retirer à tout moment.
           </p>
           <p><strong>Destinataires</strong><br>
-            Vos données sont réservées à Agnès Esclaire Riera. Elles ne sont ni vendues ni transmises à des tiers.
+            Vos données sont réservées à <span data-config="dataController">Agnès Esclaire Riera</span>. Elles ne sont ni vendues ni transmises à des tiers.
             Elles sont enregistrées via des outils Google (Google Sheets), qui agit comme sous-traitant ; un stockage hors Union européenne
             peut être encadré par les clauses contractuelles types de la Commission européenne.
           </p>
@@ -1074,10 +1130,10 @@
           </p>
           <p><strong>Vos droits</strong><br>
             Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité.
-            Pour les exercer, écrivez à <a href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a>.
+            Pour les exercer, écrivez à <a data-config="contactEmail" href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a>.
             Vous pouvez aussi introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr/">www.cnil.fr</a>).
           </p>
-          <p>Conçu par <strong>Agnès &amp; Vous</strong> — <a href="https://agnesetvous.com/">agnesetvous.com</a></p>
+          <p>Site créé par <strong>Agnès &amp; Vous</strong></p>
         </div>
       </div>
     </details>
@@ -1085,23 +1141,533 @@
 
   <footer>
     <div class="footer-inner">
-      <span>Agnès & Vous - Accompagnement personnalisé</span>
+      <span id="footerBrand"><span data-config="partnerDisplayName">Agnès &amp; Vous</span> - Accompagnement personnalisé</span>
       <span>Information non médicale. Pour toute situation de santé, demander l'avis d'un professionnel qualifié.</span>
     </div>
   </footer>
 
   <script>
+    const SITE_CONFIG = {
+      partnerDisplayName: "Agnès & Vous",
+      legalEditor: "Agnès & Vous — Agnès Esclaire Riera",
+      legalStatus: "Entreprise individuelle · SIRET 502 712 466 00056",
+      legalCity: "Objat (19)",
+      publicationDirector: "Agnès Esclaire Riera",
+      dataController: "Agnès Esclaire Riera",
+      contactEmail: "contact@agnesetvous.com",
+      contactPhone: "+33 6 63 93 21 12",
+      essentialUrl: "../essentiel/",
+      startUrl: "../demarrage/"
+    };
+
+    const langData = {
+      fr: {
+        htmlLang: "fr",
+        title: "Agnès & Vous vous présente Zinzino",
+        description: "Découvrir Zinzino, sa vision, ses valeurs, son approche par plusieurs tests et l'activité partenaire.",
+        brandSuffix: "vous présente Zinzino",
+        footerSuffix: "Accompagnement personnalisé",
+        readLabel: "Lire l'écran",
+        stopLabel: "Arrêter",
+        selectedPrefix: "Ce qui t'attire le plus :",
+        selectedSuffix: "Garde cette idée pour la suite du parcours.",
+        emptyAudio: "Aucun texte lisible n'est visible à l'écran.",
+        unsupportedAudio: "La lecture audio n'est pas disponible sur ce navigateur.",
+        choices: [
+          ["Le concept des tests", "Le concept des tests et de la nutrition personnalisée"],
+          ["Le modèle économique", "Le modèle économique"],
+          ["Les deux", "Les deux : les tests et le modèle économique"],
+          ["La qualité et les preuves", "La qualité des produits et les preuves"],
+          ["Les valeurs et la vision", "La vision, les valeurs et la dimension internationale"],
+          ["Autre", "Autre point à préciser"]
+        ],
+        t: {}
+      },
+      en: {
+        htmlLang: "en",
+        title: "Agnès & Vous presents Zinzino",
+        description: "Discover Zinzino, its vision, values, test-based approach and partner activity.",
+        brandSuffix: "presents Zinzino",
+        footerSuffix: "Personalized support",
+        readLabel: "Read screen",
+        stopLabel: "Stop",
+        selectedPrefix: "What attracts you most:",
+        selectedSuffix: "Keep this idea in mind for the next step.",
+        emptyAudio: "No readable text is visible on screen.",
+        unsupportedAudio: "Audio reading is not available in this browser.",
+        choices: [
+          ["The test concept", "The test concept and personalized nutrition"],
+          ["The business model", "The business model"],
+          ["Both", "Both: the tests and the business model"],
+          ["Quality and proof", "Product quality and proof"],
+          ["Values and vision", "The vision, values and international dimension"],
+          ["Other", "Another point to clarify"]
+        ],
+        t: {
+          "Valeurs": "Values",
+          "Histoire": "Story",
+          "Concept nutrition": "Nutrition concept",
+          "Qualité": "Quality",
+          "Activité": "Activity",
+          "Ton intérêt": "Your interest",
+          "Depuis 2005": "Since 2005",
+          "Une compagnie scandinave née d'une conviction simple.": "A Scandinavian company born from a simple conviction.",
+          "Quand on donne aux personnes des outils fiables pour comprendre leur corps, elles peuvent faire des choix plus éclairés.": "When people are given reliable tools to understand their body, they can make more informed choices.",
+          "Découvrir la compagnie": "Discover the company",
+          "Ce qui m'attire": "What attracts me",
+          "Fondée par Hilde et Ørjan Sæle": "Founded by Hilde and Ørjan Sæle",
+          "Analyses indépendantes avec Vitas": "Independent analyses with Vitas",
+          "Plus de 100 marchés": "Over 100 markets",
+          "Cotée en Bourse": "Listed company",
+          "Le sens du nom": "The meaning of the name",
+          "Une petite chose de grande valeur.": "A small thing of great value.",
+          "Un premier repère. Une routine adaptée. Un résultat que l'on peut comparer. Chez Zinzino, le changement commence souvent par quelque chose de simple, mais qui peut ouvrir une trajectoire beaucoup plus grande.": "A first reference point. A tailored routine. A result you can compare. At Zinzino, change often starts with something simple that can open a much bigger path.",
+          "début de l'aventure": "start of the journey",
+          "tests d'acides gras analysés": "fatty acid tests analyzed",
+          "des tests initiaux en déséquilibre": "initial tests out of balance",
+          "laboratoire indépendant à Oslo": "independent laboratory in Oslo",
+          "Vision, mission, valeurs": "Vision, mission, values",
+          "Une compagnie née d'une conviction de fondateurs.": "A company born from its founders' conviction.",
+          "Les entrepreneurs norvégiens Hilde et Ørjan Sæle ont construit Zinzino autour d'une idée forte : remettre la relation client au cœur de la vente directe, avec des outils sérieux et une vision internationale.": "Norwegian entrepreneurs Hilde and Ørjan Sæle built Zinzino around a strong idea: putting the customer relationship back at the heart of direct sales, with serious tools and an international vision.",
+          "Les fondateurs": "The founders",
+          "Depuis 2005, ils défendent une approche plus personnelle de la santé : moins d'approximation, plus de mesure, et une relation client suivie dans le temps.": "Since 2005, they have promoted a more personal approach to health: less guesswork, more measurement, and a customer relationship followed over time.",
+          "Photo officielle Zinzino.": "Official Zinzino photo.",
+          "Une vision": "A vision",
+          "“Inspire Change in Life” : inspirer un changement réel, dans la santé, les habitudes et parfois la trajectoire professionnelle.": "\"Inspire Change in Life\": inspiring real change in health, habits and sometimes professional direction.",
+          "Une mission": "A mission",
+          "Devenir une compagnie de vente directe centrée client, où l'expérience, le suivi et la confiance comptent autant que les produits.": "To become a customer-centered direct sales company where experience, follow-up and trust matter as much as the products.",
+          "Une culture": "A culture",
+          "Les partenaires ne sont pas de simples vendeurs : ils portent l'information, expliquent le concept et restent présents dans le parcours.": "Partners are not just sellers: they carry the information, explain the concept and remain present throughout the journey.",
+          "Évolution": "Evolution",
+          "D'une aventure scandinave à une compagnie internationale.": "From a Scandinavian venture to an international company.",
+          "Zinzino n'est pas apparue comme une mode. La compagnie s'est construite étape après étape : relation client, nutrition personnalisée, expansion internationale et informations publiques.": "Zinzino did not appear as a trend. The company was built step by step: customer relationships, personalized nutrition, international expansion and public information.",
+          "Le départ avec Hilde et Ørjan Sæle": "The beginning with Hilde and Ørjan Sæle",
+          "Une entreprise familiale norvégienne démarre avec une ambition : construire une vente directe plus centrée client.": "A Norwegian family business starts with one ambition: building more customer-centered direct sales.",
+          "Le virage vers la nutrition personnalisée": "The shift toward personalized nutrition",
+          "La compagnie développe progressivement une approche basée sur les tests et la personnalisation.": "The company gradually develops an approach based on tests and personalization.",
+          "Une société cotée et plus transparente": "A listed and more transparent company",
+          "Zinzino entre sur Nasdaq First North, ce qui renforce l'accès aux informations publiques sur l'entreprise.": "Zinzino enters Nasdaq First North, strengthening access to public information about the company.",
+          "20 ans, plus de 100 marchés et 306,1 M€ de chiffre d'affaires": "20 years, over 100 markets and €306.1M in revenue",
+          "La compagnie confirme son expansion mondiale avec une forte croissance et plus de 1,9 million de tests d'acides gras analysés.": "The company confirms its global expansion with strong growth and more than 1.9 million fatty acid tests analyzed.",
+          "Une trajectoire de croissance construite sur plus de 20 ans, avec une présence internationale et un chiffre d'affaires 2025 exprimé en euros.": "A growth path built over more than 20 years, with international presence and 2025 revenue expressed in euros.",
+          "Le concept": "The concept",
+          "Mesurer pour personnaliser.": "Measure to personalize.",
+          "Zinzino ne repose pas sur un seul test. L'idée est de mesurer où tu en es dans plusieurs domaines de la santé cellulaire, puis de mettre en place une routine et de comparer l'évolution ensuite.": "Zinzino is not based on a single test. The idea is to measure where you stand in several areas of cellular health, then set up a routine and compare progress afterward.",
+          "Découvrir le concept de la nutrition basée sur des tests avec Zinzino": "Discover the concept of test-based nutrition with Zinzino",
+          "Plusieurs autotests pour obtenir un point de départ personnel.": "Several self-tests to get a personal starting point.",
+          "Des résultats qui aident à comprendre différents marqueurs de santé cellulaire.": "Results that help understand different cellular health markers.",
+          "Une routine nutritionnelle proposée selon les besoins observés.": "A nutritional routine proposed according to observed needs.",
+          "Un retest pour comparer l'évolution au lieu de rester sur une impression.": "A retest to compare progress instead of relying on an impression.",
+          "Ce qui rend l'approche différente": "What makes the approach different",
+          "La preuve avant le discours.": "Proof before the talk.",
+          "L'idée forte de Zinzino est simple : ne pas demander aux personnes de croire, mais leur proposer de mesurer, d'agir, puis de comparer.": "Zinzino's strong idea is simple: not asking people to believe, but offering them a way to measure, act, then compare.",
+          "Philosophie produit et qualité": "Product philosophy and quality",
+          "Une exigence qui rassure.": "A reassuring standard.",
+          "La confiance se construit sur des éléments vérifiables : des analyses indépendantes, des tests anonymes, une production structurée, des contrôles qualité et une entreprise cotée.": "Trust is built on verifiable elements: independent analyses, anonymous tests, structured production, quality controls and a listed company.",
+          "Les analyses ne sont pas réalisées par Zinzino.": "The analyses are not performed by Zinzino.",
+          "Pour les tests concernés, les échantillons sont gérés et analysés anonymement par Vitas, un laboratoire indépendant d'analyse chimique basé à Oslo, certifié GMP.": "For the relevant tests, samples are anonymously managed and analyzed by Vitas, an independent chemical analysis laboratory based in Oslo and GMP certified.",
+          "Ni le laboratoire, ni Zinzino ne travaillent avec le nom de la personne : le résultat est relié à un identifiant de test.": "Neither the laboratory nor Zinzino works with the person's name: the result is linked to a test ID.",
+          "Autotests à domicile": "At-home self-tests",
+          "Une démarche simple, réalisée chez soi, pour obtenir une base personnelle.": "A simple process done at home to obtain a personal baseline.",
+          "Routine personnalisée": "Personalized routine",
+          "Des produits choisis selon le point de départ et l'objectif d'amélioration.": "Products chosen according to the starting point and improvement goal.",
+          "Vision long terme": "Long-term vision",
+          "Une société cotée, avec des informations publiques, capable d'intégrer des réseaux et des technologies qui renforcent sa mission.": "A listed company, with public information, able to integrate networks and technologies that strengthen its mission.",
+          "Innovation": "Innovation",
+          "Des technologies au service d'une nutrition plus propre": "Technologies serving cleaner nutrition",
+          "Zinzino ne développe pas seulement un réseau international. La compagnie peut aussi s'associer à des entreprises qui apportent une vraie avancée technologique, comme les systèmes de photobioréacteurs pour cultiver des microalgues dans un environnement contrôlé.": "Zinzino does not only develop an international network. The company can also partner with businesses that bring real technological progress, such as photobioreactor systems for growing microalgae in a controlled environment.",
+          "L'objectif reste le même : sécuriser des matières premières de qualité, limiter l'exposition aux pollutions extérieures et préparer les solutions nutritionnelles de demain.": "The objective remains the same: secure quality raw materials, limit exposure to external pollution and prepare tomorrow's nutritional solutions.",
+          "Photobioréacteurs de microalgues, visuel d'illustration technologique.": "Microalgae photobioreactors, technological illustration visual.",
+          "Clients, recommandation, partenaires": "Customers, recommendation, partners",
+          "Une activité qui peut se développer de plusieurs façons.": "An activity that can develop in several ways.",
+          "Le modèle commence souvent par l'expérience client : une personne utilise un produit, apprécie le concept, puis peut recommander autour d'elle. Ensuite, chacun peut choisir de rester dans une démarche client, de développer une clientèle, une équipe, ou un équilibre des deux.": "The model often starts with the customer experience: someone uses a product, appreciates the concept, then can recommend it around them. Then each person can choose to remain a customer, build a customer base, build a team, or combine both.",
+          "Seulement des clients": "Only customers",
+          "Construire une clientèle fidèle, suivre les routines, les commandes et les retests.": "Build a loyal customer base and follow routines, orders and retests.",
+          "Seulement des partenaires": "Only partners",
+          "Former des personnes qui souhaitent développer à leur tour une activité indépendante.": "Train people who want to develop an independent activity in turn.",
+          "Un équilibre à choisir": "A balance to choose",
+          "Un peu des deux, ou beaucoup des deux : chacun peut avancer selon son profil et ses objectifs.": "A little of both, or a lot of both: everyone can move forward according to their profile and goals.",
+          "Activité partenaire": "Partner activity",
+          "Plusieurs façons de grandir avec la compagnie.": "Several ways to grow with the company.",
+          "Le modèle peut se construire avec des clients, avec des partenaires, ou avec les deux. La progression dépend du chemin choisi, du temps disponible et de la régularité de l'action.": "The model can be built with customers, with partners, or with both. Progress depends on the chosen path, available time and consistency of action.",
+          "Clientèle": "Customer base",
+          "Construire une base stable": "Build a stable base",
+          "Accompagner des clients réguliers, suivre leur expérience et développer la confiance.": "Support regular customers, follow their experience and build trust.",
+          "Recommandation": "Recommendation",
+          "Faire circuler le concept": "Share the concept",
+          "Permettre aux clients satisfaits de recommander autour d'eux, sans transformer tout le monde en vendeur.": "Allow satisfied customers to recommend around them without turning everyone into a seller.",
+          "Équipe": "Team",
+          "Former si on le souhaite": "Train if desired",
+          "Accompagner d'autres partenaires, transmettre les outils et construire une organisation.": "Support other partners, pass on tools and build an organization.",
+          "Actions": "Shares",
+          "Participer à la valeur créée": "Take part in the value created",
+          "Certains bonus du plan peuvent être versés sous forme d'actions Zinzino, selon les conditions du programme.": "Some plan bonuses may be paid in Zinzino shares, according to the program conditions.",
+          "Formation gratuite et accompagnement par l'équipe.": "Free training and team support.",
+          "Pas de stock à gérer chez soi.": "No stock to manage at home.",
+          "Pas d'employés, pas de local, pas de lourde structure.": "No employees, premises or heavy structure.",
+          "Une carrière possible par la clientèle, par l'équipe, ou par une combinaison des deux.": "A possible career through customers, through a team, or through a combination of both.",
+          "Une entreprise où des partenaires historiques font partie de l'actionnariat, et où certains bonus peuvent être liés aux actions.": "A company where long-standing partners are among the shareholders, and where some bonuses can be linked to shares.",
+          "Un modèle hybride": "A hybrid model",
+          "Des commissions, une logique d'abonnements et certains bonus pouvant être liés aux actions.": "Commissions, a subscription logic and some bonuses that may be linked to shares.",
+          "Z4F partenaire": "Partner Z4F",
+          "Dans le parcours partenaire, Z4F peut permettre de couvrir le pack partenaire, selon les conditions du programme et une base de clients actifs.": "In the partner path, Z4F can help cover the partner pack, according to program conditions and an active customer base.",
+          "Une compagnie en mouvement": "A company on the move",
+          "Une présence internationale qui donne un cadre plus large à l'activité locale.": "An international presence that gives local activity a wider framework.",
+          "La bonne question maintenant": "The right question now",
+          "Qu'est-ce qui t'attire le plus dans cette compagnie ?": "What attracts you most about this company?",
+          "Il n'y a pas de bonne ou de mauvaise réponse. Cette question permet simplement d'orienter la suite de l'échange vers ce qui t'intéresse vraiment.": "There is no right or wrong answer. This question simply helps guide the next conversation toward what truly interests you.",
+          "Choisis ce qui t'attire le plus. Cette réponse reste pour toi et t'aide à préparer la suite.": "Choose what attracts you most. This answer stays with you and helps prepare the next step.",
+          "Continuer vers le démarrage": "Continue to the getting-started page",
+          "Aucune promesse de revenu. La rémunération d'une activité partenaire est variable et dépend du temps, de la régularité, de la formation suivie et de l'action menée.": "No income promise. Compensation from a partner activity is variable and depends on time, consistency, training followed and action taken.",
+          "Mentions légales et confidentialité": "Legal notice and privacy",
+          "Mentions légales": "Legal notice",
+          "Éditeur": "Publisher",
+          "Directeur de la publication": "Publication director",
+          "Hébergeur": "Hosting provider",
+          "Ce site est hébergé par GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.": "This site is hosted by GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, United States.",
+          "Propriété intellectuelle": "Intellectual property",
+          "La structure et le contenu de ce site ; toute reproduction sans autorisation est interdite. Les réponses que vous saisissez, elles, vous appartiennent.": "The structure and content of this site may not be reproduced without authorization. The answers you enter belong to you.",
+          "Confidentialité & données personnelles (RGPD)": "Privacy and personal data (GDPR)",
+          "Responsable du traitement": "Data controller",
+          "Données recueillies": "Data collected",
+          "Votre prénom, votre email, votre téléphone (facultatif) et les réponses ne sont recueillies qu'avec votre consentement explicite, et vous restez libre de ne répondre à aucune question.": "Your first name, email, optional phone number and answers are collected only with your explicit consent, and you remain free not to answer any question.",
+          "Base légale": "Legal basis",
+          "Votre consentement (articles 6 et, pour d'éventuelles données de santé, 9 du RGPD). Vous pouvez le retirer à tout moment.": "Your consent (Articles 6 and, for possible health data, 9 of the GDPR). You may withdraw it at any time.",
+          "Destinataires": "Recipients",
+          "Vos données sont réservées à": "Your data is reserved for",
+          ". Elles ne sont ni vendues ni transmises à des tiers. Elles sont enregistrées via des outils Google (Google Sheets), qui agit comme sous-traitant ; un stockage hors Union européenne peut être encadré par les clauses contractuelles types de la Commission européenne.": ". They are neither sold nor transmitted to third parties. They are recorded via Google tools (Google Sheets), acting as processor; storage outside the European Union may be governed by the European Commission's standard contractual clauses.",
+          "Elles ne sont ni vendues ni transmises à des tiers. Elles sont enregistrées via des outils Google (Google Sheets), qui agit comme sous-traitant ; un stockage hors Union européenne peut être encadré par les clauses contractuelles types de la Commission européenne.": "They are neither sold nor transmitted to third parties. They are recorded via Google tools (Google Sheets), acting as processor; storage outside the European Union may be governed by the European Commission's standard contractual clauses.",
+          "Durée de conservation": "Retention period",
+          "Vos données sont conservées 3 ans après notre dernier contact, puis supprimées.": "Your data is kept for 3 years after our last contact, then deleted.",
+          "Vos droits": "Your rights",
+          "Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité. Pour les exercer, écrivez à": "You have the right to access, rectify, erase, restrict, object and portability. To exercise these rights, write to",
+          ". Vous pouvez aussi introduire une réclamation auprès de la CNIL (": ". You may also lodge a complaint with the CNIL (",
+          "Vous pouvez aussi introduire une réclamation auprès de la CNIL (": "You may also lodge a complaint with the CNIL (",
+          "Site créé par": "Site created by",
+          "Information non médicale. Pour toute situation de santé, demander l'avis d'un professionnel qualifié.": "Non-medical information. For any health situation, seek advice from a qualified professional."
+        }
+      },
+      es: {
+        htmlLang: "es",
+        title: "Agnès & Vous te presenta Zinzino",
+        description: "Descubrir Zinzino, su visión, sus valores, su enfoque basado en varias pruebas y la actividad de partner.",
+        brandSuffix: "te presenta Zinzino",
+        footerSuffix: "Acompañamiento personalizado",
+        readLabel: "Leer pantalla",
+        stopLabel: "Detener",
+        selectedPrefix: "Lo que más te atrae:",
+        selectedSuffix: "Guarda esta idea para la siguiente etapa.",
+        emptyAudio: "No hay texto legible visible en pantalla.",
+        unsupportedAudio: "La lectura de audio no está disponible en este navegador.",
+        choices: [
+          ["El concepto de pruebas", "El concepto de pruebas y nutrición personalizada"],
+          ["El modelo económico", "El modelo económico"],
+          ["Los dos", "Los dos: las pruebas y el modelo económico"],
+          ["La calidad y las pruebas", "La calidad de los productos y las pruebas"],
+          ["Los valores y la visión", "La visión, los valores y la dimensión internacional"],
+          ["Otro", "Otro punto por precisar"]
+        ],
+        t: {
+          "Valeurs": "Valores",
+          "Histoire": "Historia",
+          "Concept nutrition": "Concepto de nutrición",
+          "Qualité": "Calidad",
+          "Activité": "Actividad",
+          "Ton intérêt": "Tu interés",
+          "Depuis 2005": "Desde 2005",
+          "Une compagnie scandinave née d'une conviction simple.": "Una compañía escandinava nacida de una convicción simple.",
+          "Quand on donne aux personnes des outils fiables pour comprendre leur corps, elles peuvent faire des choix plus éclairés.": "Cuando las personas reciben herramientas fiables para comprender su cuerpo, pueden tomar decisiones más informadas.",
+          "Découvrir la compagnie": "Descubrir la compañía",
+          "Ce qui m'attire": "Lo que me atrae",
+          "Fondée par Hilde et Ørjan Sæle": "Fundada por Hilde y Ørjan Sæle",
+          "Analyses indépendantes avec Vitas": "Análisis independientes con Vitas",
+          "Plus de 100 marchés": "Más de 100 mercados",
+          "Cotée en Bourse": "Cotizada en bolsa",
+          "Le sens du nom": "El significado del nombre",
+          "Une petite chose de grande valeur.": "Una pequeña cosa de gran valor.",
+          "Un premier repère. Une routine adaptée. Un résultat que l'on peut comparer. Chez Zinzino, le changement commence souvent par quelque chose de simple, mais qui peut ouvrir une trajectoire beaucoup plus grande.": "Un primer punto de referencia. Una rutina adaptada. Un resultado que se puede comparar. En Zinzino, el cambio empieza a menudo por algo sencillo que puede abrir una trayectoria mucho más grande.",
+          "début de l'aventure": "inicio de la aventura",
+          "tests d'acides gras analysés": "pruebas de ácidos grasos analizadas",
+          "des tests initiaux en déséquilibre": "pruebas iniciales en desequilibrio",
+          "laboratoire indépendant à Oslo": "laboratorio independiente en Oslo",
+          "Vision, mission, valeurs": "Visión, misión, valores",
+          "Une compagnie née d'une conviction de fondateurs.": "Una compañía nacida de la convicción de sus fundadores.",
+          "Les entrepreneurs norvégiens Hilde et Ørjan Sæle ont construit Zinzino autour d'une idée forte : remettre la relation client au cœur de la vente directe, avec des outils sérieux et une vision internationale.": "Los empresarios noruegos Hilde y Ørjan Sæle construyeron Zinzino en torno a una idea fuerte: volver a poner la relación con el cliente en el centro de la venta directa, con herramientas serias y una visión internacional.",
+          "Les fondateurs": "Los fundadores",
+          "Depuis 2005, ils défendent une approche plus personnelle de la santé : moins d'approximation, plus de mesure, et une relation client suivie dans le temps.": "Desde 2005, defienden un enfoque más personal de la salud: menos aproximación, más medición y una relación con el cliente seguida en el tiempo.",
+          "Photo officielle Zinzino.": "Foto oficial de Zinzino.",
+          "Une vision": "Una visión",
+          "“Inspire Change in Life” : inspirer un changement réel, dans la santé, les habitudes et parfois la trajectoire professionnelle.": "\"Inspire Change in Life\": inspirar un cambio real en la salud, los hábitos y a veces la trayectoria profesional.",
+          "Une mission": "Una misión",
+          "Devenir une compagnie de vente directe centrée client, où l'expérience, le suivi et la confiance comptent autant que les produits.": "Convertirse en una compañía de venta directa centrada en el cliente, donde la experiencia, el seguimiento y la confianza cuentan tanto como los productos.",
+          "Une culture": "Una cultura",
+          "Les partenaires ne sont pas de simples vendeurs : ils portent l'information, expliquent le concept et restent présents dans le parcours.": "Los partners no son simples vendedores: transmiten la información, explican el concepto y permanecen presentes durante el recorrido.",
+          "Évolution": "Evolución",
+          "D'une aventure scandinave à une compagnie internationale.": "De una aventura escandinava a una compañía internacional.",
+          "Zinzino n'est pas apparue comme une mode. La compagnie s'est construite étape après étape : relation client, nutrition personnalisée, expansion internationale et informations publiques.": "Zinzino no apareció como una moda. La compañía se construyó paso a paso: relación con el cliente, nutrición personalizada, expansión internacional e información pública.",
+          "Le départ avec Hilde et Ørjan Sæle": "El comienzo con Hilde y Ørjan Sæle",
+          "Une entreprise familiale norvégienne démarre avec une ambition : construire une vente directe plus centrée client.": "Una empresa familiar noruega comienza con una ambición: construir una venta directa más centrada en el cliente.",
+          "Le virage vers la nutrition personnalisée": "El giro hacia la nutrición personalizada",
+          "La compagnie développe progressivement une approche basée sur les tests et la personnalisation.": "La compañía desarrolla progresivamente un enfoque basado en pruebas y personalización.",
+          "Une société cotée et plus transparente": "Una sociedad cotizada y más transparente",
+          "Zinzino entre sur Nasdaq First North, ce qui renforce l'accès aux informations publiques sur l'entreprise.": "Zinzino entra en Nasdaq First North, lo que refuerza el acceso a la información pública sobre la empresa.",
+          "20 ans, plus de 100 marchés et 306,1 M€ de chiffre d'affaires": "20 años, más de 100 mercados y 306,1 M€ de facturación",
+          "La compagnie confirme son expansion mondiale avec une forte croissance et plus de 1,9 million de tests d'acides gras analysés.": "La compañía confirma su expansión mundial con un fuerte crecimiento y más de 1,9 millones de pruebas de ácidos grasos analizadas.",
+          "Une trajectoire de croissance construite sur plus de 20 ans, avec une présence internationale et un chiffre d'affaires 2025 exprimé en euros.": "Una trayectoria de crecimiento construida durante más de 20 años, con presencia internacional y una facturación 2025 expresada en euros.",
+          "Le concept": "El concepto",
+          "Mesurer pour personnaliser.": "Medir para personalizar.",
+          "Zinzino ne repose pas sur un seul test. L'idée est de mesurer où tu en es dans plusieurs domaines de la santé cellulaire, puis de mettre en place une routine et de comparer l'évolution ensuite.": "Zinzino no se basa en una sola prueba. La idea es medir dónde estás en varias áreas de la salud celular, luego establecer una rutina y comparar la evolución después.",
+          "Découvrir le concept de la nutrition basée sur des tests avec Zinzino": "Descubrir el concepto de nutrición basada en pruebas con Zinzino",
+          "Plusieurs autotests pour obtenir un point de départ personnel.": "Varias autopruebas para obtener un punto de partida personal.",
+          "Des résultats qui aident à comprendre différents marqueurs de santé cellulaire.": "Resultados que ayudan a comprender diferentes marcadores de salud celular.",
+          "Une routine nutritionnelle proposée selon les besoins observés.": "Una rutina nutricional propuesta según las necesidades observadas.",
+          "Un retest pour comparer l'évolution au lieu de rester sur une impression.": "Una nueva prueba para comparar la evolución en lugar de quedarse con una impresión.",
+          "Ce qui rend l'approche différente": "Lo que hace diferente el enfoque",
+          "La preuve avant le discours.": "La prueba antes del discurso.",
+          "L'idée forte de Zinzino est simple : ne pas demander aux personnes de croire, mais leur proposer de mesurer, d'agir, puis de comparer.": "La idea fuerte de Zinzino es sencilla: no pedir a las personas que crean, sino proponerles medir, actuar y luego comparar.",
+          "Philosophie produit et qualité": "Filosofía de producto y calidad",
+          "Une exigence qui rassure.": "Una exigencia que tranquiliza.",
+          "La confiance se construit sur des éléments vérifiables : des analyses indépendantes, des tests anonymes, une production structurée, des contrôles qualité et une entreprise cotée.": "La confianza se construye sobre elementos verificables: análisis independientes, pruebas anónimas, producción estructurada, controles de calidad y una empresa cotizada.",
+          "Les analyses ne sont pas réalisées par Zinzino.": "Los análisis no los realiza Zinzino.",
+          "Pour les tests concernés, les échantillons sont gérés et analysés anonymement par Vitas, un laboratoire indépendant d'analyse chimique basé à Oslo, certifié GMP.": "Para las pruebas correspondientes, las muestras son gestionadas y analizadas de forma anónima por Vitas, un laboratorio independiente de análisis químico con sede en Oslo, certificado GMP.",
+          "Ni le laboratoire, ni Zinzino ne travaillent avec le nom de la personne : le résultat est relié à un identifiant de test.": "Ni el laboratorio ni Zinzino trabajan con el nombre de la persona: el resultado está vinculado a un identificador de prueba.",
+          "Autotests à domicile": "Autopruebas en casa",
+          "Une démarche simple, réalisée chez soi, pour obtenir une base personnelle.": "Un proceso sencillo, realizado en casa, para obtener una base personal.",
+          "Routine personnalisée": "Rutina personalizada",
+          "Des produits choisis selon le point de départ et l'objectif d'amélioration.": "Productos elegidos según el punto de partida y el objetivo de mejora.",
+          "Vision long terme": "Visión a largo plazo",
+          "Une société cotée, avec des informations publiques, capable d'intégrer des réseaux et des technologies qui renforcent sa mission.": "Una sociedad cotizada, con información pública, capaz de integrar redes y tecnologías que refuerzan su misión.",
+          "Innovation": "Innovación",
+          "Des technologies au service d'une nutrition plus propre": "Tecnologías al servicio de una nutrición más limpia",
+          "Zinzino ne développe pas seulement un réseau international. La compagnie peut aussi s'associer à des entreprises qui apportent une vraie avancée technologique, comme les systèmes de photobioréacteurs pour cultiver des microalgues dans un environnement contrôlé.": "Zinzino no solo desarrolla una red internacional. La compañía también puede asociarse con empresas que aportan un verdadero avance tecnológico, como sistemas de fotobiorreactores para cultivar microalgas en un entorno controlado.",
+          "L'objectif reste le même : sécuriser des matières premières de qualité, limiter l'exposition aux pollutions extérieures et préparer les solutions nutritionnelles de demain.": "El objetivo sigue siendo el mismo: asegurar materias primas de calidad, limitar la exposición a contaminaciones externas y preparar las soluciones nutricionales del mañana.",
+          "Photobioréacteurs de microalgues, visuel d'illustration technologique.": "Fotobiorreactores de microalgas, imagen de ilustración tecnológica.",
+          "Clients, recommandation, partenaires": "Clientes, recomendación, partners",
+          "Une activité qui peut se développer de plusieurs façons.": "Una actividad que puede desarrollarse de varias maneras.",
+          "Le modèle commence souvent par l'expérience client : une personne utilise un produit, apprécie le concept, puis peut recommander autour d'elle. Ensuite, chacun peut choisir de rester dans une démarche client, de développer une clientèle, une équipe, ou un équilibre des deux.": "El modelo suele empezar por la experiencia del cliente: una persona utiliza un producto, aprecia el concepto y luego puede recomendarlo a su alrededor. Después, cada uno puede elegir seguir como cliente, desarrollar una clientela, un equipo o un equilibrio entre ambos.",
+          "Seulement des clients": "Solo clientes",
+          "Construire une clientèle fidèle, suivre les routines, les commandes et les retests.": "Construir una clientela fiel, seguir las rutinas, los pedidos y las nuevas pruebas.",
+          "Seulement des partenaires": "Solo partners",
+          "Former des personnes qui souhaitent développer à leur tour une activité indépendante.": "Formar a personas que desean desarrollar a su vez una actividad independiente.",
+          "Un équilibre à choisir": "Un equilibrio a elegir",
+          "Un peu des deux, ou beaucoup des deux : chacun peut avancer selon son profil et ses objectifs.": "Un poco de ambos, o mucho de ambos: cada uno puede avanzar según su perfil y sus objetivos.",
+          "Activité partenaire": "Actividad partner",
+          "Plusieurs façons de grandir avec la compagnie.": "Varias formas de crecer con la compañía.",
+          "Le modèle peut se construire avec des clients, avec des partenaires, ou avec les deux. La progression dépend du chemin choisi, du temps disponible et de la régularité de l'action.": "El modelo puede construirse con clientes, con partners o con ambos. El progreso depende del camino elegido, del tiempo disponible y de la regularidad de la acción.",
+          "Clientèle": "Clientela",
+          "Construire une base stable": "Construir una base estable",
+          "Accompagner des clients réguliers, suivre leur expérience et développer la confiance.": "Acompañar a clientes regulares, seguir su experiencia y desarrollar la confianza.",
+          "Recommandation": "Recomendación",
+          "Faire circuler le concept": "Hacer circular el concepto",
+          "Permettre aux clients satisfaits de recommander autour d'eux, sans transformer tout le monde en vendeur.": "Permitir que clientes satisfechos recomienden a su alrededor, sin convertir a todo el mundo en vendedor.",
+          "Équipe": "Equipo",
+          "Former si on le souhaite": "Formar si se desea",
+          "Accompagner d'autres partenaires, transmettre les outils et construire une organisation.": "Acompañar a otros partners, transmitir las herramientas y construir una organización.",
+          "Actions": "Acciones",
+          "Participer à la valeur créée": "Participar en el valor creado",
+          "Certains bonus du plan peuvent être versés sous forme d'actions Zinzino, selon les conditions du programme.": "Algunos bonos del plan pueden pagarse en forma de acciones Zinzino, según las condiciones del programa.",
+          "Formation gratuite et accompagnement par l'équipe.": "Formación gratuita y acompañamiento del equipo.",
+          "Pas de stock à gérer chez soi.": "Sin stock que gestionar en casa.",
+          "Pas d'employés, pas de local, pas de lourde structure.": "Sin empleados, sin local, sin estructura pesada.",
+          "Une carrière possible par la clientèle, par l'équipe, ou par une combinaison des deux.": "Una carrera posible a través de la clientela, del equipo o de una combinación de ambos.",
+          "Une entreprise où des partenaires historiques font partie de l'actionnariat, et où certains bonus peuvent être liés aux actions.": "Una empresa donde partners históricos forman parte del accionariado, y donde algunos bonos pueden estar vinculados a acciones.",
+          "Un modèle hybride": "Un modelo híbrido",
+          "Des commissions, une logique d'abonnements et certains bonus pouvant être liés aux actions.": "Comisiones, una lógica de suscripciones y algunos bonos que pueden estar vinculados a acciones.",
+          "Z4F partenaire": "Z4F partner",
+          "Dans le parcours partenaire, Z4F peut permettre de couvrir le pack partenaire, selon les conditions du programme et une base de clients actifs.": "En el recorrido partner, Z4F puede permitir cubrir el pack partner, según las condiciones del programa y una base de clientes activos.",
+          "Une compagnie en mouvement": "Una compañía en movimiento",
+          "Une présence internationale qui donne un cadre plus large à l'activité locale.": "Una presencia internacional que da un marco más amplio a la actividad local.",
+          "La bonne question maintenant": "La buena pregunta ahora",
+          "Qu'est-ce qui t'attire le plus dans cette compagnie ?": "¿Qué es lo que más te atrae de esta compañía?",
+          "Il n'y a pas de bonne ou de mauvaise réponse. Cette question permet simplement d'orienter la suite de l'échange vers ce qui t'intéresse vraiment.": "No hay una respuesta buena o mala. Esta pregunta simplemente permite orientar la continuación del intercambio hacia lo que realmente te interesa.",
+          "Choisis ce qui t'attire le plus. Cette réponse reste pour toi et t'aide à préparer la suite.": "Elige lo que más te atrae. Esta respuesta queda para ti y te ayuda a preparar la siguiente etapa.",
+          "Continuer vers le démarrage": "Continuar hacia el inicio",
+          "Aucune promesse de revenu. La rémunération d'une activité partenaire est variable et dépend du temps, de la régularité, de la formation suivie et de l'action menée.": "No hay promesa de ingresos. La remuneración de una actividad partner es variable y depende del tiempo, la regularidad, la formación seguida y la acción realizada.",
+          "Mentions légales et confidentialité": "Aviso legal y confidencialidad",
+          "Mentions légales": "Aviso legal",
+          "Éditeur": "Editor",
+          "Directeur de la publication": "Director de publicación",
+          "Hébergeur": "Alojamiento",
+          "Ce site est hébergé par GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.": "Este sitio está alojado por GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, Estados Unidos.",
+          "Propriété intellectuelle": "Propiedad intelectual",
+          "La structure et le contenu de ce site ; toute reproduction sans autorisation est interdite. Les réponses que vous saisissez, elles, vous appartiennent.": "La estructura y el contenido de este sitio no pueden reproducirse sin autorización. Las respuestas que introduces te pertenecen.",
+          "Confidentialité & données personnelles (RGPD)": "Confidencialidad y datos personales (RGPD)",
+          "Responsable du traitement": "Responsable del tratamiento",
+          "Données recueillies": "Datos recogidos",
+          "Votre prénom, votre email, votre téléphone (facultatif) et les réponses ne sont recueillies qu'avec votre consentement explicite, et vous restez libre de ne répondre à aucune question.": "Tu nombre, email, teléfono opcional y respuestas se recogen solo con tu consentimiento explícito, y sigues siendo libre de no responder a ninguna pregunta.",
+          "Base légale": "Base legal",
+          "Votre consentement (articles 6 et, pour d'éventuelles données de santé, 9 du RGPD). Vous pouvez le retirer à tout moment.": "Tu consentimiento (artículos 6 y, para posibles datos de salud, 9 del RGPD). Puedes retirarlo en cualquier momento.",
+          "Destinataires": "Destinatarios",
+          "Vos données sont réservées à": "Tus datos están reservados para",
+          ". Elles ne sont ni vendues ni transmises à des tiers. Elles sont enregistrées via des outils Google (Google Sheets), qui agit comme sous-traitant ; un stockage hors Union européenne peut être encadré par les clauses contractuelles types de la Commission européenne.": ". No se venden ni se transmiten a terceros. Se registran mediante herramientas de Google (Google Sheets), que actúa como subencargado; un almacenamiento fuera de la Unión Europea puede estar regulado por las cláusulas contractuales tipo de la Comisión Europea.",
+          "Elles ne sont ni vendues ni transmises à des tiers. Elles sont enregistrées via des outils Google (Google Sheets), qui agit comme sous-traitant ; un stockage hors Union européenne peut être encadré par les clauses contractuelles types de la Commission européenne.": "No se venden ni se transmiten a terceros. Se registran mediante herramientas de Google (Google Sheets), que actúa como subencargado; un almacenamiento fuera de la Unión Europea puede estar regulado por las cláusulas contractuales tipo de la Comisión Europea.",
+          "Durée de conservation": "Duración de conservación",
+          "Vos données sont conservées 3 ans après notre dernier contact, puis supprimées.": "Tus datos se conservan 3 años después de nuestro último contacto y luego se eliminan.",
+          "Vos droits": "Tus derechos",
+          "Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité. Pour les exercer, écrivez à": "Tienes derecho de acceso, rectificación, supresión, limitación, oposición y portabilidad. Para ejercerlos, escribe a",
+          ". Vous pouvez aussi introduire une réclamation auprès de la CNIL (": ". También puedes presentar una reclamación ante la CNIL (",
+          "Vous pouvez aussi introduire une réclamation auprès de la CNIL (": "También puedes presentar una reclamación ante la CNIL (",
+          "Site créé par": "Sitio creado por",
+          "Information non médicale. Pour toute situation de santé, demander l'avis d'un professionnel qualifié.": "Información no médica. Para cualquier situación de salud, pide consejo a un profesional cualificado."
+        }
+      }
+    };
+
+    const originalTextNodes = new WeakMap();
     const buttons = document.querySelectorAll(".choice");
     const message = document.getElementById("messageBox");
+    const readScreenButton = document.getElementById("readScreenButton");
+    const stopAudioButton = document.getElementById("stopAudioButton");
+    let currentLang = "fr";
+    let selectedChoice = "";
+
+    const clean = (value) => value.replace(/\s+/g, " ").trim();
+
+    function applyConfig() {
+      document.querySelectorAll(".js-essential-link").forEach((link) => {
+        link.href = SITE_CONFIG.essentialUrl;
+      });
+      document.querySelectorAll(".js-start-link").forEach((link) => {
+        link.href = SITE_CONFIG.startUrl;
+      });
+      document.querySelectorAll("[data-config]").forEach((node) => {
+        const key = node.dataset.config;
+        const value = SITE_CONFIG[key] || "";
+        node.textContent = value;
+        if (key === "contactEmail" && node.tagName === "A") {
+          node.href = `mailto:${value}`;
+        }
+        if (key === "contactPhone" && node.tagName === "A") {
+          node.href = `tel:${value.replace(/[^\d+]/g, "")}`;
+        }
+      });
+    }
+
+    function captureOriginalTextNodes() {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          const parent = node.parentElement;
+          if (!parent) return NodeFilter.FILTER_REJECT;
+          if (parent.closest("script, style, [data-config]")) return NodeFilter.FILTER_REJECT;
+          return clean(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+      while (walker.nextNode()) {
+        originalTextNodes.set(walker.currentNode, walker.currentNode.nodeValue);
+      }
+    }
+
+    function translateTextNode(node, lang) {
+      const original = originalTextNodes.get(node);
+      if (!original) return;
+      const key = clean(original);
+      const translated = lang === "fr" ? key : langData[lang].t[key];
+      if (!translated) {
+        node.nodeValue = original;
+        return;
+      }
+      const leading = original.match(/^\s*/)[0];
+      const trailing = original.match(/\s*$/)[0];
+      node.nodeValue = `${leading}${translated}${trailing}`;
+    }
+
+    function updateChoices(lang) {
+      const choices = langData[lang].choices;
+      buttons.forEach((button, index) => {
+        const [label, value] = choices[index];
+        button.textContent = label;
+        button.dataset.choice = value;
+      });
+      updateMessage(lang);
+    }
+
+    function updateMessage(lang) {
+      if (!message) return;
+      if (!selectedChoice) {
+        const defaultText = {
+          fr: "Choisis ce qui t'attire le plus. Cette réponse reste pour toi et t'aide à préparer la suite.",
+          en: "Choose what attracts you most. This answer stays with you and helps prepare the next step.",
+          es: "Elige lo que más te atrae. Esta respuesta queda para ti y te ayuda a preparar la siguiente etapa."
+        };
+        message.textContent = defaultText[lang];
+        return;
+      }
+      message.textContent = `${langData[lang].selectedPrefix} ${selectedChoice}. ${langData[lang].selectedSuffix}`;
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      const data = langData[lang];
+      document.documentElement.lang = data.htmlLang;
+      document.title = data.title;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) metaDescription.content = data.description;
+      const brandTitle = document.getElementById("brandTitle");
+      if (brandTitle) brandTitle.textContent = `${SITE_CONFIG.partnerDisplayName} ${data.brandSuffix}`;
+      const footerBrand = document.getElementById("footerBrand");
+      if (footerBrand) footerBrand.textContent = `${SITE_CONFIG.partnerDisplayName} - ${data.footerSuffix}`;
+      readScreenButton.textContent = data.readLabel;
+      stopAudioButton.textContent = data.stopLabel;
+      document.querySelectorAll(".lang-button").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.lang === lang));
+      });
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          return originalTextNodes.has(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+      while (walker.nextNode()) translateTextNode(walker.currentNode, lang);
+      updateChoices(lang);
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    }
+
+    function visibleScreenText() {
+      const blocks = Array.from(document.querySelectorAll("main section, .legal-section, footer"));
+      const visible = blocks.filter((block) => {
+        const rect = block.getBoundingClientRect();
+        return rect.bottom > 0 && rect.top < window.innerHeight;
+      });
+      return clean(visible.map((block) => block.innerText).join(". "));
+    }
+
+    function readVisibleScreen() {
+      if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        alert(langData[currentLang].unsupportedAudio);
+        return;
+      }
+      const text = visibleScreenText();
+      if (!text) {
+        alert(langData[currentLang].emptyAudio);
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = currentLang === "fr" ? "fr-FR" : currentLang === "en" ? "en-US" : "es-ES";
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    applyConfig();
+    captureOriginalTextNodes();
+    applyLanguage("fr");
+
+    document.querySelectorAll(".lang-button").forEach((button) => {
+      button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+    });
 
     buttons.forEach((button) => {
       button.setAttribute("aria-pressed", "false");
       button.addEventListener("click", () => {
         buttons.forEach((item) => item.setAttribute("aria-pressed", "false"));
         button.setAttribute("aria-pressed", "true");
-        const choice = button.dataset.choice;
-        message.textContent = `Ce qui t'attire le plus : ${choice}. Garde cette idée pour la suite du parcours.`;
+        selectedChoice = button.dataset.choice;
+        updateMessage(currentLang);
       });
+    });
+
+    readScreenButton.addEventListener("click", readVisibleScreen);
+    stopAudioButton.addEventListener("click", () => {
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     });
   </script>
 </body>
