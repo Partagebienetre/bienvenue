@@ -23,13 +23,13 @@ const CONFIG = {
     phone: "+33 6 63 93 21 12",          // Votre téléphone
     id:    "agnes"                        // Identifiant court, sans espace (ex : "sylvie")
   },
-  webhookUrl: "https://script.google.com/macros/s/AKfycbycjjsBxY_AkP0j_mlrrOeaWAxnkWAH42JXsN02PoLXmRLwKpHUjy5DozyIhHpJILcX/exec",   // Adresse de votre Apps Script (finit par /exec). Laissez "" pour l'instant.
+  webhookUrl: "",   // Adresse de votre Apps Script (finit par /exec). Laissez "" pour l'instant.
   langueActive: "fr",   // Langue active par défaut
   langues: [            // Passez "dispo" à true quand la traduction d'une langue est prête
     { code:"fr", label:"Français", dispo:true  },
-    { code:"es", label:"Español",  dispo:false },
-    { code:"de", label:"Deutsch",  dispo:false },
-    { code:"en", label:"English",  dispo:false }
+    { code:"es", label:"Español",  dispo:true  },
+    { code:"de", label:"Deutsch",  dispo:true  },
+    { code:"en", label:"English",  dispo:true  }
   ],
   brand: {
     paper:"#FBFAF7", ink:"#2E3830", accent:"#6E8B72",
@@ -343,6 +343,574 @@ function optionValues(q){
 }
 function isExclusive(q,val){if(val===UNSURE||val===REFUSE)return true;return (q.exclusive||[]).includes(val);}
 
+/* ═══ TRADUCTIONS ═══
+   Le français est la langue SOURCE (ce qui part dans la feuille reste en français).
+   Les autres langues sont une couche d'affichage. Pour ajouter une langue,
+   ajoutez son bloc ici (mêmes clés françaises) et passez son "dispo" à true dans CONFIG. */
+function _norm(s){return String(s).replace(/\u2019/g,"'");}
+function t(s){const L=CONFIG.langueActive;if(!L||L==='fr'||!I18N[L])return s;const v=I18N[L][_norm(s)];return v!==undefined?v:s;}
+const I18N={ es:{
+  // — Interface —
+  "Précédent":"Anterior","Continuer":"Continuar",
+  "🔊 Écouter":"🔊 Escuchar","⏹ Arrêter":"⏹ Detener",
+  "Autre…":"Otro…","Précisez…":"Especifique…",
+  "Votre réponse (facultatif)…":"Su respuesta (opcional)…",
+  "Écrivez librement (facultatif)…":"Escriba libremente (opcional)…",
+  "sélectionné(s)":"seleccionado(s)","bientôt":"pronto",
+  "La lecture à voix haute n'est pas disponible sur ce navigateur.":"La lectura en voz alta no está disponible en este navegador.",
+  "Pas du tout d'accord":"Totalmente en desacuerdo","Tout à fait d'accord":"Totalmente de acuerdo",
+  "Lien copié ✓":"Enlace copiado ✓",
+  // — Accueil —
+  "Un temps pour vous":"Un momento para usted",
+  "Faire le point.<br>Comprendre. Avancer.":"Hacer balance.<br>Comprender. Avanzar.",
+  "Ce bilan vous est offert. C'est un temps de réflexion pour créer une photographie de votre situation aujourd'hui : votre ":"Este balance es un regalo para usted. Es un momento de reflexión para crear una fotografía de su situación actual: su ",
+  "Point de Départ":"Punto de Partida",
+  ". Vous pourrez le refaire dans quelques mois pour mesurer votre évolution — par rapport à vous-même, et à personne d'autre.":". Podrá volver a hacerlo dentro de unos meses para medir su evolución, en relación con usted mismo/a y con nadie más.",
+  "Environ 15 à 20 minutes, à votre rythme.":"Entre 15 y 20 minutos, a su ritmo.",
+  "Aucune question n'est obligatoire. Vous pouvez passer, ou répondre « je ne sais pas ».":"Ninguna pregunta es obligatoria. Puede omitirla o responder «no lo sé».",
+  "À la fin, vous recevrez par email votre carnet personnel, avec vos réponses.":"Al final, recibirá por correo electrónico su cuaderno personal, con sus respuestas.",
+  "Même si vous ne donnez jamais aucune suite, ce temps doit vous être utile à vous. C'est la seule promesse de ce bilan.":"Aunque nunca dé continuidad a nada, este momento debe serle útil a usted. Es la única promesa de este balance.",
+  "Commencer mon bilan":"Comenzar mi balance",
+  "Mentions légales & confidentialité":"Aviso legal y privacidad",
+  // — Étapes (eyebrows) —
+  "Étape 1 · Premières impressions":"Etapa 1 · Primeras impresiones",
+  "Étape 2 · Ma roue de vie (1/2)":"Etapa 2 · Mi rueda de la vida (1/2)",
+  "Étape 3 · Ma roue de vie (2/2)":"Etapa 3 · Mi rueda de la vida (2/2)",
+  "Étape 4 · Ma vie aujourd'hui":"Etapa 4 · Mi vida hoy",
+  "Étape 5 · Ce qui compte pour moi":"Etapa 5 · Lo que me importa",
+  "Étape 6 · Mes envies":"Etapa 6 · Mis deseos",
+  "Étape 7 · Ma motivation, mes rêves":"Etapa 7 · Mi motivación, mis sueños",
+  "Étape 8 · Et maintenant":"Etapa 8 · Y ahora",
+  "Dernière étape":"Última etapa",
+  // — Titres & intros de chapitre —
+  "Trois premières impressions":"Tres primeras impresiones",
+  "Sans réfléchir longtemps, à combien situeriez-vous ces trois ressentis aujourd'hui ? Il n'y a ni bonne ni mauvaise réponse : c'est votre regard, à l'instant présent.":"Sin pensarlo demasiado, ¿en qué punto situaría hoy estas tres sensaciones? No hay respuestas correctas ni incorrectas: es su mirada, en este momento.",
+  "Ma roue de vie":"Mi rueda de la vida",
+  "Dix domaines de votre vie, explorés chacun sous trois angles. Notez à quel point chaque phrase vous correspond aujourd'hui. Cette photographie vous appartient : ni note, ni jugement.":"Diez áreas de su vida, exploradas cada una desde tres ángulos. Indique hasta qué punto cada frase le corresponde hoy. Esta fotografía le pertenece: ni nota, ni juicio.",
+  "Encore cinq domaines, sur le même principe.":"Cinco áreas más, con el mismo principio.",
+  "Ma vie aujourd'hui":"Mi vida hoy",
+  "Quelques repères, simplement pour situer d'où vous partez.":"Algunos datos, simplemente para situar su punto de partida.",
+  "Ce qui compte pour moi, et ce que j'ai en moi":"Lo que me importa, y lo que llevo dentro",
+  "Vos repères et vos ressources — souvent plus nombreux qu'on ne le croit.":"Sus referencias y sus recursos, a menudo más numerosos de lo que se cree.",
+  "Mes envies, et ce dont j'ai fait le tour":"Mis deseos, y aquello de lo que ya me he cansado",
+  "Le cœur de cette réflexion. Prenez le temps que vous voulez.":"El corazón de esta reflexión. Tómese el tiempo que quiera.",
+  "Ma motivation, mes rêves":"Mi motivación, mis sueños",
+  "Ce qui vous met en mouvement, et ce dont vous rêvez.":"Lo que le pone en movimiento, y aquello con lo que sueña.",
+  "Et maintenant ?":"¿Y ahora?",
+  "Vous voilà au bout de ce temps de réflexion. Encore quelques mots, si vous le souhaitez.":"Ha llegado al final de este momento de reflexión. Unas últimas palabras, si lo desea.",
+  // — Roue : domaines —
+  "Santé & énergie":"Salud y energía","Temps & liberté":"Tiempo y libertad",
+  "Finances & niveau de vie":"Finanzas y nivel de vida","Travail / activité":"Trabajo / actividad",
+  "Relations & entourage":"Relaciones y entorno","Épanouissement personnel":"Realización personal",
+  "Sécurité & avenir":"Seguridad y futuro","Sens & utilité":"Sentido y utilidad",
+  "Évolution & accomplissement":"Evolución y logro","Équilibre de vie":"Equilibrio de vida",
+  // — Roue : affirmations —
+  "Je me sens en bonne forme physique":"Me siento en buena forma física",
+  "J'ai de l'énergie pour mener mes journées":"Tengo energía para afrontar mis días",
+  "Je récupère bien et mon sommeil me satisfait":"Me recupero bien y mi sueño me satisface",
+  "J'ai suffisamment de temps pour ce qui compte vraiment pour moi":"Tengo suficiente tiempo para lo que de verdad me importa",
+  "Je me sens libre d'organiser mes journées comme je le souhaite":"Me siento libre de organizar mis días como quiero",
+  "Je me sens serein·e dans mon rythme de vie":"Me siento sereno/a con mi ritmo de vida",
+  "Mon niveau de vie me convient":"Mi nivel de vida me conviene",
+  "Je me sens serein·e vis-à-vis de mon argent au quotidien":"Me siento sereno/a con mi dinero en el día a día",
+  "Je peux m'offrir ce qui compte pour moi":"Puedo permitirme lo que me importa",
+  "Je prends du plaisir dans ce que je fais de mes journées":"Disfruto con lo que hago cada día",
+  "Mon activité me permet d'exprimer ce que je sais faire":"Mi actividad me permite expresar lo que sé hacer",
+  "Je me sens reconnu·e et apprécié·e à ma juste valeur":"Me siento reconocido/a y valorado/a en mi justa medida",
+  "Je suis entouré·e de personnes sur qui je peux compter":"Estoy rodeado/a de personas con las que puedo contar",
+  "Mes relations proches me font du bien":"Mis relaciones cercanas me hacen bien",
+  "Je suis satisfait·e de la place des autres dans ma vie":"Estoy satisfecho/a con el lugar de los demás en mi vida",
+  "Je me sens bien dans ma peau":"Me siento bien conmigo mismo/a",
+  "Je vis en accord avec mes valeurs profondes":"Vivo de acuerdo con mis valores profundos",
+  "Je me sens épanoui·e dans ma vie personnelle":"Me siento realizado/a en mi vida personal",
+  "Je me sens confiant·e face à mon avenir":"Me siento confiado/a ante mi futuro",
+  "Ma situation actuelle me procure un sentiment de stabilité":"Mi situación actual me da una sensación de estabilidad",
+  "Je me sens prêt·e à faire face aux imprévus":"Me siento preparado/a para afrontar los imprevistos",
+  "Ce que je vis a du sens à mes yeux":"Lo que vivo tiene sentido para mí",
+  "J'ai le sentiment d'être utile aux autres":"Siento que soy útil a los demás",
+  "Je me sens à ma place dans ce que j'apporte":"Me siento en mi lugar en lo que aporto",
+  "J'ai le sentiment de progresser et d'apprendre":"Siento que progreso y que aprendo",
+  "Je réalise des choses dont je suis fier·ère":"Logro cosas de las que me siento orgulloso/a",
+  "J'avance vers ce qui compte pour moi":"Avanzo hacia lo que me importa",
+  "Je trouve un bon équilibre entre ma vie personnelle et mon travail":"Encuentro un buen equilibrio entre mi vida personal y mi trabajo",
+  "Je concilie mes différentes responsabilités sereinement":"Concilio mis distintas responsabilidades con serenidad",
+  "Ma vie me semble harmonieuse dans son ensemble":"Mi vida me parece armoniosa en su conjunto",
+  // — Impressions (échelles) —
+  "Mon épanouissement, de façon générale":"Mi realización personal, en general",
+  "Pas du tout épanoui·e":"Nada realizado/a","Pleinement épanoui·e":"Plenamente realizado/a",
+  "Mon épanouissement dans ma vie personnelle":"Mi realización en mi vida personal",
+  "Mon épanouissement dans ma vie professionnelle":"Mi realización en mi vida profesional",
+  "Très faible":"Muy baja","Très fort":"Muy alta",
+  "Si vous n'avez pas d'activité professionnelle en ce moment, vous pouvez passer cette question.":"Si no tiene actividad profesional en este momento, puede omitir esta pregunta.",
+  // — Ma vie aujourd'hui —
+  "Votre situation personnelle, aujourd'hui":"Su situación personal, hoy",
+  "Je vis en couple":"Vivo en pareja","J'ai un ou des enfants à charge":"Tengo uno o varios hijos a cargo",
+  "Je suis proche aidant·e":"Soy cuidador/a de un familiar","Je vis seul·e":"Vivo solo/a",
+  "Votre situation professionnelle, aujourd'hui":"Su situación profesional, hoy",
+  "Plusieurs réponses possibles.":"Varias respuestas posibles.",
+  "Activité professionnelle":"Actividad profesional","Transition":"Transición","Autres situations":"Otras situaciones",
+  "Salarié(e) à temps plein":"Empleado/a a tiempo completo","Salarié(e) à temps partiel":"Empleado/a a tiempo parcial",
+  "Fonctionnaire / agent du service public":"Funcionario/a / empleado/a público/a","Profession libérale":"Profesión liberal",
+  "Entrepreneur(e) individuel(le) ou avec associé(s)":"Empresario/a individual o con socios","Artisan(e) / commerçant(e)":"Artesano/a / comerciante",
+  "Intermittent(e) du spectacle":"Trabajador/a intermitente del espectáculo","Artiste / créateur(trice)":"Artista / creador(a)",
+  "Élu(e) / activité politique ou publique":"Cargo electo / actividad política o pública","Investisseur(se)":"Inversor(a)","Rentier(ère)":"Rentista",
+  "J'exerce plusieurs activités professionnelles":"Ejerzo varias actividades profesionales","J'ai plusieurs sources de revenus":"Tengo varias fuentes de ingresos",
+  "En recherche d'emploi":"En búsqueda de empleo","En réflexion / reconversion professionnelle":"En reflexión / reorientación profesional",
+  "En formation":"En formación","Étudiant(e)":"Estudiante","En arrêt de travail":"De baja laboral","En invalidité":"En situación de incapacidad",
+  "Retraité(e)":"Jubilado/a","Parent au foyer":"Padre/madre en el hogar","Aidant(e)":"Cuidador/a","Sans activité professionnelle actuellement":"Sin actividad profesional actualmente",
+  "Dans quel(s) domaine(s) exercez-vous ou avez-vous exercé ?":"¿En qué ámbito(s) trabaja o ha trabajado?",
+  "Ex. : santé, enseignement, bâtiment, finance…":"Ej.: salud, enseñanza, construcción, finanzas…",
+  // — Valeurs & énergie —
+  "Vos valeurs les plus importantes":"Sus valores más importantes",
+  "Choisissez celles qui comptent vraiment pour vous (3 environ).":"Elija los que de verdad le importan (unos 3).",
+  "Liberté":"Libertad","Sécurité":"Seguridad","Famille":"Familia","Honnêteté":"Honestidad","Respect":"Respeto",
+  "Partage & entraide":"Compartir y ayudar","Santé":"Salud","Réussite":"Éxito","Créativité":"Creatividad","Sérénité":"Serenidad","Authenticité":"Autenticidad","Accomplissement":"Realización",
+  "Ce qui vous donne naturellement de l'énergie":"Lo que le da energía de forma natural",
+  "Créer, fabriquer":"Crear, fabricar","Aider, transmettre":"Ayudar, transmitir","Apprendre, comprendre":"Aprender, comprender",
+  "Être dans la nature":"Estar en la naturaleza","Échanger, rencontrer":"Conversar, conocer gente","Relever un défi":"Afrontar un reto",
+  "Prendre soin des miens":"Cuidar de los míos","Avoir du temps pour moi":"Tener tiempo para mí","Organiser, structurer":"Organizar, estructurar",
+  "Bouger, me dépenser":"Moverme, hacer ejercicio","Le calme, la solitude choisie":"La calma, la soledad elegida",
+  // — Envies —
+  "En ce moment, qu'est-ce qui vous ferait vraiment du bien ?":"En este momento, ¿qué le sentaría realmente bien?",
+  "Souffler, alléger ma charge":"Respirar, aligerar mi carga","Améliorer ma santé":"Mejorar mi salud",
+  "Retrouver de l'élan, de la nouveauté":"Recuperar el impulso, algo nuevo","Avoir plus de temps à moi":"Tener más tiempo para mí",
+  "Me sentir plus libre":"Sentirme más libre","Des relations qui me nourrissent (amicales, amoureuses…)":"Relaciones que me nutran (de amistad, de pareja…)",
+  "Donner plus de sens à mes journées":"Dar más sentido a mis días","Un projet qui soit vraiment à moi":"Un proyecto que sea realmente mío",
+  "Me sentir plus en sécurité":"Sentirme más seguro/a","Rien de particulier, je savoure ce que j'ai":"Nada en particular, disfruto lo que tengo",
+  "Y a-t-il des choses dont vous avez fait le tour, qui pèsent ou ne vous conviennent plus ?":"¿Hay cosas que ya ha agotado, que le pesan o que ya no le convienen?",
+  "Les journées qui se ressemblent trop":"Los días demasiado parecidos entre sí","La sensation de courir après le temps":"La sensación de ir siempre con el tiempo justo",
+  "Faire passer tout le monde avant moi":"Poner a todos por delante de mí","Le manque de perspectives":"La falta de perspectivas",
+  "La fatigue qui s'accumule":"El cansancio que se acumula","Ma santé qui me préoccupe":"Mi salud, que me preocupa",
+  "Un manque de liens, de relations":"La falta de vínculos, de relaciones","Le sentiment de ne pas avancer":"La sensación de no avanzar",
+  "Une forme de lassitude":"Una cierta desgana","Non, tout me convient":"No, todo me conviene",
+  // — Motivation & rêves —
+  "Si vous deviez vous investir dans quelque chose, qu'est-ce qui vous motiverait le plus ?":"Si tuviera que implicarse en algo, ¿qué le motivaría más?",
+  "Jusqu'à 5 réponses.":"Hasta 5 respuestas.",
+  "La liberté financière":"La libertad financiera","La liberté de mon temps":"La libertad de mi tiempo","Diversifier mes revenus":"Diversificar mis ingresos",
+  "Préparer ma retraite":"Preparar mi jubilación","Être mon propre patron":"Ser mi propio jefe","Voyager":"Viajar",
+  "Rencontrer de nouvelles personnes":"Conocer gente nueva","Grandir personnellement":"Crecer personalmente","Laisser un héritage, transmettre":"Dejar un legado, transmitir",
+  "Je ne sais pas encore":"Todavía no lo sé",
+  "Si vous aviez toute la santé, les finances et le temps nécessaires…":"Si tuviera toda la salud, el dinero y el tiempo necesarios…",
+  "Qui seriez-vous ? Qu'oseriez-vous ? Que feriez-vous ? Où vivriez-vous, et avec qui ?":"¿Quién sería? ¿A qué se atrevería? ¿Qué haría? ¿Dónde viviría, y con quién?",
+  // — Et maintenant —
+  "En faisant ce point, qu'est-ce qui vous ressemble le plus ?":"Al hacer este balance, ¿qué se parece más a usted?",
+  "Je me sens à ma place et je ne veux rien changer, tout est parfait pour moi":"Me siento en mi lugar y no quiero cambiar nada, todo está perfecto para mí",
+  "Je me sens à ma place, mais je suis ouvert·e à relever de nouveaux défis":"Me siento en mi lugar, pero estoy abierto/a a afrontar nuevos retos",
+  "J'ai déjà des projets en cours que j'aimerais mener plus loin":"Ya tengo proyectos en marcha que me gustaría llevar más lejos",
+  "Je me sens bien, avec l'envie de faire évoluer une ou deux choses":"Me siento bien, con ganas de hacer evolucionar una o dos cosas",
+  "Quelque chose ne me convient plus, sans que je sache encore quoi":"Algo ya no me conviene, aunque todavía no sé qué",
+  "Je sens qu'un vrai changement serait nécessaire":"Siento que sería necesario un cambio de verdad","Je suis en plein questionnement":"Estoy en plena reflexión",
+  "Ce que vous imaginez pour la suite, ce serait plutôt…":"Lo que imagina para lo que viene, sería más bien…",
+  "Continuer sur ma lancée, en préservant ce qui fonctionne":"Seguir como voy, preservando lo que funciona",
+  "Relever de nouveaux défis, explorer de nouvelles envies":"Afrontar nuevos retos, explorar nuevos deseos",
+  "De petits ajustements dans mon quotidien":"Pequeños ajustes en mi día a día","Un changement progressif, à mon rythme":"Un cambio progresivo, a mi ritmo",
+  "Une transformation plus profonde":"Una transformación más profunda","Je ne sais pas encore, j'explore":"Todavía no lo sé, estoy explorando",
+  "Quelle prise de conscience cette réflexion vous a-t-elle apportée ?":"¿Qué toma de conciencia le ha aportado esta reflexión?",
+  // — Échappatoires (affichage ES, stockage FR) —
+  "Je ne sais pas":"No lo sé","Je préfère ne pas répondre":"Prefiero no responder",
+  // — Coordonnées —
+  "Recevoir mon carnet":"Recibir mi cuaderno",
+  "Indiquez où vous souhaitez recevoir votre carnet personnel « Mon Point de Départ ». Il reprendra les questions que vous avez vues et vos réponses — un document qui vous appartient, à conserver, relire et compléter.":"Indique dónde desea recibir su cuaderno personal «Mi Punto de Partida». Recogerá las preguntas que ha visto y sus respuestas: un documento que le pertenece, para conservar, releer y completar.",
+  "Prénom":"Nombre","Email":"Correo electrónico","Téléphone":"Teléfono","(facultatif)":"(opcional)",
+  "Votre prénom":"Su nombre","Votre numéro":"Su número",
+  "J'accepte que ":"Acepto que ",
+  " traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m'envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ":" trate mis respuestas, incluidas mis posibles indicaciones de salud, para preparar y enviarme mi cuaderno. Los datos se guardan en sus herramientas privadas de Google. Puedo retirar mi consentimiento escribiendo a ",
+  "Je souhaite qu'Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":"Deseo que Agnès se ponga en contacto conmigo más adelante para profundizar en mi balance personal y profesional. Esta elección es opcional y no condiciona el envío del cuaderno.",
+  "En envoyant ce bilan, vous acceptez notre ":"Al enviar este balance, acepta nuestra ",
+  "politique de confidentialité":"política de privacidad",
+  "Découvrir mon bilan":"Descubrir mi balance","Revenir en arrière":"Volver atrás",
+  "Préparation de votre carnet…":"Preparando su cuaderno…","Vérifier / réessayer l'envoi":"Comprobar / reintentar el envío",
+  "Indiquez votre prénom et une adresse e-mail valide.":"Indique su nombre y una dirección de correo válida.",
+  "Votre accord est nécessaire pour préparer et envoyer votre carnet.":"Su consentimiento es necesario para preparar y enviar su cuaderno.",
+  "Le formulaire est en cours de configuration. Contact : ":"El formulario se está configurando. Contacto: ",
+  "Le carnet n'a pas encore été confirmé comme envoyé. Contactez ":"El cuaderno aún no se ha confirmado como enviado. Contacte con ",
+  " si vous ne le recevez pas. Référence : ":" si no lo recibe. Referencia: ",
+  "Réception non confirmée. Vérifiez vos e-mails avant de réessayer.":"Recepción no confirmada. Revise su correo antes de reintentar.",
+  "Délai dépassé":"Tiempo de espera agotado","Vérification indisponible":"Verificación no disponible",
+  // — Écran final —
+  "Félicitations":"Enhorabuena",
+  "Vous avez pris ce temps pour vous, et c'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d'envoi par e-mail":"Se ha dado este tiempo para usted, y ya es mucho. Su cuaderno «Mi Punto de Partida» se ha enviado a la cola de envío por correo electrónico",
+  " à ":" a ",
+  "Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.":"Consérvelo, reléalo, anótelo. Y por qué no, vuelva a hacer este balance dentro de unos meses para observar su camino.",
+  "Prendre un temps pour votre bien-être":"Dedicar un tiempo a su bienestar",
+  "Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.":"Sus respuestas reflejan un deseo o una necesidad en este ámbito. Si lo desea, continúe con el balance de bienestar que le ofrecemos.",
+  "Faire mon bilan bien-être":"Hacer mi balance de bienestar",
+  "Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.":"Ha solicitado que se pongan en contacto con usted más adelante para profundizar en este balance.",
+  "Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ":"Podrá solicitar profundizar en este balance cuando lo desee, escribiendo a ",
+  "Et ensuite ? Plusieurs chemins, tous ouverts.":"¿Y después? Varios caminos, todos abiertos.",
+  "Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.":"Ninguno es la «respuesta correcta». Usted elige, a su ritmo.",
+  "Profiter de votre bilan":"Aprovechar su balance","Le garder pour vous, tout simplement.":"Guardarlo para usted, sin más.",
+  "Mieux vous comprendre":"Comprenderse mejor","Approfondir ce que vos réponses ont fait ressortir.":"Profundizar en lo que han revelado sus respuestas.",
+  "Découvrir des possibilités":"Descubrir posibilidades","Explorer différentes pistes qui correspondent à vos aspirations.":"Explorar distintas vías acordes con sus aspiraciones.",
+  "Plus de liberté ou de revenus":"Más libertad o más ingresos","Y compris en parallèle d'une activité que vous souhaitez conserver.":"Incluso en paralelo a una actividad que desee conservar.",
+  "Faire avancer un projet":"Impulsar un proyecto","Lorsqu'une envie existe déjà et attend son heure.":"Cuando ya existe un deseo que espera su momento.",
+  "Échanger avec ":"Hablar con ","Bénéficier d'un regard extérieur, si vous le souhaitez.":"Contar con una mirada externa, si lo desea.",
+  "Et si ce bilan pouvait être utile à quelqu'un ?":"¿Y si este balance pudiera ser útil a alguien?",
+  "Vous pouvez transmettre le lien à une personne de votre entourage. Elle bénéficiera exactement de la même liberté que vous.":"Puede enviar el enlace a alguien de su entorno. Tendrá exactamente la misma libertad que usted.",
+  "Partager sur WhatsApp":"Compartir por WhatsApp","Par SMS":"Por SMS","Copier le lien":"Copiar el enlace",
+  "Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : ":"Acabo de tomarme un momento para hacer balance de mi vida personal y profesional con este cuestionario. Me ha resultado útil, quizá a ti también te interese: "
+},
+de:{
+  "Précédent":"Zurück","Continuer":"Weiter","🔊 Écouter":"🔊 Vorlesen","⏹ Arrêter":"⏹ Stopp",
+  "Autre…":"Sonstiges…","Précisez…":"Bitte angeben…",
+  "Votre réponse (facultatif)…":"Ihre Antwort (optional)…","Écrivez librement (facultatif)…":"Schreiben Sie frei (optional)…",
+  "sélectionné(s)":"ausgewählt","bientôt":"bald",
+  "La lecture à voix haute n'est pas disponible sur ce navigateur.":"Das Vorlesen ist in diesem Browser nicht verfügbar.",
+  "Pas du tout d'accord":"Überhaupt nicht einverstanden","Tout à fait d'accord":"Völlig einverstanden","Lien copié ✓":"Link kopiert ✓",
+  "Un temps pour vous":"Eine Zeit für Sie",
+  "Faire le point.<br>Comprendre. Avancer.":"Bestandsaufnahme.<br>Verstehen. Vorankommen.",
+  "Ce bilan vous est offert. C'est un temps de réflexion pour créer une photographie de votre situation aujourd'hui : votre ":"Diese Standortbestimmung ist ein Geschenk für Sie. Sie ist eine Zeit der Reflexion, um ein Bild Ihrer heutigen Situation festzuhalten: Ihren ",
+  "Point de Départ":"Ausgangspunkt",
+  ". Vous pourrez le refaire dans quelques mois pour mesurer votre évolution — par rapport à vous-même, et à personne d'autre.":". Sie können sie in einigen Monaten wiederholen, um Ihre Entwicklung zu messen – im Vergleich zu sich selbst und zu niemandem sonst.",
+  "Environ 15 à 20 minutes, à votre rythme.":"Etwa 15 bis 20 Minuten, in Ihrem Tempo.",
+  "Aucune question n'est obligatoire. Vous pouvez passer, ou répondre « je ne sais pas ».":"Keine Frage ist verpflichtend. Sie können überspringen oder mit «Ich weiß nicht» antworten.",
+  "À la fin, vous recevrez par email votre carnet personnel, avec vos réponses.":"Am Ende erhalten Sie per E-Mail Ihr persönliches Heft mit Ihren Antworten.",
+  "Même si vous ne donnez jamais aucune suite, ce temps doit vous être utile à vous. C'est la seule promesse de ce bilan.":"Auch wenn Sie nie etwas weiterverfolgen, soll Ihnen diese Zeit nützen – Ihnen. Das ist das einzige Versprechen dieser Standortbestimmung.",
+  "Commencer mon bilan":"Meine Standortbestimmung beginnen","Mentions légales & confidentialité":"Impressum & Datenschutz",
+  "Étape 1 · Premières impressions":"Schritt 1 · Erste Eindrücke",
+  "Étape 2 · Ma roue de vie (1/2)":"Schritt 2 · Mein Lebensrad (1/2)",
+  "Étape 3 · Ma roue de vie (2/2)":"Schritt 3 · Mein Lebensrad (2/2)",
+  "Étape 4 · Ma vie aujourd'hui":"Schritt 4 · Mein Leben heute",
+  "Étape 5 · Ce qui compte pour moi":"Schritt 5 · Was mir wichtig ist",
+  "Étape 6 · Mes envies":"Schritt 6 · Meine Wünsche",
+  "Étape 7 · Ma motivation, mes rêves":"Schritt 7 · Meine Motivation, meine Träume",
+  "Étape 8 · Et maintenant":"Schritt 8 · Und jetzt","Dernière étape":"Letzter Schritt",
+  "Trois premières impressions":"Drei erste Eindrücke",
+  "Sans réfléchir longtemps, à combien situeriez-vous ces trois ressentis aujourd'hui ? Il n'y a ni bonne ni mauvaise réponse : c'est votre regard, à l'instant présent.":"Ohne lange nachzudenken: Wo würden Sie diese drei Empfindungen heute einordnen? Es gibt keine richtige oder falsche Antwort – es ist Ihr Blick, im gegenwärtigen Moment.",
+  "Ma roue de vie":"Mein Lebensrad",
+  "Dix domaines de votre vie, explorés chacun sous trois angles. Notez à quel point chaque phrase vous correspond aujourd'hui. Cette photographie vous appartient : ni note, ni jugement.":"Zehn Bereiche Ihres Lebens, jeweils aus drei Blickwinkeln betrachtet. Geben Sie an, wie sehr jeder Satz heute auf Sie zutrifft. Dieses Bild gehört Ihnen: keine Note, kein Urteil.",
+  "Encore cinq domaines, sur le même principe.":"Noch fünf Bereiche, nach demselben Prinzip.",
+  "Ma vie aujourd'hui":"Mein Leben heute",
+  "Quelques repères, simplement pour situer d'où vous partez.":"Ein paar Anhaltspunkte, einfach um Ihren Ausgangspunkt einzuordnen.",
+  "Ce qui compte pour moi, et ce que j'ai en moi":"Was mir wichtig ist und was in mir steckt",
+  "Vos repères et vos ressources — souvent plus nombreux qu'on ne le croit.":"Ihre Orientierungspunkte und Ihre Ressourcen – oft zahlreicher, als man denkt.",
+  "Mes envies, et ce dont j'ai fait le tour":"Meine Wünsche und das, was ich hinter mir habe",
+  "Le cœur de cette réflexion. Prenez le temps que vous voulez.":"Das Herzstück dieser Reflexion. Nehmen Sie sich so viel Zeit, wie Sie möchten.",
+  "Ma motivation, mes rêves":"Meine Motivation, meine Träume",
+  "Ce qui vous met en mouvement, et ce dont vous rêvez.":"Was Sie in Bewegung bringt und wovon Sie träumen.",
+  "Et maintenant ?":"Und jetzt?",
+  "Vous voilà au bout de ce temps de réflexion. Encore quelques mots, si vous le souhaitez.":"Sie sind am Ende dieser Reflexionszeit angelangt. Noch ein paar Worte, wenn Sie möchten.",
+  "Santé & énergie":"Gesundheit & Energie","Temps & liberté":"Zeit & Freiheit",
+  "Finances & niveau de vie":"Finanzen & Lebensstandard","Travail / activité":"Arbeit / Tätigkeit",
+  "Relations & entourage":"Beziehungen & Umfeld","Épanouissement personnel":"Persönliche Entfaltung",
+  "Sécurité & avenir":"Sicherheit & Zukunft","Sens & utilité":"Sinn & Nutzen",
+  "Évolution & accomplissement":"Entwicklung & Erfüllung","Équilibre de vie":"Lebensbalance",
+  "Je me sens en bonne forme physique":"Ich fühle mich körperlich fit",
+  "J'ai de l'énergie pour mener mes journées":"Ich habe Energie für meinen Alltag",
+  "Je récupère bien et mon sommeil me satisfait":"Ich erhole mich gut und mein Schlaf ist zufriedenstellend",
+  "J'ai suffisamment de temps pour ce qui compte vraiment pour moi":"Ich habe genug Zeit für das, was mir wirklich wichtig ist",
+  "Je me sens libre d'organiser mes journées comme je le souhaite":"Ich fühle mich frei, meine Tage so zu gestalten, wie ich möchte",
+  "Je me sens serein·e dans mon rythme de vie":"Ich fühle mich ausgeglichen in meinem Lebensrhythmus",
+  "Mon niveau de vie me convient":"Mein Lebensstandard passt zu mir",
+  "Je me sens serein·e vis-à-vis de mon argent au quotidien":"Ich fühle mich im Alltag gelassen, was mein Geld betrifft",
+  "Je peux m'offrir ce qui compte pour moi":"Ich kann mir leisten, was mir wichtig ist",
+  "Je prends du plaisir dans ce que je fais de mes journées":"Ich habe Freude an dem, was ich täglich tue",
+  "Mon activité me permet d'exprimer ce que je sais faire":"Meine Tätigkeit erlaubt mir, meine Fähigkeiten einzubringen",
+  "Je me sens reconnu·e et apprécié·e à ma juste valeur":"Ich fühle mich anerkannt und angemessen wertgeschätzt",
+  "Je suis entouré·e de personnes sur qui je peux compter":"Ich bin von Menschen umgeben, auf die ich zählen kann",
+  "Mes relations proches me font du bien":"Meine engen Beziehungen tun mir gut",
+  "Je suis satisfait·e de la place des autres dans ma vie":"Ich bin zufrieden mit dem Platz, den andere in meinem Leben haben",
+  "Je me sens bien dans ma peau":"Ich fühle mich wohl in meiner Haut",
+  "Je vis en accord avec mes valeurs profondes":"Ich lebe im Einklang mit meinen tiefen Werten",
+  "Je me sens épanoui·e dans ma vie personnelle":"Ich fühle mich in meinem Privatleben erfüllt",
+  "Je me sens confiant·e face à mon avenir":"Ich blicke zuversichtlich in meine Zukunft",
+  "Ma situation actuelle me procure un sentiment de stabilité":"Meine derzeitige Situation gibt mir ein Gefühl von Stabilität",
+  "Je me sens prêt·e à faire face aux imprévus":"Ich fühle mich bereit, mit Unvorhergesehenem umzugehen",
+  "Ce que je vis a du sens à mes yeux":"Was ich erlebe, hat für mich Sinn",
+  "J'ai le sentiment d'être utile aux autres":"Ich habe das Gefühl, für andere nützlich zu sein",
+  "Je me sens à ma place dans ce que j'apporte":"Ich fühle mich am richtigen Platz mit dem, was ich beitrage",
+  "J'ai le sentiment de progresser et d'apprendre":"Ich habe das Gefühl, voranzukommen und zu lernen",
+  "Je réalise des choses dont je suis fier·ère":"Ich verwirkliche Dinge, auf die ich stolz bin",
+  "J'avance vers ce qui compte pour moi":"Ich bewege mich auf das zu, was mir wichtig ist",
+  "Je trouve un bon équilibre entre ma vie personnelle et mon travail":"Ich finde eine gute Balance zwischen Privatleben und Arbeit",
+  "Je concilie mes différentes responsabilités sereinement":"Ich vereinbare meine verschiedenen Verpflichtungen gelassen",
+  "Ma vie me semble harmonieuse dans son ensemble":"Mein Leben erscheint mir insgesamt harmonisch",
+  "Mon épanouissement, de façon générale":"Meine persönliche Entfaltung, ganz allgemein",
+  "Pas du tout épanoui·e":"Überhaupt nicht erfüllt","Pleinement épanoui·e":"Voll und ganz erfüllt",
+  "Mon épanouissement dans ma vie personnelle":"Meine Entfaltung in meinem Privatleben",
+  "Mon épanouissement dans ma vie professionnelle":"Meine Entfaltung in meinem Berufsleben",
+  "Très faible":"Sehr gering","Très fort":"Sehr hoch",
+  "Si vous n'avez pas d'activité professionnelle en ce moment, vous pouvez passer cette question.":"Wenn Sie derzeit keine berufliche Tätigkeit ausüben, können Sie diese Frage überspringen.",
+  "Votre situation personnelle, aujourd'hui":"Ihre persönliche Situation, heute",
+  "Je vis en couple":"Ich lebe in einer Partnerschaft","J'ai un ou des enfants à charge":"Ich habe ein oder mehrere Kinder zu versorgen",
+  "Je suis proche aidant·e":"Ich pflege eine·n Angehörige·n","Je vis seul·e":"Ich lebe allein",
+  "Votre situation professionnelle, aujourd'hui":"Ihre berufliche Situation, heute","Plusieurs réponses possibles.":"Mehrere Antworten möglich.",
+  "Activité professionnelle":"Berufliche Tätigkeit","Transition":"Übergang","Autres situations":"Andere Situationen",
+  "Salarié(e) à temps plein":"Angestellt in Vollzeit","Salarié(e) à temps partiel":"Angestellt in Teilzeit",
+  "Fonctionnaire / agent du service public":"Beamter/Beamtin / im öffentlichen Dienst","Profession libérale":"Freiberuflich tätig",
+  "Entrepreneur(e) individuel(le) ou avec associé(s)":"Einzelunternehmer/in oder mit Partner(n)","Artisan(e) / commerçant(e)":"Handwerker/in / Gewerbetreibende/r",
+  "Intermittent(e) du spectacle":"Kulturschaffende/r auf Abrufbasis","Artiste / créateur(trice)":"Künstler/in / kreativ Tätige/r",
+  "Élu(e) / activité politique ou publique":"Gewählte/r Mandatsträger/in / politisch oder öffentlich tätig","Investisseur(se)":"Investor/in","Rentier(ère)":"Privatier/e",
+  "J'exerce plusieurs activités professionnelles":"Ich übe mehrere berufliche Tätigkeiten aus","J'ai plusieurs sources de revenus":"Ich habe mehrere Einkommensquellen",
+  "En recherche d'emploi":"Auf Arbeitssuche","En réflexion / reconversion professionnelle":"In Orientierung / beruflicher Neuausrichtung",
+  "En formation":"In Ausbildung","Étudiant(e)":"Studierende/r","En arrêt de travail":"Krankgeschrieben","En invalidité":"Erwerbsunfähig",
+  "Retraité(e)":"Im Ruhestand","Parent au foyer":"Elternteil zu Hause","Aidant(e)":"Pflegende/r Angehörige/r","Sans activité professionnelle actuellement":"Derzeit ohne berufliche Tätigkeit",
+  "Dans quel(s) domaine(s) exercez-vous ou avez-vous exercé ?":"In welchem Bereich / welchen Bereichen sind oder waren Sie tätig?",
+  "Ex. : santé, enseignement, bâtiment, finance…":"Z. B.: Gesundheit, Bildung, Bau, Finanzen…",
+  "Vos valeurs les plus importantes":"Ihre wichtigsten Werte",
+  "Choisissez celles qui comptent vraiment pour vous (3 environ).":"Wählen Sie diejenigen, die Ihnen wirklich wichtig sind (etwa 3).",
+  "Liberté":"Freiheit","Sécurité":"Sicherheit","Famille":"Familie","Honnêteté":"Ehrlichkeit","Respect":"Respekt",
+  "Partage & entraide":"Teilen & Hilfsbereitschaft","Santé":"Gesundheit","Réussite":"Erfolg","Créativité":"Kreativität","Sérénité":"Gelassenheit","Authenticité":"Authentizität","Accomplissement":"Erfüllung",
+  "Ce qui vous donne naturellement de l'énergie":"Was Ihnen ganz natürlich Energie gibt",
+  "Créer, fabriquer":"Erschaffen, gestalten","Aider, transmettre":"Helfen, weitergeben","Apprendre, comprendre":"Lernen, verstehen",
+  "Être dans la nature":"In der Natur sein","Échanger, rencontrer":"Austausch, Begegnungen","Relever un défi":"Eine Herausforderung annehmen",
+  "Prendre soin des miens":"Für meine Lieben sorgen","Avoir du temps pour moi":"Zeit für mich haben","Organiser, structurer":"Organisieren, strukturieren",
+  "Bouger, me dépenser":"Mich bewegen, auspowern","Le calme, la solitude choisie":"Ruhe, bewusst gewählte Einsamkeit",
+  "En ce moment, qu'est-ce qui vous ferait vraiment du bien ?":"Was würde Ihnen gerade jetzt wirklich guttun?",
+  "Souffler, alléger ma charge":"Durchatmen, meine Last verringern","Améliorer ma santé":"Meine Gesundheit verbessern",
+  "Retrouver de l'élan, de la nouveauté":"Neuen Schwung, Abwechslung finden","Avoir plus de temps à moi":"Mehr Zeit für mich haben",
+  "Me sentir plus libre":"Mich freier fühlen","Des relations qui me nourrissent (amicales, amoureuses…)":"Beziehungen, die mich bereichern (Freundschaft, Liebe…)",
+  "Donner plus de sens à mes journées":"Meinen Tagen mehr Sinn geben","Un projet qui soit vraiment à moi":"Ein Projekt, das wirklich meines ist",
+  "Me sentir plus en sécurité":"Mich sicherer fühlen","Rien de particulier, je savoure ce que j'ai":"Nichts Besonderes, ich genieße, was ich habe",
+  "Y a-t-il des choses dont vous avez fait le tour, qui pèsent ou ne vous conviennent plus ?":"Gibt es Dinge, die Sie hinter sich haben, die belasten oder nicht mehr passen?",
+  "Les journées qui se ressemblent trop":"Tage, die sich zu sehr gleichen","La sensation de courir après le temps":"Das Gefühl, ständig der Zeit hinterherzulaufen",
+  "Faire passer tout le monde avant moi":"Alle anderen vor mich zu stellen","Le manque de perspectives":"Der Mangel an Perspektiven",
+  "La fatigue qui s'accumule":"Die Müdigkeit, die sich anhäuft","Ma santé qui me préoccupe":"Meine Gesundheit, die mir Sorgen macht",
+  "Un manque de liens, de relations":"Ein Mangel an Verbindungen, an Beziehungen","Le sentiment de ne pas avancer":"Das Gefühl, nicht voranzukommen",
+  "Une forme de lassitude":"Eine gewisse Lustlosigkeit","Non, tout me convient":"Nein, alles passt für mich",
+  "Si vous deviez vous investir dans quelque chose, qu'est-ce qui vous motiverait le plus ?":"Wenn Sie sich für etwas einsetzen würden, was würde Sie am meisten motivieren?",
+  "Jusqu'à 5 réponses.":"Bis zu 5 Antworten.",
+  "La liberté financière":"Finanzielle Freiheit","La liberté de mon temps":"Freiheit über meine Zeit","Diversifier mes revenus":"Meine Einkünfte diversifizieren",
+  "Préparer ma retraite":"Meinen Ruhestand vorbereiten","Être mon propre patron":"Mein eigener Chef sein","Voyager":"Reisen",
+  "Rencontrer de nouvelles personnes":"Neue Menschen kennenlernen","Grandir personnellement":"Persönlich wachsen","Laisser un héritage, transmettre":"Ein Erbe hinterlassen, weitergeben",
+  "Je ne sais pas encore":"Ich weiß es noch nicht",
+  "Si vous aviez toute la santé, les finances et le temps nécessaires…":"Wenn Sie alle Gesundheit, alle Mittel und alle Zeit hätten, die nötig sind…",
+  "Qui seriez-vous ? Qu'oseriez-vous ? Que feriez-vous ? Où vivriez-vous, et avec qui ?":"Wer wären Sie? Was würden Sie wagen? Was würden Sie tun? Wo würden Sie leben, und mit wem?",
+  "En faisant ce point, qu'est-ce qui vous ressemble le plus ?":"Was trifft nach dieser Bestandsaufnahme am meisten auf Sie zu?",
+  "Je me sens à ma place et je ne veux rien changer, tout est parfait pour moi":"Ich fühle mich am richtigen Platz und möchte nichts ändern, für mich ist alles perfekt",
+  "Je me sens à ma place, mais je suis ouvert·e à relever de nouveaux défis":"Ich fühle mich am richtigen Platz, bin aber offen für neue Herausforderungen",
+  "J'ai déjà des projets en cours que j'aimerais mener plus loin":"Ich habe bereits laufende Projekte, die ich weiterbringen möchte",
+  "Je me sens bien, avec l'envie de faire évoluer une ou deux choses":"Ich fühle mich wohl, möchte aber ein, zwei Dinge weiterentwickeln",
+  "Quelque chose ne me convient plus, sans que je sache encore quoi":"Etwas passt nicht mehr für mich, ohne dass ich schon weiß, was",
+  "Je sens qu'un vrai changement serait nécessaire":"Ich spüre, dass eine echte Veränderung nötig wäre","Je suis en plein questionnement":"Ich stecke mitten in einer Phase des Hinterfragens",
+  "Ce que vous imaginez pour la suite, ce serait plutôt…":"Was Sie sich für die Zukunft vorstellen, wäre eher…",
+  "Continuer sur ma lancée, en préservant ce qui fonctionne":"So weitermachen wie bisher und bewahren, was funktioniert",
+  "Relever de nouveaux défis, explorer de nouvelles envies":"Neue Herausforderungen annehmen, neue Wünsche erkunden",
+  "De petits ajustements dans mon quotidien":"Kleine Anpassungen in meinem Alltag","Un changement progressif, à mon rythme":"Eine schrittweise Veränderung, in meinem Tempo",
+  "Une transformation plus profonde":"Eine tiefgreifendere Veränderung","Je ne sais pas encore, j'explore":"Ich weiß es noch nicht, ich erkunde",
+  "Quelle prise de conscience cette réflexion vous a-t-elle apportée ?":"Welche Erkenntnis hat Ihnen diese Reflexion gebracht?",
+  "Je ne sais pas":"Ich weiß nicht","Je préfère ne pas répondre":"Ich möchte nicht antworten",
+  "Recevoir mon carnet":"Mein Heft erhalten",
+  "Indiquez où vous souhaitez recevoir votre carnet personnel « Mon Point de Départ ». Il reprendra les questions que vous avez vues et vos réponses — un document qui vous appartient, à conserver, relire et compléter.":"Geben Sie an, wo Sie Ihr persönliches Heft «Mein Ausgangspunkt» erhalten möchten. Es enthält die Fragen, die Sie gesehen haben, und Ihre Antworten – ein Dokument, das Ihnen gehört, zum Aufbewahren, Wiederlesen und Ergänzen.",
+  "Prénom":"Vorname","Email":"E-Mail","Téléphone":"Telefon","(facultatif)":"(optional)",
+  "Votre prénom":"Ihr Vorname","Votre numéro":"Ihre Nummer",
+  "J'accepte que ":"Ich bin damit einverstanden, dass ",
+  " traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m'envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ":" meine Antworten verarbeitet, einschließlich meiner etwaigen Gesundheitsangaben, um mein Heft zu erstellen und mir zuzusenden. Die Daten werden in ihren privaten Google-Tools gespeichert. Ich kann meine Einwilligung widerrufen, indem ich schreibe an ",
+  "Je souhaite qu'Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":"Ich möchte, dass Agnès sich später bei mir meldet, um meine persönliche und berufliche Standortbestimmung zu vertiefen. Diese Wahl ist freiwillig und hat keinen Einfluss auf den Versand des Hefts.",
+  "En envoyant ce bilan, vous acceptez notre ":"Mit dem Absenden dieser Standortbestimmung akzeptieren Sie unsere ",
+  "politique de confidentialité":"Datenschutzerklärung",
+  "Découvrir mon bilan":"Meine Standortbestimmung entdecken","Revenir en arrière":"Zurückgehen",
+  "Préparation de votre carnet…":"Ihr Heft wird vorbereitet…","Vérifier / réessayer l'envoi":"Prüfen / Versand erneut versuchen",
+  "Indiquez votre prénom et une adresse e-mail valide.":"Geben Sie Ihren Vornamen und eine gültige E-Mail-Adresse an.",
+  "Votre accord est nécessaire pour préparer et envoyer votre carnet.":"Ihre Einwilligung ist erforderlich, um Ihr Heft zu erstellen und zu versenden.",
+  "Le formulaire est en cours de configuration. Contact : ":"Das Formular wird gerade eingerichtet. Kontakt: ",
+  "Le carnet n'a pas encore été confirmé comme envoyé. Contactez ":"Der Versand des Hefts wurde noch nicht bestätigt. Kontaktieren Sie ",
+  " si vous ne le recevez pas. Référence : ":" falls Sie es nicht erhalten. Referenz: ",
+  "Réception non confirmée. Vérifiez vos e-mails avant de réessayer.":"Empfang nicht bestätigt. Prüfen Sie Ihre E-Mails, bevor Sie es erneut versuchen.",
+  "Délai dépassé":"Zeitüberschreitung","Vérification indisponible":"Überprüfung nicht verfügbar",
+  "Félicitations":"Herzlichen Glückwunsch",
+  "Vous avez pris ce temps pour vous, et c'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d'envoi par e-mail":"Sie haben sich diese Zeit für sich genommen, und das ist schon viel. Ihr Heft «Mein Ausgangspunkt» wurde dem E-Mail-Versand übergeben",
+  " à ":" an ",
+  "Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.":"Bewahren Sie es auf, lesen Sie es wieder, machen Sie sich Notizen. Und warum nicht in einigen Monaten diese Standortbestimmung wiederholen, um Ihren Weg zu beobachten.",
+  "Prendre un temps pour votre bien-être":"Sich Zeit für Ihr Wohlbefinden nehmen",
+  "Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.":"Ihre Antworten lassen einen Wunsch oder ein Bedürfnis in diesem Bereich erkennen. Wenn Sie möchten, machen Sie mit der angebotenen Wohlfühl-Standortbestimmung weiter.",
+  "Faire mon bilan bien-être":"Meine Wohlfühl-Standortbestimmung machen",
+  "Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.":"Sie haben darum gebeten, später kontaktiert zu werden, um diese Standortbestimmung zu vertiefen.",
+  "Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ":"Sie können jederzeit um eine Vertiefung dieser Standortbestimmung bitten, indem Sie schreiben an ",
+  "Et ensuite ? Plusieurs chemins, tous ouverts.":"Und danach? Mehrere Wege, alle offen.",
+  "Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.":"Keiner ist die «richtige» Antwort. Sie entscheiden, in Ihrem Tempo.",
+  "Profiter de votre bilan":"Ihre Standortbestimmung nutzen","Le garder pour vous, tout simplement.":"Sie einfach für sich behalten.",
+  "Mieux vous comprendre":"Sich selbst besser verstehen","Approfondir ce que vos réponses ont fait ressortir.":"Vertiefen, was Ihre Antworten zutage gefördert haben.",
+  "Découvrir des possibilités":"Möglichkeiten entdecken","Explorer différentes pistes qui correspondent à vos aspirations.":"Verschiedene Wege erkunden, die Ihren Wünschen entsprechen.",
+  "Plus de liberté ou de revenus":"Mehr Freiheit oder Einkommen","Y compris en parallèle d'une activité que vous souhaitez conserver.":"Auch parallel zu einer Tätigkeit, die Sie beibehalten möchten.",
+  "Faire avancer un projet":"Ein Projekt voranbringen","Lorsqu'une envie existe déjà et attend son heure.":"Wenn bereits ein Wunsch besteht, der auf seine Zeit wartet.",
+  "Échanger avec ":"Sich austauschen mit ","Bénéficier d'un regard extérieur, si vous le souhaitez.":"Von einem Blick von außen profitieren, wenn Sie möchten.",
+  "Et si ce bilan pouvait être utile à quelqu'un ?":"Und wenn diese Standortbestimmung jemandem nützen könnte?",
+  "Vous pouvez transmettre le lien à une personne de votre entourage. Elle bénéficiera exactement de la même liberté que vous.":"Sie können den Link an jemanden aus Ihrem Umfeld weitergeben. Diese Person genießt genau dieselbe Freiheit wie Sie.",
+  "Partager sur WhatsApp":"Über WhatsApp teilen","Par SMS":"Per SMS","Copier le lien":"Link kopieren",
+  "Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : ":"Ich habe mir gerade einen Moment genommen, um mit dieser Standortbestimmung mein persönliches und berufliches Leben zu reflektieren. Sie hat mir gutgetan – vielleicht interessiert sie dich auch: "
+},
+en:{
+  "Précédent":"Back","Continuer":"Continue","🔊 Écouter":"🔊 Listen","⏹ Arrêter":"⏹ Stop",
+  "Autre…":"Other…","Précisez…":"Please specify…",
+  "Votre réponse (facultatif)…":"Your answer (optional)…","Écrivez librement (facultatif)…":"Write freely (optional)…",
+  "sélectionné(s)":"selected","bientôt":"soon",
+  "La lecture à voix haute n'est pas disponible sur ce navigateur.":"Read-aloud isn't available in this browser.",
+  "Pas du tout d'accord":"Strongly disagree","Tout à fait d'accord":"Strongly agree","Lien copié ✓":"Link copied ✓",
+  "Un temps pour vous":"A moment for you",
+  "Faire le point.<br>Comprendre. Avancer.":"Take stock.<br>Understand. Move forward.",
+  "Ce bilan vous est offert. C'est un temps de réflexion pour créer une photographie de votre situation aujourd'hui : votre ":"This assessment is a gift to you. It's a moment of reflection to capture a snapshot of where you are today: your ",
+  "Point de Départ":"Starting Point",
+  ". Vous pourrez le refaire dans quelques mois pour mesurer votre évolution — par rapport à vous-même, et à personne d'autre.":". You can take it again in a few months to measure your progress — against yourself, and no one else.",
+  "Environ 15 à 20 minutes, à votre rythme.":"About 15 to 20 minutes, at your own pace.",
+  "Aucune question n'est obligatoire. Vous pouvez passer, ou répondre « je ne sais pas ».":"No question is required. You can skip, or answer 'I don't know'.",
+  "À la fin, vous recevrez par email votre carnet personnel, avec vos réponses.":"At the end, you'll receive your personal booklet by email, with your answers.",
+  "Même si vous ne donnez jamais aucune suite, ce temps doit vous être utile à vous. C'est la seule promesse de ce bilan.":"Even if you never take it any further, this time should be useful to you. That's the only promise of this assessment.",
+  "Commencer mon bilan":"Start my assessment","Mentions légales & confidentialité":"Legal notice & privacy",
+  "Étape 1 · Premières impressions":"Step 1 · First impressions",
+  "Étape 2 · Ma roue de vie (1/2)":"Step 2 · My wheel of life (1/2)",
+  "Étape 3 · Ma roue de vie (2/2)":"Step 3 · My wheel of life (2/2)",
+  "Étape 4 · Ma vie aujourd'hui":"Step 4 · My life today",
+  "Étape 5 · Ce qui compte pour moi":"Step 5 · What matters to me",
+  "Étape 6 · Mes envies":"Step 6 · My aspirations",
+  "Étape 7 · Ma motivation, mes rêves":"Step 7 · My motivation, my dreams",
+  "Étape 8 · Et maintenant":"Step 8 · What now","Dernière étape":"Last step",
+  "Trois premières impressions":"Three first impressions",
+  "Sans réfléchir longtemps, à combien situeriez-vous ces trois ressentis aujourd'hui ? Il n'y a ni bonne ni mauvaise réponse : c'est votre regard, à l'instant présent.":"Without overthinking it, where would you place these three feelings today? There's no right or wrong answer: it's your own view, in the present moment.",
+  "Ma roue de vie":"My wheel of life",
+  "Dix domaines de votre vie, explorés chacun sous trois angles. Notez à quel point chaque phrase vous correspond aujourd'hui. Cette photographie vous appartient : ni note, ni jugement.":"Ten areas of your life, each explored from three angles. Rate how much each statement fits you today. This snapshot belongs to you: no score, no judgement.",
+  "Encore cinq domaines, sur le même principe.":"Five more areas, on the same principle.",
+  "Ma vie aujourd'hui":"My life today",
+  "Quelques repères, simplement pour situer d'où vous partez.":"A few markers, simply to place where you're starting from.",
+  "Ce qui compte pour moi, et ce que j'ai en moi":"What matters to me, and what I have within",
+  "Vos repères et vos ressources — souvent plus nombreux qu'on ne le croit.":"Your bearings and your resources — often more numerous than we think.",
+  "Mes envies, et ce dont j'ai fait le tour":"My aspirations, and what I've had enough of",
+  "Le cœur de cette réflexion. Prenez le temps que vous voulez.":"The heart of this reflection. Take all the time you want.",
+  "Ma motivation, mes rêves":"My motivation, my dreams",
+  "Ce qui vous met en mouvement, et ce dont vous rêvez.":"What sets you in motion, and what you dream of.",
+  "Et maintenant ?":"What now?",
+  "Vous voilà au bout de ce temps de réflexion. Encore quelques mots, si vous le souhaitez.":"You've reached the end of this time of reflection. A few more words, if you like.",
+  "Santé & énergie":"Health & energy","Temps & liberté":"Time & freedom",
+  "Finances & niveau de vie":"Finances & standard of living","Travail / activité":"Work / activity",
+  "Relations & entourage":"Relationships & surroundings","Épanouissement personnel":"Personal fulfilment",
+  "Sécurité & avenir":"Security & future","Sens & utilité":"Meaning & usefulness",
+  "Évolution & accomplissement":"Growth & achievement","Équilibre de vie":"Life balance",
+  "Je me sens en bonne forme physique":"I feel physically fit",
+  "J'ai de l'énergie pour mener mes journées":"I have energy to get through my days",
+  "Je récupère bien et mon sommeil me satisfait":"I recover well and I'm satisfied with my sleep",
+  "J'ai suffisamment de temps pour ce qui compte vraiment pour moi":"I have enough time for what really matters to me",
+  "Je me sens libre d'organiser mes journées comme je le souhaite":"I feel free to organise my days as I wish",
+  "Je me sens serein·e dans mon rythme de vie":"I feel at ease with my pace of life",
+  "Mon niveau de vie me convient":"My standard of living suits me",
+  "Je me sens serein·e vis-à-vis de mon argent au quotidien":"I feel at ease about my money day to day",
+  "Je peux m'offrir ce qui compte pour moi":"I can afford what matters to me",
+  "Je prends du plaisir dans ce que je fais de mes journées":"I enjoy what I do with my days",
+  "Mon activité me permet d'exprimer ce que je sais faire":"My work lets me use what I'm good at",
+  "Je me sens reconnu·e et apprécié·e à ma juste valeur":"I feel recognised and valued fairly",
+  "Je suis entouré·e de personnes sur qui je peux compter":"I'm surrounded by people I can count on",
+  "Mes relations proches me font du bien":"My close relationships do me good",
+  "Je suis satisfait·e de la place des autres dans ma vie":"I'm happy with the place others have in my life",
+  "Je me sens bien dans ma peau":"I feel comfortable in my own skin",
+  "Je vis en accord avec mes valeurs profondes":"I live in line with my deepest values",
+  "Je me sens épanoui·e dans ma vie personnelle":"I feel fulfilled in my personal life",
+  "Je me sens confiant·e face à mon avenir":"I feel confident about my future",
+  "Ma situation actuelle me procure un sentiment de stabilité":"My current situation gives me a sense of stability",
+  "Je me sens prêt·e à faire face aux imprévus":"I feel ready to handle the unexpected",
+  "Ce que je vis a du sens à mes yeux":"What I experience feels meaningful to me",
+  "J'ai le sentiment d'être utile aux autres":"I feel useful to others",
+  "Je me sens à ma place dans ce que j'apporte":"I feel in the right place in what I contribute",
+  "J'ai le sentiment de progresser et d'apprendre":"I feel I'm progressing and learning",
+  "Je réalise des choses dont je suis fier·ère":"I achieve things I'm proud of",
+  "J'avance vers ce qui compte pour moi":"I'm moving toward what matters to me",
+  "Je trouve un bon équilibre entre ma vie personnelle et mon travail":"I find a good balance between my personal life and my work",
+  "Je concilie mes différentes responsabilités sereinement":"I juggle my various responsibilities calmly",
+  "Ma vie me semble harmonieuse dans son ensemble":"My life feels harmonious overall",
+  "Mon épanouissement, de façon générale":"My personal fulfilment, overall",
+  "Pas du tout épanoui·e":"Not at all fulfilled","Pleinement épanoui·e":"Fully fulfilled",
+  "Mon épanouissement dans ma vie personnelle":"My fulfilment in my personal life",
+  "Mon épanouissement dans ma vie professionnelle":"My fulfilment in my working life",
+  "Très faible":"Very low","Très fort":"Very high",
+  "Si vous n'avez pas d'activité professionnelle en ce moment, vous pouvez passer cette question.":"If you don't have a job right now, you can skip this question.",
+  "Votre situation personnelle, aujourd'hui":"Your personal situation, today",
+  "Je vis en couple":"I live with a partner","J'ai un ou des enfants à charge":"I have one or more dependent children",
+  "Je suis proche aidant·e":"I'm a carer for a relative","Je vis seul·e":"I live alone",
+  "Votre situation professionnelle, aujourd'hui":"Your work situation, today","Plusieurs réponses possibles.":"Several answers possible.",
+  "Activité professionnelle":"Employment","Transition":"Transition","Autres situations":"Other situations",
+  "Salarié(e) à temps plein":"Employed full-time","Salarié(e) à temps partiel":"Employed part-time",
+  "Fonctionnaire / agent du service public":"Civil servant / public sector","Profession libérale":"Self-employed professional",
+  "Entrepreneur(e) individuel(le) ou avec associé(s)":"Sole trader or with business partner(s)","Artisan(e) / commerçant(e)":"Tradesperson / shopkeeper",
+  "Intermittent(e) du spectacle":"Freelance performing-arts worker","Artiste / créateur(trice)":"Artist / creator",
+  "Élu(e) / activité politique ou publique":"Elected official / political or public role","Investisseur(se)":"Investor","Rentier(ère)":"Person of independent means",
+  "J'exerce plusieurs activités professionnelles":"I have several jobs","J'ai plusieurs sources de revenus":"I have several sources of income",
+  "En recherche d'emploi":"Looking for work","En réflexion / reconversion professionnelle":"Reflecting / changing career",
+  "En formation":"In training","Étudiant(e)":"Student","En arrêt de travail":"On sick leave","En invalidité":"On disability",
+  "Retraité(e)":"Retired","Parent au foyer":"Stay-at-home parent","Aidant(e)":"Carer","Sans activité professionnelle actuellement":"Currently not working",
+  "Dans quel(s) domaine(s) exercez-vous ou avez-vous exercé ?":"In which field(s) do you work or have you worked?",
+  "Ex. : santé, enseignement, bâtiment, finance…":"E.g. health, education, construction, finance…",
+  "Vos valeurs les plus importantes":"Your most important values",
+  "Choisissez celles qui comptent vraiment pour vous (3 environ).":"Choose the ones that truly matter to you (about 3).",
+  "Liberté":"Freedom","Sécurité":"Security","Famille":"Family","Honnêteté":"Honesty","Respect":"Respect",
+  "Partage & entraide":"Sharing & helping","Santé":"Health","Réussite":"Success","Créativité":"Creativity","Sérénité":"Serenity","Authenticité":"Authenticity","Accomplissement":"Achievement",
+  "Ce qui vous donne naturellement de l'énergie":"What naturally gives you energy",
+  "Créer, fabriquer":"Creating, making","Aider, transmettre":"Helping, passing on","Apprendre, comprendre":"Learning, understanding",
+  "Être dans la nature":"Being in nature","Échanger, rencontrer":"Talking, meeting people","Relever un défi":"Taking on a challenge",
+  "Prendre soin des miens":"Caring for my loved ones","Avoir du temps pour moi":"Having time for myself","Organiser, structurer":"Organising, structuring",
+  "Bouger, me dépenser":"Moving, being active","Le calme, la solitude choisie":"Calm, chosen solitude",
+  "En ce moment, qu'est-ce qui vous ferait vraiment du bien ?":"Right now, what would really do you good?",
+  "Souffler, alléger ma charge":"To breathe, ease my load","Améliorer ma santé":"To improve my health",
+  "Retrouver de l'élan, de la nouveauté":"To regain momentum, some novelty","Avoir plus de temps à moi":"To have more time for myself",
+  "Me sentir plus libre":"To feel freer","Des relations qui me nourrissent (amicales, amoureuses…)":"Relationships that nourish me (friendships, love…)",
+  "Donner plus de sens à mes journées":"To give more meaning to my days","Un projet qui soit vraiment à moi":"A project that's truly my own",
+  "Me sentir plus en sécurité":"To feel more secure","Rien de particulier, je savoure ce que j'ai":"Nothing in particular, I'm enjoying what I have",
+  "Y a-t-il des choses dont vous avez fait le tour, qui pèsent ou ne vous conviennent plus ?":"Are there things you've had enough of, that weigh on you or no longer suit you?",
+  "Les journées qui se ressemblent trop":"Days that are too much alike","La sensation de courir après le temps":"The feeling of always racing against time",
+  "Faire passer tout le monde avant moi":"Always putting everyone else before me","Le manque de perspectives":"The lack of prospects",
+  "La fatigue qui s'accumule":"Fatigue that keeps building up","Ma santé qui me préoccupe":"My health, which worries me",
+  "Un manque de liens, de relations":"A lack of connection, of relationships","Le sentiment de ne pas avancer":"The feeling of not moving forward",
+  "Une forme de lassitude":"A kind of weariness","Non, tout me convient":"No, everything suits me",
+  "Si vous deviez vous investir dans quelque chose, qu'est-ce qui vous motiverait le plus ?":"If you were to commit to something, what would motivate you most?",
+  "Jusqu'à 5 réponses.":"Up to 5 answers.",
+  "La liberté financière":"Financial freedom","La liberté de mon temps":"Freedom over my time","Diversifier mes revenus":"Diversifying my income",
+  "Préparer ma retraite":"Preparing for retirement","Être mon propre patron":"Being my own boss","Voyager":"Travelling",
+  "Rencontrer de nouvelles personnes":"Meeting new people","Grandir personnellement":"Growing personally","Laisser un héritage, transmettre":"Leaving a legacy, passing something on",
+  "Je ne sais pas encore":"I don't know yet",
+  "Si vous aviez toute la santé, les finances et le temps nécessaires…":"If you had all the health, money and time you needed…",
+  "Qui seriez-vous ? Qu'oseriez-vous ? Que feriez-vous ? Où vivriez-vous, et avec qui ?":"Who would you be? What would you dare? What would you do? Where would you live, and with whom?",
+  "En faisant ce point, qu'est-ce qui vous ressemble le plus ?":"Having taken stock, what fits you best?",
+  "Je me sens à ma place et je ne veux rien changer, tout est parfait pour moi":"I feel in the right place and don't want to change anything — everything is perfect for me",
+  "Je me sens à ma place, mais je suis ouvert·e à relever de nouveaux défis":"I feel in the right place, but I'm open to taking on new challenges",
+  "J'ai déjà des projets en cours que j'aimerais mener plus loin":"I already have projects underway that I'd like to take further",
+  "Je me sens bien, avec l'envie de faire évoluer une ou deux choses":"I feel good, with a wish to change one or two things",
+  "Quelque chose ne me convient plus, sans que je sache encore quoi":"Something no longer suits me, though I don't yet know what",
+  "Je sens qu'un vrai changement serait nécessaire":"I sense that a real change would be needed","Je suis en plein questionnement":"I'm in the middle of questioning things",
+  "Ce que vous imaginez pour la suite, ce serait plutôt…":"What you picture for what's next would be more like…",
+  "Continuer sur ma lancée, en préservant ce qui fonctionne":"Carrying on as I am, keeping what works",
+  "Relever de nouveaux défis, explorer de nouvelles envies":"Taking on new challenges, exploring new desires",
+  "De petits ajustements dans mon quotidien":"Small adjustments to my daily life","Un changement progressif, à mon rythme":"A gradual change, at my own pace",
+  "Une transformation plus profonde":"A deeper transformation","Je ne sais pas encore, j'explore":"I don't know yet, I'm exploring",
+  "Quelle prise de conscience cette réflexion vous a-t-elle apportée ?":"What realisation has this reflection brought you?",
+  "Je ne sais pas":"I don't know","Je préfère ne pas répondre":"I'd rather not answer",
+  "Recevoir mon carnet":"Receive my booklet",
+  "Indiquez où vous souhaitez recevoir votre carnet personnel « Mon Point de Départ ». Il reprendra les questions que vous avez vues et vos réponses — un document qui vous appartient, à conserver, relire et compléter.":"Tell us where you'd like to receive your personal booklet 'My Starting Point'. It will include the questions you saw and your answers — a document that's yours to keep, reread and complete.",
+  "Prénom":"First name","Email":"Email","Téléphone":"Phone","(facultatif)":"(optional)",
+  "Votre prénom":"Your first name","Votre numéro":"Your number",
+  "J'accepte que ":"I agree that ",
+  " traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m'envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ":" may process my answers, including any health-related details, to prepare and send me my booklet. The data is stored in their private Google tools. I can withdraw my consent by writing to ",
+  "Je souhaite qu'Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l'envoi du carnet.":"I'd like Agnès to get back to me later to explore my personal and professional assessment further. This is optional and does not affect the sending of the booklet.",
+  "En envoyant ce bilan, vous acceptez notre ":"By submitting this assessment, you accept our ",
+  "politique de confidentialité":"privacy policy",
+  "Découvrir mon bilan":"Discover my assessment","Revenir en arrière":"Go back",
+  "Préparation de votre carnet…":"Preparing your booklet…","Vérifier / réessayer l'envoi":"Check / retry sending",
+  "Indiquez votre prénom et une adresse e-mail valide.":"Please enter your first name and a valid email address.",
+  "Votre accord est nécessaire pour préparer et envoyer votre carnet.":"Your consent is required to prepare and send your booklet.",
+  "Le formulaire est en cours de configuration. Contact : ":"The form is being set up. Contact: ",
+  "Le carnet n'a pas encore été confirmé comme envoyé. Contactez ":"The booklet hasn't been confirmed as sent yet. Contact ",
+  " si vous ne le recevez pas. Référence : ":" if you don't receive it. Reference: ",
+  "Réception non confirmée. Vérifiez vos e-mails avant de réessayer.":"Receipt not confirmed. Check your email before trying again.",
+  "Délai dépassé":"Timed out","Vérification indisponible":"Verification unavailable",
+  "Félicitations":"Congratulations",
+  "Vous avez pris ce temps pour vous, et c'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d'envoi par e-mail":"You've taken this time for yourself, and that already means a lot. Your booklet 'My Starting Point' has been handed to the email delivery service",
+  " à ":" at ",
+  "Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.":"Keep it, reread it, annotate it. And why not take this assessment again in a few months to see how far you've come.",
+  "Prendre un temps pour votre bien-être":"Take some time for your wellbeing",
+  "Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.":"Your answers reveal a wish or a need in this area. If you like, continue with the wellbeing assessment we offer.",
+  "Faire mon bilan bien-être":"Take my wellbeing assessment",
+  "Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.":"You asked to be contacted later to explore this assessment further.",
+  "Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ":"You can ask to explore this assessment further whenever you wish, by writing to ",
+  "Et ensuite ? Plusieurs chemins, tous ouverts.":"What next? Several paths, all open.",
+  "Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.":"None is the 'right' answer. You choose, at your own pace.",
+  "Profiter de votre bilan":"Enjoy your assessment","Le garder pour vous, tout simplement.":"Simply keep it for yourself.",
+  "Mieux vous comprendre":"Understand yourself better","Approfondir ce que vos réponses ont fait ressortir.":"Explore what your answers brought to light.",
+  "Découvrir des possibilités":"Discover possibilities","Explorer différentes pistes qui correspondent à vos aspirations.":"Explore different avenues that match your aspirations.",
+  "Plus de liberté ou de revenus":"More freedom or income","Y compris en parallèle d'une activité que vous souhaitez conserver.":"Including alongside an activity you wish to keep.",
+  "Faire avancer un projet":"Move a project forward","Lorsqu'une envie existe déjà et attend son heure.":"When a wish already exists and is waiting for its time.",
+  "Échanger avec ":"Talk with ","Bénéficier d'un regard extérieur, si vous le souhaitez.":"Benefit from an outside perspective, if you wish.",
+  "Et si ce bilan pouvait être utile à quelqu'un ?":"What if this assessment could help someone?",
+  "Vous pouvez transmettre le lien à une personne de votre entourage. Elle bénéficiera exactement de la même liberté que vous.":"You can pass the link to someone around you. They'll have exactly the same freedom as you.",
+  "Partager sur WhatsApp":"Share on WhatsApp","Par SMS":"By text","Copier le lien":"Copy link",
+  "Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : ":"I just took a moment to reflect on my personal and professional life with this assessment. It did me good — you might find it worthwhile too: "
+}};
+
 function render(){
   const ch=CHAPTERS[STATE.idx];
   stopSpeak();
@@ -358,43 +926,45 @@ function updateProgress(){
   const done=CHAPTERS.slice(0,STATE.idx+1).filter(c=>c.type!=='intro'&&c.type!=='thanks').length;
   document.getElementById('progressFill').style.width=Math.min(100,(done/steps.length)*100)+'%';
   const ch=CHAPTERS[STATE.idx];
-  document.getElementById('stepLabel').textContent=(ch.eyebrow||(ch.type==='contact'?'Dernière étape':''));
+  document.getElementById('stepLabel').textContent=(ch.eyebrow?t(ch.eyebrow):(ch.type==='contact'?t('Dernière étape'):''));
 }
 function renderIntro(){
   nav.style.display='none';
   app.innerHTML=`<div class="screen intro-hero">
     ${renderLangChips()}
-    <div class="kicker">Un temps pour vous</div>
-    <h1>Faire le point.<br>Comprendre. Avancer.</h1>
-    <p>Ce bilan vous est offert. C'est un temps de réflexion pour créer une photographie de votre situation aujourd'hui : votre <strong>Point de Départ</strong>. Vous pourrez le refaire dans quelques mois pour mesurer votre évolution — par rapport à vous-même, et à personne d'autre.</p>
+    <div class="kicker">${t('Un temps pour vous')}</div>
+    <h1>${t('Faire le point.<br>Comprendre. Avancer.')}</h1>
+    <p>${t("Ce bilan vous est offert. C'est un temps de réflexion pour créer une photographie de votre situation aujourd'hui : votre ")}<strong>${t('Point de Départ')}</strong>${t('. Vous pourrez le refaire dans quelques mois pour mesurer votre évolution — par rapport à vous-même, et à personne d\'autre.')}</p>
     <ul class="intro-points">
-      <li><span class="dot"></span><span>Environ 15 à 20 minutes, à votre rythme.</span></li>
-      <li><span class="dot"></span><span>Aucune question n'est obligatoire. Vous pouvez passer, ou répondre « je ne sais pas ».</span></li>
-      <li><span class="dot"></span><span>À la fin, vous recevrez par email votre carnet personnel, avec vos réponses.</span></li>
+      <li><span class="dot"></span><span>${t('Environ 15 à 20 minutes, à votre rythme.')}</span></li>
+      <li><span class="dot"></span><span>${t('Aucune question n\'est obligatoire. Vous pouvez passer, ou répondre « je ne sais pas ».')}</span></li>
+      <li><span class="dot"></span><span>${t('À la fin, vous recevrez par email votre carnet personnel, avec vos réponses.')}</span></li>
     </ul>
-    <p class="intro-note">Même si vous ne donnez jamais aucune suite, ce temps doit vous être utile à vous. C'est la seule promesse de ce bilan.</p>
-    <div style="margin-top:30px"><button class="btn btn-primary" style="width:100%" onclick="goNext()">Commencer mon bilan</button></div>
-    <div class="legal-footer"><button class="legal-link" onclick="openLegal()">Mentions légales & confidentialité</button></div>
+    <p class="intro-note">${t('Même si vous ne donnez jamais aucune suite, ce temps doit vous être utile à vous. C\'est la seule promesse de ce bilan.')}</p>
+    <div style="margin-top:30px"><button class="btn btn-primary" style="width:100%" onclick="goNext()">${t('Commencer mon bilan')}</button></div>
+    <div class="legal-footer"><button class="legal-link" onclick="openLegal()">${t('Mentions légales & confidentialité')}</button></div>
   </div>`;
 }
 function renderChapter(ch){
   nav.style.display='block';
   const qs=visibleQuestions(ch);
-  let html=`<div class="screen"><div class="chapter-eyebrow">${ch.eyebrow}</div>
-    <h1 class="chapter">${ch.title}</h1>
-    ${ch.intro?`<p class="chapter-intro">${ch.intro}</p>`:''}
-    ${ch.legend?`<div class="legend"><span><b>0</b> — Pas du tout d'accord</span><span>Tout à fait d'accord — <b>10</b></span></div>`:''}`;
+  let html=`<div class="screen"><div class="chapter-eyebrow">${t(ch.eyebrow)}</div>
+    <h1 class="chapter">${t(ch.title)}</h1>
+    ${ch.intro?`<p class="chapter-intro">${t(ch.intro)}</p>`:''}
+    ${ch.legend?`<div class="legend"><span><b>0</b> — ${t("Pas du tout d'accord")}</span><span>${t("Tout à fait d'accord")} — <b>10</b></span></div>`:''}`;
   qs.forEach(q=>html+=renderQuestion(q));
   html+=`</div>`;
   app.innerHTML=html;
-  document.getElementById('btnBack').style.visibility=(STATE.idx<=1)?'hidden':'visible';
+  const bb=document.getElementById('btnBack'),bn=document.getElementById('btnNext');
+  if(bb){bb.textContent=t('Précédent');bb.style.visibility=(STATE.idx<=1)?'hidden':'visible';}
+  if(bn)bn.textContent=t('Continuer');
 }
 function renderQuestion(q){
   let inner='';
   if(q.type==='multi'||q.type==='single'){
     inner='<div class="options">';let strIdx=0;
     (q.options||[]).forEach(o=>{
-      if(typeof o!=='string'){inner+=`<div class="group-sub">${o.group}</div>`;return;}
+      if(typeof o!=='string'){inner+=`<div class="group-sub">${t(o.group)}</div>`;return;}
       inner+=optRow(q,strIdx++,o,false);
     });
     if(q.allowOther)inner+=otherRow(q,strIdx++);
@@ -404,39 +974,39 @@ function renderQuestion(q){
     inner+='</div>';
     if(q.maxSelect){
       const n=Array.isArray(A()[q.id])?A()[q.id].filter(v=>!isExclusive(q,v)).length:0;
-      inner+=`<div class="maxnote">${n} / ${q.maxSelect} sélectionné${n>1?'s':''}</div>`;
+      inner+=`<div class="maxnote">${n} / ${q.maxSelect} ${t('sélectionné(s)')}</div>`;
     }
   }else if(q.type==='scale'){inner=renderScale(q);}
   else if(q.type==='text'){const v=A()[q.id]||'';
-    inner=`<input class="text" type="text" value="${esc(v)}" maxlength="6000" oninput="setText('${q.id}',this.value)" placeholder="${q.placeholder||'Votre réponse (facultatif)…'}">`;}
+    inner=`<input class="text" type="text" value="${esc(v)}" maxlength="6000" oninput="setText('${q.id}',this.value)" placeholder="${esc(t(q.placeholder||'Votre réponse (facultatif)…'))}">`;}
   else if(q.type==='longtext'){const v=A()[q.id]||'';
-    inner=`<textarea maxlength="6000" oninput="setText('${q.id}',this.value)" placeholder="Écrivez librement (facultatif)…">${esc(v)}</textarea>`;}
+    inner=`<textarea maxlength="6000" oninput="setText('${q.id}',this.value)" placeholder="${esc(t('Écrivez librement (facultatif)…'))}">${esc(v)}</textarea>`;}
   return `<div class="q ${q.compact?'compact':''}" id="q_${q.id}">
-    ${q.domainHead?`<div class="domain-head">${q.domainHead}</div>`:''}
-    <div class="q-text">${q.q}</div>
-    ${q.hint?`<div class="q-hint">${q.hint}</div>`:''}
+    ${q.domainHead?`<div class="domain-head">${t(q.domainHead)}</div>`:''}
+    <div class="q-text">${t(q.q)}</div>
+    ${q.hint?`<div class="q-hint">${t(q.hint)}</div>`:''}
     ${inner}</div>`;
 }
 function optRow(q,idx,label,isEscape){
   const cur=A()[q.id];
   const sel=(q.type==='single')?(cur===label):(Array.isArray(cur)&&cur.includes(label));
   return `<div class="opt ${isEscape?'escape':''} ${sel?'selected':''}" onclick="toggle('${q.id}',${idx})">
-    <div class="box">${svgCheck}</div><div class="lbl">${label}</div></div>`;
+    <div class="box">${svgCheck}</div><div class="lbl">${t(label)}</div></div>`;
 }
 function otherRow(q,idx){
   const active=Array.isArray(A()[q.id])&&A()[q.id].includes('__OTHER__');
   const v=STATE.others[q.id]||'';
   return `<div class="opt ${active?'selected':''}" onclick="toggle('${q.id}',${idx})">
-    <div class="box">${svgCheck}</div><div class="lbl">Autre…</div></div>
-    ${active?`<div class="other-field"><input type="text" value="${esc(v)}" oninput="setOther('${q.id}',this.value)" placeholder="Précisez…" onclick="event.stopPropagation()"></div>`:''}`;
+    <div class="box">${svgCheck}</div><div class="lbl">${t('Autre…')}</div></div>
+    ${active?`<div class="other-field"><input type="text" value="${esc(v)}" oninput="setOther('${q.id}',this.value)" placeholder="${esc(t('Précisez…'))}" onclick="event.stopPropagation()"></div>`:''}`;
 }
 function renderScale(q){
   const has=typeof A()[q.id]==='number';
   const val=has?A()[q.id]:0;
   return `<div class="slider-wrap ${has?'':'untouched'}" id="${q.id}_wrap">
     <div class="slider-valeur" id="${q.id}_val">${has?val:'—'}</div>
-    <input type="range" min="0" max="10" step="1" value="${val}" id="${q.id}" aria-label="${esc(q.q)}" oninput="majSlider('${q.id}')" onchange="majSlider('${q.id}')">
-    ${q.scale?`<div class="slider-legende"><span>${q.scale.min}</span><span>${q.scale.max}</span></div>`:''}
+    <input type="range" min="0" max="10" step="1" value="${val}" id="${q.id}" aria-label="${esc(t(q.q))}" oninput="majSlider('${q.id}')" onchange="majSlider('${q.id}')">
+    ${q.scale?`<div class="slider-legende"><span>${t(q.scale.min)}</span><span>${t(q.scale.max)}</span></div>`:''}
   </div>`;
 }
 function toggle(id,idx){
@@ -476,22 +1046,22 @@ function goBack(){if(STATE.idx>0){STATE.idx--;render();}}
 function renderContact(){
   nav.style.display='none';const c=STATE.contact;
   app.innerHTML=`<div class="screen">
-    <div class="chapter-eyebrow">Dernière étape</div>
-    <h1 class="chapter">Recevoir mon carnet</h1>
-    <p class="chapter-intro">Indiquez où vous souhaitez recevoir votre carnet personnel « Mon Point de Départ ». Il reprendra les questions que vous avez vues et vos réponses — un document qui vous appartient, à conserver, relire et compléter.</p>
-    <div class="field"><label>Prénom</label><input class="text" type="text" value="${esc(c.prenom||'')}" oninput="STATE.contact.prenom=this.value" placeholder="Votre prénom"></div>
-    <div class="field"><label>Email</label><input class="text" type="email" value="${esc(c.email||'')}" oninput="STATE.contact.email=this.value" placeholder="vous@email.com"></div>
-    <div class="field"><label>Téléphone <span>(facultatif)</span></label><input class="text" type="tel" value="${esc(c.phone||'')}" oninput="STATE.contact.phone=this.value" placeholder="Votre numéro"></div>
+    <div class="chapter-eyebrow">${t('Dernière étape')}</div>
+    <h1 class="chapter">${t('Recevoir mon carnet')}</h1>
+    <p class="chapter-intro">${t('Indiquez où vous souhaitez recevoir votre carnet personnel « Mon Point de Départ ». Il reprendra les questions que vous avez vues et vos réponses — un document qui vous appartient, à conserver, relire et compléter.')}</p>
+    <div class="field"><label>${t('Prénom')}</label><input class="text" type="text" value="${esc(c.prenom||'')}" oninput="STATE.contact.prenom=this.value" placeholder="${esc(t('Votre prénom'))}"></div>
+    <div class="field"><label>${t('Email')}</label><input class="text" type="email" value="${esc(c.email||'')}" oninput="STATE.contact.email=this.value" placeholder="vous@email.com"></div>
+    <div class="field"><label>${t('Téléphone')} <span>${t('(facultatif)')}</span></label><input class="text" type="tel" value="${esc(c.phone||'')}" oninput="STATE.contact.phone=this.value" placeholder="${esc(t('Votre numéro'))}"></div>
     <div class="consent ${STATE.consent?'checked':''}" onclick="STATE.consent=!STATE.consent;render()">
       <div class="box">${svgCheck}</div>
-      <span>J’accepte que ${esc(CONFIG.partner.name)} traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m’envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ${esc(CONFIG.partner.email)}.</span></div>
+      <span>${t('J\'accepte que ')}${esc(CONFIG.partner.name)}${t(' traite mes réponses, y compris mes indications de santé éventuelles, pour préparer et m\'envoyer mon carnet. Les données sont enregistrées dans ses outils Google privés. Je peux retirer mon accord en écrivant à ')}${esc(CONFIG.partner.email)}.</span></div>
     <label class="consent"><input type="checkbox" style="margin-top:5px" ${STATE.recontact?'checked':''} onchange="STATE.recontact=this.checked">
-      <span>Je souhaite qu’Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l’envoi du carnet.</span></label>
-    <p class="legal-note">En envoyant ce bilan, vous acceptez notre <button class="legal-link" onclick="openLegal()">politique de confidentialité</button>.</p>
+      <span>${t('Je souhaite qu\'Agnès me recontacte ultérieurement pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l\'envoi du carnet.')}</span></label>
+    <p class="legal-note">${t('En envoyant ce bilan, vous acceptez notre ')}<button class="legal-link" onclick="openLegal()">${t('politique de confidentialité')}</button>.</p>
     <p id="sendError" role="alert" style="color:#A34D3E;margin-top:18px"></p>
     <div style="margin-top:28px">
-      <button class="btn btn-primary" style="width:100%" id="btnSubmit" onclick="submitForm()">Découvrir mon bilan</button>
-      <div style="text-align:center;margin-top:12px"><button class="skip-scale" onclick="goBack()">Revenir en arrière</button></div>
+      <button class="btn btn-primary" style="width:100%" id="btnSubmit" onclick="submitForm()">${t('Découvrir mon bilan')}</button>
+      <div style="text-align:center;margin-top:12px"><button class="skip-scale" onclick="goBack()">${t('Revenir en arrière')}</button></div>
     </div></div>`;
 }
 function buildPayload(){
@@ -582,9 +1152,9 @@ function verifierReception(id){
   const nom='retourBilan_'+id.replace(/-/g,'')+'_'+Date.now();
   const balise=document.createElement('script');
   const fin=()=>{clearTimeout(delai);delete window[nom];balise.remove();};
-  const delai=setTimeout(()=>{fin();reject(new Error('Délai dépassé'));},15000);
+  const delai=setTimeout(()=>{fin();reject(new Error(t('Délai dépassé')));},15000);
   window[nom]=data=>{fin();resolve(data);};
-  balise.onerror=()=>{fin();reject(new Error('Vérification indisponible'));};
+  balise.onerror=()=>{fin();reject(new Error(t('Vérification indisponible')));};
   balise.src=CONFIG.webhookUrl+'?action=status&id='+encodeURIComponent(id)+'&callback='+nom;
   document.head.appendChild(balise);
  });
@@ -593,13 +1163,13 @@ async function submitForm(){
  const btn=document.getElementById('btnSubmit'),error=document.getElementById('sendError');
  error.textContent='';
  if(!STATE.contact.prenom?.trim()||!/^\S+@[^\s@]+\.[^\s@]+$/.test(STATE.contact.email||'')){
-  error.textContent='Indiquez votre prénom et une adresse e-mail valide.';return;
+  error.textContent=t('Indiquez votre prénom et une adresse e-mail valide.');return;
  }
- if(!STATE.consent){error.textContent='Votre accord est nécessaire pour préparer et envoyer votre carnet.';return;}
+ if(!STATE.consent){error.textContent=t('Votre accord est nécessaire pour préparer et envoyer votre carnet.');return;}
  if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(CONFIG.webhookUrl)){
-  error.textContent='Le formulaire est en cours de configuration. Contact : '+CONFIG.partner.email;return;
+  error.textContent=t('Le formulaire est en cours de configuration. Contact : ')+CONFIG.partner.email;return;
  }
- btn.disabled=true;btn.textContent='Préparation de votre carnet…';
+ btn.disabled=true;btn.textContent=t('Préparation de votre carnet…');
  try{
   if(!STATE.submissionId){
    STATE.submissionId=crypto.randomUUID();
@@ -610,57 +1180,58 @@ async function submitForm(){
   for(let i=0;i<8&&resultat.status==='EN_COURS';i++){
    await new Promise(r=>setTimeout(r,3000));resultat=await verifierReception(STATE.submissionId);
   }
-  if(resultat.status!=='ENVOYE')throw new Error('Le carnet n’a pas encore été confirmé comme envoyé. Contactez '+CONFIG.partner.email+' si vous ne le recevez pas. Référence : '+STATE.submissionId);
+  if(resultat.status!=='ENVOYE')throw new Error(t('Le carnet n\'a pas encore été confirmé comme envoyé. Contactez ')+CONFIG.partner.email+t(' si vous ne le recevez pas. Référence : ')+STATE.submissionId);
   CHAPTERS.push({type:'thanks'});STATE.idx=CHAPTERS.length-1;render();
- }catch(e){error.textContent=e.message||'Réception non confirmée. Vérifiez vos e-mails avant de réessayer.';btn.disabled=false;btn.textContent='Vérifier / réessayer l’envoi';}
+ }catch(e){error.textContent=e.message||t('Réception non confirmée. Vérifiez vos e-mails avant de réessayer.');btn.disabled=false;btn.textContent=t('Vérifier / réessayer l\'envoi');}
 }
 
 function renderThanks(){
   nav.style.display='none';
   const prenom=STATE.contact.prenom?', '+esc(STATE.contact.prenom):'';
   const first=esc(CONFIG.partner.name.split(' ')[0]);
-  const shareUrl='https://agnesetvous.com/evolution?origin='+encodeURIComponent(CONFIG.partner.id);
-  const shareMsg=encodeURIComponent("Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : "+shareUrl);
+  const refParrain=(STATE.contact.prenom||'').trim();
+  const shareUrl=location.origin+location.pathname+(refParrain?'?ref='+encodeURIComponent(refParrain):'');
+  const shareMsg=encodeURIComponent(t("Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : ")+shareUrl);
   app.innerHTML=`<div class="screen thanks">
     <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="${CONFIG.brand.accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <h1>Félicitations${prenom}.</h1>
-    <p>Vous avez pris ce temps pour vous, et c'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d’envoi par e-mail${STATE.contact.email?' à '+esc(STATE.contact.email):''}.</p>
-    <p style="font-size:15px">Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.</p>
-    ${invitationSante()?`<div class="share"><h3>Prendre un temps pour votre bien-être</h3><p>Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.</p><a class="btn btn-primary" style="display:inline-block;text-decoration:none" href="https://agnesetvous.com/bilan" target="_blank" rel="noopener">Faire mon bilan bien-être</a></div>`:''}
-    <p style="margin-top:20px">${STATE.recontact?'Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.':'Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à '+esc(CONFIG.partner.email)+'.'}</p>
+    <h1>${t('Félicitations')}${prenom}.</h1>
+    <p>${t('Vous avez pris ce temps pour vous, et c\'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d\'envoi par e-mail')}${STATE.contact.email?t(' à ')+esc(STATE.contact.email):''}.</p>
+    <p style="font-size:15px">${t('Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.')}</p>
+    ${invitationSante()?`<div class="share"><h3>${t('Prendre un temps pour votre bien-être')}</h3><p>${t('Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.')}</p><a class="btn btn-primary" style="display:inline-block;text-decoration:none" href="https://agnesetvous.com/bilan" target="_blank" rel="noopener">${t('Faire mon bilan bien-être')}</a></div>`:''}
+    <p style="margin-top:20px">${STATE.recontact?t('Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.'):t('Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ')+esc(CONFIG.partner.email)+'.'}</p>
     <div class="doors">
-      <div class="doors-title">Et ensuite ? Plusieurs chemins, tous ouverts.</div>
-      <div class="doors-sub">Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.</div>
-      <div class="door"><span class="emoji">🌱</span><div><div class="d-t">Profiter de votre bilan</div><div class="d-d">Le garder pour vous, tout simplement.</div></div></div>
-      <div class="door"><span class="emoji">🔎</span><div><div class="d-t">Mieux vous comprendre</div><div class="d-d">Approfondir ce que vos réponses ont fait ressortir.</div></div></div>
-      <div class="door"><span class="emoji">🧭</span><div><div class="d-t">Découvrir des possibilités</div><div class="d-d">Explorer différentes pistes qui correspondent à vos aspirations.</div></div></div>
-      <div class="door"><span class="emoji">🌿</span><div><div class="d-t">Plus de liberté ou de revenus</div><div class="d-d">Y compris en parallèle d'une activité que vous souhaitez conserver.</div></div></div>
-      <div class="door"><span class="emoji">🚀</span><div><div class="d-t">Faire avancer un projet</div><div class="d-d">Lorsqu'une envie existe déjà et attend son heure.</div></div></div>
-      <div class="door"><span class="emoji">💬</span><div><div class="d-t">Échanger avec ${first}</div><div class="d-d">Bénéficier d'un regard extérieur, si vous le souhaitez.</div></div></div>
+      <div class="doors-title">${t('Et ensuite ? Plusieurs chemins, tous ouverts.')}</div>
+      <div class="doors-sub">${t('Aucun n\'est la « bonne » réponse. Vous choisissez, à votre rythme.')}</div>
+      <div class="door"><span class="emoji">🌱</span><div><div class="d-t">${t('Profiter de votre bilan')}</div><div class="d-d">${t('Le garder pour vous, tout simplement.')}</div></div></div>
+      <div class="door"><span class="emoji">🔎</span><div><div class="d-t">${t('Mieux vous comprendre')}</div><div class="d-d">${t('Approfondir ce que vos réponses ont fait ressortir.')}</div></div></div>
+      <div class="door"><span class="emoji">🧭</span><div><div class="d-t">${t('Découvrir des possibilités')}</div><div class="d-d">${t('Explorer différentes pistes qui correspondent à vos aspirations.')}</div></div></div>
+      <div class="door"><span class="emoji">🌿</span><div><div class="d-t">${t('Plus de liberté ou de revenus')}</div><div class="d-d">${t('Y compris en parallèle d\'une activité que vous souhaitez conserver.')}</div></div></div>
+      <div class="door"><span class="emoji">🚀</span><div><div class="d-t">${t('Faire avancer un projet')}</div><div class="d-d">${t('Lorsqu\'une envie existe déjà et attend son heure.')}</div></div></div>
+      <div class="door"><span class="emoji">💬</span><div><div class="d-t">${t('Échanger avec ')}${first}</div><div class="d-d">${t('Bénéficier d\'un regard extérieur, si vous le souhaitez.')}</div></div></div>
     </div>
     <div class="share">
-      <h3>Et si ce bilan pouvait être utile à quelqu'un ?</h3>
-      <p>Vous pouvez transmettre le lien à une personne de votre entourage. Elle bénéficiera exactement de la même liberté que vous.</p>
+      <h3>${t('Et si ce bilan pouvait être utile à quelqu\'un ?')}</h3>
+      <p>${t('Vous pouvez transmettre le lien à une personne de votre entourage. Elle bénéficiera exactement de la même liberté que vous.')}</p>
       <div class="share-btns">
-        <a href="https://wa.me/?text=${shareMsg}" target="_blank" rel="noopener">Partager sur WhatsApp</a>
-        <a href="sms:?&body=${shareMsg}">Par SMS</a>
-        <button onclick="copyLink('${shareUrl}')">Copier le lien</button>
+        <a href="https://wa.me/?text=${shareMsg}" target="_blank" rel="noopener">${t('Partager sur WhatsApp')}</a>
+        <a href="sms:?&body=${shareMsg}">${t('Par SMS')}</a>
+        <button onclick="copyLink('${shareUrl}')">${t('Copier le lien')}</button>
       </div>
     </div>
     <div class="sig"><strong>${esc(CONFIG.partner.name)}</strong><br>${esc(CONFIG.partner.email)}${CONFIG.partner.phone?' · '+esc(CONFIG.partner.phone):''}</div>
-    <div class="legal-footer"><button class="legal-link" onclick="openLegal()">Mentions légales & confidentialité</button></div>
+    <div class="legal-footer"><button class="legal-link" onclick="openLegal()">${t('Mentions légales & confidentialité')}</button></div>
   </div>`;
   document.getElementById('progressFill').style.width='100%';
   document.getElementById('stepLabel').textContent='';
 }
-function copyLink(url){navigator.clipboard?.writeText(url).then(()=>{event.target.textContent='Lien copié ✓';}).catch(()=>{prompt('Copiez ce lien :',url);});}
+function copyLink(url){navigator.clipboard?.writeText(url).then(()=>{event.target.textContent=t('Lien copié ✓');}).catch(()=>{prompt('Copier :',url);});}
 /* ── Sélecteur de langue ── */
 function renderLangChips(){
   const list=CONFIG.langues||[{code:'fr',label:'Français',dispo:true}];
   if(list.length<=1)return '';
   return '<div class="lang-row">'+list.map(function(l){
     if(l.dispo)return `<button class="lang-chip ${l.code===CONFIG.langueActive?'active':''}" onclick="setLangue('${l.code}')">${l.label}</button>`;
-    return `<button class="lang-chip soon" disabled aria-disabled="true">${l.label}</button>`;
+    return `<button class="lang-chip" disabled aria-disabled="true">${l.label} · ${t('bientôt')}</button>`;
   }).join('')+'</div>';
 }
 function setLangue(code){
@@ -678,11 +1249,11 @@ function getSpeechText(){
   node.querySelectorAll('.slider-valeur').forEach(e=>e.remove()); // enlève les "—"/chiffres des curseurs
   return (node.textContent||'').replace(/\s+/g,' ').trim();
 }
-function setListenBtn(on){const b=document.getElementById('listenBtn');if(b){b.classList.toggle('on',on);b.innerHTML=on?'⏹ Arrêter':'🔊 Écouter';}}
+function setListenBtn(on){const b=document.getElementById('listenBtn');if(b){b.classList.toggle('on',on);b.innerHTML=on?t('⏹ Arrêter'):t('🔊 Écouter');}}
 let speakKeepAlive=null;
 function stopSpeak(){if(speakKeepAlive){clearInterval(speakKeepAlive);speakKeepAlive=null;}if('speechSynthesis' in window){window.speechSynthesis.cancel();}setListenBtn(false);}
 function toggleSpeak(){
-  if(!('speechSynthesis' in window)){alert("La lecture à voix haute n'est pas disponible sur ce navigateur.");return;}
+  if(!('speechSynthesis' in window)){alert(t("La lecture à voix haute n'est pas disponible sur ce navigateur."));return;}
   if(window.speechSynthesis.speaking||window.speechSynthesis.pending){stopSpeak();return;}
   const u=new SpeechSynthesisUtterance(getSpeechText());
   u.lang=voiceLang(CONFIG.langueActive||'fr');u.rate=1;
