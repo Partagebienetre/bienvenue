@@ -1,1 +1,1104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agnès & Vous vous présente Zinzino</title>
+  <meta name="description" content="Découvrir Zinzino, sa vision, ses valeurs, son approche par plusieurs tests et l'activité partenaire avec Agnès & Vous.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23233029'/%3E%3Cpath d='M16 38c9-18 23-18 32-12M16 38c10 8 24 8 32-10' fill='none' stroke='%23c97b62' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='23' cy='25' r='5' fill='%2391aa91'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #223029;
+      --forest: #4f6957;
+      --sage: #91aa91;
+      --sage-soft: #edf4ef;
+      --terracotta: #c97b62;
+      --clay: #f4e6df;
+      --cream: #fbfaf6;
+      --paper: #ffffff;
+      --muted: #637067;
+      --line: #dfe7df;
+      --shadow: 0 18px 44px rgba(34, 48, 41, .10);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+    p, h1, h2, h3 { margin: 0; }
+    h1, h2, h3 { line-height: 1.08; letter-spacing: 0; }
+    h1 { max-width: 860px; font-size: clamp(34px, 5.4vw, 62px); }
+    h2 { max-width: 860px; font-size: clamp(30px, 4.2vw, 54px); }
+    h3 { font-size: 22px; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(251, 250, 246, .92);
+      border-bottom: 1px solid rgba(223, 231, 223, .78);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      width: min(1160px, calc(100% - 32px));
+      min-height: 56px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 850;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--ink); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 13px 19px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 800;
+      line-height: 1;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+    .button.primary { color: var(--paper); background: var(--ink); box-shadow: 0 14px 32px rgba(34, 48, 41, .18); }
+    .button.secondary { color: var(--ink); background: var(--paper); border-color: var(--line); }
+
+    .hero {
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(115deg, rgba(251, 250, 246, .97) 0%, rgba(251, 250, 246, .88) 52%, rgba(237, 244, 239, .74) 100%),
+        radial-gradient(circle at 82% 20%, rgba(145, 170, 145, .34), transparent 34%),
+        radial-gradient(circle at 72% 84%, rgba(201, 123, 98, .22), transparent 32%);
+    }
+
+    .hero-inner {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      min-height: auto;
+      padding: 54px 0 58px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .88fr);
+      align-items: center;
+      gap: 38px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: var(--forest);
+      background: var(--sage-soft);
+      font-size: 13px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--terracotta);
+    }
+
+    .lead {
+      max-width: 720px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 22px);
+    }
+
+    .hero-actions, .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .trust-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .trust-line span {
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .68);
+    }
+
+    .hero-card, .panel {
+      padding: 30px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(223, 231, 223, .92);
+      background: rgba(255, 255, 255, .86);
+      box-shadow: var(--shadow);
+    }
+
+    .meaning { display: grid; gap: 18px; }
+    .meaning-word { color: var(--terracotta); font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+    .meaning-quote { font-size: clamp(30px, 4vw, 48px); line-height: 1.05; font-weight: 900; }
+    .meaning p { color: var(--muted); font-size: 17px; }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .mini-stat {
+      padding: 16px;
+      border-radius: var(--radius);
+      background: var(--cream);
+      border: 1px solid var(--line);
+    }
+
+    .mini-stat strong { display: block; font-size: 24px; line-height: 1; }
+    .mini-stat span { display: block; margin-top: 8px; color: var(--muted); font-size: 13px; }
+
+    .section { padding: 86px 0; }
+    .section.alt { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .container { width: min(1160px, calc(100% - 32px)); margin: 0 auto; }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(280px, .48fr);
+      gap: 38px;
+      align-items: end;
+      margin-bottom: 38px;
+    }
+
+    .section-head p { color: var(--muted); font-size: 18px; }
+
+    .kicker {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--terracotta);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card, .quality-card {
+      padding: 25px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .alt .card { background: var(--cream); }
+    .card p, .quality-card p, .panel p { margin-top: 12px; color: var(--muted); }
+
+    .founders-feature {
+      display: grid;
+      grid-template-columns: minmax(280px, .9fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .founders-feature img,
+    .wide-visual img,
+    .visual-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .founders-copy {
+      padding: 30px;
+      display: grid;
+      align-content: center;
+      gap: 14px;
+    }
+
+    .founders-copy p,
+    .wide-visual figcaption,
+    .visual-card p {
+      color: var(--muted);
+    }
+
+    .source-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .wide-visual {
+      margin: 24px 0 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .wide-visual img { max-height: 520px; }
+
+    .wide-visual figcaption {
+      padding: 16px 18px;
+      font-size: 14px;
+      background: var(--paper);
+    }
+
+    .visual-board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .visual-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .visual-card img {
+      aspect-ratio: 1 / 1;
+      height: auto;
+    }
+
+    .visual-card div {
+      padding: 18px;
+    }
+
+    .visual-card h3 {
+      font-size: 20px;
+    }
+
+    .innovation-feature {
+      display: grid;
+      grid-template-columns: minmax(0, .86fr) minmax(280px, 1fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 18px;
+    }
+
+    .innovation-copy {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .innovation-copy p { margin-top: 12px; color: var(--muted); }
+
+    .innovation-media {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .innovation-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 270px;
+      object-fit: cover;
+    }
+
+    .innovation-media figcaption {
+      padding: 13px 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .number {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      color: var(--paper);
+      background: var(--forest);
+      font-weight: 900;
+    }
+
+    .split, .interest {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1fr);
+      gap: 38px;
+      align-items: start;
+    }
+
+    .steps {
+      display: grid;
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--line);
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 20px;
+      padding: 24px;
+      background: var(--paper);
+    }
+
+    .step strong { color: var(--forest); font-size: 28px; line-height: 1; }
+    .step p { color: var(--muted); margin-top: 8px; }
+
+    .band {
+      padding: 42px;
+      border-radius: var(--radius);
+      color: var(--paper);
+      background:
+        linear-gradient(135deg, rgba(34, 48, 41, .96), rgba(79, 105, 87, .94)),
+        radial-gradient(circle at 82% 24%, rgba(201, 123, 98, .4), transparent 34%);
+    }
+
+    .band p {
+      max-width: 840px;
+      margin-top: 14px;
+      color: rgba(255, 255, 255, .76);
+      font-size: 18px;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+    }
+
+    .quality-card.large { min-height: 100%; background: var(--sage-soft); }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: var(--paper);
+      background: var(--sage);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .partner-path {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--line);
+    }
+
+    .path-item { padding: 22px; background: var(--paper); }
+    .path-item span { display: block; margin-bottom: 12px; color: var(--terracotta); font-weight: 900; }
+    .path-item p { color: var(--muted); margin-top: 10px; font-size: 15px; }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .choice {
+      min-height: 56px;
+      padding: 14px 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 750;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .choice[aria-pressed="true"] {
+      border-color: var(--forest);
+      background: var(--sage-soft);
+      box-shadow: inset 0 0 0 1px var(--forest);
+    }
+
+    .message-box {
+      margin-top: 12px;
+      padding: 16px;
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      min-height: 82px;
+    }
+
+    .fine-print { margin-top: 16px; color: var(--muted); font-size: 13px; }
+
+    .legal-section {
+      padding: 34px 0 0;
+      border-top: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .legal-section details {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--cream);
+    }
+
+    .legal-section summary {
+      padding: 18px 22px;
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 850;
+    }
+
+    .legal-content {
+      display: grid;
+      gap: 22px;
+      padding: 0 22px 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .legal-content h2 {
+      font-size: 22px;
+      margin-top: 8px;
+    }
+
+    .legal-content p {
+      margin-top: 8px;
+    }
+
+    .legal-content a {
+      color: var(--forest);
+      font-weight: 750;
+    }
+
+    footer {
+      padding: 34px 0;
+      color: var(--muted);
+      background: var(--paper);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    @media (max-width: 940px) {
+      .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .nav-links { width: 100%; overflow-x: auto; padding-bottom: 2px; }
+      .hero-inner, .section-head, .split, .proof-grid, .interest, .founders-feature, .innovation-feature { grid-template-columns: 1fr; }
+      .hero-inner { min-height: auto; padding: 54px 0; }
+      .cards-3, .partner-path, .visual-board { grid-template-columns: 1fr; }
+      .founders-feature img { max-height: 420px; }
+    }
+
+    @media (max-width: 620px) {
+      .mini-grid, .choice-grid { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 1fr; }
+      .section { padding: 64px 0; }
+      .hero-card, .band, .panel, .card, .quality-card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="brand" href="#top">
+        <span class="brand-mark">Z</span>
+        <span>Agnès & Vous vous présente Zinzino</span>
+      </a>
+      <div class="nav-links">
+        <a href="#valeurs">Valeurs</a>
+        <a href="#histoire">Histoire</a>
+        <a href="#concept">Concept santé</a>
+        <a href="#qualite">Qualité</a>
+        <a href="#activite">Activité</a>
+        <a href="#question">Ton intérêt</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <span class="eyebrow">Depuis 2005</span>
+          <h1>Une compagnie scandinave née d'une conviction simple.</h1>
+          <p class="lead">
+            Quand on donne aux personnes des outils fiables pour comprendre leur corps,
+            elles peuvent faire des choix plus éclairés.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#valeurs">Découvrir la compagnie</a>
+            <a class="button secondary" href="#question">Ce qui m'attire</a>
+          </div>
+          <div class="trust-line" aria-label="Repères rapides">
+            <span>Fondée par Hilde et Ørjan Sæle</span>
+            <span>Analyses indépendantes avec Vitas</span>
+            <span>Plus de 100 marchés</span>
+            <span>Cotée en Bourse</span>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Signification de Zinzino">
+          <div class="meaning">
+            <span class="meaning-word">Le sens du nom</span>
+            <p class="meaning-quote">Une petite chose de grande valeur.</p>
+            <p>
+              Un premier repère. Une routine adaptée. Un résultat que l'on peut comparer.
+              Chez Zinzino, le changement commence souvent par quelque chose de simple,
+              mais qui peut ouvrir une trajectoire beaucoup plus grande.
+            </p>
+            <div class="mini-grid">
+              <div class="mini-stat">
+                <strong>2005</strong>
+                <span>début de l'aventure</span>
+              </div>
+              <div class="mini-stat">
+                <strong>+1,9 M</strong>
+                <span>tests d'acides gras analysés</span>
+              </div>
+              <div class="mini-stat">
+                <strong>97 %</strong>
+                <span>des tests initiaux en déséquilibre</span>
+              </div>
+              <div class="mini-stat">
+                <strong>Vitas</strong>
+                <span>laboratoire indépendant à Oslo</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="valeurs">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Vision, mission, valeurs</span>
+            <h2>Une compagnie née d'une conviction de fondateurs.</h2>
+          </div>
+          <p>
+            Les entrepreneurs norvégiens Hilde et Ørjan Sæle ont construit Zinzino
+            autour d'une idée forte : remettre la relation client au cœur de la vente directe,
+            avec des outils sérieux et une vision internationale.
+          </p>
+        </div>
+
+        <article class="founders-feature">
+          <img src="assets/founders-orjan-hilde.jpg" alt="Hilde et Ørjan Sæle, fondateurs de Zinzino">
+          <div class="founders-copy">
+            <span class="kicker">Les fondateurs</span>
+            <h3>Hilde et Ørjan Sæle</h3>
+            <p>
+              Depuis 2005, ils défendent une approche plus personnelle de la santé :
+              moins d'approximation, plus de mesure, et une relation client suivie dans le temps.
+            </p>
+            <p class="source-note">Photo officielle Zinzino.</p>
+          </div>
+        </article>
+
+        <div class="cards-3">
+          <article class="card">
+            <span class="number">1</span>
+            <h3>Une vision</h3>
+            <p>
+              “Inspire Change in Life” : inspirer un changement réel, dans la santé,
+              les habitudes et parfois la trajectoire professionnelle.
+            </p>
+          </article>
+          <article class="card">
+            <span class="number">2</span>
+            <h3>Une mission</h3>
+            <p>
+              Devenir une compagnie de vente directe centrée client, où l'expérience,
+              le suivi et la confiance comptent autant que les produits.
+            </p>
+          </article>
+          <article class="card">
+            <span class="number">3</span>
+            <h3>Une culture</h3>
+            <p>
+              Les partenaires ne sont pas de simples vendeurs : ils portent l'information,
+              expliquent le concept et restent présents dans le parcours.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="histoire">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Évolution</span>
+            <h2>D'une aventure scandinave à une compagnie internationale.</h2>
+          </div>
+          <p>
+            Zinzino n'est pas apparue comme une mode. La compagnie s'est construite
+            étape après étape : relation client, nutrition personnalisée,
+            expansion internationale et informations publiques.
+          </p>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <strong>2005</strong>
+            <div>
+              <h3>Le départ avec Hilde et Ørjan Sæle</h3>
+              <p>Une entreprise familiale norvégienne démarre avec une ambition : construire une vente directe plus centrée client.</p>
+            </div>
+          </article>
+          <article class="step">
+            <strong>2010+</strong>
+            <div>
+              <h3>Le virage vers la nutrition personnalisée</h3>
+              <p>La compagnie développe progressivement une approche basée sur les tests et la personnalisation.</p>
+            </div>
+          </article>
+          <article class="step">
+            <strong>2014</strong>
+            <div>
+              <h3>Une société cotée et plus transparente</h3>
+              <p>Zinzino entre sur Nasdaq First North, ce qui renforce l'accès aux informations publiques sur l'entreprise.</p>
+            </div>
+          </article>
+          <article class="step">
+            <strong>2025</strong>
+            <div>
+              <h3>20 ans, plus de 100 marchés et 306,1 M€ de chiffre d'affaires</h3>
+              <p>La compagnie confirme son expansion mondiale avec une forte croissance et plus de 1,9 million de tests d'acides gras analysés.</p>
+            </div>
+          </article>
+        </div>
+
+        <figure class="wide-visual">
+          <img src="assets/croissance-marches.jpg" alt="Croissance des ventes Zinzino et présence sur plus de 100 marchés">
+          <figcaption>
+            Une trajectoire de croissance construite sur plus de 20 ans, avec une présence internationale
+            et un chiffre d'affaires 2025 exprimé en euros.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="concept">
+      <div class="container">
+        <div class="split">
+          <div>
+            <span class="kicker">Le concept</span>
+            <h2>Mesurer pour personnaliser.</h2>
+            <p class="lead">
+              Zinzino ne repose pas sur un seul test. L'idée est de mesurer où tu en es
+              dans plusieurs domaines de la santé cellulaire, puis de mettre en place une routine
+              et de comparer l'évolution ensuite.
+            </p>
+            <div class="cta-row">
+              <a class="button secondary" href="https://agnesetvous.com/essentiel/">Découvrir le concept prévention santé</a>
+            </div>
+          </div>
+          <div class="panel">
+            <ul class="list">
+              <li><span class="check">✓</span><span>Plusieurs autotests pour obtenir un point de départ personnel.</span></li>
+              <li><span class="check">✓</span><span>Des résultats qui aident à comprendre différents marqueurs de santé cellulaire.</span></li>
+              <li><span class="check">✓</span><span>Une routine nutritionnelle proposée selon les besoins observés.</span></li>
+              <li><span class="check">✓</span><span>Un retest pour comparer l'évolution au lieu de rester sur une impression.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="band">
+          <span class="kicker">Ce qui rend l'approche différente</span>
+          <h2>La preuve avant le discours.</h2>
+          <p>
+            L'idée forte de Zinzino est simple : ne pas demander aux personnes de croire,
+            mais leur proposer de mesurer, d'agir, puis de comparer.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="qualite">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Philosophie produit et qualité</span>
+            <h2>Une exigence qui rassure.</h2>
+          </div>
+          <p>
+            La confiance se construit sur des éléments vérifiables :
+            des analyses indépendantes, des tests anonymes, une production structurée,
+            des contrôles qualité et une entreprise cotée.
+          </p>
+        </div>
+
+        <div class="proof-grid">
+          <article class="quality-card large">
+            <h3>Les analyses ne sont pas réalisées par Zinzino.</h3>
+            <p>
+              Pour les tests concernés, les échantillons sont gérés et analysés anonymement
+              par Vitas, un laboratoire indépendant d'analyse chimique basé à Oslo, certifié GMP.
+            </p>
+            <p>
+              Ni le laboratoire, ni Zinzino ne travaillent avec le nom de la personne :
+              le résultat est relié à un identifiant de test.
+            </p>
+          </article>
+          <div class="cards-3" style="grid-template-columns: 1fr;">
+            <article class="quality-card">
+              <h3>Autotests à domicile</h3>
+              <p>Une démarche simple, réalisée chez soi, pour obtenir une base personnelle.</p>
+            </article>
+            <article class="quality-card">
+              <h3>Routine personnalisée</h3>
+              <p>Des produits choisis selon le point de départ et l'objectif d'amélioration.</p>
+            </article>
+            <article class="quality-card">
+              <h3>Vision long terme</h3>
+              <p>Une société cotée, avec des informations publiques, capable d'intégrer des réseaux et des technologies qui renforcent sa mission.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="innovation-feature">
+          <article class="innovation-copy">
+            <span class="kicker">Innovation</span>
+            <h3>Des technologies au service d'une nutrition plus propre</h3>
+            <p>
+              Zinzino ne développe pas seulement un réseau international. La compagnie peut aussi
+              s'associer à des entreprises qui apportent une vraie avancée technologique, comme
+              les systèmes de photobioréacteurs pour cultiver des microalgues dans un environnement contrôlé.
+            </p>
+            <p>
+              L'objectif reste le même : sécuriser des matières premières de qualité,
+              limiter l'exposition aux pollutions extérieures et préparer les solutions nutritionnelles de demain.
+            </p>
+          </article>
+          <figure class="innovation-media">
+            <img src="assets/photobioreacteurs-xion.jpg" alt="Photobioréacteurs utilisés pour la culture de microalgues">
+            <figcaption>Photobioréacteurs de microalgues, visuel d'illustration technologique.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Clients, recommandation, partenaires</span>
+            <h2>Une activité qui peut se développer de plusieurs façons.</h2>
+          </div>
+          <p>
+            Le modèle commence souvent par l'expérience client : une personne utilise un produit,
+            apprécie le concept, puis peut recommander autour d'elle. Zinzino récompense
+            la fidélité et la recommandation, avec la possibilité d'avoir sa consommation offerte
+            selon les conditions du programme.
+          </p>
+        </div>
+
+        <div class="cards-3">
+          <article class="card">
+            <h3>Seulement des clients</h3>
+            <p>Construire une clientèle fidèle, suivre les routines, les commandes et les retests.</p>
+          </article>
+          <article class="card">
+            <h3>Seulement des partenaires</h3>
+            <p>Former des personnes qui souhaitent développer à leur tour une activité indépendante.</p>
+          </article>
+          <article class="card">
+            <h3>Un équilibre à choisir</h3>
+            <p>Un peu des deux, ou beaucoup des deux : chacun peut avancer selon son profil et ses objectifs.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="activite">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Activité partenaire</span>
+            <h2>Plusieurs façons de grandir avec la compagnie.</h2>
+          </div>
+          <p>
+            Le modèle peut se construire avec des clients, avec des partenaires,
+            ou avec les deux. La progression dépend du chemin choisi, du temps disponible
+            et de la régularité de l'action.
+          </p>
+        </div>
+
+        <div class="partner-path">
+          <article class="path-item">
+            <span>Clientèle</span>
+            <h3>Construire une base stable</h3>
+            <p>Accompagner des clients réguliers, suivre leur expérience et développer la confiance.</p>
+          </article>
+          <article class="path-item">
+            <span>Recommandation</span>
+            <h3>Faire circuler le concept</h3>
+            <p>Permettre aux clients satisfaits de recommander autour d'eux, sans transformer tout le monde en vendeur.</p>
+          </article>
+          <article class="path-item">
+            <span>Équipe</span>
+            <h3>Former si on le souhaite</h3>
+            <p>Accompagner d'autres partenaires, transmettre les outils et construire une organisation.</p>
+          </article>
+          <article class="path-item">
+            <span>Actions</span>
+            <h3>Participer à la valeur créée</h3>
+            <p>Certains bonus du plan peuvent être versés sous forme d'actions Zinzino, selon les conditions du programme.</p>
+          </article>
+        </div>
+
+        <div class="panel" style="margin-top: 18px;">
+          <ul class="list">
+            <li><span class="check">✓</span><span>Formation gratuite et accompagnement par l'équipe.</span></li>
+            <li><span class="check">✓</span><span>Pas de stock à gérer chez soi.</span></li>
+            <li><span class="check">✓</span><span>Pas d'employés, pas de local, pas de lourde structure.</span></li>
+            <li><span class="check">✓</span><span>Une carrière possible par la clientèle, par l'équipe, ou par une combinaison des deux.</span></li>
+            <li><span class="check">✓</span><span>Une entreprise où des partenaires historiques font partie de l'actionnariat, et où certains bonus peuvent être liés aux actions.</span></li>
+          </ul>
+        </div>
+
+        <div class="visual-board" aria-label="Repères visuels du modèle Zinzino">
+          <article class="visual-card">
+            <img src="assets/modele-hybride.jpg" alt="Modèle hybride Zinzino : commissions, revenus récurrents et acquisition d'actions">
+            <div>
+              <h3>Un modèle hybride</h3>
+              <p>Des commissions, une logique d'abonnements et certains bonus pouvant être liés aux actions.</p>
+            </div>
+          </article>
+          <article class="visual-card">
+            <img src="assets/z4f-partenaire.jpg" alt="Programme Zinzino4Free avec conditions liées aux clients actifs">
+            <div>
+              <h3>La clientèle d'abord</h3>
+            <p>Des programmes existent pour valoriser une base de clients actifs et la recommandation.</p>
+            </div>
+          </article>
+          <article class="visual-card">
+            <img src="assets/croissance-marches.jpg" alt="Croissance internationale et marchés ouverts Zinzino">
+            <div>
+              <h3>Une compagnie en mouvement</h3>
+              <p>Une présence internationale qui donne un cadre plus large à l'activité locale.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="question">
+      <div class="container">
+        <div class="interest">
+          <div>
+            <span class="kicker">La bonne question maintenant</span>
+            <h2>Qu'est-ce qui t'attire le plus dans cette compagnie ?</h2>
+            <p class="lead">
+              Il n'y a pas de bonne ou de mauvaise réponse. Cette question permet simplement
+              d'orienter la suite de l'échange vers ce qui t'intéresse vraiment.
+            </p>
+          </div>
+
+          <div class="panel">
+            <div class="choice-grid" aria-label="Choix d'intérêt">
+              <button class="choice" type="button" data-choice="Le concept des tests et de la nutrition personnalisée">Le concept des tests</button>
+              <button class="choice" type="button" data-choice="Le modèle économique">Le modèle économique</button>
+              <button class="choice" type="button" data-choice="Les deux : les tests et le modèle économique">Les deux</button>
+              <button class="choice" type="button" data-choice="La qualité des produits et les preuves">La qualité et les preuves</button>
+              <button class="choice" type="button" data-choice="La vision, les valeurs et la dimension internationale">Les valeurs et la vision</button>
+              <button class="choice" type="button" data-choice="Autre point à préciser">Autre</button>
+            </div>
+            <div class="message-box" id="messageBox">
+              Choisis ce qui t'attire le plus. Cette réponse reste pour toi et t'aide à préparer la suite.
+            </div>
+            <div class="cta-row">
+              <a class="button primary" href="https://agnesetvous.com/demarrage/">Continuer vers le démarrage</a>
+              <a class="button secondary" href="https://agnesetvous.com/essentiel/">Revoir le concept prévention santé</a>
+            </div>
+            <p class="fine-print">
+              Aucune promesse de revenu. La rémunération d'une activité partenaire est variable
+              et dépend du temps, de la régularité, de la formation suivie et de l'action menée.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="legal-section" aria-label="Mentions légales et confidentialité">
+    <details>
+      <summary>Mentions légales et confidentialité</summary>
+      <div class="legal-content">
+        <div>
+          <h2>Mentions légales</h2>
+          <p><strong>Éditeur</strong><br>
+            Agnès &amp; Vous — Agnès Esclaire Riera<br>
+            Entreprise individuelle · SIRET 502 712 466 00056<br>
+            Objat (19)<br>
+            <a href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a> · <a href="tel:+33663932112">+33 6 63 93 21 12</a>
+          </p>
+          <p><strong>Directeur de la publication</strong><br>
+            Agnès Esclaire Riera
+          </p>
+          <p><strong>Hébergeur</strong><br>
+            Ce site est hébergé par GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.
+          </p>
+          <p><strong>Propriété intellectuelle</strong><br>
+            La structure et le contenu de ce site ; toute reproduction sans autorisation est interdite.
+            Les réponses que vous saisissez, elles, vous appartiennent.
+          </p>
+        </div>
+
+        <div>
+          <h2>Confidentialité &amp; données personnelles (RGPD)</h2>
+          <p><strong>Responsable du traitement</strong><br>
+            Agnès Esclaire Riera — <a href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a>.
+          </p>
+          <p><strong>Données recueillies</strong><br>
+            Votre prénom, votre email, votre téléphone (facultatif) et les réponses ne sont recueillies qu'avec votre consentement explicite,
+            et vous restez libre de ne répondre à aucune question.
+          </p>
+          <p><strong>Base légale</strong><br>
+            Votre consentement (articles 6 et, pour d'éventuelles données de santé, 9 du RGPD). Vous pouvez le retirer à tout moment.
+          </p>
+          <p><strong>Destinataires</strong><br>
+            Vos données sont réservées à Agnès Esclaire Riera. Elles ne sont ni vendues ni transmises à des tiers.
+            Elles sont enregistrées via des outils Google (Google Sheets), qui agit comme sous-traitant ; un stockage hors Union européenne
+            peut être encadré par les clauses contractuelles types de la Commission européenne.
+          </p>
+          <p><strong>Durée de conservation</strong><br>
+            Vos données sont conservées 3 ans après notre dernier contact, puis supprimées.
+          </p>
+          <p><strong>Vos droits</strong><br>
+            Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité.
+            Pour les exercer, écrivez à <a href="mailto:contact@agnesetvous.com">contact@agnesetvous.com</a>.
+            Vous pouvez aussi introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr/">www.cnil.fr</a>).
+          </p>
+          <p>Conçu par <strong>Agnès &amp; Vous</strong> — <a href="https://agnesetvous.com/">agnesetvous.com</a></p>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span>Agnès & Vous - Accompagnement personnalisé</span>
+      <span>Information non médicale. Pour toute situation de santé, demander l'avis d'un professionnel qualifié.</span>
+    </div>
+  </footer>
+
+  <script>
+    const buttons = document.querySelectorAll(".choice");
+    const message = document.getElementById("messageBox");
+
+    buttons.forEach((button) => {
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", () => {
+        buttons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+        button.setAttribute("aria-pressed", "true");
+        const choice = button.dataset.choice;
+        message.textContent = `Ce qui t'attire le plus : ${choice}. Garde cette idée pour la suite du parcours.`;
+      });
+    });
+  </script>
+</body>
+</html>
 
