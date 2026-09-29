@@ -25,7 +25,9 @@ const CONFIG = {
   },
   webhookUrl: "https://script.google.com/macros/s/AKfycbxv78qJVxSpoduOJ8kHX8X-n-50vQId26xeS7dCQEGlkHKYsIBNQfVW3y-_8455qstLMg/exec",   // Adresse de votre Apps Script (finit par /exec)
   liens: {
-    bilanBienEtre: "https://agnesetvous.com/bilan"   // proposé à la fin si la personne exprime un besoin de santé / d'énergie
+    rdv:           "https://calendar.app.google/St7RRv4KPgAhHiLV9", // prise de rendez-vous pour échanger sur le bilan ("" = masqué)
+    bilanBienEtre: "https://agnesetvous.com/bilan",                  // proposé à la fin s'il n'a pas déjà été fait ("" = masqué)
+    projet:        "https://agnesetvous.com/projet"                  // découvrir le projet d'activité ("" = masqué)
   },
   langueActive: "fr",   // Langue active par défaut
   langues: [            // Passez "dispo" à true quand la traduction d'une langue est prête
@@ -166,6 +168,17 @@ const CONFIG = {
   .thanks .mark svg{width:28px;height:28px}
   .thanks h1{font-family:var(--serif);font-weight:500;font-size:28px;margin-bottom:14px}
   .thanks p{color:var(--muted);font-size:16.5px;margin-bottom:10px}
+  .actions{margin-top:30px;text-align:left}
+  .actions-title{font-family:var(--serif);font-size:21px;margin-bottom:4px}
+  .actions-sub{color:var(--muted);font-size:15px;margin-bottom:16px}
+  .action{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:12px}
+  .action.principale{border:1.5px solid var(--accent);background:var(--accent-soft)}
+  .action .emoji{font-size:24px;line-height:1.2;flex-shrink:0}
+  .action .a-t{font-weight:600;font-size:16.5px;margin-bottom:3px}
+  .action .a-d{font-size:14.5px;color:var(--muted);margin-bottom:12px}
+  .action a.btn{display:inline-block;text-decoration:none;white-space:normal}
+  .btn-terra{background:#B06D5D;border-color:#B06D5D;color:#fff}
+  .btn-outline{background:#fff;color:var(--ink)}
   .doors{margin-top:34px;text-align:left}
   .doors-title{font-family:var(--serif);font-size:20px;margin-bottom:6px}
   .doors-sub{color:var(--muted);font-size:15px;margin-bottom:18px}
@@ -550,6 +563,18 @@ const I18N={ es:{
   "Faire mon bilan bien-être":"Hacer mi balance de bienestar",
   "Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.":"Ha solicitado que se pongan en contacto con usted más adelante para profundizar en este balance.",
   "Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ":"Podrá solicitar profundizar en este balance cuando lo desee, escribiendo a ",
+  "Et maintenant ? Vous choisissez la suite.":"¿Y ahora? Usted elige lo que viene después.",
+  "Aucune obligation : gardez simplement votre carnet, ou faites un pas de plus, à votre rythme.":"Sin ninguna obligación: simplemente conserve su cuaderno o dé un paso más, a su ritmo.",
+  "Parler de votre bilan avec ":"Hablar de su balance con ",
+  "Un échange offert pour relire ensemble votre carnet, ce qui ressort de vos réponses et les pistes qui vous correspondent.":"Una conversación ofrecida para repasar juntos su cuaderno, lo que destacan sus respuestas y las pistas que le corresponden.",
+  "Réserver mon rendez-vous":"Reservar mi cita",
+  "Faire mon bilan bien-être offert":"Hacer mi balance de bienestar ofrecido",
+  "Vos réponses font ressortir une envie ou un besoin concernant votre santé ou votre énergie. Ce second bilan, en quelques minutes, vous aide à y voir plus clair.":"Sus respuestas muestran un deseo o una necesidad relacionados con su salud o su energía. Este segundo balance, en pocos minutos, le ayuda a verlo más claro.",
+  "Votre énergie et votre santé comptent aussi dans votre évolution. En quelques minutes, faites le point sur votre bien-être.":"Su energía y su salud también cuentan en su evolución. En pocos minutos, haga balance de su bienestar.",
+  "Faire mon bilan bien-être":"Hacer mi balance de bienestar",
+  "Découvrir un projet d'activité":"Descubrir un proyecto de actividad",
+  "Plus de liberté, un complément de revenus, un projet qui a du sens… Découvrez une activité compatible avec votre vie actuelle, simplement pour voir si elle pourrait vous correspondre.":"Más libertad, ingresos complementarios, un proyecto con sentido… Descubra una actividad compatible con su vida actual, simplemente para ver si podría corresponderle.",
+  "Découvrir le projet":"Descubrir el proyecto",
   "Et ensuite ? Plusieurs chemins, tous ouverts.":"¿Y después? Varios caminos, todos abiertos.",
   "Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.":"Ninguno es la «respuesta correcta». Usted elige, a su ritmo.",
   "Profiter de votre bilan":"Aprovechar su balance","Le garder pour vous, tout simplement.":"Guardarlo para usted, sin más.",
@@ -731,6 +756,18 @@ de:{
   "Faire mon bilan bien-être":"Meine Wohlfühl-Standortbestimmung machen",
   "Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.":"Sie haben darum gebeten, später kontaktiert zu werden, um diese Standortbestimmung zu vertiefen.",
   "Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ":"Sie können jederzeit um eine Vertiefung dieser Standortbestimmung bitten, indem Sie schreiben an ",
+  "Et maintenant ? Vous choisissez la suite.":"Und jetzt? Sie entscheiden, wie es weitergeht.",
+  "Aucune obligation : gardez simplement votre carnet, ou faites un pas de plus, à votre rythme.":"Keine Verpflichtung: Behalten Sie einfach Ihr Heft oder gehen Sie einen Schritt weiter, in Ihrem Tempo.",
+  "Parler de votre bilan avec ":"Über Ihre Standortbestimmung sprechen mit ",
+  "Un échange offert pour relire ensemble votre carnet, ce qui ressort de vos réponses et les pistes qui vous correspondent.":"Ein angebotenes Gespräch, um gemeinsam Ihr Heft durchzugehen: was Ihre Antworten zeigen und welche Wege zu Ihnen passen.",
+  "Réserver mon rendez-vous":"Meinen Termin buchen",
+  "Faire mon bilan bien-être offert":"Meinen angebotenen Wohlfühl-Check machen",
+  "Vos réponses font ressortir une envie ou un besoin concernant votre santé ou votre énergie. Ce second bilan, en quelques minutes, vous aide à y voir plus clair.":"Ihre Antworten zeigen einen Wunsch oder ein Bedürfnis in Bezug auf Ihre Gesundheit oder Energie. Dieser zweite Check hilft Ihnen in wenigen Minuten, klarer zu sehen.",
+  "Votre énergie et votre santé comptent aussi dans votre évolution. En quelques minutes, faites le point sur votre bien-être.":"Ihre Energie und Gesundheit zählen auch für Ihre Entwicklung. Ziehen Sie in wenigen Minuten Bilanz über Ihr Wohlbefinden.",
+  "Faire mon bilan bien-être":"Meinen Wohlfühl-Check machen",
+  "Découvrir un projet d'activité":"Ein Tätigkeitsprojekt entdecken",
+  "Plus de liberté, un complément de revenus, un projet qui a du sens… Découvrez une activité compatible avec votre vie actuelle, simplement pour voir si elle pourrait vous correspondre.":"Mehr Freiheit, ein Zusatzeinkommen, ein sinnvolles Projekt… Entdecken Sie eine Tätigkeit, die zu Ihrem jetzigen Leben passt, einfach um zu sehen, ob sie zu Ihnen passen könnte.",
+  "Découvrir le projet":"Das Projekt entdecken",
   "Et ensuite ? Plusieurs chemins, tous ouverts.":"Und danach? Mehrere Wege, alle offen.",
   "Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.":"Keiner ist die «richtige» Antwort. Sie entscheiden, in Ihrem Tempo.",
   "Profiter de votre bilan":"Ihre Standortbestimmung nutzen","Le garder pour vous, tout simplement.":"Sie einfach für sich behalten.",
@@ -912,6 +949,18 @@ en:{
   "Faire mon bilan bien-être":"Take my wellbeing assessment",
   "Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.":"You asked to be contacted later to explore this assessment further.",
   "Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ":"You can ask to explore this assessment further whenever you wish, by writing to ",
+  "Et maintenant ? Vous choisissez la suite.":"What now? You choose what comes next.",
+  "Aucune obligation : gardez simplement votre carnet, ou faites un pas de plus, à votre rythme.":"No obligation: simply keep your notebook, or take one more step, at your own pace.",
+  "Parler de votre bilan avec ":"Talk about your review with ",
+  "Un échange offert pour relire ensemble votre carnet, ce qui ressort de vos réponses et les pistes qui vous correspondent.":"A complimentary conversation to go through your notebook together, what your answers bring out and the paths that suit you.",
+  "Réserver mon rendez-vous":"Book my appointment",
+  "Faire mon bilan bien-être offert":"Take my complimentary well-being check-up",
+  "Vos réponses font ressortir une envie ou un besoin concernant votre santé ou votre énergie. Ce second bilan, en quelques minutes, vous aide à y voir plus clair.":"Your answers show a wish or a need regarding your health or energy. This second check-up, in a few minutes, helps you see more clearly.",
+  "Votre énergie et votre santé comptent aussi dans votre évolution. En quelques minutes, faites le point sur votre bien-être.":"Your energy and health also matter in your development. In a few minutes, take stock of your well-being.",
+  "Faire mon bilan bien-être":"Take my well-being check-up",
+  "Découvrir un projet d'activité":"Discover a possible activity",
+  "Plus de liberté, un complément de revenus, un projet qui a du sens… Découvrez une activité compatible avec votre vie actuelle, simplement pour voir si elle pourrait vous correspondre.":"More freedom, extra income, a meaningful project… Discover an activity that fits your current life, simply to see whether it could suit you.",
+  "Découvrir le projet":"Discover the project",
   "Et ensuite ? Plusieurs chemins, tous ouverts.":"What next? Several paths, all open.",
   "Aucun n'est la « bonne » réponse. Vous choisissez, à votre rythme.":"None is the 'right' answer. You choose, at your own pace.",
   "Profiter de votre bilan":"Enjoy your assessment","Le garder pour vous, tout simplement.":"Simply keep it for yourself.",
@@ -1205,6 +1254,7 @@ function renderThanks(){
   nav.style.display='none';
   const prenom=STATE.contact.prenom?', '+esc(STATE.contact.prenom):'';
   const first=esc(CONFIG.partner.name.split(' ')[0]);
+  const L_={rdv:(CONFIG.liens||{}).rdv||'',bilan:(CONFIG.liens||{}).bilanBienEtre||'',projet:(CONFIG.liens||{}).projet||''};
   const refParrain=(STATE.contact.prenom||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   const shareUrl=location.origin+location.pathname+(refParrain?'?origine='+refParrain:'');
   const shareMsg=encodeURIComponent(t("Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : ")+shareUrl);
@@ -1213,17 +1263,22 @@ function renderThanks(){
     <h1>${t('Félicitations')}${prenom}.</h1>
     <p>${t('Vous avez pris ce temps pour vous, et c\'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d\'envoi par e-mail')}${STATE.contact.email?t(' à ')+esc(STATE.contact.email):''}.</p>
     <p style="font-size:15px">${t('Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.')}</p>
-    ${invitationSante()&&CONFIG.liens&&CONFIG.liens.bilanBienEtre?`<div class="share"><h3>${t('Prendre un temps pour votre bien-être')}</h3><p>${t('Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.')}</p><a class="btn btn-primary" style="display:inline-block;text-decoration:none" href="${esc(lienAvecOrigine(CONFIG.liens&&CONFIG.liens.bilanBienEtre||''))}" target="_blank" rel="noopener">${t('Faire mon bilan bien-être')}</a></div>`:''}
-    <p style="margin-top:20px">${STATE.recontact?t('Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.'):t('Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ')+esc(CONFIG.partner.email)+'.'}</p>
-    <div class="doors">
-      <div class="doors-title">${t('Et ensuite ? Plusieurs chemins, tous ouverts.')}</div>
-      <div class="doors-sub">${t('Aucun n\'est la « bonne » réponse. Vous choisissez, à votre rythme.')}</div>
-      <div class="door"><span class="emoji">🌱</span><div><div class="d-t">${t('Profiter de votre bilan')}</div><div class="d-d">${t('Le garder pour vous, tout simplement.')}</div></div></div>
-      <div class="door"><span class="emoji">🔎</span><div><div class="d-t">${t('Mieux vous comprendre')}</div><div class="d-d">${t('Approfondir ce que vos réponses ont fait ressortir.')}</div></div></div>
-      <div class="door"><span class="emoji">🧭</span><div><div class="d-t">${t('Découvrir des possibilités')}</div><div class="d-d">${t('Explorer différentes pistes qui correspondent à vos aspirations.')}</div></div></div>
-      <div class="door"><span class="emoji">🌿</span><div><div class="d-t">${t('Plus de liberté ou de revenus')}</div><div class="d-d">${t('Y compris en parallèle d\'une activité que vous souhaitez conserver.')}</div></div></div>
-      <div class="door"><span class="emoji">🚀</span><div><div class="d-t">${t('Faire avancer un projet')}</div><div class="d-d">${t('Lorsqu\'une envie existe déjà et attend son heure.')}</div></div></div>
-      <div class="door"><span class="emoji">💬</span><div><div class="d-t">${t('Échanger avec ')}${first}</div><div class="d-d">${t('Bénéficier d\'un regard extérieur, si vous le souhaitez.')}</div></div></div>
+    <p style="margin-top:14px">${STATE.recontact?t('Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.'):t('Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ')+esc(CONFIG.partner.email)+'.'}</p>
+    <div class="actions">
+      <div class="actions-title">${t('Et maintenant ? Vous choisissez la suite.')}</div>
+      <div class="actions-sub">${t('Aucune obligation : gardez simplement votre carnet, ou faites un pas de plus, à votre rythme.')}</div>
+      ${L_.rdv?`<div class="action principale"><span class="emoji">📅</span><div>
+        <div class="a-t">${t('Parler de votre bilan avec ')}${first}</div>
+        <div class="a-d">${t('Un échange offert pour relire ensemble votre carnet, ce qui ressort de vos réponses et les pistes qui vous correspondent.')}</div>
+        <a class="btn btn-terra" href="${esc(L_.rdv)}" target="_blank" rel="noopener">${t('Réserver mon rendez-vous')}</a></div></div>`:''}
+      ${L_.bilan&&!bilanDejaFait()?`<div class="action"><span class="emoji">🌿</span><div>
+        <div class="a-t">${t('Faire mon bilan bien-être offert')}</div>
+        <div class="a-d">${invitationSante()?t('Vos réponses font ressortir une envie ou un besoin concernant votre santé ou votre énergie. Ce second bilan, en quelques minutes, vous aide à y voir plus clair.'):t('Votre énergie et votre santé comptent aussi dans votre évolution. En quelques minutes, faites le point sur votre bien-être.')}</div>
+        <a class="btn btn-primary" href="${esc(lienAvecOrigine(L_.bilan))}" target="_blank" rel="noopener">${t('Faire mon bilan bien-être')}</a></div></div>`:''}
+      ${L_.projet?`<div class="action"><span class="emoji">🧭</span><div>
+        <div class="a-t">${t('Découvrir un projet d\'activité')}</div>
+        <div class="a-d">${t('Plus de liberté, un complément de revenus, un projet qui a du sens… Découvrez une activité compatible avec votre vie actuelle, simplement pour voir si elle pourrait vous correspondre.')}</div>
+        <a class="btn btn-outline" href="${esc(lienAvecOrigine(L_.projet))}" target="_blank" rel="noopener">${t('Découvrir le projet')}</a></div></div>`:''}
     </div>
     <div class="share">
       <h3>${t('Et si ce bilan pouvait être utile à quelqu\'un ?')}</h3>
@@ -1240,6 +1295,7 @@ function renderThanks(){
   document.getElementById('progressFill').style.width='100%';
   document.getElementById('stepLabel').textContent='';
 }
+function bilanDejaFait(){try{return !!localStorage.getItem('bilanBienEtreFait');}catch(e){return false;}}
 function lienAvecOrigine(u){if(!u)return u;const lp=(CONFIG.langueActive&&CONFIG.langueActive!=='fr')?'lang='+CONFIG.langueActive:'';const o=URL_ORIGIN?'origine='+encodeURIComponent(URL_ORIGIN):'';const q=[o,lp].filter(Boolean).join('&');return q?u+(u.indexOf('?')<0?'?':'&')+q:u;}
 function copyLink(url){navigator.clipboard?.writeText(url).then(()=>{event.target.textContent=t('Lien copié ✓');}).catch(()=>{prompt('Copier :',url);});}
 /* ── Sélecteur de langue ── */
