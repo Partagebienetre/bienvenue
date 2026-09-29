@@ -23,7 +23,10 @@ const CONFIG = {
     phone: "+33 6 63 93 21 12",          // Votre téléphone
     id:    "agnes"                        // Identifiant court, sans espace (ex : "sylvie")
   },
-  webhookUrl: "https://script.google.com/macros/s/AKfycbxv78qJVxSpoduOJ8kHX8X-n-50vQId26xeS7dCQEGlkHKYsIBNQfVW3y-_8455qstLMg/exec",   // Adresse de votre Apps Script (finit par /exec). Laissez "" pour l'instant.
+  webhookUrl: "",   // Adresse de votre Apps Script (finit par /exec)
+  liens: {
+    bilanBienEtre: "https://agnesetvous.com/bilan"   // proposé à la fin si la personne exprime un besoin de santé / d'énergie
+  },
   langueActive: "fr",   // Langue active par défaut
   langues: [            // Passez "dispo" à true quand la traduction d'une langue est prête
     { code:"fr", label:"Français", dispo:true  },
@@ -32,23 +35,24 @@ const CONFIG = {
     { code:"en", label:"English",  dispo:true  }
   ],
   brand: {
-    paper:"#FBFAF7", ink:"#2E3830", accent:"#6E8B72",
-    accentSoft:"#E9EEE8", line:"#E3E0D7", muted:"#8A8A7E"
+    // Palette Agnès & Vous (identique sur tous les sites)
+    paper:"#F5F1E8", ink:"#33372F", accent:"#7D8D79",
+    accentSoft:"#E8EBE4", line:"#E3DED2", muted:"#6B6F65"
   },
   // Mentions légales — remplacez par VOS informations si vous dupliquez ce bilan
   legal: {
     raisonSociale: "Agnès & Vous — Agnès Esclaire Riera",
-    statut:        "Entreprise individuelle (micro-entreprise)",
-    siret:         "502 712 466 00056",     // à vérifier / adapter
-    adresse:       "",                        // Adresse complète — à compléter ou pas
-    ville:         "Objat (19) France",
+    statut:        "Entreprise individuelle",
+    siret:         "502 712 466 00056",
+    adresse:       "",                        // facultatif
+    ville:         "Objat, Corrèze, France",
     conservation:  "3 ans après notre dernier contact"
   }
 };
 /* ═══ ▲▲▲ FIN DU BLOC À PERSONNALISER — NE RIEN MODIFIER EN DESSOUS ▲▲▲ ═══ */
 </script>
 <style>
-  :root{--paper:#FBFAF7;--ink:#2E3830;--accent:#6E8B72;--accent-soft:#E9EEE8;--line:#E3E0D7;--muted:#8A8A7E;
+  :root{--paper:#F5F1E8;--ink:#33372F;--accent:#7D8D79;--accent-soft:#E8EBE4;--line:#E3DED2;--muted:#6B6F65;
     --serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,-apple-system,sans-serif;--maxw:640px;--radius:14px}
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -62,6 +66,9 @@ const CONFIG = {
   .listen-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid transparent;border-radius:999px;padding:6px 13px;cursor:pointer;white-space:nowrap}
   .listen-btn:hover{border-color:var(--accent)}
   .listen-btn.on{background:var(--accent);color:#fff}
+  .lang-mini{display:flex;gap:2px;margin-left:auto}
+  .lang-mini button{font-family:var(--sans);font-size:11.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:4px 8px;cursor:pointer}
+  .lang-mini button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   .lang-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
   .lang-chip{font-family:var(--sans);font-size:13.5px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:7px 15px;cursor:pointer}
   .lang-chip:hover:not(:disabled){border-color:var(--accent)}
@@ -182,7 +189,7 @@ const CONFIG = {
 <body>
 <div class="topbar">
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  <div class="topbar-inner"><span class="step-label" id="stepLabel"></span><button class="listen-btn" id="listenBtn" onclick="toggleSpeak()" aria-label="Écouter cette page">🔊 Écouter</button></div>
+  <div class="topbar-inner"><span class="step-label" id="stepLabel"></span><span class="lang-mini" id="langMini"></span><button class="listen-btn" id="listenBtn" onclick="toggleSpeak()" aria-label="Écouter cette page">🔊 Écouter</button></div>
 </div>
 <div class="wrap"><div id="app"></div></div>
 <div class="legal-modal" id="legalModal" onclick="if(event.target===this)closeLegal()"><div class="legal-panel" id="legalPanel"></div></div>
@@ -197,8 +204,13 @@ const CONFIG = {
   r.setProperty('--accent-soft',b.accentSoft);r.setProperty('--line',b.line);r.setProperty('--muted',b.muted);})();
 
 const params=new URLSearchParams(location.search);
-const URL_ORIGIN=params.get('origin')||params.get('shared_by')||'';
+/* Origine : qui a invité la personne (?origine=prenom), gardée en mémoire entre les sites */
+let URL_ORIGIN=(params.get('origine')||params.get('origin')||params.get('shared_by')||params.get('o')||'').trim().slice(0,60);
+try{if(URL_ORIGIN)localStorage.setItem('origine',URL_ORIGIN);else URL_ORIGIN=localStorage.getItem('origine')||'';}catch(e){}
 const URL_REF=params.get('ref')||'';
+/* Langue : ?lang=en / es / de, sinon le dernier choix de la personne */
+(function(){let l='';try{l=(params.get('lang')||localStorage.getItem('langue')||'').toLowerCase().slice(0,2);}catch(e){}
+  if(l&&(CONFIG.langues||[]).some(x=>x.code===l&&x.dispo)){CONFIG.langueActive=l;document.documentElement.lang=l;}})();
 const svgCheck='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
 const REFUSE='Je préfère ne pas répondre';
 const UNSURE='Je ne sais pas';
@@ -917,6 +929,7 @@ en:{
 function render(){
   const ch=CHAPTERS[STATE.idx];
   stopSpeak();
+  renderLangMini();
   window.scrollTo({top:0,behavior:'instant'});
   updateProgress();
   if(ch.type==='intro')return renderIntro();
@@ -1061,7 +1074,7 @@ function renderContact(){
     <label class="consent"><input type="checkbox" style="margin-top:5px" ${STATE.recontact?'checked':''} onchange="STATE.recontact=this.checked">
       <span>${t('Je souhaite être recontacté·e par ')}${esc(CONFIG.partner.name.split(' ')[0])}${t(' pour approfondir mon bilan personnel et professionnel. Ce choix est facultatif et ne conditionne pas l\'envoi du carnet.')}</span></label>
     <p class="legal-note">${t('En envoyant ce bilan, vous acceptez notre ')}<button class="legal-link" onclick="openLegal()">${t('politique de confidentialité')}</button>.</p>
-    <p id="sendError" role="alert" style="color:#A34D3E;margin-top:18px"></p>
+    <p id="sendError" role="alert" style="color:#B06D5D;margin-top:18px"></p>
     <div style="margin-top:28px">
       <button class="btn btn-primary" style="width:100%" id="btnSubmit" onclick="submitForm()">${t('Découvrir mon bilan')}</button>
       <div style="text-align:center;margin-top:12px"><button class="skip-scale" onclick="goBack()">${t('Revenir en arrière')}</button></div>
@@ -1115,9 +1128,9 @@ function dessinerRoue(labels,values) {
  for(let i=0;i<n;i++){
   if(values[i]===null)continue;
   c.beginPath();c.moveTo(cx,cy);c.arc(cx,cy,r*values[i]/10,angle(i),angle(i+1));c.closePath();
-  c.fillStyle=i%2?'#A6B7A3':'#6E8B72';c.fill();
+  c.fillStyle=i%2?'#B5C0B1':'#7D8D79';c.fill();
  }
- c.strokeStyle='#D8DED5';c.lineWidth=2;
+ c.strokeStyle='#DCE0D8';c.lineWidth=2;
  for(let j=1;j<=10;j++){c.beginPath();c.arc(cx,cy,r*j/10,0,Math.PI*2);c.stroke();}
  for(let i=0;i<n;i++){
   c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+r*Math.cos(angle(i)),cy+r*Math.sin(angle(i)));c.stroke();
@@ -1125,13 +1138,13 @@ function dessinerRoue(labels,values) {
   const words=labels[i].split(' '),lines=[];let line='';
   for(const w of words){if((line+' '+w).trim().length>21&&line){lines.push(line);line=w;}else line=(line+' '+w).trim();}lines.push(line);
   c.textAlign=Math.cos(mid)>.35?'left':Math.cos(mid)<-.35?'right':'center';
-  c.fillStyle='#2E3830';c.font='23px Arial';
+  c.fillStyle='#33372F';c.font='23px Arial';
   lines.forEach((t,k)=>c.fillText(t,lx,ly+(k-(lines.length-1)/2)*28));
-  c.font='bold 25px Arial';c.fillStyle=values[i]===null?'#8A8A7E':'#6E8B72';
+  c.font='bold 25px Arial';c.fillStyle=values[i]===null?'#6B6F65':'#4F5B4C';
   c.fillText(values[i]===null?'—':(Math.round(values[i]*10)/10).toLocaleString('fr-FR')+' / 10',lx,ly+(lines.length+1)/2*28);
  }
  c.textAlign='center';c.font='18px Arial';
- for(const j of [2,4,6,8,10]){c.fillStyle='#FFFFFF';c.fillRect(cx-14,cy+r*j/10-12,28,22);c.fillStyle='#526150';c.fillText(String(j),cx,cy+r*j/10+5);}
+ for(const j of [2,4,6,8,10]){c.fillStyle='#FFFFFF';c.fillRect(cx-14,cy+r*j/10-12,28,22);c.fillStyle='#4F5B4C';c.fillText(String(j),cx,cy+r*j/10+5);}
  return canvas.toDataURL('image/png');
 }
 function imagesRoues(){
@@ -1192,15 +1205,15 @@ function renderThanks(){
   nav.style.display='none';
   const prenom=STATE.contact.prenom?', '+esc(STATE.contact.prenom):'';
   const first=esc(CONFIG.partner.name.split(' ')[0]);
-  const refParrain=(STATE.contact.prenom||'').trim();
-  const shareUrl=location.origin+location.pathname+(refParrain?'?ref='+encodeURIComponent(refParrain):'');
+  const refParrain=(STATE.contact.prenom||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const shareUrl=location.origin+location.pathname+(refParrain?'?origine='+refParrain:'');
   const shareMsg=encodeURIComponent(t("Je viens de prendre un moment pour faire le point sur ma vie personnelle et professionnelle grâce à ce bilan. Il m'a été utile — il pourrait t'intéresser aussi : ")+shareUrl);
   app.innerHTML=`<div class="screen thanks">
     <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="${CONFIG.brand.accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
     <h1>${t('Félicitations')}${prenom}.</h1>
     <p>${t('Vous avez pris ce temps pour vous, et c\'est déjà beaucoup. Votre carnet « Mon Point de Départ » a été confié au service d\'envoi par e-mail')}${STATE.contact.email?t(' à ')+esc(STATE.contact.email):''}.</p>
     <p style="font-size:15px">${t('Conservez-le, relisez-le, annotez-le. Et pourquoi pas, refaites ce bilan dans quelques mois pour observer votre chemin.')}</p>
-    ${invitationSante()?`<div class="share"><h3>${t('Prendre un temps pour votre bien-être')}</h3><p>${t('Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.')}</p><a class="btn btn-primary" style="display:inline-block;text-decoration:none" href="https://agnesetvous.com/bilan" target="_blank" rel="noopener">${t('Faire mon bilan bien-être')}</a></div>`:''}
+    ${invitationSante()&&CONFIG.liens&&CONFIG.liens.bilanBienEtre?`<div class="share"><h3>${t('Prendre un temps pour votre bien-être')}</h3><p>${t('Vos réponses font ressortir une envie ou un besoin dans ce domaine. Si vous le souhaitez, poursuivez avec le bilan bien-être offert.')}</p><a class="btn btn-primary" style="display:inline-block;text-decoration:none" href="${esc(lienAvecOrigine(CONFIG.liens&&CONFIG.liens.bilanBienEtre||''))}" target="_blank" rel="noopener">${t('Faire mon bilan bien-être')}</a></div>`:''}
     <p style="margin-top:20px">${STATE.recontact?t('Vous avez demandé à être recontacté(e) ultérieurement pour approfondir ce bilan.'):t('Vous pourrez demander à approfondir ce bilan quand vous le souhaiterez, en écrivant à ')+esc(CONFIG.partner.email)+'.'}</p>
     <div class="doors">
       <div class="doors-title">${t('Et ensuite ? Plusieurs chemins, tous ouverts.')}</div>
@@ -1227,6 +1240,7 @@ function renderThanks(){
   document.getElementById('progressFill').style.width='100%';
   document.getElementById('stepLabel').textContent='';
 }
+function lienAvecOrigine(u){if(!u)return u;const lp=(CONFIG.langueActive&&CONFIG.langueActive!=='fr')?'lang='+CONFIG.langueActive:'';const o=URL_ORIGIN?'origine='+encodeURIComponent(URL_ORIGIN):'';const q=[o,lp].filter(Boolean).join('&');return q?u+(u.indexOf('?')<0?'?':'&')+q:u;}
 function copyLink(url){navigator.clipboard?.writeText(url).then(()=>{event.target.textContent=t('Lien copié ✓');}).catch(()=>{prompt('Copier :',url);});}
 /* ── Sélecteur de langue ── */
 function renderLangChips(){
@@ -1241,7 +1255,15 @@ function setLangue(code){
   const l=(CONFIG.langues||[]).find(x=>x.code===code);
   if(!l||!l.dispo)return;
   CONFIG.langueActive=code;
+  document.documentElement.lang=code;
+  try{localStorage.setItem('langue',code);}catch(e){}
+  if(STATE.idx===CHAPTERS.length-1&&CHAPTERS[STATE.idx].type==='thanks'){renderThanks();renderLangMini();return;}
   render();
+}
+function renderLangMini(){
+  const el=document.getElementById('langMini');if(!el)return;
+  const list=(CONFIG.langues||[]).filter(l=>l.dispo);
+  el.innerHTML=list.length>1?list.map(l=>`<button class="${l.code===CONFIG.langueActive?'active':''}" onclick="setLangue('${l.code}')" aria-label="${l.label}">${l.code.toUpperCase()}</button>`).join(''):'';
 }
 
 /* ── Lecture à voix haute (synthèse vocale du navigateur) ── */
@@ -1278,7 +1300,7 @@ function renderLegal(){
       ${esc(L.statut||'')}${L.siret?' · SIRET '+esc(L.siret):''}<br>
       ${L.adresse?esc(L.adresse)+'<br>':''}${esc(L.ville||'')}<br>
       ${esc(p.email)}${p.phone?' · '+esc(p.phone):''}</p>
-    <p><strong>Directeur de la publication</strong><br>${esc(p.name)}</p>
+    <p><strong>Direction de la publication</strong><br>${esc(p.name)}</p>
     <p><strong>Hébergeur</strong><br>Ce site est hébergé par GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
     <p><strong>Propriété intellectuelle</strong><br>La structure et le contenu de ce bilan appartiennent à son éditeur ; toute reproduction sans autorisation est interdite. Les réponses que vous saisissez, elles, vous appartiennent.</p>
 
