@@ -3,40 +3,84 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agnès & Vous — Bien-être, reconversion et accompagnement à Objat, Corrèze, à distance et à l'international</title>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   ZONE 1 — PARAMÈTRES
+   C'est la seule zone à modifier pour dupliquer cet espace de bienvenue.
+   Ne changez que ce qui se trouve ENTRE les guillemets " ".
+   Mettez "" (deux guillemets vides) pour masquer un élément.
+   ═══════════════════════════════════════════════════════════════════ */
+var CONFIG = {
+
+  /* ── Qui êtes-vous ── */
+  PRENOM      : "Agnès",
+  NOM_COMPLET : "Agnès Esclaire Riera",
+  MARQUE      : "Agnès & Vous",
+  VILLE       : "Objat",
+  REGION      : "Corrèze",
+  TELEPHONE   : "+33 6 63 93 21 12",
+  EMAIL       : "contact@agnesetvous.com",
+  SITE_URL    : "https://agnesetvous.com",
+
+  /* ── Axes présentés (true = affiché, false = masqué) ──
+     La plupart des partenaires : BIENETRE true, EVOLUTION true, NUMERIQUE false */
+  AXE_BIENETRE  : true,
+  AXE_EVOLUTION : true,
+  AXE_NUMERIQUE : true,
+
+  /* ── Autre activité à présenter en plus (facultatif, "" = rien) ── */
+  AXE_PERSO_TITRE : "",
+  AXE_PERSO_TEXTE : "",
+
+  /* ── Mentions légales ── */
+  STATUT            : "Entrepreneur individuel (EI)",
+  SIRET             : "502 712 466 00056",
+  ADRESSE           : "Objat (19130), Corrèze, France",
+  HEBERGEUR         : "GitHub, Inc. (GitHub Pages), 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis",
+  REGISTRAR_DOMAINE : "IONOS SARL",
+  CONSERVATION_ANS  : "3",
+
+  /* ── Photo, logo, vidéo (fichiers déposés à côté de cette page) ── */
+  PHOTO : "photo-agnes.png",
+  LOGO  : "logo-agnes-vous.png",   /* "" = le nom de la marque s'affiche en texte */
+  VIDEO : "fond-video.mp4",        /* "" = pas de vidéo de fond */
+
+  /* ── Réception des formulaires (Google Apps Script) ── */
+  ENDPOINT : "https://script.google.com/macros/s/AKfycbwMHFHpNdylLJyKHdS3MLqwq676-6wDv47iAvDdAKJgG8xoSQzKXu8FPfkImPiX5bc3/exec",
+
+  /* ── Liens proposés après le formulaire ── */
+  LIEN_BILAN     : "https://agnesetvous.com/bilan",
+  LIEN_ESSENTIEL : "https://agnesetvous.com/essentiel",
+  LIEN_EVOLUTION : "https://agnesetvous.com/evolution",
+  LIEN_PROJET    : "https://agnesetvous.com/projet",
+  AGENDA         : "https://calendar.app.google/v4KtmbgVPWEHSejT8",
+
+  /* ── Réseaux sociaux ── */
+  LINKEDIN  : "https://www.linkedin.com/in/agnes-esclaire-riera-41276196",
+  FACEBOOK  : "https://www.facebook.com/share/1BqdGuYaz5/",
+  INSTAGRAM : "",
+  TIKTOK    : "https://www.tiktok.com/@agnes.et.vous",
+
+  /* ── Échanger directement ── */
+  TELEGRAM_DIRECT : "https://t.me/partagebienetre",
+  WHATSAPP_DIRECT : "https://wa.me/33663932112",
+
+  /* ── Communautés ── */
+  COMMUNAUTE_TELEGRAM : "https://t.me/testnutrition",
+  COMMUNAUTE_WHATSAPP : "https://whatsapp.com/channel/0029Vb8Qlf10G0XnK7ZrHJ3i"
+};
+</script>
+
+<!-- ═══ ZONE 2 — APERÇU LORS D'UN PARTAGE (WhatsApp, Facebook…) : remplacer le nom, la ville, et retirer « numérique et IA » si cet axe est masqué ═══ -->
+<title>Agnès & Vous — Bien-être, évolution professionnelle, numérique et IA · Objat, Corrèze et à distance</title>
 <meta name="description" content="Accompagnement personnalisé à Objat, en Corrèze, à distance et à l'international : bien-être et prévention, évolution personnelle et professionnelle, numérique et IA. Premier échange offert.">
-<link rel="canonical" href="https://agnesetvous.com">
-<meta property="og:title" content="Agnès & Vous — Bien-être, reconversion et accompagnement à Objat, Corrèze, à distance et à l'international">
-<meta property="og:description" content="Accompagnement personnalisé : bien-être, évolution personnelle et professionnelle, numérique et IA — à Objat, en Corrèze, à distance et à l'international. Premier échange offert.">
+<meta property="og:title" content="Agnès & Vous — Bien-être, évolution professionnelle, numérique et IA">
+<meta property="og:description" content="Accompagnement personnalisé à Objat, en Corrèze, à distance et à l'international. Premier échange offert.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Agnès & Vous",
-  "founder": { "@type": "Person", "name": "Agnès Esclaire Riera" },
-  "description": "Accompagnement personnalisé en bien-être, évolution personnelle et professionnelle, numérique et IA pour particuliers, indépendants et professionnels.",
-  "address": { "@type": "PostalAddress", "addressLocality": "Objat", "addressRegion": "Corrèze", "addressCountry": "FR" },
-  "areaServed": [
-    { "@type": "AdministrativeArea", "name": "Corrèze" },
-    { "@type": "Place", "name": "International (à distance)" }
-  ],
-  "telephone": "+33663932112",
-  "email": "contact@agnesetvous.com",
-  "url": "https://agnesetvous.com",
-  "sameAs": [
-    "https://www.linkedin.com/in/agnes-esclaire-riera-41276196",
-    "https://www.facebook.com/share/1BqdGuYaz5/",
-    "https://www.tiktok.com/@agnes.et.vous"
-  ],
-  "makesOffer": [
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bien-être et prévention" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Évolution personnelle et professionnelle" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Numérique et intelligence artificielle" } }
-  ]
-}
-</script>
+<!-- ═══ FIN DES ZONES À MODIFIER — ne rien toucher en dessous ═══ -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -49,25 +93,34 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:'Jost',system-ui,sans-serif;font-weight:300;background:var(--beige);color:var(--encre);line-height:1.7}
-.top-bar{position:fixed;top:10px;right:10px;z-index:100;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;background:rgba(253,252,249,.92);padding:6px 8px;border-radius:20px;box-shadow:0 2px 10px rgba(0,0,0,.08);max-width:200px}
+.top-bar{position:fixed;top:10px;right:10px;z-index:100;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;background:rgba(253,252,249,.92);padding:6px 8px;border-radius:20px;box-shadow:0 2px 10px rgba(0,0,0,.08);max-width:220px}
 .lang-btn,.read-btn{background:none;border:1px solid rgba(125,141,121,.3);color:var(--encre-doux);font-size:.72rem;padding:4px 9px;border-radius:14px;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:inherit}
 .lang-btn.active{background:var(--sauge);color:var(--blanc);border-color:var(--sauge)}
 .lang-btn:hover,.read-btn:hover{border-color:var(--sauge)}
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px 20px;text-align:center;position:relative;overflow:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px 24px;text-align:center;position:relative;overflow:hidden}
 .hero-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(245,241,232,.85);z-index:1}
 .hero>*:not(.hero-video):not(.hero-overlay){position:relative;z-index:2}
-.section{max-width:640px;margin:0 auto;padding:36px 24px;opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.section{max-width:640px;margin:0 auto;padding:28px 24px;opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
 .section.visible{opacity:1;transform:none}
-.divider{width:44px;height:1px;background:var(--or);margin:20px auto}
+.divider{width:44px;height:1px;background:var(--or);margin:16px auto}
 h1{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(2.2rem,7vw,3rem);line-height:1.15;letter-spacing:-.01em;margin-bottom:20px;color:var(--encre)}
 h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(1.4rem,4.5vw,1.9rem);line-height:1.3;margin-bottom:16px;color:var(--encre)}
 .sub{color:var(--encre-doux);font-size:1.15rem;font-weight:400;margin-bottom:14px;max-width:52ch}
 .sub-strong{color:var(--encre);font-size:1.2rem;font-weight:500;margin-bottom:16px;max-width:56ch}
 .signature{font-family:'Playfair Display',serif;font-style:italic;color:var(--terracotta);font-size:1.2rem;margin-top:16px}
 .portrait{width:140px;height:140px;border-radius:50%;object-fit:cover;border:3px solid var(--or);margin-bottom:28px;box-shadow:0 6px 24px rgba(51,55,47,.15)}
-.filter-box{background:var(--blanc);border-radius:6px;padding:28px 24px;margin:28px 0;border:1px solid rgba(125,141,121,.15);text-align:left}
-.options{display:flex;flex-direction:column;gap:10px;margin:20px 0 28px}
+.logo-img{max-width:280px;width:80%;height:auto;margin-top:8px}
+.logo-txt{display:inline-block;margin-top:6px}
+.filter-box{background:var(--blanc);border-radius:6px;padding:24px 22px;border:1px solid rgba(125,141,121,.15);text-align:left}
+.filter-box h3{font-family:'Playfair Display',serif;font-weight:500;font-size:1.05rem;margin-bottom:10px}
+.filter-box ul{list-style:none;margin:0 0 18px}
+.filter-box ul:last-child{margin-bottom:0}
+.filter-box li{padding:4px 0 4px 24px;font-size:.95rem;color:var(--encre-doux);position:relative}
+.filter-box li::before{content:'';position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%}
+.pour li::before{background:var(--sauge)}
+.moins li::before{background:var(--terracotta-doux)}
+.options{display:flex;flex-direction:column;gap:10px;margin:20px 0 24px}
 .opt{display:flex;align-items:center;gap:14px;background:var(--blanc);border:1.5px solid rgba(125,141,121,.2);border-radius:6px;padding:16px 20px;cursor:pointer;transition:all .25s ease;font-size:1rem}
 .opt:hover{border-color:var(--sauge);background:var(--sauge-bg);transform:translateX(4px)}
 .opt input{position:absolute;opacity:0;pointer-events:none}
@@ -80,7 +133,7 @@ h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(
 .opt-text{flex:1}
 .field{margin-bottom:18px}
 .lbl{display:block;font-size:.9rem;margin-bottom:7px;color:var(--encre-doux)}
-input[type=text],input[type=email]{width:100%;font-family:inherit;font-size:1rem;font-weight:300;padding:14px 16px;background:var(--blanc);color:var(--encre);border:1.5px solid rgba(125,141,121,.2);border-radius:6px;transition:border-color .2s}
+input[type=text],input[type=email],input[type=tel]{width:100%;font-family:inherit;font-size:1rem;font-weight:300;padding:14px 16px;background:var(--blanc);color:var(--encre);border:1.5px solid rgba(125,141,121,.2);border-radius:6px;transition:border-color .2s}
 input:focus{outline:none;border-color:var(--sauge);box-shadow:0 0 0 3px rgba(125,141,121,.12)}
 .consent{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;color:var(--encre-doux);margin:22px 0}
 .consent input{margin-top:4px;accent-color:var(--sauge);width:17px;height:17px;flex:0 0 auto}
@@ -97,18 +150,24 @@ button{font-family:inherit;font-size:.95rem;cursor:pointer;border:none}
 .card-link strong{display:block;font-weight:500;margin-bottom:3px}
 .card-link span{font-size:.87rem;color:var(--encre-doux)}
 .card-link .cta{display:block;color:var(--terracotta);font-size:.85rem;margin-top:6px;font-weight:500}
-.socials{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.socials{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 20px}
 .social{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--blanc);border:1px solid rgba(125,141,121,.15);border-radius:6px;text-decoration:none;color:var(--encre);font-size:.9rem;transition:all .2s}
 .social:hover{background:var(--sauge-bg);border-color:var(--sauge)}
+.small-lbl{font-size:.85rem;color:var(--encre-doux);margin-top:16px}
 .coordonnees{background:var(--blanc);border-radius:6px;padding:24px;margin:24px 0;border:1px solid rgba(125,141,121,.15)}
 .coordonnees p{margin-bottom:6px;font-size:.95rem}
-footer{text-align:center;padding:32px 24px;font-size:.82rem;color:var(--encre-doux);border-top:1px solid rgba(125,141,121,.1);max-width:640px;margin:0 auto}
+.coordonnees a{color:inherit;text-decoration:none;font-weight:500}
+footer{text-align:center;padding:28px 24px;font-size:.82rem;color:var(--encre-doux);border-top:1px solid rgba(125,141,121,.1);max-width:640px;margin:0 auto}
+.mentions{margin-top:16px;font-size:.8rem;line-height:1.6;color:var(--encre-doux);text-align:left}
+.mentions .mt{font-weight:500;color:var(--encre);margin:14px 0 6px}
+.mentions .mt:first-child{margin-top:0}
+.credit{margin-top:18px;padding-top:12px;border-top:1px solid rgba(125,141,121,.15);text-align:center;font-style:italic}
 .err{color:var(--terracotta);font-size:.88rem;margin-top:12px;min-height:1.2em}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hidden{display:none !important}
-.section-title{font-family:'Playfair Display',serif;font-weight:500;font-size:1rem;color:var(--encre-doux);margin-bottom:16px}
-@media(max-width:480px){.hero{padding:32px 20px 24px}.section{padding:28px 20px}.filter-box{padding:20px 18px}.top-bar{max-width:160px}}
+.section-title{font-family:'Playfair Display',serif;font-weight:500;font-size:1.1rem;color:var(--encre-doux);margin-bottom:16px}
+@media(max-width:480px){.hero{padding:40px 20px 20px}.section{padding:24px 20px}.filter-box{padding:20px 18px}.top-bar{max-width:170px}}
 </style>
 </head>
 <body>
@@ -117,234 +176,235 @@ footer{text-align:center;padding:32px 24px;font-size:.82rem;color:var(--encre-do
   <button class="lang-btn active" id="btnFR" onclick="setLanguage('fr')">FR</button>
   <button class="lang-btn" id="btnEN" onclick="setLanguage('en')">EN</button>
   <button class="lang-btn" id="btnES" onclick="setLanguage('es')">ES</button>
-  <button class="read-btn" id="btnRead" onclick="toggleReadAloud()">🔊</button>
+  <button class="read-btn" id="btnRead" onclick="toggleReadAloud()" aria-label="Lecture audio">🔊</button>
 </div>
 
 <main id="contenuPrincipal">
 
 <section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline>
-    <source src="fond-video.mp4" type="video/mp4">
-  </video>
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline></video>
   <div class="hero-overlay"></div>
 
-  <img class="portrait" src="photo-agnes.png" alt="Agnès">
-  <h1><span data-i18n="hero_title">Bienvenue dans l'univers</span><br><img src="logo-agnes-vous.png" alt="Agnès & Vous" style="max-width:280px;width:80%;height:auto;margin-top:8px"></h1>
+  <img class="portrait" id="portrait" src="" alt="">
+  <h1><span data-i18n="hero_title"></span><br><span id="logoZone"></span></h1>
 
-  <p class="sub-strong" style="text-align:center;margin:0 auto 20px" data-i18n="hero_lead">Un besoin, une envie, une difficulté, un projet ?<br><strong>Commençons par en parler.</strong></p>
+  <p class="sub-strong" style="text-align:center;margin:0 auto 20px" data-i18n="hero_lead"></p>
+  <p class="sub" style="text-align:center;margin:0 auto 12px" data-i18n="hero_p1"></p>
+  <p class="sub" style="text-align:center;margin:0 auto 16px" data-i18n="hero_honest"></p>
+  <p class="sub-strong" style="text-align:center;margin:0 auto 24px" data-i18n="hero_choose"></p>
 
-  <p class="sub" style="text-align:center;margin:0 auto 16px" data-i18n="hero_p1">J'écoute ce qui vous amène, je cherche à comprendre votre situation et, lorsque je pense pouvoir vous être utile, je vous propose des pistes.</p>
-  <p class="sub-strong" style="text-align:center;margin:0 auto 24px" data-i18n="hero_choose">Vous choisissez la suite.</p>
-
-  <div style="text-align:left;max-width:520px;margin:24px auto 16px">
-    <p class="section-title" style="text-align:center;font-size:1.1rem;margin-bottom:20px" data-i18n="apporter_title">Ce que je peux vous apporter</p>
-    <div style="margin-bottom:18px">
-      <p style="font-weight:500;color:var(--encre);margin-bottom:4px" data-i18n="bienetre_title">Bien-être &amp; prévention</p>
-      <p style="font-size:.92rem;color:var(--encre-doux)" data-i18n="bienetre_desc">Faire le point sur votre bien-être, mieux comprendre votre équilibre et explorer des pistes concrètes pour prendre soin de vous et agir en prévention.</p>
+  <div style="text-align:left;max-width:520px;margin:16px auto">
+    <p class="section-title" style="text-align:center;margin-bottom:18px" data-i18n="apporter_title"></p>
+    <div style="margin-bottom:16px" id="axeBienetre">
+      <p style="font-weight:500;margin-bottom:4px" data-i18n="bienetre_title"></p>
+      <p style="font-size:.92rem;color:var(--encre-doux)" data-i18n="bienetre_desc"></p>
     </div>
-    <div style="margin-bottom:18px">
-      <p style="font-weight:500;color:var(--encre);margin-bottom:4px" data-i18n="evolution_title">Évolution personnelle &amp; professionnelle</p>
-      <p style="font-size:.92rem;color:var(--encre-doux)" data-i18n="evolution_desc">Faire le point sur votre situation, vos envies de changement, un projet professionnel ou la possibilité de diversifier vos sources de revenus, à votre rythme.</p>
+    <div style="margin-bottom:16px" id="axeEvolution">
+      <p style="font-weight:500;margin-bottom:4px" data-i18n="evolution_title"></p>
+      <p style="font-size:.92rem;color:var(--encre-doux)" data-i18n="evolution_desc"></p>
     </div>
-    <div style="margin-bottom:18px">
-      <p style="font-weight:500;color:var(--encre);margin-bottom:4px" data-i18n="numerique_title">Numérique &amp; IA</p>
-      <p style="font-size:.92rem;color:var(--encre-doux)" data-i18n="numerique_desc">Simplifier l'utilisation des outils numériques et de l'intelligence artificielle pour gagner du temps, faciliter votre quotidien et vous concentrer sur l'essentiel.</p>
+    <div style="margin-bottom:16px" id="axeNumerique">
+      <p style="font-weight:500;margin-bottom:4px" data-i18n="numerique_title"></p>
+      <p style="font-size:.92rem;color:var(--encre-doux)" data-i18n="numerique_desc"></p>
     </div>
-    <p style="font-size:.9rem;color:var(--sauge);margin-top:14px;font-weight:500" data-i18n="audience">Pour les particuliers, indépendants et professionnels — en Corrèze, à distance et à l'international.</p>
+    <div style="margin-bottom:16px" id="axePerso">
+      <p style="font-weight:500;margin-bottom:4px" id="axePersoTitre"></p>
+      <p style="font-size:.92rem;color:var(--encre-doux)" id="axePersoTexte"></p>
+    </div>
+    <p style="font-size:.9rem;color:var(--sauge);margin-top:12px;font-weight:500" data-i18n="audience"></p>
   </div>
 
-  <p class="signature">Agnès</p>
-  <p style="font-size:.85rem;color:var(--sauge);letter-spacing:.05em;margin-top:8px" data-i18n="motto">Écouter · Comprendre · Proposer · Accompagner</p>
-  <button class="btn-scroll" style="margin-top:16px" data-i18n="connaissance_title" onclick="document.getElementById('q1').scrollIntoView({behavior:'smooth'})">Faisons connaissance</button>
+  <p class="signature" data-fill="{prenom}"></p>
+  <p style="font-size:.85rem;color:var(--sauge);letter-spacing:.05em;margin-top:8px" data-i18n="motto"></p>
+  <button class="btn-scroll" data-i18n="connaissance_title" onclick="document.getElementById('filtre').scrollIntoView({behavior:'smooth'})"></button>
 </section>
 
-<div class="section" id="q1">
-  <h2 data-i18n="connaissance_title">Faisons connaissance</h2>
-  <p class="sub-strong" data-i18n="connaissance_lead">Quelques questions pour comprendre ce qui vous amène et vous orienter vers les ressources qui pourraient vous être utiles.</p>
-  <p class="sub" data-i18n="connaissance_note">Il n'y a pas de bonne ou de mauvaise réponse. Répondez simplement selon votre situation aujourd'hui.</p>
+<div class="section" id="filtre">
+  <div class="filter-box">
+    <h3 data-i18n="filtre_pour_title"></h3>
+    <ul class="pour">
+      <li data-i18n="filtre_pour_1"></li>
+      <li data-i18n="filtre_pour_2"></li>
+      <li data-i18n="filtre_pour_3"></li>
+    </ul>
+    <h3 data-i18n="filtre_moins_title"></h3>
+    <ul class="moins">
+      <li data-i18n="filtre_moins_1"></li>
+      <li data-i18n="filtre_moins_2"></li>
+    </ul>
+  </div>
+</div>
 
-  <h2 style="margin-top:28px" data-i18n="q1_title">Comment avez-vous découvert Agnès &amp; Vous ?</h2>
+<div class="section" id="q1">
+  <h2 data-i18n="connaissance_title"></h2>
+  <p class="sub-strong" data-i18n="connaissance_lead"></p>
+  <p class="sub" data-i18n="connaissance_note"></p>
+
+  <h2 style="margin-top:24px" data-i18n="q1_title"></h2>
   <div class="options" data-name="source">
-    <label class="opt"><input type="radio" name="source" value="Échange direct"><span class="mark"></span><span class="opt-text" data-i18n="q1opt1">Nous avons déjà échangé</span></label>
-    <label class="opt"><input type="radio" name="source" value="Recommandation"><span class="mark"></span><span class="opt-text" data-i18n="q1opt2">Une personne m'a parlé d'Agnès &amp; Vous</span></label>
-    <label class="opt"><input type="radio" name="source" value="Carte de visite"><span class="mark"></span><span class="opt-text" data-i18n="q1opt3">J'ai reçu une carte de visite</span></label>
-    <label class="opt"><input type="radio" name="source" value="Réseaux sociaux"><span class="mark"></span><span class="opt-text" data-i18n="q1opt4">J'ai découvert Agnès &amp; Vous sur les réseaux sociaux</span></label>
-    <label class="opt"><input type="radio" name="source" value="Internet"><span class="mark"></span><span class="opt-text" data-i18n="q1opt5">J'ai découvert Agnès &amp; Vous sur Internet</span></label>
-    <label class="opt"><input type="radio" name="source" value="Autre" id="q1AutreRadio"><span class="mark"></span><span class="opt-text" data-i18n="q1opt6">Autre</span></label>
+    <label class="opt"><input type="radio" name="source" value="Échange direct"><span class="mark"></span><span class="opt-text" data-i18n="q1opt1"></span></label>
+    <label class="opt"><input type="radio" name="source" value="Recommandation"><span class="mark"></span><span class="opt-text" data-i18n="q1opt2"></span></label>
+    <label class="opt"><input type="radio" name="source" value="Carte de visite"><span class="mark"></span><span class="opt-text" data-i18n="q1opt3"></span></label>
+    <label class="opt"><input type="radio" name="source" value="Réseaux sociaux"><span class="mark"></span><span class="opt-text" data-i18n="q1opt4"></span></label>
+    <label class="opt"><input type="radio" name="source" value="Internet"><span class="mark"></span><span class="opt-text" data-i18n="q1opt5"></span></label>
+    <label class="opt"><input type="radio" name="source" value="Autre"><span class="mark"></span><span class="opt-text" data-i18n="q1opt6"></span></label>
   </div>
 
   <div class="field hidden" id="champQ1Autre">
-    <label class="lbl" for="q1AutrePrecision" data-i18n="q1_autre_label">Précisez, si vous le souhaitez</label>
+    <label class="lbl" for="q1AutrePrecision" data-i18n="q1_autre_label"></label>
     <input type="text" id="q1AutrePrecision">
   </div>
-
   <div class="field hidden" id="champReco">
-    <label class="lbl" for="recommandeur" data-i18n="reco_label">Si quelqu'un vous a parlé d'Agnès &amp; Vous, qui puis-je remercier ?</label>
-    <input type="text" id="recommandeur" data-i18n-ph="reco_placeholder" placeholder="Prénom ou nom — facultatif">
+    <label class="lbl" for="recommandeur" data-i18n="reco_label"></label>
+    <input type="text" id="recommandeur" data-i18n-ph="reco_placeholder">
   </div>
 
-  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="revealQ2()">Continuer</button>
+  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="reveal('div2','q2')"></button>
 </div>
 
 <div class="divider hidden" id="div2"></div>
 
 <div class="section hidden" id="q2">
-  <h2 data-i18n="q2_title">Qu'est-ce qui vous amène aujourd'hui ?</h2>
-  <p class="sub" data-i18n="q2_sub">Vous pouvez choisir plusieurs réponses.</p>
-  <div class="options" data-name="interets" data-multi>
-    <label class="opt" data-multi><input type="checkbox" name="interets" value="Bien-être"><span class="mark"></span><span class="opt-text" data-i18n="q2opt1">Votre bien-être et votre santé</span></label>
-    <label class="opt" data-multi><input type="checkbox" name="interets" value="Évolution pro"><span class="mark"></span><span class="opt-text" data-i18n="q2opt2">Votre évolution professionnelle</span></label>
-    <label class="opt" data-multi><input type="checkbox" name="interets" value="Revenus complémentaires"><span class="mark"></span><span class="opt-text" data-i18n="q2opt3">J'aimerais explorer une possibilité de revenus complémentaires</span></label>
-    <label class="opt" data-multi><input type="checkbox" name="interets" value="IA"><span class="mark"></span><span class="opt-text" data-i18n="q2opt4">Apprendre à utiliser l'IA</span></label>
-    <label class="opt" data-multi><input type="checkbox" name="interets" value="Explore"><span class="mark"></span><span class="opt-text" data-i18n="q2opt5">Vous ne savez pas encore, vous explorez</span></label>
-    <label class="opt" data-multi><input type="checkbox" name="interets" value="Autre" id="q2AutreCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="q2opt6">Autre</span></label>
+  <h2 data-i18n="q2_title"></h2>
+  <p class="sub" data-i18n="q2_sub"></p>
+  <div class="options" data-name="interets">
+    <label class="opt" data-multi id="q2Bienetre"><input type="checkbox" name="interets" value="Bien-être"><span class="mark"></span><span class="opt-text" data-i18n="q2opt1"></span></label>
+    <label class="opt" data-multi id="q2Evolution"><input type="checkbox" name="interets" value="Évolution pro"><span class="mark"></span><span class="opt-text" data-i18n="q2opt2"></span></label>
+    <label class="opt" data-multi id="q2Revenus"><input type="checkbox" name="interets" value="Revenus complémentaires"><span class="mark"></span><span class="opt-text" data-i18n="q2opt3"></span></label>
+    <label class="opt" data-multi id="q2IA"><input type="checkbox" name="interets" value="IA"><span class="mark"></span><span class="opt-text" data-i18n="q2opt4"></span></label>
+    <label class="opt" data-multi><input type="checkbox" name="interets" value="Explore"><span class="mark"></span><span class="opt-text" data-i18n="q2opt5"></span></label>
+    <label class="opt" data-multi><input type="checkbox" name="interets" value="Autre" id="q2AutreCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="q2opt6"></span></label>
   </div>
-
   <div class="field hidden" id="champQ2Autre">
-    <label class="lbl" for="q2AutrePrecision" data-i18n="q2_autre_label">En quelques mots, qu'aimeriez-vous améliorer, faire évoluer ou résoudre ?</label>
+    <label class="lbl" for="q2AutrePrecision" data-i18n="q2_autre_label"></label>
     <input type="text" id="q2AutrePrecision">
   </div>
-
-  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="revealRdv()">Continuer</button>
+  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="reveal('divRdv','rdv')"></button>
 </div>
 
 <div class="divider hidden" id="divRdv"></div>
 
 <div class="section hidden" id="rdv">
-  <h2 data-i18n="rdv_title">Souhaitez-vous être tenu(e) informé(e) de mes prochains rendez-vous ?</h2>
-  <p class="sub" data-i18n="rdv_sub">Vous pouvez cocher une option, les deux, ou aucune.</p>
-
-  <div class="options" data-name="rdv_choix" data-multi>
-    <label class="opt" data-multi><input type="checkbox" name="rdv_choix" value="Conférence en ligne" id="rdvConfCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_label">Être informé(e) d'une prochaine conférence en ligne, en groupe</span></label>
-    <label class="opt" data-multi><input type="checkbox" name="rdv_choix" value="Événement local" id="rdvEventCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="rdv_event_label">Être informé(e) d'un événement près de chez moi</span></label>
+  <h2 data-i18n="rdv_title"></h2>
+  <p class="sub" data-i18n="rdv_sub"></p>
+  <div class="options" data-name="rdv_choix">
+    <label class="opt" data-multi><input type="checkbox" name="rdv_choix" value="Conférence en ligne" id="rdvConfCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_label"></span></label>
+    <label class="opt" data-multi><input type="checkbox" name="rdv_choix" value="Événement local" id="rdvEventCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="rdv_event_label"></span></label>
   </div>
-
   <div class="field hidden" id="champConfSujet">
-    <p class="lbl" data-i18n="rdv_conf_sujet_label">Cela concerne plutôt :</p>
+    <p class="lbl" data-i18n="rdv_conf_sujet_label"></p>
     <div class="options" data-name="conf_sujet">
-      <label class="opt"><input type="radio" name="conf_sujet" value="Bien-être"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt1">Le bien-être</span></label>
-      <label class="opt"><input type="radio" name="conf_sujet" value="Activité"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt2">L'activité professionnelle</span></label>
-      <label class="opt"><input type="radio" name="conf_sujet" value="Les deux"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt3">Les deux</span></label>
+      <label class="opt"><input type="radio" name="conf_sujet" value="Bien-être"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt1"></span></label>
+      <label class="opt"><input type="radio" name="conf_sujet" value="Activité"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt2"></span></label>
+      <label class="opt"><input type="radio" name="conf_sujet" value="Les deux"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt3"></span></label>
     </div>
   </div>
-
   <div class="field hidden" id="champEventVille">
-    <label class="lbl" for="eventVille" data-i18n="rdv_event_ville_label">Votre ville ou votre secteur</label>
-    <input type="text" id="eventVille" data-i18n-ph="rdv_event_ville_placeholder" placeholder="Pour vous prévenir quand un événement aura lieu près de chez vous">
+    <label class="lbl" for="eventVille" data-i18n="rdv_event_ville_label"></label>
+    <input type="text" id="eventVille" data-i18n-ph="rdv_event_ville_placeholder">
   </div>
-
-  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="revealFin()">Continuer</button>
+  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="reveal('div3','fin')"></button>
 </div>
 
 <div class="divider hidden" id="div3"></div>
 
 <div class="section hidden" id="fin">
-  <h2 data-i18n="fin_title">Pour pouvoir reprendre notre échange</h2>
-  <p class="sub" data-i18n="fin_p1">Si nous avons déjà échangé, vos coordonnées me permettent de savoir que vous avez poursuivi votre démarche et de reprendre notre conversation là où nous l'avons laissée.</p>
-  <p class="sub" style="margin-bottom:24px" data-i18n="fin_p2">Si nous ne nous connaissons pas encore, elles me permettront simplement de vous répondre si vous souhaitez échanger avec moi.</p>
+  <h2 data-i18n="fin_title"></h2>
+  <p class="sub" data-i18n="fin_p1"></p>
+  <p class="sub" style="margin-bottom:24px" data-i18n="fin_p2"></p>
 
-  <p class="lbl" data-i18n="canal_question">Comment préférez-vous qu'on échange ?</p>
+  <p class="lbl" data-i18n="canal_question"></p>
   <div class="options" data-name="canal">
-    <label class="opt"><input type="radio" name="canal" value="Visioconférence"><span class="mark"></span><span class="opt-text" data-i18n="canalopt1">Une visioconférence</span></label>
-    <label class="opt"><input type="radio" name="canal" value="Appel"><span class="mark"></span><span class="opt-text" data-i18n="canalopt2">Un appel téléphonique</span></label>
-    <label class="opt"><input type="radio" name="canal" value="Messages"><span class="mark"></span><span class="opt-text" data-i18n="canalopt3">Par message (WhatsApp, SMS)</span></label>
-    <label class="opt"><input type="radio" name="canal" value="Email"><span class="mark"></span><span class="opt-text" data-i18n="canalopt4">Par email</span></label>
-    <label class="opt"><input type="radio" name="canal" value="Pas de préférence"><span class="mark"></span><span class="opt-text" data-i18n="canalopt5">Pas de préférence particulière</span></label>
+    <label class="opt"><input type="radio" name="canal" value="Visioconférence"><span class="mark"></span><span class="opt-text" data-i18n="canalopt1"></span></label>
+    <label class="opt"><input type="radio" name="canal" value="Appel"><span class="mark"></span><span class="opt-text" data-i18n="canalopt2"></span></label>
+    <label class="opt"><input type="radio" name="canal" value="Messages"><span class="mark"></span><span class="opt-text" data-i18n="canalopt3"></span></label>
+    <label class="opt"><input type="radio" name="canal" value="Email"><span class="mark"></span><span class="opt-text" data-i18n="canalopt4"></span></label>
+    <label class="opt"><input type="radio" name="canal" value="Pas de préférence"><span class="mark"></span><span class="opt-text" data-i18n="canalopt5"></span></label>
   </div>
 
-  <div class="field" style="margin-top:8px"><label class="lbl" for="prenom"><span data-i18n="lbl_prenom">Prénom</span> <span style="opacity:.7" data-i18n="tag_obligatoire">(obligatoire)</span></label><input type="text" id="prenom" autocomplete="given-name"></div>
-  <div class="field"><label class="lbl" for="email"><span data-i18n="lbl_email">Adresse e-mail</span> <span style="opacity:.7" data-i18n="tag_obligatoire">(obligatoire)</span></label><input type="email" id="email" autocomplete="email"></div>
-  <div class="field"><label class="lbl" for="telephone"><span data-i18n="lbl_telephone">Téléphone</span> <span style="opacity:.7" data-i18n="tag_facultatif_appel">(facultatif, sauf si vous choisissez un appel)</span></label><input type="text" id="telephone" autocomplete="tel"></div>
+  <div class="field" style="margin-top:8px"><label class="lbl" for="prenom"><span data-i18n="lbl_prenom"></span> <span style="opacity:.7" data-i18n="tag_obligatoire"></span></label><input type="text" id="prenom" autocomplete="given-name"></div>
+  <div class="field"><label class="lbl" for="email"><span data-i18n="lbl_email"></span> <span style="opacity:.7" data-i18n="tag_obligatoire"></span></label><input type="email" id="email" autocomplete="email"></div>
+  <div class="field"><label class="lbl" for="telephone"><span data-i18n="lbl_telephone"></span> <span style="opacity:.7" data-i18n="tag_facultatif_appel"></span></label><input type="tel" id="telephone" autocomplete="tel"></div>
 
-  <label class="consent"><input type="checkbox" id="rgpd"><span data-i18n="consent_text">J'accepte qu'Agnès conserve mes coordonnées pour me recontacter. Aucune donnée n'est transmise à un tiers.</span></label>
-  <button class="btn-primary" id="submitBtn" data-i18n="btn_continuer" onclick="submitForm()">Continuer</button>
+  <label class="consent"><input type="checkbox" id="rgpd"><span data-i18n="consent_text"></span></label>
+  <button class="btn-primary" id="submitBtn" data-i18n="btn_envoyer" onclick="submitForm()"></button>
   <p class="err" id="err"></p>
 </div>
 
 <div class="section hidden" id="merci">
-  <h1 id="merciTitre" style="text-align:center">Merci.</h1>
+  <h1 id="merciTitre" style="text-align:center"></h1>
   <div class="divider"></div>
 
-  <h2 data-i18n="explore_title">À vous d'explorer</h2>
-  <p class="sub-strong" data-i18n="explore_p1">Vous connaissez mieux que personne ce qui compte pour vous aujourd'hui.</p>
-  <p class="sub" data-i18n="explore_p2">Je vous laisse maintenant découvrir librement les ressources qui vous intéressent.</p>
-  <p class="sub" data-i18n="explore_p3">Vous n'avez pas besoin de tout consulter. <strong>Commencez simplement par ce qui vous parle.</strong></p>
+  <h2 data-i18n="explore_title"></h2>
+  <p class="sub-strong" data-i18n="explore_p1"></p>
+  <p class="sub" data-i18n="explore_p2"></p>
+  <p class="sub" data-i18n="explore_p3"></p>
 
-  <div style="margin-top:24px">
-    <a class="card-link" href="https://agnesetvous.com/bilan" target="_blank" rel="noopener"><strong data-i18n="lien_bilan_title">Faire mon bilan bien-être</strong><span data-i18n="lien_bilan_desc">Faites le point sur votre confort actuel, vos habitudes et ce que vous aimeriez éventuellement améliorer.</span><span class="cta" data-i18n="lien_bilan_cta">→ Faire mon bilan</span></a>
-    <a class="card-link" href="https://agnesetvous.com/essentiel" target="_blank" rel="noopener"><strong data-i18n="lien_essentiel_title">Comprendre l'essentiel</strong><span data-i18n="lien_essentiel_desc">Découvrez une approche de prévention qui permet de mieux comprendre certains équilibres et l'intérêt de mesurer au lieu de supposer.</span><span class="cta" data-i18n="lien_essentiel_cta">→ Découvrir l'essentiel</span></a>
-    <a class="card-link" href="https://agnesetvous.com/evolution" target="_blank" rel="noopener"><strong data-i18n="lien_evolution_title">Faire le point sur mon évolution</strong><span data-i18n="lien_evolution_desc">Prenez un temps pour réfléchir à votre situation personnelle et professionnelle, à ce qui vous convient encore… et à ce que vous aimeriez peut-être voir évoluer.</span><span class="cta" data-i18n="lien_evolution_cta">→ Faire le point</span></a>
-    <a class="card-link" href="https://agnesetvous.com/projet" target="_blank" rel="noopener"><strong data-i18n="lien_projet_title">Découvrir un projet d'activité</strong><span data-i18n="lien_projet_desc">Explorez une possibilité d'activité et de diversification de revenus, simplement pour comprendre son fonctionnement et voir si elle pourrait vous correspondre.</span><span class="cta" data-i18n="lien_projet_cta">→ Découvrir le projet</span></a>
+  <div style="margin-top:20px">
+    <a class="card-link" id="cardBilan" target="_blank" rel="noopener"><strong data-i18n="lien_bilan_title"></strong><span data-i18n="lien_bilan_desc"></span><span class="cta" data-i18n="lien_bilan_cta"></span></a>
+    <a class="card-link" id="cardEssentiel" target="_blank" rel="noopener"><strong data-i18n="lien_essentiel_title"></strong><span data-i18n="lien_essentiel_desc"></span><span class="cta" data-i18n="lien_essentiel_cta"></span></a>
+    <a class="card-link" id="cardEvolution" target="_blank" rel="noopener"><strong data-i18n="lien_evolution_title"></strong><span data-i18n="lien_evolution_desc"></span><span class="cta" data-i18n="lien_evolution_cta"></span></a>
+    <a class="card-link" id="cardProjet" target="_blank" rel="noopener"><strong data-i18n="lien_projet_title"></strong><span data-i18n="lien_projet_desc"></span><span class="cta" data-i18n="lien_projet_cta"></span></a>
   </div>
 
   <div class="divider"></div>
 
-  <h2 data-i18n="question_apres_title">Une question après votre visite ?</h2>
-  <p class="sub" data-i18n="question_apres_p1">Vous avez consulté une ressource et quelque chose vous interpelle, vous intéresse ou vous donne envie d'en savoir plus ?</p>
-  <p class="sub-strong" data-i18n="revenez">Revenez vers moi.</p>
-  <p class="sub" data-i18n="question_apres_p2">Nous reprendrons simplement la conversation à partir de vos questions et de ce que vous aurez envie d'explorer.</p>
-  <p class="sub-strong" style="margin-bottom:24px" data-i18n="premier_echange">Notre premier échange est offert, libre et sans engagement.</p>
+  <h2 data-i18n="question_apres_title"></h2>
+  <p class="sub" data-i18n="question_apres_p1"></p>
+  <p class="sub-strong" data-i18n="revenez"></p>
+  <p class="sub" data-i18n="question_apres_p2"></p>
+  <p class="sub-strong" style="margin-bottom:20px" data-i18n="premier_echange"></p>
 
-  <a class="card-link" href="https://calendar.app.google/v4KtmbgVPWEHSejT8" target="_blank" rel="noopener" style="border-color:var(--terracotta)">
-    <strong data-i18n="reserver_title">Réserver un échange avec Agnès</strong>
-    <span data-i18n="reserver_desc">20-30 minutes pour faire vraiment connaissance</span>
+  <a class="card-link" id="cardAgenda" target="_blank" rel="noopener" style="border-color:var(--terracotta)">
+    <strong data-i18n="reserver_title"></strong>
+    <span data-i18n="reserver_desc"></span>
   </a>
 
-  <div class="coordonnees" style="margin-top:32px">
-    <p style="font-weight:500;font-size:1.05rem;margin-bottom:12px">Agnès &amp; Vous</p>
-    <p data-i18n="loc_text">Objat, Corrèze, France</p>
-    <p><strong>+33 6 63 93 21 12</strong></p>
-    <p><strong>contact@agnesetvous.com</strong></p>
+  <div class="coordonnees" style="margin-top:28px">
+    <p style="font-weight:500;font-size:1.05rem;margin-bottom:12px" data-fill="{marque}"></p>
+    <p data-fill="{ville}, {region}"></p>
+    <p><a id="coordTel"></a></p>
+    <p><a id="coordEmail"></a></p>
   </div>
 
-  <p style="font-size:.85rem;color:var(--encre-doux);margin:20px 0 12px;" data-i18n="retrouvez_label">Retrouvez-moi :</p>
-  <div class="socials">
-    <a class="social" href="https://www.linkedin.com/in/agnes-esclaire-riera-41276196" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="social" href="https://www.facebook.com/share/1BqdGuYaz5/" target="_blank" rel="noopener">Facebook</a>
-    <a class="social" href="https://www.tiktok.com/@agnes.et.vous" target="_blank" rel="noopener">TikTok</a>
-  </div>
+  <div id="blocReseaux"><p class="small-lbl" data-i18n="retrouvez_label"></p><div class="socials" id="listeReseaux"></div></div>
+  <div id="blocDirect"><p class="small-lbl" data-i18n="echanger_label"></p><div class="socials" id="listeDirect"></div></div>
+  <div id="blocCommu"><p class="small-lbl" data-i18n="communautes_label"></p><div class="socials" id="listeCommu"></div></div>
 
-  <p style="font-size:.85rem;color:var(--encre-doux);margin:20px 0 12px;" data-i18n="echanger_label">Échanger directement avec moi :</p>
-  <div class="socials">
-    <a class="social" href="https://t.me/partagebienetre" target="_blank" rel="noopener">Telegram</a>
-    <a class="social" href="https://wa.me/33663932112" target="_blank" rel="noopener">WhatsApp</a>
-  </div>
-
-  <p style="font-size:.85rem;color:var(--encre-doux);margin:20px 0 12px;" data-i18n="communautes_label">Mes communautés :</p>
-  <div class="socials">
-    <a class="social" href="https://t.me/testnutrition" target="_blank" rel="noopener" data-i18n="commu_telegram">Communauté Telegram</a>
-    <a class="social" href="https://whatsapp.com/channel/0029Vb8Qlf10G0XnK7ZrHJ3i" target="_blank" rel="noopener" data-i18n="commu_whatsapp">Communauté WhatsApp</a>
-  </div>
-
-  <p class="signature" style="margin-top:28px">Agnès</p>
-  <p style="font-size:.85rem;color:var(--sauge);letter-spacing:.05em;margin-top:8px" data-i18n="motto">Écouter · Comprendre · Proposer · Accompagner</p>
+  <p class="signature" style="margin-top:24px" data-fill="{prenom}"></p>
+  <p style="font-size:.85rem;color:var(--sauge);letter-spacing:.05em;margin-top:8px" data-i18n="motto"></p>
 </div>
 
 <footer>
-  <button id="btnShare" onclick="shareSite()" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;margin:0 auto 20px;border-radius:50%;background:var(--sauge-bg);border:1px solid rgba(125,141,121,.25);color:var(--encre-doux);cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--sauge)'" onmouseout="this.style.borderColor='rgba(125,141,121,.25)'">
+  <button id="btnShare" onclick="shareSite()" aria-label="Partager" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;margin:0 auto 18px;border-radius:50%;background:var(--sauge-bg);border:1px solid rgba(125,141,121,.25);color:var(--encre-doux);cursor:pointer">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
   </button>
-  <p style="font-weight:500;margin-bottom:8px">Agnès &amp; Vous</p>
-  <p data-i18n="footer_p1">Accompagnement personnalisé — Particuliers &amp; Professionnels — Objat · Corrèze · À distance et à l'international.</p>
-  <p style="margin-top:12px" data-i18n="footer_disclaimer">Les informations proposées dans le domaine du bien-être et de la prévention ont une vocation informative. Elles ne constituent ni un diagnostic ni un traitement et ne remplacent pas l'avis d'un professionnel de santé.</p>
+  <p style="font-weight:500;margin-bottom:8px" data-fill="{marque}"></p>
+  <p data-i18n="footer_p1"></p>
+  <p style="margin-top:12px" data-i18n="footer_disclaimer"></p>
 
-  <details style="margin-top:24px;text-align:left;max-width:520px;margin-left:auto;margin-right:auto">
-    <summary style="cursor:pointer;color:var(--sauge);font-size:.85rem;text-align:center" data-i18n="mentions_summary">Mentions légales &amp; confidentialité</summary>
-    <div style="margin-top:16px;font-size:.8rem;line-height:1.6;color:var(--encre-doux)">
-      <p style="font-weight:500;color:var(--encre);margin-bottom:6px" data-i18n="mentions_editeur_title">Éditeur du site</p>
-      <p data-i18n="mentions_editeur_text">Agnès Esclaire Riera — Entreprise individuelle<br>
-      SIRET : 502 712 466 00056<br>
-      Objat, Corrèze, France<br>
-      contact@agnesetvous.com · +33 6 63 93 21 12</p>
+  <details style="margin-top:20px;max-width:520px;margin-left:auto;margin-right:auto">
+    <summary style="cursor:pointer;color:var(--sauge);font-size:.85rem;text-align:center" data-i18n="mentions_summary"></summary>
+    <div class="mentions">
+      <p class="mt" data-i18n="mentions_editeur_title"></p>
+      <p>
+        <span data-fill="{nomComplet} — {statut}"></span><br>
+        <span id="ligneSiret"><span data-fill="SIRET : {siret}"></span><br></span>
+        <span data-fill="{adresse}"></span><br>
+        <span data-fill="{email} · {tel}"></span><br>
+        <span data-i18n="mentions_directeur"></span>
+      </p>
 
-      <p style="font-weight:500;color:var(--encre);margin:14px 0 6px" data-i18n="mentions_hebergement_title">Hébergement</p>
-      <p data-i18n="mentions_hebergement_text">Ce site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis.<br>
-      Domaine déposé auprès d'IONOS SARL.</p>
+      <p class="mt" data-i18n="mentions_hebergement_title"></p>
+      <p>
+        <span data-i18n="mentions_hebergement_text"></span>
+        <span id="ligneDomaine"><br><span data-i18n="mentions_domaine"></span></span>
+      </p>
 
-      <p style="font-weight:500;color:var(--encre);margin:14px 0 6px" data-i18n="mentions_rgpd_title">Protection des données personnelles</p>
-      <p data-i18n="mentions_rgpd_text">Les informations recueillies dans ce formulaire (prénom, email, téléphone) sont collectées par Agnès Esclaire Riera, responsable du traitement, dans le seul but de vous recontacter suite à votre demande.<br><br>
-      Ces données ne sont ni vendues, ni cédées, ni transmises à un tiers.<br><br>
-      Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour l'exercer, écrivez à contact@agnesetvous.com.</p>
+      <p class="mt" data-i18n="mentions_rgpd_title"></p>
+      <p data-i18n="mentions_rgpd_text"></p>
+
+      <p class="credit" data-i18n="credit"></p>
     </div>
   </details>
 </footer>
@@ -352,18 +412,18 @@ footer{text-align:center;padding:32px 24px;font-size:.82rem;color:var(--encre-do
 </main>
 
 <script>
-const CONFIG = {
-  ENDPOINT : "https://script.google.com/macros/s/AKfycbwMHFHpNdylLJyKHdS3MLqwq676-6wDv47iAvDdAKJgG8xoSQzKXu8FPfkImPiX5bc3/exec"
-};
-
-var currentLang = 'fr';
-
+/* Ligne de crédit fixe, présente sur toutes les versions (y compris celles des partenaires) */
 var TRANSLATIONS = {
   fr: {
-    title: "Agnès & Vous — Bien-être, reconversion et accompagnement à Objat, Corrèze, à distance et à l'international",
+    title: "{marque} — {Axes} · {ville}, {region} et à distance",
+    description: "Accompagnement personnalisé à {ville}, en {region}, à distance et à l'international : {axes}. Premier échange offert.",
+    axe_bienetre: "bien-être et prévention",
+    axe_evolution: "évolution personnelle et professionnelle",
+    axe_numerique: "numérique et IA",
     hero_title: "Bienvenue dans l'univers",
     hero_lead: "Un besoin, une envie, une difficulté, un projet ?<br><strong>Commençons par en parler.</strong>",
     hero_p1: "J'écoute ce qui vous amène, je cherche à comprendre votre situation et, lorsque je pense pouvoir vous être utile, je vous propose des pistes.",
+    hero_honest: "Si je n'ai pas de réponse adaptée, je vous le dirai aussi.",
     hero_choose: "Vous choisissez la suite.",
     apporter_title: "Ce que je peux vous apporter",
     bienetre_title: "Bien-être &amp; prévention",
@@ -372,29 +432,38 @@ var TRANSLATIONS = {
     evolution_desc: "Faire le point sur votre situation, vos envies de changement, un projet professionnel ou la possibilité de diversifier vos sources de revenus, à votre rythme.",
     numerique_title: "Numérique &amp; IA",
     numerique_desc: "Simplifier l'utilisation des outils numériques et de l'intelligence artificielle pour gagner du temps, faciliter votre quotidien et vous concentrer sur l'essentiel.",
-    audience: "Pour les particuliers, indépendants et professionnels — en Corrèze, à distance et à l'international.",
+    audience: "Pour les particuliers, indépendants et professionnels — en {region}, à distance et à l'international.",
+    motto: "Écouter · Comprendre · Proposer · Accompagner",
+    filtre_pour_title: "Cet espace peut vous correspondre si :",
+    filtre_pour_1: "Vous cherchez à comprendre avant de décider",
+    filtre_pour_2: "Vous préférez des informations concrètes aux grandes promesses",
+    filtre_pour_3: "Vous aimez pouvoir poser vos questions librement",
+    filtre_moins_title: "Il vous conviendra probablement moins si :",
+    filtre_moins_1: "Vous recherchez une solution miracle ou un résultat garanti",
+    filtre_moins_2: "Vous attendez que quelqu'un décide à votre place",
     connaissance_title: "Faisons connaissance",
     connaissance_lead: "Quelques questions pour comprendre ce qui vous amène et vous orienter vers les ressources qui pourraient vous être utiles.",
     connaissance_note: "Il n'y a pas de bonne ou de mauvaise réponse. Répondez simplement selon votre situation aujourd'hui.",
-    q1_title: "Comment avez-vous découvert Agnès &amp; Vous ?",
+    q1_title: "Comment avez-vous découvert {marque} ?",
     q1opt1: "Nous avons déjà échangé",
-    q1opt2: "Une personne m'a parlé d'Agnès &amp; Vous",
+    q1opt2: "Une personne m'a parlé {de_marque}",
     q1opt3: "J'ai reçu une carte de visite",
-    q1opt4: "J'ai découvert Agnès &amp; Vous sur les réseaux sociaux",
-    q1opt5: "J'ai découvert Agnès &amp; Vous sur Internet",
+    q1opt4: "J'ai découvert {marque} sur les réseaux sociaux",
+    q1opt5: "J'ai découvert {marque} sur Internet",
     q1opt6: "Autre",
     q1_autre_label: "Précisez, si vous le souhaitez",
-    reco_label: "Si quelqu'un vous a parlé d'Agnès &amp; Vous, qui puis-je remercier ?",
+    reco_label: "Si quelqu'un vous a parlé {de_marque}, qui puis-je remercier ?",
     reco_placeholder: "Prénom ou nom — facultatif",
     btn_continuer: "Continuer",
+    btn_envoyer: "Envoyer",
     q2_title: "Qu'est-ce qui vous amène aujourd'hui ?",
     q2_sub: "Vous pouvez choisir plusieurs réponses.",
     q2opt1: "Votre bien-être et votre santé",
     q2opt2: "Votre évolution professionnelle",
-    q2opt3: "J'aimerais explorer une possibilité de revenus complémentaires",
-    q2opt4: "Apprendre à utiliser l'IA",
-    q2opt5: "Vous ne savez pas encore, vous explorez",
-    q2opt6: "Autre",
+    q2opt3: "La possibilité de revenus complémentaires",
+    q2opt4: "L'utilisation de l'IA au quotidien",
+    q2opt5: "Une découverte, sans idée précise pour l'instant",
+    q2opt6: "Autre chose",
     q2_autre_label: "En quelques mots, qu'aimeriez-vous améliorer, faire évoluer ou résoudre ?",
     rdv_title: "Souhaitez-vous être tenu(e) informé(e) de mes prochains rendez-vous ?",
     rdv_sub: "Vous pouvez cocher une option, les deux, ou aucune.",
@@ -413,16 +482,16 @@ var TRANSLATIONS = {
     canalopt1: "Une visioconférence",
     canalopt2: "Un appel téléphonique",
     canalopt3: "Par message (WhatsApp, SMS)",
-    canalopt4: "Par email",
+    canalopt4: "Par e-mail",
     canalopt5: "Pas de préférence particulière",
     lbl_prenom: "Prénom",
     lbl_email: "Adresse e-mail",
     lbl_telephone: "Téléphone",
     tag_obligatoire: "(obligatoire)",
     tag_facultatif_appel: "(facultatif, sauf si vous choisissez un appel)",
-    consent_text: "J'accepte qu'Agnès conserve mes coordonnées pour me recontacter. Aucune donnée n'est transmise à un tiers.",
+    consent_text: "J'accepte {que_prenom} conserve mes coordonnées pour me recontacter. Elles ne sont ni vendues ni cédées à des tiers.",
     err_prenom: "Il me manque votre prénom.",
-    err_email: "Cette adresse email ne semble pas valide.",
+    err_email: "Cette adresse e-mail ne semble pas valide.",
     err_rgpd: "Cochez la case pour que je puisse vous recontacter.",
     err_telephone: "Pour un appel téléphonique, laissez-moi votre numéro.",
     sending_text: "Envoi...",
@@ -448,64 +517,77 @@ var TRANSLATIONS = {
     revenez: "Revenez vers moi.",
     question_apres_p2: "Nous reprendrons simplement la conversation à partir de vos questions et de ce que vous aurez envie d'explorer.",
     premier_echange: "Notre premier échange est offert, libre et sans engagement.",
-    reserver_title: "Réserver un échange avec Agnès",
+    reserver_title: "Réserver un échange avec {prenom}",
     reserver_desc: "20-30 minutes pour faire vraiment connaissance",
-    loc_text: "Objat, Corrèze, France",
     retrouvez_label: "Retrouvez-moi :",
     echanger_label: "Échanger directement avec moi :",
     communautes_label: "Mes communautés :",
     commu_telegram: "Communauté Telegram",
     commu_whatsapp: "Communauté WhatsApp",
-    motto: "Écouter · Comprendre · Proposer · Accompagner",
-    footer_p1: "Accompagnement personnalisé — Particuliers &amp; Professionnels — Objat · Corrèze · À distance et à l'international.",
+    footer_p1: "Accompagnement personnalisé — Particuliers &amp; Professionnels — {ville} · {region} · À distance et à l'international.",
     footer_disclaimer: "Les informations proposées dans le domaine du bien-être et de la prévention ont une vocation informative. Elles ne constituent ni un diagnostic ni un traitement et ne remplacent pas l'avis d'un professionnel de santé.",
     mentions_summary: "Mentions légales &amp; confidentialité",
     mentions_editeur_title: "Éditeur du site",
-    mentions_editeur_text: "Agnès Esclaire Riera — Entreprise individuelle<br>SIRET : 502 712 466 00056<br>Objat, Corrèze, France<br>contact@agnesetvous.com · +33 6 63 93 21 12",
+    mentions_directeur: "Directeur de la publication : {nomComplet}",
     mentions_hebergement_title: "Hébergement",
-    mentions_hebergement_text: "Ce site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis.<br>Domaine déposé auprès d'IONOS SARL.",
+    mentions_hebergement_text: "Site hébergé par {hebergeur}.",
+    mentions_domaine: "Nom de domaine enregistré auprès de {registrar}.",
     mentions_rgpd_title: "Protection des données personnelles",
-    mentions_rgpd_text: "Les informations recueillies dans ce formulaire (prénom, email, téléphone) sont collectées par Agnès Esclaire Riera, responsable du traitement, dans le seul but de vous recontacter suite à votre demande.<br><br>Ces données ne sont ni vendues, ni cédées, ni transmises à un tiers.<br><br>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour l'exercer, écrivez à contact@agnesetvous.com.",
-    read_label: "Écouter",
+    mentions_rgpd_text: "Les informations recueillies via ce formulaire (prénom, e-mail, téléphone, ville et réponses au questionnaire) sont collectées par {nomComplet}, responsable du traitement, avec votre consentement, dans le seul but de vous recontacter et, si vous l'avez demandé, de vous informer de mes prochains rendez-vous.<br><br>Elles sont enregistrées dans un tableur Google (Google Workspace, sous-traitant technique), conservées au maximum {n} ans après notre dernier échange, et ne sont ni vendues ni cédées à des tiers.<br><br>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et d'opposition, et vous pouvez retirer votre consentement à tout moment en écrivant à {email}. Vous pouvez également adresser une réclamation à la CNIL (www.cnil.fr).<br><br>Si vous êtes arrivé(e) par un lien personnalisé, le prénom de la personne qui vous l'a transmis est conservé dans votre navigateur puis enregistré avec vos réponses, uniquement pour savoir qui remercier.",
+    credit: "Ce site a été créé par Agnès &amp; Vous.",
     stop_label: "Arrêter"
   },
   en: {
-    title: "Agnès & Vous — Well-being, career change and support in Objat, Corrèze, remotely and internationally",
+    title: "{marque} — {Axes} · {ville}, {region} and remotely",
+    description: "Personalized support in {ville}, {region}, remotely and internationally: {axes}. First conversation offered.",
+    axe_bienetre: "well-being and prevention",
+    axe_evolution: "personal and professional development",
+    axe_numerique: "digital and AI",
     hero_title: "Welcome to the world of",
     hero_lead: "A need, a wish, a difficulty, a project?<br><strong>Let's start by talking about it.</strong>",
     hero_p1: "I listen to what brings you here, I try to understand your situation, and when I think I can be of help, I suggest possible paths.",
+    hero_honest: "If I don't have a suitable answer, I'll tell you that too.",
     hero_choose: "You choose what comes next.",
     apporter_title: "What I can offer you",
     bienetre_title: "Well-being &amp; prevention",
     bienetre_desc: "Take stock of your well-being, better understand your balance, and explore concrete ways to take care of yourself and act on prevention.",
-    evolution_title: "Personal &amp; professional evolution",
+    evolution_title: "Personal &amp; professional development",
     evolution_desc: "Take stock of your situation, your wishes for change, a professional project, or the possibility of diversifying your income, at your own pace.",
     numerique_title: "Digital &amp; AI",
-    numerique_desc: "Simplify the use of digital tools and artificial intelligence to save time, make daily life easier, and let you focus on what matters most.",
-    audience: "For individuals, self-employed people and professionals — in Corrèze, remotely and internationally.",
+    numerique_desc: "Simplify the use of digital tools and artificial intelligence to save time, make daily life easier, and focus on what matters most.",
+    audience: "For individuals, self-employed people and professionals — in {region}, remotely and internationally.",
+    motto: "Listen · Understand · Suggest · Support",
+    filtre_pour_title: "This space may suit you if:",
+    filtre_pour_1: "You want to understand before deciding",
+    filtre_pour_2: "You prefer concrete information to big promises",
+    filtre_pour_3: "You like being able to ask your questions freely",
+    filtre_moins_title: "It will probably suit you less if:",
+    filtre_moins_1: "You're looking for a miracle solution or a guaranteed result",
+    filtre_moins_2: "You expect someone to decide for you",
     connaissance_title: "Let's get acquainted",
     connaissance_lead: "A few questions to understand what brings you here and guide you toward the resources that might be useful to you.",
     connaissance_note: "There's no right or wrong answer. Simply answer based on where you stand today.",
-    q1_title: "How did you discover Agnès &amp; Vous?",
+    q1_title: "How did you discover {marque}?",
     q1opt1: "We've already talked",
-    q1opt2: "Someone told me about Agnès &amp; Vous",
+    q1opt2: "Someone told me about {marque}",
     q1opt3: "I received a business card",
-    q1opt4: "I discovered Agnès &amp; Vous on social media",
-    q1opt5: "I discovered Agnès &amp; Vous online",
+    q1opt4: "I discovered {marque} on social media",
+    q1opt5: "I discovered {marque} online",
     q1opt6: "Other",
     q1_autre_label: "Please specify, if you'd like",
-    reco_label: "If someone told you about Agnès &amp; Vous, who can I thank?",
+    reco_label: "If someone told you about {marque}, who can I thank?",
     reco_placeholder: "First name or name — optional",
     btn_continuer: "Continue",
+    btn_envoyer: "Send",
     q2_title: "What brings you here today?",
     q2_sub: "You can select several answers.",
     q2opt1: "Your well-being and health",
     q2opt2: "Your professional development",
-    q2opt3: "I'd like to explore a possibility of additional income",
-    q2opt4: "Learning to use AI",
-    q2opt5: "You're not sure yet, you're exploring",
-    q2opt6: "Other",
-    q2_autre_label: "In a few words, what would you like to improve, evolve or resolve?",
+    q2opt3: "The possibility of additional income",
+    q2opt4: "Using AI in everyday life",
+    q2opt5: "Just discovering, with nothing specific in mind yet",
+    q2opt6: "Something else",
+    q2_autre_label: "In a few words, what would you like to improve, change or resolve?",
     rdv_title: "Would you like to be kept informed of my upcoming events?",
     rdv_sub: "You can select one option, both, or none.",
     rdv_conf_label: "Be informed about an upcoming live online group conference",
@@ -530,7 +612,7 @@ var TRANSLATIONS = {
     lbl_telephone: "Phone number",
     tag_obligatoire: "(required)",
     tag_facultatif_appel: "(optional, unless you choose a phone call)",
-    consent_text: "I agree that Agnès may keep my details to contact me back. No data is shared with any third party.",
+    consent_text: "I agree that {prenom} may keep my details to contact me back. They are never sold or passed on to third parties.",
     err_prenom: "I still need your first name.",
     err_email: "This email address doesn't look valid.",
     err_rgpd: "Please check the box so I can contact you back.",
@@ -547,43 +629,47 @@ var TRANSLATIONS = {
     lien_essentiel_title: "Understand the essentials",
     lien_essentiel_desc: "Discover a prevention approach that helps you better understand certain balances, and the value of measuring rather than assuming.",
     lien_essentiel_cta: "→ Discover the essentials",
-    lien_evolution_title: "Take stock of my evolution",
-    lien_evolution_desc: "Take some time to reflect on your personal and professional situation, on what still suits you… and on what you might want to see evolve.",
+    lien_evolution_title: "Take stock of my development",
+    lien_evolution_desc: "Take some time to reflect on your personal and professional situation, on what still suits you… and on what you might want to change.",
     lien_evolution_cta: "→ Take stock",
     lien_projet_title: "Discover a possible activity",
     lien_projet_desc: "Explore a possible activity and a way to diversify your income, simply to understand how it works and see if it could suit you.",
     lien_projet_cta: "→ Discover the project",
     question_apres_title: "A question after your visit?",
     question_apres_p1: "Did something in a resource catch your attention, interest you, or make you want to know more?",
-    revenez: "Come back to me.",
+    revenez: "Get back to me.",
     question_apres_p2: "We'll simply pick the conversation back up from your questions and whatever you'd like to explore.",
-    premier_echange: "Our first conversation is offered, free of charge and without obligation.",
-    reserver_title: "Book a conversation with Agnès",
+    premier_echange: "Our first conversation is offered, with no obligation.",
+    reserver_title: "Book a conversation with {prenom}",
     reserver_desc: "20-30 minutes to really get to know each other",
-    loc_text: "Objat, Corrèze, France",
     retrouvez_label: "Find me on:",
     echanger_label: "Get in touch with me directly:",
     communautes_label: "My communities:",
     commu_telegram: "Telegram community",
     commu_whatsapp: "WhatsApp community",
-    motto: "Listen · Understand · Suggest · Support",
-    footer_p1: "Personalized support — Individuals &amp; Professionals — Objat · Corrèze · Remotely and internationally.",
+    footer_p1: "Personalized support — Individuals &amp; Professionals — {ville} · {region} · Remotely and internationally.",
     footer_disclaimer: "The information provided in the area of well-being and prevention is for informational purposes only. It does not constitute a diagnosis or treatment and does not replace the advice of a healthcare professional.",
     mentions_summary: "Legal notice &amp; privacy",
     mentions_editeur_title: "Website publisher",
-    mentions_editeur_text: "Agnès Esclaire Riera — Sole proprietorship<br>SIRET: 502 712 466 00056<br>Objat, Corrèze, France<br>contact@agnesetvous.com · +33 6 63 93 21 12",
+    mentions_directeur: "Publication director: {nomComplet}",
     mentions_hebergement_title: "Hosting",
-    mentions_hebergement_text: "This site is hosted by GitHub, Inc. (GitHub Pages), 88 Colin P Kelly Jr St, San Francisco, CA 94107, United States.<br>Domain registered with IONOS SARL.",
+    mentions_hebergement_text: "Site hosted by {hebergeur}.",
+    mentions_domaine: "Domain name registered with {registrar}.",
     mentions_rgpd_title: "Personal data protection",
-    mentions_rgpd_text: "The information collected in this form (first name, email, phone) is collected by Agnès Esclaire Riera, data controller, for the sole purpose of contacting you back following your request.<br><br>This data is neither sold, shared, nor transferred to any third party.<br><br>In accordance with the General Data Protection Regulation (GDPR), you have the right to access, rectify and delete your data. To exercise this right, write to contact@agnesetvous.com.",
-    read_label: "Listen",
+    mentions_rgpd_text: "The information collected through this form (first name, email, phone, city and questionnaire answers) is collected by {nomComplet}, data controller, with your consent, for the sole purpose of contacting you back and, if you asked for it, informing you of upcoming events.<br><br>It is stored in a Google spreadsheet (Google Workspace, technical processor), kept for no longer than {n} years after our last exchange, and is never sold or passed on to third parties.<br><br>Under the GDPR, you have the right to access, rectify, erase and object to the processing of your data, and you can withdraw your consent at any time by writing to {email}. You may also lodge a complaint with the CNIL (www.cnil.fr).<br><br>If you arrived through a personalized link, the first name of the person who shared it with you is kept in your browser and then saved with your answers, only so I know whom to thank.",
+    credit: "This site was created by Agnès &amp; Vous.",
     stop_label: "Stop"
   },
   es: {
-    title: "Agnès & Vous — Bienestar, reconversión y acompañamiento en Objat, Corrèze, a distancia e internacionalmente",
+    title: "{marque} — {Axes} · {ville}, {region} y a distancia",
+    description: "Acompañamiento personalizado en {ville}, {region}, a distancia e internacionalmente: {axes}. Primera conversación ofrecida.",
+    axe_bienetre: "bienestar y prevención",
+    axe_evolution: "evolución personal y profesional",
+    axe_numerique: "digital e IA",
     hero_title: "Bienvenido/a al universo de",
     hero_lead: "¿Una necesidad, un deseo, una dificultad, un proyecto?<br><strong>Empecemos por hablar de ello.</strong>",
     hero_p1: "Escucho lo que le trae aquí, trato de comprender su situación y, cuando creo que puedo serle útil, le propongo algunas pistas.",
+    hero_honest: "Si no tengo una respuesta adecuada, también se lo diré.",
     hero_choose: "Usted elige lo que viene después.",
     apporter_title: "Lo que puedo aportarle",
     bienetre_title: "Bienestar y prevención",
@@ -592,29 +678,38 @@ var TRANSLATIONS = {
     evolution_desc: "Hacer balance de su situación, sus ganas de cambio, un proyecto profesional o la posibilidad de diversificar sus ingresos, a su propio ritmo.",
     numerique_title: "Digital e IA",
     numerique_desc: "Simplificar el uso de las herramientas digitales y de la inteligencia artificial para ganar tiempo, facilitar su día a día y centrarse en lo esencial.",
-    audience: "Para particulares, autónomos y profesionales — en Corrèze, a distancia e internacionalmente.",
+    audience: "Para particulares, autónomos y profesionales — en {region}, a distancia e internacionalmente.",
+    motto: "Escuchar · Comprender · Proponer · Acompañar",
+    filtre_pour_title: "Este espacio puede corresponderle si:",
+    filtre_pour_1: "Busca comprender antes de decidir",
+    filtre_pour_2: "Prefiere información concreta a las grandes promesas",
+    filtre_pour_3: "Le gusta poder hacer sus preguntas libremente",
+    filtre_moins_title: "Probablemente le convenga menos si:",
+    filtre_moins_1: "Busca una solución milagrosa o un resultado garantizado",
+    filtre_moins_2: "Espera que alguien decida por usted",
     connaissance_title: "Conozcámonos",
     connaissance_lead: "Algunas preguntas para comprender qué le trae aquí y orientarle hacia los recursos que podrían serle útiles.",
     connaissance_note: "No hay respuesta correcta ni incorrecta. Responda simplemente según su situación actual.",
-    q1_title: "¿Cómo descubrió Agnès &amp; Vous?",
+    q1_title: "¿Cómo descubrió {marque}?",
     q1opt1: "Ya hemos hablado",
-    q1opt2: "Alguien me habló de Agnès &amp; Vous",
+    q1opt2: "Alguien me habló de {marque}",
     q1opt3: "Recibí una tarjeta de visita",
-    q1opt4: "Descubrí Agnès &amp; Vous en las redes sociales",
-    q1opt5: "Descubrí Agnès &amp; Vous en Internet",
+    q1opt4: "Descubrí {marque} en las redes sociales",
+    q1opt5: "Descubrí {marque} en Internet",
     q1opt6: "Otro",
     q1_autre_label: "Precise, si lo desea",
-    reco_label: "Si alguien le habló de Agnès &amp; Vous, ¿a quién puedo agradecer?",
+    reco_label: "Si alguien le habló de {marque}, ¿a quién puedo agradecer?",
     reco_placeholder: "Nombre o apellido — opcional",
     btn_continuer: "Continuar",
+    btn_envoyer: "Enviar",
     q2_title: "¿Qué le trae hoy aquí?",
     q2_sub: "Puede elegir varias respuestas.",
     q2opt1: "Su bienestar y su salud",
     q2opt2: "Su evolución profesional",
-    q2opt3: "Me gustaría explorar una posibilidad de ingresos complementarios",
-    q2opt4: "Aprender a usar la IA",
-    q2opt5: "Aún no lo sabe, está explorando",
-    q2opt6: "Otro",
+    q2opt3: "La posibilidad de ingresos complementarios",
+    q2opt4: "El uso de la IA en el día a día",
+    q2opt5: "Un descubrimiento, sin una idea precisa por ahora",
+    q2opt6: "Otra cosa",
     q2_autre_label: "En pocas palabras, ¿qué le gustaría mejorar, hacer evolucionar o resolver?",
     rdv_title: "¿Le gustaría estar informado/a de mis próximas citas?",
     rdv_sub: "Puede marcar una opción, las dos, o ninguna.",
@@ -640,7 +735,7 @@ var TRANSLATIONS = {
     lbl_telephone: "Teléfono",
     tag_obligatoire: "(obligatorio)",
     tag_facultatif_appel: "(opcional, salvo que elija una llamada)",
-    consent_text: "Acepto que Agnès conserve mis datos para volver a contactarme. Ningún dato se transmite a terceros.",
+    consent_text: "Acepto que {prenom} conserve mis datos para volver a contactarme. Nunca se venden ni se ceden a terceros.",
     err_prenom: "Me falta su nombre.",
     err_email: "Esta dirección de correo no parece válida.",
     err_rgpd: "Marque la casilla para que pueda volver a contactarle.",
@@ -667,232 +762,327 @@ var TRANSLATIONS = {
     question_apres_p1: "¿Consultó un recurso y algo le interpeló, le interesó o le dio ganas de saber más?",
     revenez: "Vuelva a contactarme.",
     question_apres_p2: "Simplemente retomaremos la conversación a partir de sus preguntas y de lo que le apetezca explorar.",
-    premier_echange: "Nuestra primera conversación es gratuita, libre y sin compromiso.",
-    reserver_title: "Reservar una conversación con Agnès",
+    premier_echange: "Le ofrezco nuestra primera conversación, libre y sin compromiso.",
+    reserver_title: "Reservar una conversación con {prenom}",
     reserver_desc: "20-30 minutos para conocernos de verdad",
-    loc_text: "Objat, Corrèze, Francia",
     retrouvez_label: "Encuéntreme en:",
     echanger_label: "Hablar directamente conmigo:",
     communautes_label: "Mis comunidades:",
     commu_telegram: "Comunidad de Telegram",
     commu_whatsapp: "Comunidad de WhatsApp",
-    motto: "Escuchar · Comprender · Proponer · Acompañar",
-    footer_p1: "Acompañamiento personalizado — Particulares y profesionales — Objat · Corrèze · A distancia e internacionalmente.",
+    footer_p1: "Acompañamiento personalizado — Particulares y profesionales — {ville} · {region} · A distancia e internacionalmente.",
     footer_disclaimer: "La información ofrecida en el ámbito del bienestar y la prevención es meramente informativa. No constituye un diagnóstico ni un tratamiento y no sustituye el consejo de un profesional de la salud.",
     mentions_summary: "Aviso legal y privacidad",
     mentions_editeur_title: "Editor del sitio",
-    mentions_editeur_text: "Agnès Esclaire Riera — Empresa individual<br>SIRET: 502 712 466 00056<br>Objat, Corrèze, Francia<br>contact@agnesetvous.com · +33 6 63 93 21 12",
+    mentions_directeur: "Directora/director de la publicación: {nomComplet}",
     mentions_hebergement_title: "Alojamiento",
-    mentions_hebergement_text: "Este sitio está alojado por GitHub, Inc. (GitHub Pages), 88 Colin P Kelly Jr St, San Francisco, CA 94107, Estados Unidos.<br>Dominio registrado en IONOS SARL.",
+    mentions_hebergement_text: "Sitio alojado por {hebergeur}.",
+    mentions_domaine: "Nombre de dominio registrado en {registrar}.",
     mentions_rgpd_title: "Protección de datos personales",
-    mentions_rgpd_text: "La información recopilada en este formulario (nombre, correo electrónico, teléfono) es recogida por Agnès Esclaire Riera, responsable del tratamiento, con el único fin de volver a contactarle tras su solicitud.<br><br>Estos datos no se venden, ni se ceden, ni se transmiten a terceros.<br><br>De conformidad con el Reglamento General de Protección de Datos (RGPD), usted dispone de un derecho de acceso, rectificación y supresión de sus datos. Para ejercerlo, escriba a contact@agnesetvous.com.",
-    read_label: "Escuchar",
+    mentions_rgpd_text: "La información recopilada en este formulario (nombre, correo electrónico, teléfono, ciudad y respuestas al cuestionario) es recogida por {nomComplet}, responsable del tratamiento, con su consentimiento, con el único fin de volver a contactarle y, si lo ha solicitado, informarle de mis próximas citas.<br><br>Se registra en una hoja de cálculo de Google (Google Workspace, encargado técnico del tratamiento), se conserva como máximo {n} años después de nuestro último contacto y nunca se vende ni se cede a terceros.<br><br>De conformidad con el RGPD, dispone de un derecho de acceso, rectificación, supresión y oposición, y puede retirar su consentimiento en cualquier momento escribiendo a {email}. También puede presentar una reclamación ante la CNIL (www.cnil.fr).<br><br>Si llegó a través de un enlace personalizado, el nombre de la persona que se lo envió se guarda en su navegador y luego se registra con sus respuestas, únicamente para saber a quién agradecer.",
+    credit: "Este sitio fue creado por Agnès &amp; Vous.",
     stop_label: "Detener"
   }
 };
 
+/* ─────────── Outils ─────────── */
+var currentLang = 'fr';
+
+/* ─────────── Origine : qui a invité la personne ───────────
+   Lien à partager : https://agnesetvous.com/?origine=nathalie
+   Le prénom est gardé en mémoire dans le navigateur de la personne,
+   même si elle passe d'abord par /bilan, /evolution, etc. */
+var ORIGINE = (function(){
+  var o = '';
+  try {
+    var p = new URLSearchParams(window.location.search);
+    o = (p.get('origine') || p.get('o') || p.get('ref') || '').trim().slice(0, 60);
+    if(o){ localStorage.setItem('origine', o); }
+    else { o = localStorage.getItem('origine') || ''; }
+  } catch(e){}
+  return o;
+})();
+function origineLisible(o){
+  return o.replace(/[-_.+]+/g, ' ').replace(/\s+/g, ' ').trim()
+          .replace(/(^|\s)(\S)/g, function(m, s, c){ return s + c.toUpperCase(); });
+}
+function avecOrigine(url){
+  if(!ORIGINE || !url) return url;
+  try {
+    var u = new URL(url, window.location.href);
+    if(!u.searchParams.has('origine')) u.searchParams.set('origine', ORIGINE);
+    return u.toString();
+  } catch(e){ return url; }
+}
+var TTS = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+var data = {};
+
+function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function plain(s){ return s.replace(/&amp;/g,'&').replace(/<[^>]+>/g,''); }
+function commenceParVoyelle(s){ return /^[aeiouyhàâäéèêëîïôöùûüœ]/i.test(String(s).trim()); }
+
+function fill(s){
+  var C = CONFIG;
+  var map = {
+    prenom: C.PRENOM, marque: C.MARQUE, nomComplet: C.NOM_COMPLET,
+    ville: C.VILLE, region: C.REGION, statut: C.STATUT, siret: C.SIRET,
+    adresse: C.ADRESSE, email: C.EMAIL, tel: C.TELEPHONE,
+    hebergeur: C.HEBERGEUR, registrar: C.REGISTRAR_DOMAINE, n: C.CONSERVATION_ANS, axes: axesTexte(), Axes: majuscule(axesTexte()),
+    de_marque: (commenceParVoyelle(C.MARQUE) ? "d'" : "de ") + C.MARQUE,
+    que_prenom: (commenceParVoyelle(C.PRENOM) ? "qu'" : "que ") + C.PRENOM
+  };
+  return String(s).replace(/\{(\w+)\}/g, function(m, k){ return (k in map) ? esc(map[k]) : m; });
+}
+
+function majuscule(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function axesTexte(){
+  var T = TRANSLATIONS[currentLang] || TRANSLATIONS.fr, C = CONFIG, l = [];
+  if(C.AXE_BIENETRE)  l.push(T.axe_bienetre);
+  if(C.AXE_EVOLUTION) l.push(T.axe_evolution);
+  if(C.AXE_NUMERIQUE) l.push(T.axe_numerique);
+  if(C.AXE_PERSO_TITRE) l.push(C.AXE_PERSO_TITRE.toLowerCase());
+  return l.join(', ');
+}
+
+/* ─────────── Application de la configuration ─────────── */
+function appliquerConfig(){
+  var C = CONFIG;
+
+  /* Vidéo de fond */
+  var v = document.getElementById('heroVideo');
+  if(C.VIDEO){ v.src = C.VIDEO; var p = v.play && v.play(); if(p && p.catch) p.catch(function(){}); }
+  else { v.parentNode.removeChild(v); }
+
+  /* Photo */
+  var ph = document.getElementById('portrait');
+  if(C.PHOTO){ ph.src = C.PHOTO; ph.alt = C.PRENOM; } else { ph.classList.add('hidden'); }
+
+  /* Logo ou nom en texte */
+  var lz = document.getElementById('logoZone');
+  if(C.LOGO){ lz.innerHTML = '<img class="logo-img" src="' + esc(C.LOGO) + '" alt="' + esc(C.MARQUE) + '">'; }
+  else { lz.innerHTML = '<span class="logo-txt">' + esc(C.MARQUE) + '</span>'; }
+
+  /* Textes fixes (non traduits) */
+  document.querySelectorAll('[data-fill]').forEach(function(el){ el.innerHTML = fill(el.getAttribute('data-fill')); });
+
+  /* Lignes facultatives des mentions */
+  if(!C.SIRET) document.getElementById('ligneSiret').classList.add('hidden');
+  if(!C.REGISTRAR_DOMAINE) document.getElementById('ligneDomaine').classList.add('hidden');
+
+  /* Axes affichés */
+  var masquer = function(id){ var el = document.getElementById(id); if(el) el.classList.add('hidden'); };
+  if(!C.AXE_BIENETRE){ masquer('axeBienetre'); masquer('q2Bienetre'); C.LIEN_BILAN = ''; C.LIEN_ESSENTIEL = ''; }
+  if(!C.AXE_EVOLUTION){ masquer('axeEvolution'); masquer('q2Evolution'); masquer('q2Revenus'); C.LIEN_EVOLUTION = ''; C.LIEN_PROJET = ''; }
+  if(!C.AXE_NUMERIQUE){ masquer('axeNumerique'); masquer('q2IA'); }
+  if(C.AXE_PERSO_TITRE){
+    document.getElementById('axePersoTitre').textContent = C.AXE_PERSO_TITRE;
+    document.getElementById('axePersoTexte').textContent = C.AXE_PERSO_TEXTE;
+  } else { masquer('axePerso'); }
+
+  /* Liens de la page merci */
+  [['cardBilan',C.LIEN_BILAN],['cardEssentiel',C.LIEN_ESSENTIEL],['cardEvolution',C.LIEN_EVOLUTION],['cardProjet',C.LIEN_PROJET],['cardAgenda',C.AGENDA]].forEach(function(x){
+    var el = document.getElementById(x[0]);
+    if(x[1]){ el.href = (x[0] === 'cardAgenda') ? x[1] : avecOrigine(x[1]); } else { el.classList.add('hidden'); }
+  });
+
+  /* Coordonnées cliquables */
+  var t = document.getElementById('coordTel');
+  t.textContent = C.TELEPHONE; t.href = 'tel:' + C.TELEPHONE.replace(/[^\d+]/g,'');
+  var m = document.getElementById('coordEmail');
+  m.textContent = C.EMAIL; m.href = 'mailto:' + C.EMAIL;
+
+  /* Réseaux */
+  remplirListe('listeReseaux','blocReseaux',[['LinkedIn',C.LINKEDIN],['Facebook',C.FACEBOOK],['Instagram',C.INSTAGRAM],['TikTok',C.TIKTOK]]);
+  remplirListe('listeDirect','blocDirect',[['Telegram',C.TELEGRAM_DIRECT],['WhatsApp',C.WHATSAPP_DIRECT]]);
+  remplirListe('listeCommu','blocCommu',[['@commu_telegram',C.COMMUNAUTE_TELEGRAM],['@commu_whatsapp',C.COMMUNAUTE_WHATSAPP]]);
+
+  /* Référencement : adresse canonique + fiche Google */
+  if(C.SITE_URL){
+    var link = document.createElement('link'); link.rel = 'canonical'; link.href = C.SITE_URL; document.head.appendChild(link);
+  }
+  var sameAs = [C.LINKEDIN, C.FACEBOOK, C.INSTAGRAM, C.TIKTOK].filter(Boolean);
+  var ld = {
+    "@context":"https://schema.org","@type":"LocalBusiness","name":C.MARQUE,
+    "founder":{"@type":"Person","name":C.NOM_COMPLET},
+    "description":"Accompagnement personnalisé : " + axesTexte() + ", pour particuliers, indépendants et professionnels.",
+    "address":{"@type":"PostalAddress","addressLocality":C.VILLE,"addressRegion":C.REGION,"addressCountry":"FR"},
+    "areaServed":[{"@type":"AdministrativeArea","name":C.REGION},{"@type":"Place","name":"International (à distance)"}],
+    "telephone":C.TELEPHONE.replace(/[^\d+]/g,''),"email":C.EMAIL,"url":C.SITE_URL,"sameAs":sameAs
+  };
+  var s = document.createElement('script'); s.type = 'application/ld+json'; s.text = JSON.stringify(ld); document.head.appendChild(s);
+
+  if(!TTS){ document.getElementById('btnRead').classList.add('hidden'); }
+}
+
+function remplirListe(listeId, blocId, items){
+  var liste = document.getElementById(listeId);
+  var n = 0;
+  items.forEach(function(it){
+    if(!it[1]) return;
+    var a = document.createElement('a');
+    a.className = 'social'; a.href = it[1]; a.target = '_blank'; a.rel = 'noopener';
+    if(it[0].charAt(0) === '@'){ a.setAttribute('data-i18n', it[0].slice(1)); } else { a.textContent = it[0]; }
+    liste.appendChild(a); n++;
+  });
+  if(n === 0) document.getElementById(blocId).classList.add('hidden');
+}
+
+/* ─────────── Langues ─────────── */
 function setLanguage(lang){
   currentLang = lang;
+  var T = TRANSLATIONS[lang];
   document.documentElement.lang = lang;
-  document.title = TRANSLATIONS[lang].title;
+  document.title = plain(fill(T.title));
+  var md = document.querySelector('meta[name="description"]');
+  if(md) md.setAttribute('content', plain(fill(T.description)));
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     var key = el.getAttribute('data-i18n');
-    if(TRANSLATIONS[lang][key] !== undefined){ el.innerHTML = TRANSLATIONS[lang][key]; }
+    if(T[key] !== undefined){ el.innerHTML = fill(T[key]); }
   });
   document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
     var key = el.getAttribute('data-i18n-ph');
-    if(TRANSLATIONS[lang][key] !== undefined){ el.setAttribute('placeholder', TRANSLATIONS[lang][key]); }
+    if(T[key] !== undefined){ el.setAttribute('placeholder', plain(fill(T[key]))); }
   });
-  document.getElementById('btnFR').classList.toggle('active', lang === 'fr');
-  document.getElementById('btnEN').classList.toggle('active', lang === 'en');
-  document.getElementById('btnES').classList.toggle('active', lang === 'es');
-  if(window.speechSynthesis.speaking){ window.speechSynthesis.cancel(); }
+  ['fr','en','es'].forEach(function(l){ document.getElementById('btn' + l.toUpperCase()).classList.toggle('active', l === lang); });
+  var prenom = document.getElementById('prenom').value.trim();
+  if(prenom) document.getElementById('merciTitre').textContent = T.merci_prefix + ', ' + prenom + '.';
+  if(TTS && window.speechSynthesis.speaking){ window.speechSynthesis.cancel(); }
+  isSpeaking = false;
   updateReadBtn();
 }
 
+/* ─────────── Lecture audio ─────────── */
 var isSpeaking = false;
 function updateReadBtn(){
   var btn = document.getElementById('btnRead');
   btn.textContent = isSpeaking ? ('⏹ ' + TRANSLATIONS[currentLang].stop_label) : '🔊';
 }
 function toggleReadAloud(){
-  if(isSpeaking){
-    window.speechSynthesis.cancel();
-    isSpeaking = false;
-    updateReadBtn();
-    return;
-  }
-  var mainText = document.getElementById('contenuPrincipal').innerText;
-  var utter = new SpeechSynthesisUtterance(mainText);
-  utter.lang = currentLang === 'fr' ? 'fr-FR' : (currentLang === 'en' ? 'en-US' : 'es-ES');
-  utter.onend = function(){ isSpeaking = false; updateReadBtn(); };
-  utter.onerror = function(){ isSpeaking = false; updateReadBtn(); };
-  window.speechSynthesis.speak(utter);
+  if(!TTS) return;
+  if(isSpeaking){ window.speechSynthesis.cancel(); isSpeaking = false; updateReadBtn(); return; }
+  var morceaux = document.getElementById('contenuPrincipal').innerText.split(/\n+/)
+    .map(function(s){ return s.trim(); }).filter(function(s){ return s.length > 1; });
+  if(!morceaux.length) return;
+  var langue = currentLang === 'fr' ? 'fr-FR' : (currentLang === 'en' ? 'en-US' : 'es-ES');
+  var fin = function(){ isSpeaking = false; updateReadBtn(); };
+  morceaux.forEach(function(txt, i){
+    var u = new SpeechSynthesisUtterance(txt);
+    u.lang = langue;
+    if(i === morceaux.length - 1){ u.onend = fin; }
+    u.onerror = fin;
+    window.speechSynthesis.speak(u);
+  });
   isSpeaking = true;
   updateReadBtn();
 }
 
+/* ─────────── Partage ─────────── */
 function shareSite(){
   var btn = document.getElementById('btnShare');
-  var shareData = {
-    title: document.title,
-    url: window.location.href
-  };
   if(navigator.share){
-    navigator.share(shareData).catch(function(){});
+    navigator.share({ title: document.title, url: window.location.href }).catch(function(){});
   } else if(navigator.clipboard){
-    var originalHTML = btn.innerHTML;
+    var original = btn.innerHTML;
     navigator.clipboard.writeText(window.location.href).then(function(){
       btn.innerHTML = '✓';
-      window.setTimeout(function(){ btn.innerHTML = originalHTML; }, 1500);
+      window.setTimeout(function(){ btn.innerHTML = original; }, 1500);
     });
   }
 }
 
-var data = {};
+/* ─────────── Apparition des sections ─────────── */
 var observer = new IntersectionObserver(function(entries){
   entries.forEach(function(entry){ if(entry.isIntersecting) entry.target.classList.add('visible'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.section').forEach(function(s){ observer.observe(s); });
 
+function show(id){
+  var el = document.getElementById(id);
+  if(el){ el.classList.remove('hidden'); el.classList.add('visible'); }
+}
+function reveal(dividerId, sectionId){
+  show(dividerId); show(sectionId);
+  window.setTimeout(function(){
+    var el = document.getElementById(sectionId);
+    if(el) el.scrollIntoView({ behavior:'smooth', block:'center' });
+  }, 100);
+}
+function toggleChamp(id, visible){ document.getElementById(id).classList.toggle('hidden', !visible); }
+
+/* ─────────── Choix ─────────── */
+function collect(group){
+  var values = [];
+  group.querySelectorAll('input:checked').forEach(function(i){ values.push(i.value); });
+  data[group.dataset.name] = values.join(' / ');
+}
+
 document.querySelectorAll('.opt input').forEach(function(input){
   input.addEventListener('change', function(){
     var opt = input.closest('.opt');
     var group = input.closest('.options');
-
     if(input.type === 'radio'){
-      var siblings = group.querySelectorAll('.opt');
-      for(var i=0; i<siblings.length; i++){ siblings[i].classList.remove('on'); }
+      group.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('on'); });
       opt.classList.add('on');
-      collect(group);
-
-      var section = opt.closest('.section');
-      if(section && section.id === 'q1'){
-        var reco = document.getElementById('champReco');
-        var autreQ1 = document.getElementById('champQ1Autre');
-        if(input.value === 'Recommandation'){
-          reco.classList.remove('hidden');
-        } else {
-          reco.classList.add('hidden');
-        }
-        if(input.value === 'Autre'){
-          autreQ1.classList.remove('hidden');
-        } else {
-          autreQ1.classList.add('hidden');
-        }
+      if(input.name === 'source'){
+        toggleChamp('champReco', input.value === 'Recommandation');
+        toggleChamp('champQ1Autre', input.value === 'Autre');
       }
     } else {
       opt.classList.toggle('on', input.checked);
-      collect(group);
-
-      if(input.id === 'q2AutreCheckbox'){
-        var autreQ2 = document.getElementById('champQ2Autre');
-        if(input.checked){ autreQ2.classList.remove('hidden'); }
-        else { autreQ2.classList.add('hidden'); }
-      }
-      if(input.id === 'rdvConfCheckbox'){
-        var confSujet = document.getElementById('champConfSujet');
-        if(input.checked){ confSujet.classList.remove('hidden'); }
-        else { confSujet.classList.add('hidden'); }
-      }
-      if(input.id === 'rdvEventCheckbox'){
-        var eventVille = document.getElementById('champEventVille');
-        if(input.checked){ eventVille.classList.remove('hidden'); }
-        else { eventVille.classList.add('hidden'); }
-      }
+      if(input.id === 'q2AutreCheckbox') toggleChamp('champQ2Autre', input.checked);
+      if(input.id === 'rdvConfCheckbox') toggleChamp('champConfSujet', input.checked);
+      if(input.id === 'rdvEventCheckbox') toggleChamp('champEventVille', input.checked);
     }
+    collect(group);
   });
 });
 
-function collect(group){
-  var name = group.dataset.name;
-  var inputs = group.querySelectorAll('input:checked');
-  var values = [];
-  for(var i=0; i<inputs.length; i++){ values.push(inputs[i].value); }
-  data[name] = values.length > 0 ? values.join(' / ') : "";
-}
-
-function revealQ2(){
-  show('div2');
-  show('q2');
-  window.setTimeout(function(){
-    var el = document.getElementById('q2');
-    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
-  }, 100);
-}
-
-function revealRdv(){
-  show('divRdv');
-  show('rdv');
-  window.setTimeout(function(){
-    var el = document.getElementById('rdv');
-    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
-  }, 100);
-}
-
-function revealFin(){
-  show('div3');
-  show('fin');
-  window.setTimeout(function(){
-    var el = document.getElementById('fin');
-    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
-  }, 100);
-}
-
-function show(id){
-  var el = document.getElementById(id);
-  if(el){
-    el.classList.remove('hidden');
-    el.classList.add('visible');
-    observer.observe(el);
-  }
-}
-
+/* ─────────── Envoi ─────────── */
 function submitForm(){
   var err = document.getElementById('err');
-  var prenom = document.getElementById('prenom').value.trim();
-  var email  = document.getElementById('email').value.trim();
-  var telephone = document.getElementById('telephone').value.trim();
   var T = TRANSLATIONS[currentLang];
+  var prenom = document.getElementById('prenom').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var telephone = document.getElementById('telephone').value.trim();
 
   if(!prenom){ err.textContent = T.err_prenom; return; }
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ err.textContent = T.err_email; return; }
-  if(!document.getElementById('rgpd').checked){ err.textContent = T.err_rgpd; return; }
-
   var canalInput = document.querySelector('input[name="canal"]:checked');
-  var canalValeur = canalInput ? canalInput.value : "";
-  if(canalValeur === "Appel" && !telephone){
-    err.textContent = T.err_telephone;
-    return;
-  }
-
+  var canal = canalInput ? canalInput.value : "";
+  if(canal === "Appel" && !telephone){ err.textContent = T.err_telephone; return; }
+  if(!document.getElementById('rgpd').checked){ err.textContent = T.err_rgpd; return; }
   err.textContent = "";
 
   var btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>' + T.sending_text;
 
-  document.querySelectorAll('.options').forEach(function(group){ collect(group); });
+  document.querySelectorAll('.options').forEach(collect);
+  var confSujet = document.querySelector('input[name="conf_sujet"]:checked');
 
   var payload = Object.assign({}, data, {
     prenom: prenom,
     email: email,
     telephone: telephone,
-    canal: canalValeur,
+    canal: canal,
     recommandeur: document.getElementById('recommandeur').value.trim(),
     q1Autre: document.getElementById('q1AutrePrecision').value.trim(),
     q2Autre: document.getElementById('q2AutrePrecision').value.trim(),
-    confSujet: document.querySelector('input[name="conf_sujet"]:checked') ? document.querySelector('input[name="conf_sujet"]:checked').value : "",
+    confSujet: confSujet ? confSujet.value : "",
     eventVille: document.getElementById('eventVille').value.trim(),
     consentement: "Oui",
     langue: currentLang,
+    origine: ORIGINE ? origineLisible(ORIGINE) : "",
+    destinataire: CONFIG.EMAIL,
+    espace: CONFIG.MARQUE + " — " + CONFIG.PRENOM,
+    page: window.location.href,
     date: new Date().toISOString()
   });
 
   fetch(CONFIG.ENDPOINT, {
     method: 'POST',
     mode: 'no-cors',
-    headers: {'Content-Type':'text/plain;charset=utf-8'},
+    headers: { 'Content-Type':'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
   }).then(afficherMerci).catch(afficherMerci);
 }
@@ -900,13 +1090,22 @@ function submitForm(){
 function afficherMerci(){
   var prenom = document.getElementById('prenom').value.trim();
   document.getElementById('fin').classList.add('hidden');
+  document.getElementById('div3').classList.add('hidden');
   show('merci');
-  document.getElementById('merciTitre').textContent = TRANSLATIONS[currentLang].merci_prefix + " " + prenom;
+  document.getElementById('merciTitre').textContent = TRANSLATIONS[currentLang].merci_prefix + ', ' + prenom + '.';
   window.setTimeout(function(){
-    var el = document.getElementById('merci');
-    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('merci').scrollIntoView({ behavior:'smooth', block:'start' });
   }, 100);
 }
+
+/* ─────────── Démarrage ─────────── */
+appliquerConfig();
+if(ORIGINE){ document.getElementById('recommandeur').value = origineLisible(ORIGINE); }
+(function(){
+  var l = '';
+  try { l = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase().slice(0, 2); } catch(e){}
+  setLanguage(TRANSLATIONS[l] ? l : 'fr');
+})();
 </script>
 </body>
 </html>
