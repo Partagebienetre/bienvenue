@@ -3,6 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   ZONE PARAMÈTRES — la SEULE zone à modifier pour dupliquer ce bilan.
+   Ne changez que ce qui se trouve ENTRE les guillemets " ".
+   ═══════════════════════════════════════════════════════════════════ */
+var CONFIG = {
+  PRENOM      : "Agnès",
+  NOM_COMPLET : "Agnès Esclaire Riera",
+  MARQUE      : "Agnès & Vous",
+  FEMININ     : true,                  /* true = « Éditrice, Directrice » · false = « Éditeur, Directeur » */
+  EMAIL       : "contact@agnesetvous.com",
+  TELEPHONE   : "+33 6 63 93 21 12",
+
+  /* Mentions légales */
+  STATUT  : "Entreprise individuelle",
+  SIRET   : "502 712 466 00056",
+  ADRESSE : "Objat, Corrèze, France",
+  SITE    : "agnesetvous.com",
+
+  /* Adresse de VOTRE script Google (celle qui finit par /exec) */
+  ENDPOINT : "https://script.google.com/macros/s/AKfycbz4hlo2k43m3beUlKlfThtZJ3C_zOv58BZmoZe7Am6WHeXxYzlwkdP0zouGvF1w4Y8L5Q/exec",
+
+  /* Liens */
+  LIEN_ESSENTIEL : "https://agnesetvous.com/essentiel",          /* page ouverte après le bilan (même lien que dans le script) */
+  LIEN_RDV       : "https://calendar.app.google/St7RRv4KPgAhHiLV9", /* prise de rendez-vous après un bilan */
+  LIEN_PARTAGE   : "https://agnesetvous.com"                     /* page d'accueil envoyée quand la personne partage */
+};
+</script>
 <title>Bilan bien-être — Agnès & Vous</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -121,6 +150,9 @@ button.nav-btn{
   border-radius:30px;padding:15px 30px;font-size:1rem;font-weight:500;margin:10px 0 22px;
 }
 .merci .btn-decouvrir:hover{background:#6a7967}
+.merci .btn-rdv{display:inline-block;background:transparent;color:var(--terracotta);border:1.5px solid var(--terracotta);text-decoration:none;border-radius:30px;padding:12px 24px;font-size:.95rem;font-weight:500;margin:0 0 18px}
+.merci .btn-rdv:hover{background:var(--terracotta);color:#fff}
+.merci a{color:var(--sauge)}
 .merci .signature{font-style:italic;color:var(--encre-doux);margin-top:20px;text-align:left}
 
 .form-hidden{display:none}
@@ -145,6 +177,12 @@ button.nav-btn{
 .ml-panel p{margin-bottom:14px}
 .ml-panel p:last-child{margin-bottom:0}
 
+.barre-langue{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:640px;margin:0 auto 14px}
+.langs{display:flex;gap:2px;border:1px solid #E7E1D3;border-radius:999px;padding:2px;background:var(--blanc)}
+.lang-btn{border:0;background:none;font:500 .74rem/1 'Jost',system-ui,sans-serif;letter-spacing:.04em;padding:7px 9px;border-radius:999px;color:var(--encre-doux);cursor:pointer}
+.lang-btn.actif{background:var(--sauge);color:#fff}
+.btn-ecouter{border:1px solid #E7E1D3;background:var(--blanc);color:var(--encre-doux);font:400 .82rem 'Jost',system-ui,sans-serif;padding:7px 14px;border-radius:999px;cursor:pointer}
+.btn-ecouter.lit{background:var(--sauge);color:#fff;border-color:var(--sauge)}
 .partage-bloc{
   margin-top:26px;padding-top:22px;border-top:1px solid #E7E1D3;text-align:center;
 }
@@ -160,10 +198,19 @@ button.nav-btn{
 <body>
 <div class="wrap">
 
+  <div class="barre-langue">
+    <div class="langs" role="group" aria-label="Langue / Language / Idioma">
+      <button class="lang-btn" data-langue="fr" onclick="choisirLangue('fr')">FR</button>
+      <button class="lang-btn" data-langue="en" onclick="choisirLangue('en')">EN</button>
+      <button class="lang-btn" data-langue="es" onclick="choisirLangue('es')">ES</button>
+    </div>
+    <button class="btn-ecouter" id="btnEcouter" onclick="basculerLecture()" aria-label="Écouter">🔊 <span id="txtEcouter">Écouter</span></button>
+  </div>
+
   <div class="entete">
-    <p style="color:var(--terracotta);font-weight:500;letter-spacing:.08em">Agnès &amp; Vous</p>
-    <h1>Bilan bien-être</h1>
-    <p>Prenez quelques minutes pour faire le point sur votre bien-être actuel — il n'y a ni bonne ni mauvaise réponse.</p>
+    <p style="color:var(--terracotta);font-weight:500;letter-spacing:.08em" data-cfg="MARQUE">Agnès &amp; Vous</p>
+    <h1 data-i="h1">Bilan bien-être</h1>
+    <p data-i="intro">Prenez quelques minutes pour faire le point sur votre bien-être actuel — il n'y a ni bonne ni mauvaise réponse.</p>
   </div>
 
   <div id="questionnaire">
@@ -181,36 +228,40 @@ button.nav-btn{
   </div>
 
   <div class="carte merci" id="merci">
-    <h2>Merci d'avoir pris ce temps pour vous 🌿</h2>
-    <p>Votre demande a été transmise. La réception reste à confirmer par e-mail.</p>
-    <p>Vous venez de faire une première chose importante : prendre quelques minutes pour observer où vous en êtes aujourd'hui, ce que vous ressentez et ce que vous aimeriez éventuellement améliorer.</p>
-    <p>Maintenant, j'aimerais partager avec vous une information essentielle. Avant de parler de solutions, de compléments ou même d'accompagnement, je trouve important de commencer par comprendre ce qui se passe à la base : au niveau de nos cellules.</p>
-    <p>Je vous invite donc à prendre quelques minutes pour découvrir cette information.</p>
+    <h2 data-i="merci_h2">Merci d'avoir pris ce temps pour vous 🌿</h2>
+    <p data-i="m1">Votre bilan a bien été envoyé. Vous allez recevoir un e-mail de confirmation avec le lien ci-dessous.</p>
+    <p data-i="m2">Vous venez de faire une première chose importante : prendre quelques minutes pour observer où vous en êtes aujourd'hui, ce que vous ressentez et ce que vous aimeriez éventuellement améliorer.</p>
+    <p data-i="m3">Maintenant, j'aimerais partager avec vous une information essentielle. Avant de parler de solutions, de compléments ou même d'accompagnement, je trouve important de commencer par comprendre ce qui se passe à la base : au niveau de nos cellules.</p>
+    <p data-i="m4">Je vous invite donc à prendre quelques minutes pour découvrir cette information.</p>
     <div style="text-align:center">
-      <a id="lienEssentiel" class="btn-decouvrir" href="#information-a-configurer" target="_blank" rel="noopener">DÉCOUVRIR L'INFORMATION</a>
+      <a id="lienEssentiel" class="btn-decouvrir" href="#information-a-configurer" target="_blank" rel="noopener" data-i="decouvrir">DÉCOUVRIR L'INFORMATION</a>
     </div>
-    <p><strong>Vous n'avez pas le temps maintenant ?</strong><br>Pas de problème. Après l’enregistrement de votre bilan, un e-mail contenant le lien vous sera envoyé. Si vous ne le recevez pas, vérifiez vos courriers indésirables ou contactez-moi à contact@agnesetvous.com.</p>
-    <p><strong>Et ensuite ?</strong><br>Je prendrai personnellement contact avec vous rapidement. Nous pourrons reprendre ensemble les éléments importants de votre bilan, échanger sur vos priorités et voir quels conseils pourraient être les plus adaptés à votre situation.</p>
-    <p class="signature">À très bientôt,<br>Agnès, Agnès &amp; Vous.</p>
+    <p data-i="m_temps"><strong>Vous n'avez pas le temps maintenant ?</strong><br>Pas de problème. Vous recevez aussi ce lien par e-mail. Si vous ne le trouvez pas, vérifiez vos courriers indésirables ou écrivez-moi à <a data-cfg-email href="#">contact@agnesetvous.com</a>.</p>
+    <p data-i="m_ensuite"><strong>Et ensuite ?</strong><br>Je prendrai personnellement contact avec vous rapidement. Nous pourrons reprendre ensemble les éléments importants de votre bilan, échanger sur vos priorités et voir quels conseils pourraient être les plus adaptés à votre situation.</p>
+    <div style="text-align:center" id="blocRdv">
+      <p style="text-align:center;margin-bottom:6px" data-i="rdv_q"><strong>Vous préférez choisir vous-même le moment ?</strong></p>
+      <a id="lienRdv" class="btn-rdv" href="#" target="_blank" rel="noopener" data-i="rdv_btn">Réserver notre échange sur mon agenda</a>
+    </div>
+    <p class="signature" data-i="signature">À très bientôt,<br><span data-cfg="PRENOM">Agnès</span>, <span data-cfg="MARQUE">Agnès &amp; Vous</span>.</p>
 
     <div class="partage-bloc">
-      <p class="partage-texte">Une amie ou un proche pourrait aussi avoir envie de faire le point sur son bien-être ?</p>
-      <button class="btn-partager" id="btnPartager" onclick="partagerBilan()">Partager à un(e) ami(e)</button>
+      <p class="partage-texte" data-i="partage_txt">Une amie ou un proche pourrait aussi avoir envie de faire le point sur son bien-être ?</p>
+      <button class="btn-partager" id="btnPartager" onclick="partagerBilan()" data-i="partage_btn">Partager à un(e) ami(e)</button>
     </div>
   </div>
   <footer id="mentions-legales" class="footer-ml">
     <button class="ml-toggle" onclick="toggleMentionsLegales()" aria-expanded="false" id="mlToggle">Mentions légales ▾</button>
-    <div class="ml-panel" id="mlPanel">
-      <p><strong>Éditrice</strong><br>
-      Agnès Esclaire Riera — Entreprise individuelle<br>
-      SIRET : 502 712 466 00056<br>
-      142 chemin des Chouans, 19130 Objat, France<br>
-      Directrice de la publication : Agnès Esclaire Riera</p>
+    <div class="ml-panel" id="mlPanel" data-i="ml_panel">
+      <p><strong data-g="Éditrice|Éditeur">Éditrice</strong><br>
+      <span data-cfg="NOM_COMPLET">Agnès Esclaire Riera</span> — <span data-cfg="STATUT">Entreprise individuelle</span><br>
+      <span id="ligneSiret">SIRET : <span data-cfg="SIRET">502 712 466 00056</span><br></span>
+      <span data-cfg="ADRESSE">Objat, Corrèze, France</span><br>
+      <span data-g="Directrice|Directeur">Directrice</span> de la publication : <span data-cfg="NOM_COMPLET">Agnès Esclaire Riera</span></p>
 
       <p><strong>Contact</strong><br>
-      Email : contact@agnesetvous.com<br>
-      Téléphone : +33 6 63 93 21 12<br>
-      Site : agnesetvous.com</p>
+      E-mail : <a data-cfg-email href="#">contact@agnesetvous.com</a><br>
+      Téléphone : <span data-cfg="TELEPHONE">+33 6 63 93 21 12</span><br>
+      Site : <span data-cfg="SITE">agnesetvous.com</span></p>
 
       <p><strong>Hébergement</strong><br>
       Ce site est hébergé par GitHub Pages<br>
@@ -218,8 +269,14 @@ button.nav-btn{
       San Francisco, CA 94107, États-Unis</p>
 
       <p><strong>Données personnelles</strong><br>
-      Les informations que vous transmettez volontairement dans ce bilan (y compris les éventuelles informations relatives à votre santé) servent uniquement à traiter votre demande, préparer notre échange et vous recontacter à ce sujet. Les réponses sont enregistrées dans un Google Sheets privé, via Google Apps Script, accessible à Agnès Esclaire Riera pour ce suivi. Elles ne sont ni vendues ni cédées à des fins commerciales. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression : écrivez à contact@agnesetvous.com.</p>
-    </div>
+      Les informations que vous transmettez volontairement dans ce bilan (y compris les éventuelles informations relatives à votre santé) sont traitées par <span data-cfg="NOM_COMPLET">Agnès Esclaire Riera</span>, responsable du traitement, sur la base de votre consentement explicite, uniquement pour réaliser votre bilan, préparer notre échange et vous recontacter à ce sujet. Elles sont enregistrées dans un tableur Google privé (Google Workspace, sous-traitant technique), conservées au maximum 3 ans après notre dernier échange, et ne sont ni vendues ni cédées. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et d'opposition, et vous pouvez retirer votre consentement à tout moment en écrivant à <a data-cfg-email href="#">contact@agnesetvous.com</a>. Vous pouvez aussi adresser une réclamation à la CNIL (www.cnil.fr).<br><br>
+      Si vous êtes arrivé(e) par un lien personnalisé, le prénom de la personne qui vous l'a transmis est enregistré avec votre bilan, uniquement pour savoir qui remercier.</p>
+
+      <p><strong>Information importante</strong><br>
+      Ce bilan n'a aucune visée médicale. Il ne constitue ni un diagnostic ni un traitement et ne remplace pas l'avis d'un professionnel de santé.</p>
+
+      <p style="text-align:center;font-style:italic;border-top:1px solid #E7E1D3;padding-top:12px">Ce site a été créé par Agnès &amp; Vous.</p>
+</div>
   </footer>
 
 </div>
@@ -230,12 +287,14 @@ function toggleMentionsLegales() {
   const btn = document.getElementById('mlToggle');
   const ouvert = panel.classList.toggle('visible');
   btn.setAttribute('aria-expanded', ouvert);
-  btn.textContent = ouvert ? 'Mentions légales ▴' : 'Mentions légales ▾';
+  btn.textContent = ouvert ? L('ml_fermer') : L('ml_ouvrir');
 }
 
 function partagerBilan() {
-  const lienPorteEntree = 'https://agnesetvous.com';
-  const texte = "Je viens de faire mon bilan bien-être avec Agnès — tu peux faire le tien aussi :";
+  /* Le lien partagé porte le prénom de la personne qui partage : on sait ainsi qui a recommandé */
+  const prenomPartage = (reponses['prenom'] || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const lienPorteEntree = CONFIG.LIEN_PARTAGE + (prenomPartage ? (CONFIG.LIEN_PARTAGE.indexOf('?') < 0 ? '?' : '&') + 'origine=' + prenomPartage : '');
+  const texte = L('partage_msg').replace('{prenom}', CONFIG.PRENOM);
   const btn = document.getElementById('btnPartager');
 
   if (navigator.share) {
@@ -243,7 +302,7 @@ function partagerBilan() {
   } else if (navigator.clipboard) {
     navigator.clipboard.writeText(lienPorteEntree).then(() => {
       const original = btn.textContent;
-      btn.textContent = '✓ Lien copié !';
+      btn.textContent = L('lien_copie');
       setTimeout(() => { btn.textContent = original; }, 2000);
     });
   }
@@ -251,15 +310,94 @@ function partagerBilan() {
 </script>
 
 <script>
-/* ══════════════════════════════════════════════════════════════
-   CONFIGURATION — à compléter une fois le Google Apps Script
-   déployé (Google Sheet dédiée "Bilans").
-   Remplacer la chaîne vide par l'URL qui se termine par /exec
-   ══════════════════════════════════════════════════════════════ */
-// À renseigner avec VOTRE déploiement Apps Script (/exec).
-const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwf7DvkRURN_mIPNde_CobAqOaajK0PuFJbzSWjAOmNg3q2kMbVJEz2Cj9dBjImft2pLA/exec';
-// Même lien à renseigner dans LIEN_ESSENTIEL du script Google.
-const LIEN_ESSENTIEL = '';
+/* ══════════ TRADUCTIONS (anglais, espagnol) — ne pas modifier ══════════ */
+const TR = {"Comment vous sentez-vous aujourd'hui ?": ["How are you feeling today?", "¿Cómo se siente hoy?"], "Comment évaluez-vous votre niveau d'énergie au quotidien ?": ["How would you rate your day-to-day energy level?", "¿Cómo valora su nivel de energía en el día a día?"], "très peu d'énergie": ["very little energy", "muy poca energía"], "beaucoup d'énergie": ["lots of energy", "mucha energía"], "Comment évaluez-vous votre moral et votre état d'esprit général ?": ["How would you rate your mood and general state of mind?", "¿Cómo valora su moral y su estado de ánimo general?"], "très mauvais": ["very poor", "muy malo"], "excellent": ["excellent", "excelente"], "Comment évaluez-vous votre capacité à gérer le stress du quotidien ?": ["How would you rate your ability to handle everyday stress?", "¿Cómo valora su capacidad para gestionar el estrés diario?"], "très difficile": ["very difficult", "muy difícil"], "excellente": ["excellent", "excelente"], "Comment évaluez-vous la qualité de votre sommeil ?": ["How would you rate the quality of your sleep?", "¿Cómo valora la calidad de su sueño?"], "très mauvaise": ["very poor", "muy mala"], "Au réveil, vous sentez-vous reposé(e) et récupéré(e) ?": ["When you wake up, do you feel rested and recovered?", "Al despertar, ¿se siente descansado/a y recuperado/a?"], "pas du tout": ["not at all", "en absoluto"], "complètement": ["completely", "completamente"], "Comment évaluez-vous votre concentration et votre mémoire ?": ["How would you rate your concentration and memory?", "¿Cómo valora su concentración y su memoria?"], "très insatisfaisantes": ["very unsatisfactory", "muy insatisfactorias"], "excellentes": ["excellent", "excelentes"], "Votre confort physique": ["Your physical comfort", "Su confort físico"], "Comment évaluez-vous votre confort articulaire ?": ["How would you rate your joint comfort?", "¿Cómo valora su confort articular?"], "inconfort important": ["significant discomfort", "molestias importantes"], "aucun inconfort": ["no discomfort", "ninguna molestia"], "Comment évaluez-vous votre confort musculaire et votre souplesse ?": ["How would you rate your muscle comfort and flexibility?", "¿Cómo valora su confort muscular y su flexibilidad?"], "excellent confort": ["excellent comfort", "confort excelente"], "Comment évaluez-vous votre confort digestif ?": ["How would you rate your digestive comfort?", "¿Cómo valora su confort digestivo?"], "Comment évaluez-vous votre transit intestinal ?": ["How would you rate your bowel movements?", "¿Cómo valora su tránsito intestinal?"], "très insatisfaisant": ["very unsatisfactory", "muy insatisfactorio"], "parfaitement satisfaisant": ["perfectly satisfactory", "perfectamente satisfactorio"], "Comment évaluez-vous l'état et le confort de votre peau ?": ["How would you rate the condition and comfort of your skin?", "¿Cómo valora el estado y el confort de su piel?"], "très insatisfaisants": ["very unsatisfactory", "muy insatisfactorios"], "excellents": ["excellent", "excelentes"], "Comment évaluez-vous la qualité de vos cheveux et de vos ongles ?": ["How would you rate the quality of your hair and nails?", "¿Cómo valora la calidad de su cabello y sus uñas?"], "très insatisfaisante": ["very unsatisfactory", "muy insatisfactoria"], "Comment évaluez-vous votre confort visuel et/ou auditif au quotidien ?": ["How would you rate your everyday visual and/or hearing comfort?", "¿Cómo valora su confort visual y/o auditivo en el día a día?"], "gêne importante": ["significant difficulty", "molestia importante"], "aucune gêne": ["no difficulty", "ninguna molestia"], "Comment évaluez-vous votre forme physique générale ?": ["How would you rate your general physical fitness?", "¿Cómo valora su forma física general?"], "Aujourd'hui, à quel point vous sentez-vous bien dans votre corps ?": ["Today, how good do you feel in your body?", "Hoy, ¿hasta qué punto se siente bien en su cuerpo?"], "pas bien du tout": ["not good at all", "nada bien"], "vraiment très bien": ["really very good", "realmente muy bien"], "Votre quotidien et vos habitudes": ["Your daily life and habits", "Su día a día y sus hábitos"], "Quel type d'alimentation correspond le mieux à vos habitudes actuelles ?": ["Which type of diet best matches your current habits?", "¿Qué tipo de alimentación corresponde mejor a sus hábitos actuales?"], "Précisez en quelques mots — facultatif": ["Tell us in a few words — optional", "Precise en pocas palabras (opcional)"], "Omnivore — je consomme des aliments d'origine animale et végétale": ["Omnivore — I eat both animal and plant foods", "Omnívora: consumo alimentos de origen animal y vegetal"], "Flexitarienne — je mange de tout mais limite volontairement ma consommation de viande": ["Flexitarian — I eat everything but deliberately limit my meat intake", "Flexitariana: como de todo pero limito voluntariamente el consumo de carne"], "Pescétarienne — je ne mange pas de viande mais consomme du poisson": ["Pescatarian — I don't eat meat but I eat fish", "Pescetariana: no como carne pero sí pescado"], "Végétarienne — je ne consomme ni viande ni poisson": ["Vegetarian — I eat neither meat nor fish", "Vegetariana: no consumo ni carne ni pescado"], "Végane / végétalienne — je ne consomme pas de produits d'origine animale": ["Vegan — I don't eat any animal products", "Vegana: no consumo productos de origen animal"], "Autre": ["Other", "Otro"], "Avez-vous des intolérances, sensibilités ou restrictions alimentaires particulières ?": ["Do you have any particular food intolerances, sensitivities or restrictions?", "¿Tiene intolerancias, sensibilidades o restricciones alimentarias particulares?"], "Si vous le souhaitez, précisez lesquelles — facultatif": ["If you wish, tell us which ones — optional", "Si lo desea, precise cuáles (opcional)"], "Oui": ["Yes", "Sí"], "Non": ["No", "No"], "Je ne sais pas": ["I don't know", "No lo sé"], "À quelle fréquence pratiquez-vous une activité physique ?": ["How often do you do physical activity?", "¿Con qué frecuencia practica actividad física?"], "Sport, marche, vélo, jardinage, activité professionnelle physique…": ["Sport, walking, cycling, gardening, physical work…", "Deporte, caminar, bicicleta, jardinería, trabajo físico…"], "Tous les jours ou presque": ["Every day or almost", "Todos los días o casi"], "3 à 4 fois par semaine": ["3 to 4 times a week", "De 3 a 4 veces por semana"], "1 à 2 fois par semaine": ["1 to 2 times a week", "De 1 a 2 veces por semana"], "Occasionnellement": ["Occasionally", "De vez en cuando"], "Très rarement": ["Very rarely", "Muy raramente"], "Jamais": ["Never", "Nunca"], "En moyenne, quelle quantité d'eau buvez-vous par jour ?": ["On average, how much water do you drink per day?", "De media, ¿cuánta agua bebe al día?"], "Moins de 0,5 litre": ["Less than 0.5 litre", "Menos de 0,5 litros"], "Entre 0,5 et 1 litre": ["Between 0.5 and 1 litre", "Entre 0,5 y 1 litro"], "Entre 1 et 1,5 litre": ["Between 1 and 1.5 litres", "Entre 1 y 1,5 litros"], "Plus de 1,5 litre": ["More than 1.5 litres", "Más de 1,5 litros"], "Cela varie beaucoup selon les jours": ["It varies a lot from day to day", "Varía mucho según el día"], "Prenez-vous actuellement des compléments alimentaires ?": ["Are you currently taking food supplements?", "¿Toma actualmente complementos alimenticios?"], "Oui, quotidiennement": ["Yes, daily", "Sí, a diario"], "Oui, de temps en temps": ["Yes, from time to time", "Sí, de vez en cuando"], "J'en ai pris auparavant, mais plus actuellement": ["I used to, but not at the moment", "Los tomaba antes, pero ya no"], "Quels types de compléments prenez-vous actuellement ?": ["What types of supplements are you currently taking?", "¿Qué tipos de complementos toma actualmente?"], "Plusieurs réponses possibles.": ["Several answers possible.", "Varias respuestas posibles."], "Vitamines / minéraux": ["Vitamins / minerals", "Vitaminas / minerales"], "Oméga-3": ["Omega-3", "Omega-3"], "Magnésium": ["Magnesium", "Magnesio"], "Probiotiques / confort digestif": ["Probiotics / digestive comfort", "Probióticos / confort digestivo"], "Collagène": ["Collagen", "Colágeno"], "Articulations / mobilité": ["Joints / mobility", "Articulaciones / movilidad"], "Sommeil / relaxation": ["Sleep / relaxation", "Sueño / relajación"], "Énergie / vitalité": ["Energy / vitality", "Energía / vitalidad"], "Autres": ["Others", "Otros"], "Je ne sais pas exactement": ["I'm not sure exactly", "No lo sé exactamente"], "Comment avez-vous principalement choisi ces compléments ?": ["How did you mainly choose these supplements?", "¿Cómo eligió principalmente estos complementos?"], "Après avoir vu une publicité ou une publication sur les réseaux sociaux": ["After seeing an ad or a post on social media", "Tras ver un anuncio o una publicación en redes sociales"], "Sur les conseils d'un proche ou d'une personne de confiance": ["On the advice of someone close or someone I trust", "Por consejo de un allegado o de una persona de confianza"], "Sur les conseils d'un professionnel du bien-être": ["On the advice of a well-being professional", "Por consejo de un profesional del bienestar"], "Sur les conseils d'un professionnel de santé": ["On the advice of a healthcare professional", "Por consejo de un profesional de la salud"], "À la suite de mes propres recherches": ["Following my own research", "Tras mis propias investigaciones"], "Dans quels objectifs les prenez-vous ?": ["What are your goals in taking them?", "¿Con qué objetivos los toma?"], "Préserver mon bien-être et ma forme": ["Maintaining my well-being and fitness", "Preservar mi bienestar y mi forma"], "Améliorer un aspect particulier de mon bien-être": ["Improving a particular aspect of my well-being", "Mejorar un aspecto concreto de mi bienestar"], "Répondre à un besoin ou un inconfort particulier": ["Addressing a particular need or discomfort", "Responder a una necesidad o molestia concreta"], "Combler un manque ou une carence identifiée": ["Making up for an identified shortfall or deficiency", "Cubrir una falta o carencia identificada"], "Sur recommandation d'un professionnel": ["On a professional's recommendation", "Por recomendación de un profesional"], "Quelques informations importantes": ["A few important details", "Algunas informaciones importantes"], "Ces questions sont facultatives. Elles peuvent simplement m'aider à mieux comprendre votre situation avant notre échange.": ["These questions are optional. They can simply help me better understand your situation before we talk.", "Estas preguntas son opcionales. Simplemente pueden ayudarme a comprender mejor su situación antes de nuestra conversación."], "Prenez-vous actuellement un ou plusieurs médicaments de façon régulière ?": ["Are you currently taking one or more medicines on a regular basis?", "¿Toma actualmente uno o varios medicamentos de forma habitual?"], "Il n'est pas nécessaire d'indiquer le nom de vos médicaments dans ce questionnaire.": ["There is no need to give the names of your medicines in this questionnaire.", "No es necesario indicar el nombre de sus medicamentos en este cuestionario."], "Je préfère ne pas répondre": ["I'd rather not say", "Prefiero no responder"], "Avez-vous subi une ablation de la vésicule biliaire ?": ["Have you had your gallbladder removed?", "¿Le han extirpado la vesícula biliar?"], "Ce que vous aimeriez améliorer ou préserver": ["What you would like to improve or maintain", "Lo que le gustaría mejorar o preservar"], "Aujourd'hui, qu'aimeriez-vous améliorer ou préserver en priorité ?": ["Today, what would you most like to improve or maintain?", "Hoy, ¿qué le gustaría mejorar o preservar en prioridad?"], "Mon énergie / ma vitalité": ["My energy / vitality", "Mi energía / vitalidad"], "Mon sommeil / ma récupération": ["My sleep / recovery", "Mi sueño / recuperación"], "Ma gestion du stress": ["How I handle stress", "Mi gestión del estrés"], "Mon moral / mon bien-être émotionnel": ["My mood / emotional well-being", "Mi ánimo / bienestar emocional"], "Ma concentration / ma mémoire": ["My concentration / memory", "Mi concentración / memoria"], "Mon confort digestif / mon transit": ["My digestive comfort / bowel movements", "Mi confort digestivo / tránsito"], "Mon confort articulaire": ["My joint comfort", "Mi confort articular"], "Mon confort musculaire / ma souplesse": ["My muscle comfort / flexibility", "Mi confort muscular / flexibilidad"], "Ma forme physique": ["My physical fitness", "Mi forma física"], "Mon poids / ma silhouette": ["My weight / figure", "Mi peso / figura"], "Ma peau": ["My skin", "Mi piel"], "Mes cheveux / mes ongles": ["My hair / nails", "Mi cabello / uñas"], "Mon alimentation": ["My diet", "Mi alimentación"], "Mon activité physique": ["My physical activity", "Mi actividad física"], "Mon bien-être général": ["My general well-being", "Mi bienestar general"], "Préserver ma forme et mon bien-être dans le temps": ["Maintaining my fitness and well-being over time", "Preservar mi forma y mi bienestar a lo largo del tiempo"], "Rien de particulier actuellement": ["Nothing in particular at the moment", "Nada en particular por ahora"], "Et s'il ne fallait en choisir qu'UNE, quelle serait votre priorité aujourd'hui ?": ["And if you had to choose just ONE, what would your priority be today?", "Y si tuviera que elegir solo UNA, ¿cuál sería su prioridad hoy?"], "Prendre soin de vous": ["Taking care of yourself", "Cuidar de usted"], "Aujourd'hui, prendre davantage soin de votre bien-être est pour vous…": ["Today, taking better care of your well-being is, for you…", "Hoy, cuidar más su bienestar es para usted…"], "Une vraie priorité": ["A real priority", "Una verdadera prioridad"], "Important, même si je manque parfois de temps": ["Important, even if I sometimes lack time", "Importante, aunque a veces me falte tiempo"], "Quelque chose auquel je pense sans vraiment passer à l'action": ["Something I think about without really taking action", "Algo en lo que pienso sin llegar a actuar"], "Pas vraiment une priorité actuellement": ["Not really a priority at the moment", "No es realmente una prioridad por ahora"], "Êtes-vous satisfait(e) de ce que vous mettez actuellement en place pour prendre soin de vous ?": ["Are you satisfied with what you currently do to take care of yourself?", "¿Está satisfecho/a con lo que hace actualmente para cuidarse?"], "pas du tout satisfait(e)": ["not at all satisfied", "nada satisfecho/a"], "totalement satisfait(e)": ["completely satisfied", "totalmente satisfecho/a"], "Si vous identifiiez des changements simples susceptibles d'améliorer votre bien-être, seriez-vous prêt(e) à les mettre en place ?": ["If you identified simple changes that could improve your well-being, would you be ready to make them?", "Si identificara cambios sencillos que pudieran mejorar su bienestar, ¿estaría dispuesto/a a ponerlos en marcha?"], "Oui, tout à fait": ["Yes, absolutely", "Sí, totalmente"], "Oui, s'ils restent simples et compatibles avec mon quotidien": ["Yes, if they stay simple and fit my daily life", "Sí, si siguen siendo sencillos y compatibles con mi día a día"], "Peut-être, j'aimerais d'abord comprendre ce qui pourrait m'être utile": ["Maybe, I'd first like to understand what could be useful to me", "Quizá, primero me gustaría entender qué podría serme útil"], "Je ne sais pas encore": ["I don't know yet", "Todavía no lo sé"], "Non, pas actuellement": ["No, not at the moment", "No, por ahora no"], "Qu'est-ce qui pourrait aujourd'hui vous freiner ?": ["What might hold you back today?", "¿Qué podría frenarle hoy?"], "Le manque de temps": ["Lack of time", "La falta de tiempo"], "Le manque d'énergie": ["Lack of energy", "La falta de energía"], "Le manque de motivation": ["Lack of motivation", "La falta de motivación"], "Je ne sais pas vraiment quoi mettre en place": ["I don't really know what to put in place", "No sé muy bien qué poner en marcha"], "J'ai déjà essayé plusieurs choses sans résultat satisfaisant": ["I've already tried several things without satisfying results", "Ya he probado varias cosas sin resultados satisfactorios"], "Le budget": ["Budget", "El presupuesto"], "Mes contraintes familiales": ["My family commitments", "Mis obligaciones familiares"], "Mes contraintes professionnelles": ["My work commitments", "Mis obligaciones profesionales"], "J'ai du mal à tenir de nouvelles habitudes dans le temps": ["I find it hard to keep new habits going", "Me cuesta mantener nuevos hábitos en el tiempo"], "Rien de particulier": ["Nothing in particular", "Nada en particular"], "Qu'attendez-vous de ce bilan ?": ["What do you expect from this check-up?", "¿Qué espera de este balance?"], "Qu’attendez-vous de ce bilan ?": ["What do you expect from this check-up?", "¿Qué espera de este balance?"], "Faire simplement le point": ["Simply take stock", "Simplemente hacer balance"], "Mieux comprendre où j'en suis": ["Better understand where I stand", "Entender mejor dónde estoy"], "Identifier mes priorités": ["Identify my priorities", "Identificar mis prioridades"], "Savoir ce que je pourrais améliorer": ["Know what I could improve", "Saber qué podría mejorar"], "Recevoir des informations ou des conseils adaptés à ma situation": ["Receive information or advice suited to my situation", "Recibir información o consejos adaptados a mi situación"], "Être accompagné(e) pour mettre certaines choses en place": ["Get support to put certain things in place", "Recibir acompañamiento para poner en marcha algunas cosas"], "Y a-t-il quelque chose d'important concernant votre bien-être que vous souhaiteriez me signaler ?": ["Is there anything important about your well-being that you'd like to tell me?", "¿Hay algo importante sobre su bienestar que quiera comentarme?"], "Quelques mots suffisent. Vous pouvez laisser cette case vide si vous n'avez rien à ajouter.": ["A few words are enough. You can leave this box empty if you have nothing to add.", "Bastan unas palabras. Puede dejar esta casilla vacía si no tiene nada que añadir."], "Champ libre facultatif": ["Optional free text", "Campo libre opcional"], "Faisons connaissance": ["Let's get acquainted", "Conozcámonos"], "Ces quelques informations me permettront de vous recontacter afin d'échanger avec vous sur vos réponses.": ["These few details will allow me to get back to you to talk about your answers.", "Estos pocos datos me permitirán volver a contactarle para hablar de sus respuestas."], "Votre prénom": ["Your first name", "Su nombre"], "Votre nom": ["Your surname", "Sus apellidos"], "Votre adresse e-mail": ["Your email address", "Su correo electrónico"], "Votre numéro de téléphone": ["Your phone number", "Su número de teléfono"]};
+const UI = {"h1": {"en": "Well-being check-up", "es": "Balance de bienestar"}, "intro": {"en": "Take a few minutes to take stock of your current well-being — there are no right or wrong answers.", "es": "Tómese unos minutos para hacer balance de su bienestar actual: no hay respuestas buenas ni malas."}, "merci_h2": {"en": "Thank you for taking this time for yourself 🌿", "es": "Gracias por dedicarse este tiempo 🌿"}, "m1": {"en": "Your check-up has been sent. You will receive a confirmation email with the link below.", "es": "Su balance se ha enviado correctamente. Recibirá un correo de confirmación con el enlace que aparece a continuación."}, "m2": {"en": "You have just done something important: taking a few minutes to observe where you stand today, what you are feeling and what you might like to improve.", "es": "Acaba de dar un primer paso importante: dedicar unos minutos a observar dónde se encuentra hoy, lo que siente y lo que quizá le gustaría mejorar."}, "m3": {"en": "Now I'd like to share some essential information with you. Before talking about solutions, supplements or even support, I think it's important to start by understanding what happens at the most basic level: in our cells.", "es": "Ahora me gustaría compartir con usted una información esencial. Antes de hablar de soluciones, de complementos o incluso de acompañamiento, creo importante empezar por comprender lo que ocurre en la base: en nuestras células."}, "m4": {"en": "So I invite you to take a few minutes to discover this information.", "es": "Le invito, por tanto, a dedicar unos minutos a descubrir esta información."}, "decouvrir": {"en": "DISCOVER THE INFORMATION", "es": "DESCUBRIR LA INFORMACIÓN"}, "m_temps": {"en": "<strong>No time right now?</strong><br>No problem. You also receive this link by email. If you can't find it, check your spam folder or write to me at <a data-cfg-email href=\"#\">contact@agnesetvous.com</a>.", "es": "<strong>¿No tiene tiempo ahora?</strong><br>No hay problema. También recibe este enlace por correo electrónico. Si no lo encuentra, revise la carpeta de correo no deseado o escríbame a <a data-cfg-email href=\"#\">contact@agnesetvous.com</a>."}, "m_ensuite": {"en": "<strong>What happens next?</strong><br>I will personally get in touch with you soon. Together we can go over the key points of your check-up, talk about your priorities and see which advice would suit your situation best.", "es": "<strong>¿Y después?</strong><br>Me pondré en contacto con usted personalmente muy pronto. Podremos repasar juntos los puntos importantes de su balance, hablar de sus prioridades y ver qué consejos se adaptan mejor a su situación."}, "rdv_q": {"en": "<strong>Would you rather choose the time yourself?</strong>", "es": "<strong>¿Prefiere elegir usted mismo/a el momento?</strong>"}, "rdv_btn": {"en": "Book our call in my calendar", "es": "Reservar nuestra conversación en mi agenda"}, "signature": {"en": "See you very soon,<br><span data-cfg=\"PRENOM\">Agnès</span>, <span data-cfg=\"MARQUE\">Agnès &amp; Vous</span>.", "es": "Hasta muy pronto,<br><span data-cfg=\"PRENOM\">Agnès</span>, <span data-cfg=\"MARQUE\">Agnès &amp; Vous</span>."}, "partage_txt": {"en": "Might a friend or someone close to you also like to take stock of their well-being?", "es": "¿Quizá a una amiga o a un allegado también le apetezca hacer balance de su bienestar?"}, "partage_btn": {"en": "Share with a friend", "es": "Compartir con un/a amigo/a"}, "ml_panel": {"en": "<p><strong data-g=\"Publisher|Publisher\">Publisher</strong><br>\n      <span data-cfg=\"NOM_COMPLET\">Agnès Esclaire Riera</span> — <span data-cfg=\"STATUT\">Entreprise individuelle</span><br>\n      <span id=\"ligneSiret\">SIRET: <span data-cfg=\"SIRET\">502 712 466 00056</span><br></span>\n      <span data-cfg=\"ADRESSE\">Objat, Corrèze, France</span><br>\n      Publication director: <span data-cfg=\"NOM_COMPLET\">Agnès Esclaire Riera</span></p>\n\n      <p><strong>Contact</strong><br>\n      Email: <a data-cfg-email href=\"#\">contact@agnesetvous.com</a><br>\n      Phone: <span data-cfg=\"TELEPHONE\">+33 6 63 93 21 12</span><br>\n      Website: <span data-cfg=\"SITE\">agnesetvous.com</span></p>\n\n      <p><strong>Hosting</strong><br>\n      This site is hosted by GitHub Pages<br>\n      GitHub, Inc. — 88 Colin P. Kelly Jr. Street,<br>\n      San Francisco, CA 94107, United States</p>\n\n      <p><strong>Personal data</strong><br>\n      The information you choose to provide in this check-up (including any information about your health) is processed by <span data-cfg=\"NOM_COMPLET\">Agnès Esclaire Riera</span>, data controller, on the basis of your explicit consent, solely to carry out your check-up, prepare our conversation and get back to you about it. It is stored in a private Google spreadsheet (Google Workspace, technical processor), kept for no longer than 3 years after our last exchange, and is never sold or passed on. Under the GDPR, you have the right to access, rectify, erase and object, and you can withdraw your consent at any time by writing to <a data-cfg-email href=\"#\">contact@agnesetvous.com</a>. You may also lodge a complaint with the CNIL (www.cnil.fr), the French data protection authority.<br><br>\n      If you arrived through a personalised link, the first name of the person who sent it to you is saved with your check-up, only so I know whom to thank.</p>\n\n      <p><strong>Important information</strong><br>\n      This check-up has no medical purpose. It is neither a diagnosis nor a treatment and does not replace the advice of a healthcare professional.</p>\n\n      <p style=\"text-align:center;font-style:italic;border-top:1px solid #E7E1D3;padding-top:12px\">This site was created by Agnès &amp; Vous.</p>", "es": "<p><strong data-g=\"Editora|Editor\">Editora</strong><br>\n      <span data-cfg=\"NOM_COMPLET\">Agnès Esclaire Riera</span> — <span data-cfg=\"STATUT\">Entreprise individuelle</span><br>\n      <span id=\"ligneSiret\">SIRET: <span data-cfg=\"SIRET\">502 712 466 00056</span><br></span>\n      <span data-cfg=\"ADRESSE\">Objat, Corrèze, France</span><br>\n      <span data-g=\"Directora|Director\">Directora</span> de la publicación: <span data-cfg=\"NOM_COMPLET\">Agnès Esclaire Riera</span></p>\n\n      <p><strong>Contacto</strong><br>\n      Correo: <a data-cfg-email href=\"#\">contact@agnesetvous.com</a><br>\n      Teléfono: <span data-cfg=\"TELEPHONE\">+33 6 63 93 21 12</span><br>\n      Sitio web: <span data-cfg=\"SITE\">agnesetvous.com</span></p>\n\n      <p><strong>Alojamiento</strong><br>\n      Este sitio está alojado en GitHub Pages<br>\n      GitHub, Inc. — 88 Colin P. Kelly Jr. Street,<br>\n      San Francisco, CA 94107, Estados Unidos</p>\n\n      <p><strong>Datos personales</strong><br>\n      La información que usted facilita voluntariamente en este balance (incluida cualquier información relativa a su salud) la trata <span data-cfg=\"NOM_COMPLET\">Agnès Esclaire Riera</span>, responsable del tratamiento, sobre la base de su consentimiento explícito, únicamente para realizar su balance, preparar nuestra conversación y volver a contactarle al respecto. Se guarda en una hoja de cálculo privada de Google (Google Workspace, encargado técnico del tratamiento), se conserva como máximo 3 años después de nuestro último contacto y nunca se vende ni se cede. De conformidad con el RGPD, usted tiene derecho de acceso, rectificación, supresión y oposición, y puede retirar su consentimiento en cualquier momento escribiendo a <a data-cfg-email href=\"#\">contact@agnesetvous.com</a>. También puede presentar una reclamación ante la CNIL (www.cnil.fr), la autoridad francesa de protección de datos.<br><br>\n      Si ha llegado a través de un enlace personalizado, el nombre de la persona que se lo envió se guarda con su balance, únicamente para saber a quién agradecer.</p>\n\n      <p><strong>Información importante</strong><br>\n      Este balance no tiene ninguna finalidad médica. No constituye un diagnóstico ni un tratamiento y no sustituye el consejo de un profesional de la salud.</p>\n\n      <p style=\"text-align:center;font-style:italic;border-top:1px solid #E7E1D3;padding-top:12px\">Este sitio fue creado por Agnès &amp; Vous.</p>"}, "ml_ouvrir": {"fr": "Mentions légales ▾", "en": "Legal notice ▾", "es": "Aviso legal ▾"}, "ml_fermer": {"fr": "Mentions légales ▴", "en": "Legal notice ▴", "es": "Aviso legal ▴"}, "etape": {"fr": "Étape", "en": "Step", "es": "Paso"}, "precedent": {"fr": "← Précédent", "en": "← Back", "es": "← Anterior"}, "suivant": {"fr": "Suivant →", "en": "Next →", "es": "Siguiente →"}, "pas_reponse": {"fr": "Pas de réponse", "en": "No answer", "es": "Sin respuesta"}, "choisir": {"fr": "— Choisir —", "en": "— Choose —", "es": "— Elegir —"}, "choisir_dabord": {"fr": "Sélectionnez d'abord une ou plusieurs priorités ci-dessus.", "en": "First select one or more priorities above.", "es": "Seleccione primero una o varias prioridades arriba."}, "err_champ": {"fr": "Merci de renseigner : ", "en": "Please fill in: ", "es": "Por favor, indique: "}, "err_email": {"fr": "Cette adresse e-mail ne semble pas valide.", "en": "This email address doesn't look valid.", "es": "Esta dirección de correo no parece válida."}, "err_coord": {"fr": "Merci de renseigner votre prénom, votre e-mail et votre téléphone.", "en": "Please fill in your first name, email and phone number.", "es": "Por favor, indique su nombre, su correo electrónico y su teléfono."}, "err_consent": {"fr": "Merci de cocher les deux cases de consentement pour envoyer votre bilan.", "en": "Please tick both consent boxes to send your check-up.", "es": "Por favor, marque las dos casillas de consentimiento para enviar su balance."}, "err_config": {"fr": "Ce formulaire est en cours de configuration. Aucun bilan n’a été envoyé. Contact : ", "en": "This form is being set up. No check-up has been sent. Contact: ", "es": "Este formulario está en proceso de configuración. No se ha enviado ningún balance. Contacto: "}, "err_envoi": {"fr": "L’envoi n’a pas pu être confirmé. Vérifiez votre connexion. Si vous recevez un e-mail de confirmation, ne renvoyez pas le bilan.", "en": "Sending could not be confirmed. Please check your connection. If you receive a confirmation email, don't send the check-up again.", "es": "No se ha podido confirmar el envío. Compruebe su conexión. Si recibe un correo de confirmación, no vuelva a enviar el balance."}, "envoi_cours": {"fr": "Envoi en cours…", "en": "Sending…", "es": "Enviando…"}, "btn_envoyer": {"fr": "ENVOYER MON BILAN ET DÉCOUVRIR L'INFORMATION", "en": "SEND MY CHECK-UP AND DISCOVER THE INFORMATION", "es": "ENVIAR MI BALANCE Y DESCUBRIR LA INFORMACIÓN"}, "lien_copie": {"fr": "✓ Lien copié !", "en": "✓ Link copied!", "es": "✓ ¡Enlace copiado!"}, "partage_msg": {"fr": "Je viens de faire mon bilan bien-être avec {prenom} — tu peux faire le tien aussi :", "en": "I've just done my well-being check-up with {prenom} — you can do yours too:", "es": "Acabo de hacer mi balance de bienestar con {prenom}; tú también puedes hacer el tuyo:"}, "ecouter": {"fr": "Écouter", "en": "Listen", "es": "Escuchar"}, "arreter": {"fr": "Arrêter", "en": "Stop", "es": "Detener"}, "voix": {"fr": "fr-FR", "en": "en-GB", "es": "es-ES"}, "titre": {"fr": "Bilan bien-être", "en": "Well-being check-up", "es": "Balance de bienestar"}, "apres_h3": {"fr": "ET APRÈS VOTRE BILAN ?", "en": "AND AFTER YOUR CHECK-UP?", "es": "¿Y DESPUÉS DE SU BALANCE?"}, "apres_intro": {"fr": "Une fois votre bilan envoyé :", "en": "Once your check-up has been sent:", "es": "Una vez enviado su balance:"}, "apres_1": {"fr": "Vous accéderez immédiatement à une information essentielle pour mieux comprendre comment prendre soin de nos cellules et de notre équilibre au quotidien.", "en": "You will immediately access essential information to better understand how to take care of our cells and our balance every day.", "es": "Accederá inmediatamente a una información esencial para comprender mejor cómo cuidar de nuestras células y de nuestro equilibrio en el día a día."}, "apres_2": {"fr": "Vous recevrez également le lien par e-mail, afin de pouvoir retrouver cette information facilement et la consulter tranquillement, même si vous fermez cette page.", "en": "You will also receive the link by email, so you can easily find this information again and read it at your leisure, even if you close this page.", "es": "También recibirá el enlace por correo electrónico, para poder encontrar esta información fácilmente y consultarla con calma, aunque cierre esta página."}, "apres_3": {"fr": "Je prendrai ensuite personnellement contact avec vous rapidement afin que nous puissions échanger sur votre bilan, vos priorités et vos besoins, et que je puisse vous apporter des conseils plus personnalisés.", "en": "I will then personally get in touch with you soon so that we can talk about your check-up, your priorities and your needs, and so that I can give you more personalised advice.", "es": "Después me pondré en contacto con usted personalmente muy pronto para que podamos hablar de su balance, sus prioridades y sus necesidades, y para poder darle consejos más personalizados."}, "apres_fin": {"fr": "Vous restez bien entendu libre de la suite que vous souhaitez donner à cet échange.", "en": "You are of course free to decide what, if anything, you want to do next.", "es": "Por supuesto, sigue siendo libre de decidir qué continuidad quiere dar a esta conversación."}, "conf_titre": {"fr": "Confidentialité et utilisation de vos données", "en": "Privacy and use of your data", "es": "Confidencialidad y uso de sus datos"}, "conf_texte": {"fr": "Les informations que vous transmettez dans ce questionnaire sont utilisées afin de traiter votre demande, analyser les réponses de votre bilan bien-être, préparer notre échange et vous recontacter à ce sujet. Certaines réponses peuvent concerner votre santé ou votre bien-être. Vous êtes libre de ne pas répondre aux questions facultatives. Vos données ne sont utilisées que pour ces finalités et conservées de manière sécurisée. Vous pouvez exercer vos droits et retirer votre consentement — voir les <a href=\"#mentions-legales\">mentions légales</a> ci-dessous.", "en": "The information you provide in this questionnaire is used to process your request, analyse your well-being check-up answers, prepare our conversation and get back to you about it. Some answers may concern your health or well-being. You are free not to answer the optional questions. Your data is used only for these purposes and stored securely. You can exercise your rights and withdraw your consent — see the <a href=\"#mentions-legales\">legal notice</a> below.", "es": "La información que facilita en este cuestionario se utiliza para tramitar su solicitud, analizar las respuestas de su balance de bienestar, preparar nuestra conversación y volver a contactarle al respecto. Algunas respuestas pueden referirse a su salud o a su bienestar. Es libre de no responder a las preguntas opcionales. Sus datos solo se utilizan para estos fines y se conservan de forma segura. Puede ejercer sus derechos y retirar su consentimiento: consulte el <a href=\"#mentions-legales\">aviso legal</a> más abajo."}, "consent_1": {"fr": "J'ai lu et compris les informations concernant ce bilan et son absence de visée médicale.", "en": "I have read and understood the information about this check-up and that it has no medical purpose.", "es": "He leído y comprendido la información sobre este balance y sobre su ausencia de finalidad médica."}, "consent_2": {"fr": "J'accepte que les informations que je renseigne dans ce questionnaire, y compris les éventuelles informations relatives à ma santé, soient utilisées afin de réaliser mon bilan bien-être, préparer notre échange et me recontacter à ce sujet.", "en": "I agree that the information I provide in this questionnaire, including any information about my health, may be used to carry out my well-being check-up, prepare our conversation and get back to me about it.", "es": "Acepto que la información que indico en este cuestionario, incluida cualquier información relativa a mi salud, se utilice para realizar mi balance de bienestar, preparar nuestra conversación y volver a contactarme al respecto."}, "consent_note": {"fr": "Vous pouvez retirer votre consentement selon les modalités précisées dans les mentions légales.", "en": "You can withdraw your consent as explained in the legal notice.", "es": "Puede retirar su consentimiento según lo indicado en el aviso legal."}};
+let LANGUE = 'fr';
+const IDX = { en: 0, es: 1 };
+/* Textes du questionnaire : la réponse enregistrée reste en français (pour votre tableur) */
+function t(s){ if (!s || LANGUE === 'fr') return s; const v = TR[s]; return v ? v[IDX[LANGUE]] : s; }
+function L(k){ const u = UI[k]; if (!u) return ''; return u[LANGUE] || u.fr || STATIQUE_FR[k] || ''; }
+const STATIQUE_FR = {};
+document.querySelectorAll('[data-i]').forEach(el => { STATIQUE_FR[el.getAttribute('data-i')] = el.innerHTML; });
+
+function traduireStatique(){
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const k = el.getAttribute('data-i');
+    el.innerHTML = (LANGUE !== 'fr' && UI[k] && UI[k][LANGUE]) ? UI[k][LANGUE] : STATIQUE_FR[k];
+  });
+  const ml = document.getElementById('mlPanel');
+  document.getElementById('mlToggle').textContent = ml.classList.contains('visible') ? L('ml_fermer') : L('ml_ouvrir');
+  document.getElementById('txtEcouter').textContent = enLecture ? L('arreter') : L('ecouter');
+  document.getElementById('btnEcouter').setAttribute('aria-label', L('ecouter'));
+}
+
+function choisirLangue(l){
+  if (!IDX.hasOwnProperty(l) && l !== 'fr') l = 'fr';
+  LANGUE = l;
+  document.documentElement.lang = l;
+  arreterLecture();
+  traduireStatique();
+  appliquerConfig();
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('actif', b.getAttribute('data-langue') === l));
+  try { localStorage.setItem('langue', l); } catch (e) {}
+  if (document.getElementById('questionnaire').style.display !== 'none') renderEtape();
+  else { const b = document.getElementById('btnEnvoyer'); if (b) b.textContent = L('btn_envoyer'); }
+}
+
+/* ══════════ LECTURE AUDIO ══════════ */
+let enLecture = false;
+function arreterLecture(){
+  try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+  enLecture = false;
+  const b = document.getElementById('btnEcouter'); if (b) b.classList.remove('lit');
+  const s = document.getElementById('txtEcouter'); if (s) s.textContent = L('ecouter');
+}
+function basculerLecture(){
+  if (!('speechSynthesis' in window)) return;
+  if (enLecture) { arreterLecture(); return; }
+  const zone = document.getElementById('questionnaire').style.display === 'none' ? document.getElementById('merci') : document.getElementById('questionnaire');
+  const parties = [];
+  zone.querySelectorAll('.etape-titre, .q-texte, .q-sous, .choix-item span, .slider-legende span, .apres-bilan h3, .apres-bilan p, .apres-bilan li, .confidentialite-note, .consent-item span, h2, p').forEach(n => {
+    if (!n.getClientRects().length) return;
+    const tx = n.innerText.trim(); if (tx && parties[parties.length - 1] !== tx) parties.push(tx);
+  });
+  if (!parties.length) return;
+  const voix = L('voix');
+  parties.forEach((tx, i) => {
+    const u = new SpeechSynthesisUtterance(tx);
+    u.lang = voix; u.rate = 1;
+    if (i === parties.length - 1) u.onend = arreterLecture;
+    window.speechSynthesis.speak(u);
+  });
+  enLecture = true;
+  document.getElementById('btnEcouter').classList.add('lit');
+  document.getElementById('txtEcouter').textContent = L('arreter');
+}
+
+/* Réglages : voir la ZONE PARAMÈTRES tout en haut du fichier */
+const ENDPOINT = (CONFIG.ENDPOINT || '').trim();
+const LIEN_ESSENTIEL = (CONFIG.LIEN_ESSENTIEL || '').trim();
+
+/* ── Origine : qui a invité la personne (?origine=prenom) ── */
+let ORIGINE = '';
+try {
+  const prm = new URLSearchParams(window.location.search);
+  ORIGINE = (prm.get('origine') || prm.get('o') || prm.get('ref') || '').trim().slice(0, 60);
+  if (ORIGINE) localStorage.setItem('origine', ORIGINE); else ORIGINE = localStorage.getItem('origine') || '';
+} catch (e) {}
+function origineLisible(o){ return o.replace(/[-_.+]+/g,' ').replace(/\s+/g,' ').trim().replace(/(^|\s)(\S)/g,(m,s,c)=>s+c.toUpperCase()); }
+
+/* ── Application des réglages dans la page ── */
+function appliquerConfig(){
+  document.querySelectorAll('[data-cfg]').forEach(el => { const v = CONFIG[el.getAttribute('data-cfg')]; if (v !== undefined) el.textContent = v; });
+  document.querySelectorAll('[data-cfg-email]').forEach(el => { el.textContent = CONFIG.EMAIL; el.href = 'mailto:' + CONFIG.EMAIL; });
+  document.querySelectorAll('[data-g]').forEach(el => { const f = el.getAttribute('data-g').split('|'); el.textContent = CONFIG.FEMININ === false ? f[1] : f[0]; });
+  if (!CONFIG.SIRET) document.getElementById('ligneSiret').style.display = 'none';
+  if (CONFIG.LIEN_RDV) document.getElementById('lienRdv').href = CONFIG.LIEN_RDV; else document.getElementById('blocRdv').style.display = 'none';
+  if (LIEN_ESSENTIEL) document.getElementById('lienEssentiel').href = LIEN_ESSENTIEL + (ORIGINE ? (LIEN_ESSENTIEL.indexOf('?') < 0 ? '?' : '&') + 'origine=' + encodeURIComponent(ORIGINE) : '');
+  document.title = L('titre') + ' — ' + CONFIG.MARQUE;
+}
 
 /* ── État du formulaire ── */
 const reponses = {};
@@ -373,10 +511,11 @@ const ETAPES = [
 
 /* ── Rendu d'une étape ── */
 function renderEtape() {
+  if (enLecture) arreterLecture();
   const etape = ETAPES[etapeActuelle];
   const conteneur = document.getElementById('contenuEtape');
-  let html = '<div class="etape-titre">' + etape.titre + '</div>';
-  if (etape.sousTitre) html += '<p class="q-sous" style="margin-bottom:22px">' + etape.sousTitre + '</p>';
+  let html = '<div class="etape-titre">' + t(etape.titre) + '</div>';
+  if (etape.sousTitre) html += '<p class="q-sous" style="margin-bottom:22px">' + t(etape.sousTitre) + '</p>';
 
   etape.questions.forEach(q => {
     if (q.afficherSi && !doitAfficher(q.afficherSi)) return;
@@ -389,9 +528,10 @@ function renderEtape() {
   etape.questions.forEach(q => attacherEcouteurs(q));
 
   document.getElementById('barreProgres').style.width = ((etapeActuelle) / (ETAPES.length - 1) * 100) + '%';
-  document.getElementById('labelEtape').textContent = 'Étape ' + (etapeActuelle + 1) + ' / ' + ETAPES.length;
+  document.getElementById('labelEtape').textContent = L('etape') + ' ' + (etapeActuelle + 1) + ' / ' + ETAPES.length;
+  document.getElementById('btnPrecedent').textContent = L('precedent');
   document.getElementById('btnPrecedent').style.visibility = etapeActuelle === 0 ? 'hidden' : 'visible';
-  document.getElementById('btnSuivant').textContent = etape.dernier ? '' : 'Suivant →';
+  document.getElementById('btnSuivant').textContent = etape.dernier ? '' : L('suivant');
   document.getElementById('btnSuivant').style.display = etape.dernier ? 'none' : 'inline-block';
   document.getElementById('erreurMsg').textContent = '';
 
@@ -416,49 +556,49 @@ function renderQuestion(q) {
     const val = actif ? reponses[q.id] : 5;
     inner = `
       <div class="slider-wrap${actif ? ' actif' : ''}">
-        <input type="range" min="1" max="10" value="${val}" id="${q.id}" aria-label="${escAttr(q.texte)}" aria-valuetext="${actif ? val : 'Pas de réponse'}" oninput="majSlider('${q.id}')">
+        <input type="range" min="1" max="10" value="${val}" id="${q.id}" aria-label="${escAttr(t(q.texte))}" aria-valuetext="${actif ? val : L('pas_reponse')}" oninput="majSlider('${q.id}')">
         <div class="slider-valeur" id="${q.id}_valeur">${actif ? val : '—'}</div>
-        <div class="slider-legende"><span>${q.bas}</span><span>${q.haut}</span></div>
+        <div class="slider-legende"><span>${t(q.bas)}</span><span>${t(q.haut)}</span></div>
       </div>`;
   } else if (q.type === 'radio') {
     inner = '<div class="choix-liste">' + q.options.map(opt => {
       const checked = reponses[q.id] === opt ? 'checked' : '';
       const sel = reponses[q.id] === opt ? ' selected' : '';
-      return `<label class="choix-item${sel}"><input type="radio" name="${q.id}" value="${escAttr(opt)}" ${checked} onchange="majRadio('${q.id}')"> <span>${opt}</span></label>`;
+      return `<label class="choix-item${sel}"><input type="radio" name="${q.id}" value="${escAttr(opt)}" ${checked} onchange="majRadio('${q.id}')"> <span>${t(opt)}</span></label>`;
     }).join('') + '</div>';
     if (q.autreDeclenche) {
       const show = reponses[q.id] === q.autreDeclenche ? '' : ' style="display:none"';
       const valTxt = reponses[q.autreId] || '';
-      inner += `<div class="sous-champ" id="${q.id}_sous"${show}><input type="text" class="champ-input" id="${q.autreId}" placeholder="${q.autrePlaceholder}" value="${escAttr(valTxt)}" oninput="reponses['${q.autreId}']=this.value"></div>`;
+      inner += `<div class="sous-champ" id="${q.id}_sous"${show}><input type="text" class="champ-input" id="${q.autreId}" placeholder="${escAttr(t(q.autrePlaceholder))}" value="${escAttr(valTxt)}" oninput="reponses['${q.autreId}']=this.value"></div>`;
     }
   } else if (q.type === 'checkbox') {
     const selectionnees = reponses[q.id] || [];
     inner = '<div class="choix-liste">' + q.options.map(opt => {
       const checked = selectionnees.includes(opt) ? 'checked' : '';
       const sel = selectionnees.includes(opt) ? ' selected' : '';
-      return `<label class="choix-item${sel}"><input type="checkbox" value="${escAttr(opt)}" ${checked} onchange="majCheckbox('${q.id}', this)"> <span>${opt}</span></label>`;
+      return `<label class="choix-item${sel}"><input type="checkbox" value="${escAttr(opt)}" ${checked} onchange="majCheckbox('${q.id}', this)"> <span>${t(opt)}</span></label>`;
     }).join('') + '</div>';
   } else if (q.type === 'select-dynamique') {
     const source = reponses[q.sourceId] || [];
     const val = reponses[q.id] || '';
     if (source.length === 0) {
-      inner = '<p class="q-sous">Sélectionnez d\'abord une ou plusieurs priorités ci-dessus.</p>';
+      inner = '<p class="q-sous">' + L('choisir_dabord') + '</p>';
     } else {
       inner = `<select class="champ-input" id="${q.id}" onchange="reponses['${q.id}']=this.value">
-        <option value="">— Choisir —</option>
-        ${source.map(opt => `<option value="${escAttr(opt)}" ${val === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+        <option value="">${L('choisir')}</option>
+        ${source.map(opt => `<option value="${escAttr(opt)}" ${val === opt ? 'selected' : ''}>${t(opt)}</option>`).join('')}
       </select>`;
     }
   } else if (q.type === 'textarea') {
-    inner = `<textarea id="${q.id}" placeholder="${q.placeholder || ''}" oninput="reponses['${q.id}']=this.value">${reponses[q.id] || ''}</textarea>`;
+    inner = `<textarea id="${q.id}" placeholder="${escAttr(t(q.placeholder || ''))}" oninput="reponses['${q.id}']=this.value">${escAttr(reponses[q.id] || '')}</textarea>`;
   } else if (q.type === 'text' || q.type === 'email' || q.type === 'tel' || q.type === 'date') {
     inner = `<input type="${q.type}" class="champ-input" id="${q.id}" value="${escAttr(reponses[q.id] || '')}" oninput="reponses['${q.id}']=this.value">`;
 
   }
 
   return `<div class="question">
-      <div class="q-texte">${q.texte || ''}${oblig}</div>
-      ${q.sousTexte ? `<div class="q-sous">${q.sousTexte}</div>` : ''}
+      <div class="q-texte">${t(q.texte || '')}${oblig}</div>
+      ${q.sousTexte ? `<div class="q-sous">${t(q.sousTexte)}</div>` : ''}
       ${inner}
     </div>`;
 }
@@ -466,34 +606,34 @@ function renderQuestion(q) {
 function renderFinDeFormulaire() {
   return `
     <div class="apres-bilan">
-      <h3>ET APRÈS VOTRE BILAN ?</h3>
-      <p style="margin-bottom:12px">Une fois votre bilan envoyé :</p>
+      <h3>${L('apres_h3')}</h3>
+      <p style="margin-bottom:12px">${L('apres_intro')}</p>
       <ul>
-        <li>Vous accéderez immédiatement à une information essentielle pour mieux comprendre comment prendre soin de nos cellules et de notre équilibre au quotidien.</li>
-        <li>Vous recevrez également le lien par e-mail, afin de pouvoir retrouver cette information facilement et la consulter tranquillement, même si vous fermez cette page.</li>
-        <li>Je prendrai ensuite personnellement contact avec vous rapidement afin que nous puissions échanger sur votre bilan, vos priorités et vos besoins, et que je puisse vous apporter des conseils plus personnalisés.</li>
+        <li>${L('apres_1')}</li>
+        <li>${L('apres_2')}</li>
+        <li>${L('apres_3')}</li>
       </ul>
-      <p style="margin-top:12px">Vous restez bien entendu libre de la suite que vous souhaitez donner à cet échange.</p>
+      <p style="margin-top:12px">${L('apres_fin')}</p>
     </div>
 
     <div class="confidentialite-note">
-      <strong>Confidentialité et utilisation de vos données</strong>
-      <p>Les informations que vous transmettez dans ce questionnaire sont utilisées afin de traiter votre demande, analyser les réponses de votre bilan bien-être, préparer notre échange et vous recontacter à ce sujet. Certaines réponses peuvent concerner votre santé ou votre bien-être. Vous êtes libre de ne pas répondre aux questions facultatives. Vos données ne sont utilisées que pour ces finalités et conservées de manière sécurisée. Vous pouvez exercer vos droits et retirer votre consentement — voir les <a href="#mentions-legales">mentions légales</a> ci-dessous.</p>
+      <strong>${L('conf_titre')}</strong>
+      <p>${L('conf_texte')}</p>
     </div>
 
     <div class="consentements">
       <label class="consent-item">
-        <input type="checkbox" id="consent_info" onchange="reponses['consent_info']=this.checked">
-        <span>J'ai lu et compris les informations concernant ce bilan et son absence de visée médicale.</span>
+        <input type="checkbox" id="consent_info" ${reponses['consent_info'] ? 'checked' : ''} onchange="reponses['consent_info']=this.checked">
+        <span>${L('consent_1')}</span>
       </label>
       <label class="consent-item">
-        <input type="checkbox" id="consent_donnees" onchange="reponses['consent_donnees']=this.checked">
-        <span>J'accepte que les informations que je renseigne dans ce questionnaire, y compris les éventuelles informations relatives à ma santé, soient utilisées afin de réaliser mon bilan bien-être, préparer notre échange et me recontacter à ce sujet.</span>
+        <input type="checkbox" id="consent_donnees" ${reponses['consent_donnees'] ? 'checked' : ''} onchange="reponses['consent_donnees']=this.checked">
+        <span>${L('consent_2')}</span>
       </label>
-      <p class="consent-note">Vous pouvez retirer votre consentement selon les modalités précisées dans les mentions légales.</p>
+      <p class="consent-note">${L('consent_note')}</p>
     </div>
 
-    <button class="nav-btn btn-envoyer" id="btnEnvoyer" onclick="envoyerBilan()">ENVOYER MON BILAN ET DÉCOUVRIR L'INFORMATION</button>
+    <button class="nav-btn btn-envoyer" id="btnEnvoyer" onclick="envoyerBilan()">${L('btn_envoyer')}</button>
   `;
 }
 
@@ -552,12 +692,12 @@ function validerEtape() {
   if (etape.dernier) {
     for (const q of etape.questions) {
       if (q.obligatoire && !reponses[q.id]) {
-        document.getElementById('erreurMsg').textContent = 'Merci de renseigner votre ' + q.texte.toLowerCase() + '.';
+        document.getElementById('erreurMsg').textContent = L('err_champ') + t(q.texte).toLowerCase() + '.';
         return false;
       }
     }
     if (reponses['email'] && !emailValide(reponses['email'])) {
-      document.getElementById('erreurMsg').textContent = 'Cette adresse email ne semble pas valide.';
+      document.getElementById('erreurMsg').textContent = L('err_email');
       return false;
     }
   }
@@ -584,25 +724,26 @@ function etapePrecedente() {
 /* ── Envoi ── */
 function envoyerBilan() {
   if (!reponses['prenom'] || !reponses['email'] || !reponses['telephone']) {
-    document.getElementById('erreurMsg').textContent = 'Merci de renseigner votre prénom, votre email et votre téléphone.';
+    document.getElementById('erreurMsg').textContent = L('err_coord');
     return;
   }
   if (!emailValide(reponses['email'])) {
-    document.getElementById('erreurMsg').textContent = 'Cette adresse email ne semble pas valide.';
+    document.getElementById('erreurMsg').textContent = L('err_email');
     return;
   }
   if (!reponses['consent_info'] || !reponses['consent_donnees']) {
-    document.getElementById('erreurMsg').textContent = 'Merci de cocher les deux cases de consentement pour envoyer votre bilan.';
+    document.getElementById('erreurMsg').textContent = L('err_consent');
     return;
   }
 
   const btn = document.getElementById('btnEnvoyer');
   btn.disabled = true;
-  btn.textContent = 'Envoi en cours…';
+  btn.textContent = L('envoi_cours');
 
-  const payload = Object.assign({}, reponses, { date: new Date().toISOString() });
+  const payload = Object.assign({}, reponses, { date: new Date().toISOString(), origine: ORIGINE ? origineLisible(ORIGINE) : '', langue: LANGUE, page: location.hostname + location.pathname });
 
   const finir = () => {
+    arreterLecture();
     document.getElementById('questionnaire').style.display = 'none';
     document.getElementById('merci').classList.add('visible');
     window.scrollTo({top:0, behavior:'smooth'});
@@ -611,23 +752,26 @@ function envoyerBilan() {
   const echec = (message) => {
     document.getElementById('erreurMsg').textContent = message;
     btn.disabled = false;
-    btn.textContent = "ENVOYER MON BILAN ET DÉCOUVRIR L'INFORMATION";
+    btn.textContent = L('btn_envoyer');
   };
   if (!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(ENDPOINT) || !/^https:\/\//.test(LIEN_ESSENTIEL)) {
-    echec('Ce formulaire est en cours de configuration. Aucun bilan n’a été envoyé. Contact : contact@agnesetvous.com.');
+    echec(L('err_config') + CONFIG.EMAIL + '.');
     return;
   }
-  document.getElementById('lienEssentiel').href = LIEN_ESSENTIEL;
 
   fetch(ENDPOINT, {
     method:'POST', mode:'no-cors',
     headers:{'Content-Type':'text/plain;charset=UTF-8'},
     body: JSON.stringify(payload)
-  }).then(finir).catch(() => echec('L’envoi n’a pas pu être confirmé. Vérifiez votre connexion. Si vous recevez un e-mail de confirmation, ne renvoyez pas le bilan.')); 
+  }).then(finir).catch(() => echec(L('err_envoi')));
 }
 
 /* ── Démarrage ── */
-renderEtape();
+(function(){
+  let l = 'fr';
+  try { l = (new URLSearchParams(location.search).get('lang') || localStorage.getItem('langue') || 'fr').toLowerCase().slice(0,2); } catch (e) {}
+  choisirLangue(l);
+})();
 </script>
 </body>
 </html>
