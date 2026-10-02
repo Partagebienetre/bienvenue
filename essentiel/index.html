@@ -2,6 +2,91 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+
+<!-- =================================================================== -->
+<!--  RÉGLAGES PARTENAIRE — la SEULE zone à modifier pour dupliquer      -->
+<!--  Remplace les valeurs entre guillemets par les tiennes.            -->
+<!--  Ne touche à rien d'autre dans le fichier.                         -->
+<!-- =================================================================== -->
+<script>
+window.CONFIG_PARTENAIRE = {
+  // Ton identité (affichée sur la page)
+  prenom:      "Agnès",
+  nomComplet:  "Agnès Esclaire Riera",
+  marque:      "Agnès & Vous",          // nom affiché en haut de page et dans l'onglet
+  feminin:     true,                    // true = « indépendante, ravie… » · false = « indépendant, ravi… »
+
+  // Téléphone — format international SANS espaces ni +, pour WhatsApp (ex : 33612345678)
+  telWhatsApp: "33663932112",
+  // Téléphone — format affiché à l'écran et pour l'appel
+  telAffiche:  "+33 6 63 93 21 12",
+
+  // E-mail de contact
+  email:       "contact@agnesetvous.com",
+
+  // Ton identifiant boutique (dans tes liens zinzino.com)
+  idBoutique:  "2015965824",
+  // Pays de la boutique ouvert selon la langue choisie par le visiteur
+  // (la personne peut ensuite changer de pays directement dans la boutique)
+  boutiquePays: { fr:"fr/fr-fr", en:"gb/en-gb", es:"es/es-es" },
+
+  // Tes liens personnels
+  lienCalendrier: "https://calendar.app.google/8Kfvepa2CTTPuUgWA",
+  lienBilan:      "https://agnesetvous.com/bilan",
+  lienTelegram:   "https://t.me/testnutrition",
+
+  // Lien partagé aux proches (ta page d'entrée où ils laissent leurs coordonnées)
+  lienPartage:    "https://agnesetvous.com",
+
+  // Lien vers ta page activité (laisse vide "" pour masquer les renvois activité)
+  lienProjet:     "https://agnesetvous.com/projet",
+
+  // Mentions légales
+  statut:         "Entreprise individuelle",
+  siret:          "502 712 466 00056",
+  ville:          "Objat, Corrèze, France",
+
+  // ─── TON HISTOIRE (section « Mon histoire ») ───
+  // ⚠️ PARTENAIRES : remplacez les TROIS blocs ci-dessous (histoire, histoireEN, histoireES)
+  //    par votre propre histoire, ou videz-les [] — sinon l'histoire d'Agnès s'affiche.
+  // Un paragraphe par ligne, entre guillemets, séparés par une virgule.
+  // Si « histoire » est vide [], la section est masquée.
+  histoire: [
+    "J'ai été infirmière pendant 21 ans et je me suis intéressée depuis longtemps à la prévention et aux approches naturelles.",
+    "J'ai moi-même vécu pendant des années avec des douleurs de dos et j'ai développé une hernie discale. Il y a douze ans, j'ai approfondi la nutrition cellulaire. Avec la phycocyanine <em>(que je t'explique plus loin)</em>, j'ai personnellement ressenti en moins de quinze jours davantage d'énergie et une meilleure récupération ; après environ un mois, j'ai aussi constaté une diminution de certaines de mes douleurs.",
+    "Depuis, j'accompagne les personnes qui souhaitent mieux comprendre leur équilibre, agir en prévention et suivre leur évolution avec des repères mesurables."
+  ],
+  // Ton histoire en anglais et en espagnol (facultatif — si vide [], le français s'affiche)
+  histoireEN: [
+    "I was a nurse for 21 years and have long been interested in prevention and natural approaches.",
+    "For years I lived with back pain myself and developed a herniated disc. Twelve years ago, I took a deeper look at cellular nutrition. With phycocyanin <em>(which I explain further down)</em>, within fifteen days I personally felt more energy and better recovery; after about a month, I also noticed a reduction in some of my pain.",
+    "Since then, I have been supporting people who want to better understand their balance, take preventive action and track their progress with measurable markers."
+  ],
+  histoireES: [
+    "Fui enfermera durante 21 años y desde hace mucho tiempo me interesan la prevención y los enfoques naturales.",
+    "Yo misma viví durante años con dolores de espalda y desarrollé una hernia discal. Hace doce años profundicé en la nutrición celular. Con la ficocianina <em>(que te explico más adelante)</em>, sentí personalmente en menos de quince días más energía y una mejor recuperación; al cabo de un mes, también noté una disminución de algunos de mis dolores.",
+    "Desde entonces, acompaño a las personas que quieren comprender mejor su equilibrio, actuar en prevención y seguir su evolución con referencias medibles."
+  ],
+
+  // ─── EXPÉRIENCE PERSONNELLE D'AGNÈS ───
+  // true UNIQUEMENT sur le site d'Agnès. Partenaires : mettez false.
+  // false = masque ses résultats (17:1 → 1,9:1), sa fille, son premier client,
+  // son parcours d'infirmière et ses témoignages phycocyanine, et remplace
+  // ces passages par une version neutre.
+  contenuPersonnel: true,
+
+  /* ╔═══════════════════════════════════════════════════════════════════╗
+     ║  ⭐ URL DE MESURE — C'EST ICI QUE CHAQUE PARTENAIRE MET LA SIENNE  ║
+     ║                                                                     ║
+     ║  Colle entre les guillemets ci-dessous l'URL de TON script Google   ║
+     ║  (celle qui finit par .../exec — voir le mode d'emploi fourni).     ║
+     ║  Laisse "" vide si tu ne veux pas de mesure : la page marche pareil.║
+     ╚═══════════════════════════════════════════════════════════════════╝ */
+  urlMesure: "https://script.google.com/macros/s/AKfycbyE4Ocz_V-S1KpjGwkMACZy0J-R8CApjOk-NzCaRdDLSPxvV0Y-C51SAMxGMKjXpfy4/exec"
+  //          ↑↑↑  REMPLACE cette adresse par la TIENNE (gardée entre les guillemets)  ↑↑↑
+};
+</script>
+
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>L'Essentiel — Agnès & Vous</title>
 <meta name="robots" content="noindex, nofollow">
@@ -444,83 +529,6 @@ section.ratios h2 em{color:#E6CFA0}
 </head>
 <body>
 
-<!-- =================================================================== -->
-<!--  RÉGLAGES PARTENAIRE — la SEULE zone à modifier pour dupliquer      -->
-<!--  Remplace les valeurs entre guillemets par les tiennes.            -->
-<!--  Ne touche à rien d'autre dans le fichier.                         -->
-<!-- =================================================================== -->
-<script>
-window.CONFIG_PARTENAIRE = {
-  // Ton identité (affichée sur la page)
-  prenom:      "Agnès",
-  nomComplet:  "Agnès Esclaire Riera",
-  marque:      "Agnès & Vous",          // nom affiché en haut de page et dans l'onglet
-  feminin:     true,                    // true = « indépendante, ravie… » · false = « indépendant, ravi… »
-
-  // Téléphone — format international SANS espaces ni +, pour WhatsApp (ex : 33612345678)
-  telWhatsApp: "33663932112",
-  // Téléphone — format affiché à l'écran et pour l'appel
-  telAffiche:  "+33 6 63 93 21 12",
-
-  // E-mail de contact
-  email:       "contact@agnesetvous.com",
-
-  // Ton identifiant boutique (dans tes liens zinzino.com)
-  idBoutique:  "2015965824",
-  // Pays de la boutique ouvert selon la langue choisie par le visiteur
-  // (la personne peut ensuite changer de pays directement dans la boutique)
-  boutiquePays: { fr:"fr/fr-fr", en:"gb/en-gb", es:"es/es-es" },
-
-  // Tes liens personnels
-  lienCalendrier: "https://calendar.app.google/8Kfvepa2CTTPuUgWA",
-  lienBilan:      "https://agnesetvous.com/bilan",
-  lienTelegram:   "https://t.me/testnutrition",
-
-  // Lien partagé aux proches (ta page d'entrée où ils laissent leurs coordonnées)
-  lienPartage:    "https://agnesetvous.com",
-
-  // Lien vers ta page activité (laisse vide "" pour masquer les renvois activité)
-  lienProjet:     "https://agnesetvous.com/projet",
-
-  // Mentions légales
-  statut:         "Entreprise individuelle",
-  siret:          "502 712 466 00056",
-  ville:          "Objat, Corrèze, France",
-
-  // ─── TON HISTOIRE (section « Mon histoire ») ───
-  // ⚠️ PARTENAIRES : remplacez les TROIS blocs ci-dessous (histoire, histoireEN, histoireES)
-  //    par votre propre histoire, ou videz-les [] — sinon l'histoire d'Agnès s'affiche.
-  // Un paragraphe par ligne, entre guillemets, séparés par une virgule.
-  // Si « histoire » est vide [], la section est masquée.
-  histoire: [
-    "J'ai été infirmière pendant 21 ans et je me suis intéressée depuis longtemps à la prévention et aux approches naturelles.",
-    "J'ai moi-même vécu pendant des années avec des douleurs de dos et j'ai développé une hernie discale. Il y a douze ans, j'ai approfondi la nutrition cellulaire. Avec la phycocyanine <em>(que je t'explique plus loin)</em>, j'ai personnellement ressenti en moins de quinze jours davantage d'énergie et une meilleure récupération ; après environ un mois, j'ai aussi constaté une diminution de certaines de mes douleurs.",
-    "Depuis, j'accompagne les personnes qui souhaitent mieux comprendre leur équilibre, agir en prévention et suivre leur évolution avec des repères mesurables."
-  ],
-  // Ton histoire en anglais et en espagnol (facultatif — si vide [], le français s'affiche)
-  histoireEN: [
-    "I was a nurse for 21 years and have long been interested in prevention and natural approaches.",
-    "For years I lived with back pain myself and developed a herniated disc. Twelve years ago, I took a deeper look at cellular nutrition. With phycocyanin <em>(which I explain further down)</em>, within fifteen days I personally felt more energy and better recovery; after about a month, I also noticed a reduction in some of my pain.",
-    "Since then, I have been supporting people who want to better understand their balance, take preventive action and track their progress with measurable markers."
-  ],
-  histoireES: [
-    "Fui enfermera durante 21 años y desde hace mucho tiempo me interesan la prevención y los enfoques naturales.",
-    "Yo misma viví durante años con dolores de espalda y desarrollé una hernia discal. Hace doce años profundicé en la nutrición celular. Con la ficocianina <em>(que te explico más adelante)</em>, sentí personalmente en menos de quince días más energía y una mejor recuperación; al cabo de un mes, también noté una disminución de algunos de mis dolores.",
-    "Desde entonces, acompaño a las personas que quieren comprender mejor su equilibrio, actuar en prevención y seguir su evolución con referencias medibles."
-  ],
-
-  // ─── EXPÉRIENCE PERSONNELLE D'AGNÈS ───
-  // true UNIQUEMENT sur le site d'Agnès. Partenaires : mettez false.
-  // false = masque ses résultats (17:1 → 1,9:1), sa fille, son premier client,
-  // son parcours d'infirmière et ses témoignages phycocyanine, et remplace
-  // ces passages par une version neutre.
-  contenuPersonnel: true,
-
-  // Mesure sans cookie — colle l'URL de TON script Apps Script ici (voir le mode d'emploi fourni)
-  // Laisse vide "" si tu ne veux pas de mesure : la page fonctionne exactement pareil.
-  urlMesure: "https://script.google.com/macros/s/AKfycbyE4Ocz_V-S1KpjGwkMACZy0J-R8CApjOk-NzCaRdDLSPxvV0Y-C51SAMxGMKjXpfy4/exec"
-};
-</script>
 
 <!-- TOPBAR RENDEZ-VOUS -->
 <div class="topbar">
