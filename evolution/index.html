@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Mon Point de Départ — Bilan d'évolution personnelle et professionnelle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <!--
   ═══════════════════════════════════════════════════════════════════════════
    BILAN D'ÉVOLUTION PERSONNELLE ET PROFESSIONNELLE — « Mon Point de Départ »
@@ -21,6 +22,7 @@ const CONFIG = {
     name:  "Agnès Esclaire Riera",       // Votre nom complet
     email: "contact@agnesetvous.com",    // Votre email
     phone: "+33 6 63 93 21 12",          // Votre téléphone
+    whatsapp: "+33 6 63 93 21 12",       // Pour « M'écrire sur WhatsApp » dans le bandeau du haut ("" = pas de WhatsApp)
     id:    "agnes"                        // Identifiant court, sans espace (ex : "sylvie")
   },
   webhookUrl: "https://script.google.com/macros/s/AKfycbxv78qJVxSpoduOJ8kHX8X-n-50vQId26xeS7dCQEGlkHKYsIBNQfVW3y-_8455qstLMg/exec",   // Adresse de votre Apps Script (finit par /exec)
@@ -48,14 +50,15 @@ const CONFIG = {
     siret:         "502 712 466 00056",
     adresse:       "",                        // facultatif
     ville:         "Objat, Corrèze, France",
-    conservation:  "3 ans après notre dernier contact"
+    domaine:       "IONOS SARL, 7 place de la Gare, 57200 Sarreguemines, France",  // où le nom de domaine est enregistré ("" = masqué)
+    feminin:       true                       // true = « Éditrice, Directrice » · false = « Éditeur, Directeur »
   }
 };
 /* ═══ ▲▲▲ FIN DU BLOC À PERSONNALISER — NE RIEN MODIFIER EN DESSOUS ▲▲▲ ═══ */
 </script>
 <style>
   :root{--paper:#F5F1E8;--ink:#33372F;--accent:#7D8D79;--accent-soft:#E8EBE4;--line:#E3DED2;--muted:#6B6F65;
-    --serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,-apple-system,sans-serif;--maxw:640px;--radius:14px}
+    --serif:Georgia,'Times New Roman',serif;--sans:'Jost','Segoe UI',system-ui,sans-serif;--maxw:640px;--radius:14px}
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased;min-height:100vh}
@@ -198,6 +201,309 @@ const CONFIG = {
     .num{min-width:30px;padding:9px 0;font-size:15px}.num.compact{min-width:24px;padding:6px 0;font-size:13px}
     .btn{padding:13px 18px;font-size:15.5px}.legend{font-size:13px}}
 </style>
+<!-- ===== BANDEAU COMMUN « Agnès & Vous » (question · langues · écoute · WhatsApp) — ne rien modifier ici ===== -->
+<style>
+  .aevb { position: sticky; top: 0; z-index: 60; background: #4F5B4C; color: #FFFFFF; box-shadow: 0 2px 10px rgba(0,0,0,.12);
+    font-family: inherit; }
+  .aevb-in { max-width: 1160px; margin: 0 auto; padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 10px 16px; flex-wrap: wrap; }
+  .aevb-q { margin: 0; font-size: 15px; line-height: 1.3; text-align: center; }
+  .aevb-link { position: relative; display: inline-block; }
+  .aevb-open { padding: 0; border: 0; background: none; color: #F3D9A8; font: inherit; font-weight: 700; text-decoration: underline;
+    text-underline-offset: 3px; cursor: pointer; }
+  .aevb-open:hover { color: #FFFFFF; }
+  .aevb-menu { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 250px; max-width: calc(100vw - 24px); padding: 6px;
+    border-radius: 12px; background: #FFFFFF; box-shadow: 0 12px 30px rgba(0,0,0,.22); display: grid; gap: 4px; z-index: 70; }
+  .aevb-menu[hidden] { display: none; }
+  .aevb-menu a { display: block; padding: 10px 12px; border-radius: 8px; color: #33372F; text-decoration: none; font-size: 15px; font-weight: 600; text-align: left; white-space: nowrap; }
+  .aevb-menu a:hover { background: #F5F1E8; }
+  .aevb-tools { display: inline-flex; align-items: center; gap: 8px; }
+  .aevb-langs { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.14); }
+  .aevb-lang { min-width: 34px; padding: 5px 8px; border: 0; border-radius: 999px; background: transparent; color: #FFFFFF;
+    font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+  .aevb-lang[aria-pressed="true"] { background: #FFFFFF; color: #4F5B4C; }
+  .aevb-listen { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 5px 12px; border: 1px solid rgba(255,255,255,.45);
+    border-radius: 999px; background: transparent; color: #FFFFFF; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .aevb-listen:hover { background: rgba(255,255,255,.12); }
+  .aevb-listen[aria-pressed="true"] { background: #B06D5D; border-color: #B06D5D; }
+  .aevb-wa { position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 58px; height: 58px; border-radius: 50%;
+    display: grid; place-items: center; background: #25D366; box-shadow: 0 8px 22px rgba(0,0,0,.22); transition: transform .15s ease; }
+  .aevb-wa:hover { transform: scale(1.06); }
+  .aevb-wa svg { width: 30px; height: 30px; fill: #FFFFFF; }
+  @media (max-width: 620px) {
+    .aevb-in { padding: 7px 10px; gap: 6px 10px; }
+    .aevb-q { font-size: 14px; }
+    .aevb-long { display: none; }
+    .aevb-listen span { display: none; }
+    .aevb-wa { right: 14px; bottom: 14px; width: 52px; height: 52px; }
+  }
+  .aevb-pres { background: #E9EDE6; color: #33372F; border-bottom: 1px solid #E3DDD0; }
+  .aevb-pres-in { max-width: 1160px; margin: 0 auto; padding: 9px 16px; display: grid; gap: 2px; text-align: center; }
+  .aevb-pres-t { margin: 0; font-size: 15px; font-weight: 700; }
+  .aevb-pres-r { margin: 0; font-size: 14px; color: #5E6459; }
+  .aevb-pres-r[hidden] { display: none; }
+  @media (max-width: 620px) { .aevb-pres-t { font-size: 14px; } }
+  /* Sommaire */
+  .aevs { max-width: 1080px; margin: 0 auto; padding: 18px 16px 6px; }
+  .aevs-t { margin: 0 0 10px; text-align: center; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #B06D5D; }
+  .aevs-g { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .aevs-g a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border: 1px solid #E3DDD0; border-radius: 999px;
+    background: #FFFFFF; color: #4F5B4C; text-decoration: none; font-size: 15px; line-height: 1.2; box-shadow: 0 4px 14px rgba(51,55,47,.05); transition: border-color .15s, background .15s; }
+  .aevs-g a:hover { border-color: #B06D5D; background: #FBF7F1; }
+  .aevs-btn { position: fixed; right: 18px; bottom: 88px; z-index: 60; width: 50px; height: 50px; border-radius: 50%; border: 0;
+    background: #4F5B4C; color: #FFFFFF; font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,.22); }
+  .aevs-btn:hover { background: #33372F; }
+  .aevs-pop { position: fixed; right: 18px; bottom: 148px; z-index: 61; width: min(320px, calc(100vw - 36px)); max-height: 60vh; overflow: auto;
+    padding: 8px; border-radius: 14px; background: #FFFFFF; box-shadow: 0 16px 40px rgba(0,0,0,.25); }
+  .aevs-pop[hidden] { display: none; }
+  .aevs-pop p { margin: 6px 10px 6px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #B06D5D; }
+  .aevs-pop a { display: block; padding: 9px 10px; border-radius: 8px; color: #33372F; text-decoration: none; font-size: 15px; }
+  .aevs-pop a:hover { background: #F5F1E8; }
+  @media (max-width: 620px) {
+    .aevs-g a { font-size: 14px; padding: 7px 12px; }
+    .aevs-btn { right: 15px; bottom: 76px; width: 46px; height: 46px; font-size: 20px; }
+    .aevs-pop { right: 14px; bottom: 130px; }
+  }
+  @media print { .aevb, .aevb-wa, .aevs-btn, .aevs-pop { display: none !important; } }
+</style>
+<script>
+/* Bandeau commun des sites Agnès & Vous.
+   aevBandeau({ langues, getLang, setLang, rdv, whatsapp, waTexte, email, zoneLecture, lire, arreter, suivi, bandeau }) */
+window.aevBandeau = function (o) {
+  o = o || {};
+  var T = {
+    fr: { q: "Une question, ou envie d'aller plus loin ?", qs: "Une question ?", link: "Prendre rendez-vous ou m'écrire", rdv: "📅 Prendre rendez-vous", wa: "💬 M'écrire sur WhatsApp", mail: "✉️ M'écrire par e-mail", listen: "Écouter", stop: "Arrêter", langs: "Langue", waBtn: "Écrire sur WhatsApp", noVoice: "La lecture à voix haute n'est pas disponible sur ce navigateur." },
+    en: { q: "A question, or want to go further?", qs: "A question?", link: "Book a call or message me", rdv: "📅 Book a call", wa: "💬 Message me on WhatsApp", mail: "✉️ Email me", listen: "Listen", stop: "Stop", langs: "Language", waBtn: "Message on WhatsApp", noVoice: "Read-aloud is not available in this browser." },
+    es: { q: "¿Una pregunta, o ganas de ir más allá?", qs: "¿Una pregunta?", link: "Reservar una cita o escribirme", rdv: "📅 Reservar una cita", wa: "💬 Escríbeme por WhatsApp", mail: "✉️ Escríbeme por correo", listen: "Escuchar", stop: "Detener", langs: "Idioma", waBtn: "Escribir por WhatsApp", noVoice: "La lectura en voz alta no está disponible en este navegador." },
+    de: { q: "Eine Frage oder Lust, weiterzugehen?", qs: "Eine Frage?", link: "Termin buchen oder mir schreiben", rdv: "📅 Termin buchen", wa: "💬 Schreib mir auf WhatsApp", mail: "✉️ Schreib mir eine E-Mail", listen: "Anhören", stop: "Stopp", langs: "Sprache", waBtn: "Auf WhatsApp schreiben", noVoice: "Vorlesen ist in diesem Browser nicht verfügbar." },
+    nl: { q: "Een vraag, of zin om verder te gaan?", qs: "Een vraag?", link: "Afspraak maken of mij schrijven", rdv: "📅 Afspraak maken", wa: "💬 Stuur me een WhatsApp", mail: "✉️ Stuur me een e-mail", listen: "Luisteren", stop: "Stoppen", langs: "Taal", waBtn: "Schrijven via WhatsApp", noVoice: "Voorlezen is niet beschikbaar in deze browser." }
+  };
+  /* Textes remplaçables par page (ex. vouvoiement) : textes: { es: { wa: "…" } } */
+  if (o.textes) Object.keys(o.textes).forEach(function (l) { if (T[l]) for (var k in o.textes[l]) T[l][k] = o.textes[l][k]; });
+  var VOIX = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE", nl: "nl-NL" };
+  var langues = (o.langues || ["fr", "en", "es"]).filter(function (l) { return T[l]; });
+  var suivi = function (a, b) { if (o.suivi) try { o.suivi(a, b); } catch (e) {} };
+  function lang() { var l = (o.getLang && o.getLang()) || document.documentElement.lang || "fr"; l = String(l).slice(0, 2); return T[l] ? l : "fr"; }
+  function waNum() {
+    var d = String(o.whatsapp || "").replace(/\D/g, "");
+    if (d.indexOf("00") === 0) d = d.slice(2);
+    if (d.length === 10 && d.charAt(0) === "0") d = "33" + d.slice(1);
+    return d;
+  }
+  function waHref() {
+    var n = waNum(); if (!n) return "";
+    var txt = o.waTexte ? o.waTexte(lang()) : "";
+    return "https://wa.me/" + n + (txt ? "?text=" + encodeURIComponent(txt) : "");
+  }
+
+  /* --- Bandeau --- */
+  var bar = null;
+  if (o.bandeau !== false) {
+    bar = document.createElement("div");
+    bar.className = "aevb";
+    bar.setAttribute("role", "region");
+    bar.innerHTML =
+      '<div class="aevb-in">' +
+        '<p class="aevb-q"><span class="aevb-long"></span><span class="aevb-short"></span> ' +
+          '<span class="aevb-link"><button type="button" class="aevb-open" aria-expanded="false"></button>' +
+          '<span class="aevb-menu" hidden></span></span></p>' +
+        '<span class="aevb-tools"><span class="aevb-langs" role="group"></span>' +
+          '<button type="button" class="aevb-listen" aria-pressed="false">🔊 <span></span></button></span>' +
+      '</div>';
+    document.body.insertBefore(bar, document.body.firstChild);
+    var langsBox = bar.querySelector(".aevb-langs");
+    if (langues.length < 2) langsBox.hidden = true;
+    langues.forEach(function (l) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "aevb-lang"; b.dataset.lang = l; b.textContent = l.toUpperCase();
+      b.addEventListener("click", function () { arreter(); if (o.setLang) o.setLang(l); maj(); suivi("bandeau-langue", l); });
+      langsBox.appendChild(b);
+    });
+    var open = bar.querySelector(".aevb-open"), menu = bar.querySelector(".aevb-menu");
+    open.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var ouvert = menu.hidden;
+      if (ouvert) maj();
+      menu.hidden = !ouvert; open.setAttribute("aria-expanded", String(ouvert));
+      if (ouvert) suivi("bandeau-contact");
+    });
+    document.addEventListener("click", function (e) { if (!menu.hidden && !e.target.closest(".aevb-link")) { menu.hidden = true; open.setAttribute("aria-expanded", "false"); } });
+    menu.addEventListener("click", function (e) {
+      var a = e.target.closest("a"); if (!a) return;
+      suivi("bandeau-" + a.dataset.k);
+      menu.hidden = true;
+    });
+    bar.querySelector(".aevb-listen").addEventListener("click", function () {
+      if (enLecture()) { arreter(); } else { lire(); suivi("bandeau-ecoute"); }
+      majEcoute();
+    });
+  }
+
+  /* --- Ligne de présentation (« Agnès te présente… ») + qui a recommandé la page --- */
+  var REC = { fr: "Présentation recommandée par", en: "Recommended by", es: "Presentación recomendada por", de: "Empfohlen von", nl: "Aanbevolen door" };
+  var origine = "";
+  try {
+    var pr = new URLSearchParams(location.search);
+    origine = (pr.get("origine") || pr.get("ref") || pr.get("par") || "").replace(/[<>"]/g, "").trim().slice(0, 40);
+    if (origine) localStorage.setItem("origine", origine); else origine = (localStorage.getItem("origine") || "").slice(0, 40);
+  } catch (e) {}
+  var pres = null;
+  if (o.presentation) {
+    pres = document.createElement("div");
+    pres.className = "aevb-pres";
+    pres.innerHTML = '<div class="aevb-pres-in"><p class="aevb-pres-t"></p><p class="aevb-pres-r"></p></div>';
+    if (bar) bar.parentNode.insertBefore(pres, bar.nextSibling); else document.body.insertBefore(pres, document.body.firstChild);
+  }
+
+  /* --- Sommaire : cartes dans la page (#aevSommaire) + bouton ☰ flottant --- */
+  var SOM = { fr: "Sommaire", en: "Contents", es: "Índice", de: "Inhalt", nl: "Inhoud" };
+  var som = (o.sommaire || []).filter(function (e) {
+    var el = e && e.id && document.getElementById(e.id);
+    return el && el.style.display !== "none" && !el.hidden;
+  });
+  var somBox = som.length ? document.getElementById(o.sommaireConteneur || "aevSommaire") : null;
+  var somBtn = null, somPop = null;
+  function allerA(id) {
+    var el = document.getElementById(id); if (!el) return;
+    if (el.tagName === "DETAILS") el.open = true;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    suivi("sommaire", id);
+  }
+  function somLiens(box) {
+    box.addEventListener("click", function (e) {
+      var a = e.target.closest("a[data-som]"); if (!a) return;
+      e.preventDefault(); if (somPop) somPop.hidden = true; allerA(a.dataset.som);
+    });
+  }
+  if (som.length) {
+    if (somBox) { somBox.className = "aevs"; somBox.hidden = false; somLiens(somBox); }
+    somBtn = document.createElement("button");
+    somBtn.type = "button"; somBtn.className = "aevs-btn"; somBtn.textContent = "☰";
+    somPop = document.createElement("div"); somPop.className = "aevs-pop"; somPop.hidden = true;
+    document.body.appendChild(somPop); document.body.appendChild(somBtn); somLiens(somPop);
+    somBtn.addEventListener("click", function (e) { e.stopPropagation(); somPop.hidden = !somPop.hidden; if (!somPop.hidden) suivi("sommaire-ouvert"); });
+    document.addEventListener("click", function (e) { if (!somPop.hidden && !e.target.closest(".aevs-pop")) somPop.hidden = true; });
+  }
+  function majSommaire(l) {
+    if (!som.length) return;
+    var html = som.map(function (e) {
+      var label = (e[l] || e.fr || "").replace(/</g, "&lt;");
+      return '<a href="#' + e.id + '" data-som="' + e.id + '">' + (e.emoji ? '<span aria-hidden="true">' + e.emoji + '</span> ' : '') + label + '</a>';
+    }).join("");
+    if (somBox) somBox.innerHTML = '<p class="aevs-t">' + (SOM[l] || SOM.fr) + '</p><nav class="aevs-g" aria-label="' + (SOM[l] || SOM.fr) + '">' + html + '</nav>';
+    somPop.innerHTML = '<p>' + (SOM[l] || SOM.fr) + '</p>' + html;
+    somBtn.setAttribute("aria-label", SOM[l] || SOM.fr); somBtn.title = SOM[l] || SOM.fr;
+  }
+
+  /* --- Bouton WhatsApp flottant --- */
+  var flot = null;
+  if (waNum() && o.boutonWhatsApp !== false) {
+    flot = document.createElement("a");
+    flot.className = "aevb-wa"; flot.target = "_blank"; flot.rel = "noopener";
+    flot.innerHTML = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.4.7 4.7 1.9 6.7L3 29l6.9-2.1c1.9 1 4 1.6 6.1 1.6 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.2c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.1 1.2 1.3-4-.3-.4c-1.1-1.7-1.7-3.6-1.7-5.6C5.4 9.8 10.1 5.1 16 5.1s10.6 4.7 10.6 10.5S21.9 26.2 16 26.2zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1c-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.6-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.7 5.8 5.1 2.9 1.1 3.4.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>';
+    flot.addEventListener("click", function () { flot.href = waHref(); suivi("bouton-whatsapp-flottant"); });
+    document.body.appendChild(flot);
+  }
+
+  /* --- Lecture à voix haute de ce qui est visible à l'écran --- */
+  var actif = false;
+  function enLecture() {
+    if (o.enLecture) try { return !!o.enLecture(); } catch (e) {}
+    return actif || ("speechSynthesis" in window && (speechSynthesis.speaking || speechSynthesis.pending));
+  }
+  function texteVisible() {
+    var zones = Array.prototype.slice.call(document.querySelectorAll(o.zoneLecture || "main section, main > *, footer"));
+    var vus = zones.filter(function (z) {
+      if (z.closest(".aevb") || z.offsetParent === null) return false;
+      var r = z.getBoundingClientRect(); return r.bottom > 60 && r.top < window.innerHeight && r.height > 0;
+    });
+    vus = vus.filter(function (z) { return !vus.some(function (p) { return p !== z && p.contains(z); }); });
+    return vus.map(function (z) { return z.innerText; }).join(". ").replace(/\s+/g, " ").trim();
+  }
+  function lire() {
+    if (o.lire) { o.lire(); return; }
+    if (!("speechSynthesis" in window)) { alert(T[lang()].noVoice); return; }
+    var txt = texteVisible(); if (!txt) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(txt);
+    u.lang = VOIX[lang()] || "fr-FR"; u.rate = 0.95;
+    u.onend = u.onerror = function () { actif = false; majEcoute(); };
+    actif = true; speechSynthesis.speak(u);
+  }
+  function arreter() {
+    if (o.arreter) try { o.arreter(); } catch (e) {}
+    actif = false;
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+    majEcoute();
+  }
+  function majEcoute() {
+    if (!bar) return;
+    var b = bar.querySelector(".aevb-listen"), on = enLecture(), t = T[lang()];
+    b.setAttribute("aria-pressed", String(on));
+    b.firstChild.nodeValue = on ? "⏹ " : "🔊 ";
+    b.querySelector("span").textContent = on ? t.stop : t.listen;
+    b.setAttribute("aria-label", on ? t.stop : t.listen);
+  }
+  setInterval(majEcoute, 700);
+
+  /* --- Textes selon la langue --- */
+  function maj() {
+    var l = lang(), t = T[l];
+    majSommaire(l);
+    if (pres) {
+      var p = typeof o.presentation === "string" ? o.presentation : (o.presentation[l] || o.presentation.fr || "");
+      pres.querySelector(".aevb-pres-t").textContent = p.replace(/\{prenom\}/g, o.prenom || "");
+      var r = pres.querySelector(".aevb-pres-r");
+      r.hidden = !origine;
+      r.textContent = origine ? (REC[l] || REC.fr) + " " + origine : "";
+      pres.hidden = !p;
+    }
+    if (flot) { flot.href = waHref(); flot.setAttribute("aria-label", t.waBtn); flot.title = t.waBtn; }
+    if (!bar) return;
+    bar.setAttribute("aria-label", t.q);
+    bar.querySelector(".aevb-long").textContent = t.q;
+    bar.querySelector(".aevb-short").textContent = "";
+    bar.querySelector(".aevb-open").textContent = t.link;
+    bar.querySelector(".aevb-langs").setAttribute("aria-label", t.langs);
+    Array.prototype.forEach.call(bar.querySelectorAll(".aevb-lang"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === l)); });
+    var m = bar.querySelector(".aevb-menu"), h = "";
+    if (o.rdv) h += '<a data-k="rdv" target="_blank" rel="noopener" href="' + o.rdv + '">' + t.rdv + '</a>';
+    if (waNum()) h += '<a data-k="whatsapp" target="_blank" rel="noopener" href="' + waHref().replace(/"/g, "&quot;") + '">' + t.wa + '</a>';
+    if (o.email) h += '<a data-k="email" href="mailto:' + o.email + '">' + t.mail + '</a>';
+    m.innerHTML = h;
+    var short = window.matchMedia("(max-width: 620px)").matches;
+    bar.querySelector(".aevb-short").textContent = short ? t.qs : "";
+    majEcoute();
+  }
+  maj();
+  window.addEventListener("resize", maj);
+  if ("MutationObserver" in window) new MutationObserver(maj).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+  return { maj: maj, arreter: arreter };
+};
+</script>
+<!-- ===== FIN DU BANDEAU COMMUN ===== -->
+
+<style>
+  /* Allure commune Agnès & Vous */
+  .aev-haut{position:sticky;top:0;z-index:60}
+  .aev-haut .aevb,.aev-haut .topbar{position:static}
+  .lang-mini,.listen-btn,.lang-row,.legal-footer{display:none!important}
+  .wrap{padding-bottom:40px}
+  .legal-section{padding-bottom:96px!important}
+  h1.chapter,.intro-hero h1,.thanks h1{font-weight:400;color:#4F5B4C}
+  .actions-title,.doors-title,.share h3,.domain-head{font-weight:400}
+</style>
+
+<style>
+  /* Mentions légales en accordéon, identiques aux autres pages Agnès & Vous */
+  .legal-section{padding:22px 0 28px;border-top:1px solid #E3DED2;background:#F5F1E8}
+  .legal-section details{width:min(720px,calc(100% - 32px));margin:0 auto;border:1px solid #E3DED2;border-radius:14px;background:#FBF8F2}
+  .legal-section summary{padding:16px 20px;cursor:pointer;color:#33372F;font-weight:600}
+  .legal-content{display:grid;gap:18px;padding:0 20px 20px;color:#6B6F65;font-size:14px;line-height:1.6;text-align:left}
+  .legal-content h2{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:21px;color:#4F5B4C;margin:8px 0 0}
+  .legal-content p{margin:8px 0 0}
+  .legal-content a{color:#4F5B4C;font-weight:600}
+  .legal-content .legal-credit{margin-top:16px;padding-top:12px;border-top:1px solid #E3DED2}
+</style>
 </head>
 <body>
 <div class="topbar">
@@ -205,6 +511,9 @@ const CONFIG = {
   <div class="topbar-inner"><span class="step-label" id="stepLabel"></span><span class="lang-mini" id="langMini"></span><button class="listen-btn" id="listenBtn" onclick="toggleSpeak()" aria-label="Écouter cette page">🔊 Écouter</button></div>
 </div>
 <div class="wrap"><div id="app"></div></div>
+<section class="legal-section" id="mentions-legales" aria-label="Mentions légales et confidentialité">
+  <details id="mlDetails"><summary id="mlTitre">Mentions légales et confidentialité</summary><div class="legal-content" id="mlContenu"></div></details>
+</section>
 <div class="legal-modal" id="legalModal" onclick="if(event.target===this)closeLegal()"><div class="legal-panel" id="legalPanel"></div></div>
 <div class="nav" id="nav" style="display:none"><div class="nav-inner">
   <button class="btn btn-ghost" id="btnBack" onclick="goBack()">Précédent</button>
@@ -1371,11 +1680,69 @@ function renderLegal(){
     <p style="margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)">Ce site a été créé par <strong>Agnès &amp; Vous</strong></p>
   </div>`;
 }
-function openLegal(){const pn=document.getElementById('legalPanel');pn.innerHTML=renderLegal();pn.parentNode.scrollTop=0;document.getElementById('legalModal').classList.add('open');document.body.style.overflow='hidden';}
+function openLegal(){if(window.ouvrirMentions)window.ouvrirMentions();}
 function closeLegal(){document.getElementById('legalModal').classList.remove('open');document.body.style.overflow='';}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLegal();});
 
 render();
+</script>
+<script>
+/* Mentions légales (accordéon) — textes tirés de la zone de réglages */
+(function(){
+  var TXT = {"fr": "<div><h2>Mentions légales</h2><p><strong>{editrice}</strong><br>{nom} — {statut}<br>{siret_ligne}{ville}<br>{email_lien} · {tel}{site_ligne}</p><p><strong>{directrice} de la publication</strong><br>{nom}</p><p><strong>Hébergement et nom de domaine</strong><br>Ce site est hébergé par GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.{domaine_ligne}</p><p><strong>Propriété intellectuelle</strong><br>La structure et le contenu de ce bilan sont protégés ; toute reproduction sans autorisation est interdite. Les réponses que vous saisissez vous appartiennent.</p></div><div><h2>Confidentialité et données personnelles (RGPD)</h2><p><strong>Responsable du traitement</strong><br>{nom} — {email_lien}</p><p><strong>Données recueillies</strong><br>Votre prénom, votre adresse e-mail, votre téléphone (facultatif) et les réponses que vous donnez au bilan. Certaines réponses peuvent refléter votre ressenti de bien-être ou de santé : elles ne sont recueillies qu'avec votre consentement explicite, et vous restez libre de ne répondre à aucune question. Si vous êtes arrivé(e) par un lien personnalisé, le prénom de la personne qui vous l'a transmis est enregistré, uniquement pour savoir qui remercier. Cette page n'utilise aucun cookie : votre langue et ce prénom sont simplement gardés dans votre navigateur pour les pages suivantes du parcours.</p><p><strong>Finalités</strong><br>Préparer votre carnet personnel et vous l'envoyer — et, si vous l'avez expressément demandé en cochant la case prévue, vous recontacter afin d'approfondir votre bilan.</p><p><strong>Base légale</strong><br>Votre consentement explicite (articles 6.1.a et 9.2.a du RGPD). Vous pouvez le retirer à tout moment.</p><p><strong>Destinataires</strong><br>Vos données sont réservées à {nom}. Elles ne sont ni vendues ni cédées. Elles sont enregistrées dans un tableur Google privé (Google agit comme sous-traitant) ; les transferts hors Union européenne sont encadrés par les clauses contractuelles types de la Commission européenne. Les rendez-vous passent par Google Agenda.</p><p><strong>Durée de conservation</strong><br>3 ans après notre dernier échange, puis suppression.</p><p><strong>Vos droits</strong><br>Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité. Pour les exercer, écrivez à {email_lien}. En cas de désaccord, vous pouvez introduire une réclamation auprès de la CNIL ({cnil}).</p><p class=\"legal-credit\">Ce site a été créé par Agnès &amp; Vous.</p></div>", "en": "<div><h2>Legal notice</h2><p><strong>{editrice}</strong><br>{nom} — {statut}<br>{siret_ligne}{ville}<br>{email_lien} · {tel}{site_ligne}</p><p><strong>Publication director</strong><br>{nom}</p><p><strong>Hosting and domain name</strong><br>This site is hosted by GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, United States.{domaine_ligne}</p><p><strong>Intellectual property</strong><br>The structure and content of this assessment are protected; any reproduction without permission is prohibited. The answers you enter belong to you.</p></div><div><h2>Privacy and personal data (GDPR)</h2><p><strong>Data controller</strong><br>{nom} — {email_lien}</p><p><strong>Data collected</strong><br>Your first name, your email address, your phone number (optional) and your answers to the assessment. Some answers may reflect how you feel about your well-being or health: they are only collected with your explicit consent, and you remain free not to answer any question. If you arrived through a personal link, the first name of the person who shared it with you is recorded, only so we know whom to thank. This page uses no cookies: your language and this first name are simply kept in your browser for the next pages.</p><p><strong>Purposes</strong><br>To prepare your personal booklet and send it to you — and, if you expressly asked for it by ticking the box, to contact you again to go further into your assessment.</p><p><strong>Legal basis</strong><br>Your explicit consent (GDPR articles 6.1.a and 9.2.a). You can withdraw it at any time.</p><p><strong>Recipients</strong><br>Your data is reserved for {nom}. It is never sold or passed on. It is stored in a private Google spreadsheet (Google acts as processor); transfers outside the European Union are covered by the European Commission's standard contractual clauses. Appointments are booked through Google Calendar.</p><p><strong>Retention period</strong><br>3 years after our last exchange, then deleted.</p><p><strong>Your rights</strong><br>You have the right to access, rectify, erase, restrict, object and port your data. To exercise these rights, write to {email_lien}. If you disagree, you can lodge a complaint with the French data protection authority, the CNIL ({cnil}).</p><p class=\"legal-credit\">Ce site a été créé par Agnès &amp; Vous.</p></div>", "es": "<div><h2>Aviso legal</h2><p><strong>{editrice}</strong><br>{nom} — {statut}<br>{siret_ligne}{ville}<br>{email_lien} · {tel}{site_ligne}</p><p><strong>{directrice} de la publicación</strong><br>{nom}</p><p><strong>Alojamiento y nombre de dominio</strong><br>Este sitio está alojado por GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, Estados Unidos.{domaine_ligne}</p><p><strong>Propiedad intelectual</strong><br>La estructura y el contenido de este balance están protegidos; queda prohibida toda reproducción sin autorización. Las respuestas que usted introduce le pertenecen.</p></div><div><h2>Privacidad y datos personales (RGPD)</h2><p><strong>Responsable del tratamiento</strong><br>{nom} — {email_lien}</p><p><strong>Datos recogidos</strong><br>Su nombre, su correo electrónico, su teléfono (opcional) y las respuestas que da en el balance. Algunas respuestas pueden reflejar cómo percibe su bienestar o su salud: solo se recogen con su consentimiento explícito, y usted sigue siendo libre de no responder a ninguna pregunta. Si llegó a través de un enlace personalizado, se registra el nombre de la persona que se lo envió, únicamente para saber a quién agradecérselo. Esta página no utiliza cookies: su idioma y ese nombre se guardan simplemente en su navegador para las páginas siguientes.</p><p><strong>Finalidades</strong><br>Preparar su cuaderno personal y enviárselo y, si lo ha pedido expresamente marcando la casilla prevista, volver a contactarle para profundizar en su balance.</p><p><strong>Base jurídica</strong><br>Su consentimiento explícito (artículos 6.1.a y 9.2.a del RGPD). Puede retirarlo en cualquier momento.</p><p><strong>Destinatarios</strong><br>Sus datos están reservados a {nom}. No se venden ni se ceden. Se registran en una hoja de cálculo privada de Google (Google actúa como encargado del tratamiento); las transferencias fuera de la Unión Europea están cubiertas por las cláusulas contractuales tipo de la Comisión Europea. Las citas se reservan mediante Google Calendar.</p><p><strong>Plazo de conservación</strong><br>3 años después de nuestro último contacto; después se eliminan.</p><p><strong>Sus derechos</strong><br>Usted tiene derecho de acceso, rectificación, supresión, limitación, oposición y portabilidad. Para ejercerlos, escriba a {email_lien}. En caso de desacuerdo, puede presentar una reclamación ante la autoridad francesa de protección de datos, la CNIL ({cnil}).</p><p class=\"legal-credit\">Ce site a été créé par Agnès &amp; Vous.</p></div>", "de": "<div><h2>Impressum</h2><p><strong>{editrice}</strong><br>{nom} — {statut}<br>{siret_ligne}{ville}<br>{email_lien} · {tel}{site_ligne}</p><p><strong>Verantwortlich für den Inhalt</strong><br>{nom}</p><p><strong>Hosting und Domainname</strong><br>Diese Website wird von GitHub, Inc. gehostet — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA.{domaine_ligne}</p><p><strong>Geistiges Eigentum</strong><br>Aufbau und Inhalt dieser Bilanz sind geschützt; jede Vervielfältigung ohne Genehmigung ist untersagt. Ihre Antworten gehören Ihnen.</p></div><div><h2>Datenschutz und personenbezogene Daten (DSGVO)</h2><p><strong>Verantwortliche Stelle</strong><br>{nom} — {email_lien}</p><p><strong>Erhobene Daten</strong><br>Ihr Vorname, Ihre E-Mail-Adresse, Ihre Telefonnummer (freiwillig) und Ihre Antworten auf die Bilanz. Manche Antworten können Ihr Empfinden zu Wohlbefinden oder Gesundheit widerspiegeln: Sie werden nur mit Ihrer ausdrücklichen Einwilligung erhoben, und Sie können jede Frage unbeantwortet lassen. Wenn Sie über einen persönlichen Link gekommen sind, wird der Vorname der Person gespeichert, die ihn Ihnen geschickt hat — nur damit wir wissen, wem wir danken dürfen. Diese Seite verwendet keine Cookies: Ihre Sprache und dieser Vorname werden lediglich in Ihrem Browser für die nächsten Seiten gespeichert.</p><p><strong>Zwecke</strong><br>Ihr persönliches Heft vorzubereiten und Ihnen zuzusenden — und, falls Sie es durch Ankreuzen des Kästchens ausdrücklich gewünscht haben, Sie erneut zu kontaktieren, um Ihre Bilanz zu vertiefen.</p><p><strong>Rechtsgrundlage</strong><br>Ihre ausdrückliche Einwilligung (Art. 6 Abs. 1 lit. a und Art. 9 Abs. 2 lit. a DSGVO). Sie können sie jederzeit widerrufen.</p><p><strong>Empfänger</strong><br>Ihre Daten sind ausschließlich {nom} vorbehalten. Sie werden weder verkauft noch weitergegeben. Sie werden in einer privaten Google-Tabelle gespeichert (Google handelt als Auftragsverarbeiter); Übermittlungen außerhalb der Europäischen Union sind durch die Standardvertragsklauseln der Europäischen Kommission abgesichert. Termine werden über Google Kalender gebucht.</p><p><strong>Speicherdauer</strong><br>3 Jahre nach unserem letzten Kontakt, danach Löschung.</p><p><strong>Ihre Rechte</strong><br>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch und Datenübertragbarkeit. Um diese Rechte auszuüben, schreiben Sie an {email_lien}. Bei Unstimmigkeiten können Sie sich bei der französischen Datenschutzbehörde CNIL beschweren ({cnil}).</p><p class=\"legal-credit\">Ce site a été créé par Agnès &amp; Vous.</p></div>"};
+  var TIT = {"fr": "Mentions légales et confidentialité", "en": "Legal notice and privacy", "es": "Aviso legal y privacidad", "de": "Impressum und Datenschutz"};
+  var EDI = {"fr": ["Éditrice", "Éditeur"], "en": ["Publisher", "Publisher"], "es": ["Editora", "Editor"], "de": ["Herausgeberin", "Herausgeber"]};
+  var DIR = {"fr": ["Directrice", "Directeur"], "en": ["", ""], "es": ["Directora", "Director"], "de": ["", ""]};
+  function e(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function remplir(){
+    var l=(document.documentElement.lang||'fr').slice(0,2); if(!TXT[l]) l='fr';
+    var c={nom:CONFIG.partner.name,statut:(CONFIG.legal||{}).statut,siret:(CONFIG.legal||{}).siret,ville:[(CONFIG.legal||{}).adresse,(CONFIG.legal||{}).ville].filter(Boolean).join(', '),email:CONFIG.partner.email,tel:CONFIG.partner.phone,site:'',domaine:(CONFIG.legal||{}).domaine,feminin:(CONFIG.legal||{}).feminin}, f=c.feminin===false?1:0;
+    var v={nom:e(c.nom),statut:e(c.statut),ville:e(c.ville),tel:e(c.tel),domaine:e(c.domaine),
+      editrice:EDI[l][f],directrice:DIR[l][f],
+      siret_ligne:c.siret?'SIRET : '+e(c.siret)+'<br>':'',
+      site_ligne:c.site?'<br>'+e(c.site):'',
+      email_lien:'<a href="mailto:'+e(c.email)+'">'+e(c.email)+'</a>',
+      cnil:'<a href="https://www.cnil.fr/" target="_blank" rel="noopener">www.cnil.fr</a>'};
+    var h=TXT[l].replace('{domaine_ligne}', c.domaine?{"fr": "<br>Nom de domaine enregistré chez {domaine}.", "en": "<br>Domain name registered with {domaine}.", "es": "<br>Nombre de dominio registrado en {domaine}.", "de": "<br>Domainname registriert bei {domaine}."}[l]:'');
+    h=h.replace(/\{(\w+)\}/g,function(m,k){return v.hasOwnProperty(k)?v[k]:m;});
+    document.getElementById('mlContenu').innerHTML=h;
+    document.getElementById('mlTitre').textContent=TIT[l];
+  }
+  window.ouvrirMentions=function(){var d=document.getElementById('mlDetails');d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});};
+  document.addEventListener('click',function(ev){var a=ev.target.closest&&ev.target.closest('a[href="#mentions-legales"]');if(a){ev.preventDefault();window.ouvrirMentions();}});
+  remplir();
+  if('MutationObserver' in window) new MutationObserver(remplir).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+})();
+</script>
+<script>
+/* Bandeau commun : question · langues · écoute (pas de bouton WhatsApp flottant, pas de sommaire) */
+(function () {
+  if (!window.aevBandeau) return;
+  var ordre = ["fr", "en", "es", "de"];
+  var dispo = (CONFIG.langues || []).filter(function (l) { return l.dispo; }).map(function (l) { return l.code; });
+  var prenom = CONFIG.partner.name.split(" ")[0];
+  window.aevBandeau({
+    langues: ordre.filter(function (l) { return dispo.indexOf(l) >= 0; }),
+    getLang: function () { return CONFIG.langueActive; },
+    setLang: setLangue,
+    rdv: (CONFIG.liens || {}).rdv, email: CONFIG.partner.email, whatsapp: CONFIG.partner.whatsapp, boutonWhatsApp: false,
+    waTexte: function (l) { return ({ fr: "Bonjour " + prenom + ", j'ai une question au sujet du bilan d'évolution personnelle et professionnelle.",
+      en: "Hello " + prenom + ", I have a question about the personal and professional development assessment.",
+      es: "Hola " + prenom + ", tengo una pregunta sobre el balance de evolución personal y profesional.",
+      de: "Hallo " + prenom + ", ich habe eine Frage zur persönlichen und beruflichen Standortbestimmung." })[l]; },
+    textes: { es: { wa: "💬 Escríbame por WhatsApp", mail: "✉️ Escríbame por correo" },
+              de: { wa: "💬 Schreiben Sie mir auf WhatsApp", mail: "✉️ Schreiben Sie mir eine E-Mail" } },
+    lire: toggleSpeak, arreter: stopSpeak,
+    enLecture: function () { return "speechSynthesis" in window && (speechSynthesis.speaking || speechSynthesis.pending); }
+  });
+  /* Bandeau + barre de progression collés ensemble en haut */
+  var bar = document.querySelector(".aevb"), top = document.querySelector(".topbar");
+  if (bar && top) {
+    var haut = document.createElement("div"); haut.className = "aev-haut";
+    document.body.insertBefore(haut, document.body.firstChild);
+    haut.appendChild(bar); haut.appendChild(top);
+  }
+})();
 </script>
 </body>
 </html>
