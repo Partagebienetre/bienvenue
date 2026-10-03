@@ -41,6 +41,35 @@ window.CONFIG_PARTENAIRE = {
   // Lien vers ta page activité (laisse vide "" pour masquer les renvois activité)
   lienProjet:     "https://agnesetvous.com/projet",
 
+  // Phrase sous le bandeau vert ({prenom} = ton prénom). "" = pas de ligne de présentation.
+  presentation: {
+    fr: "{prenom} te présente la nutrition basée sur des autotests sanguins.",
+    en: "{prenom} introduces you to nutrition based on blood self-tests.",
+    es: "{prenom} te presenta la nutrición basada en autopruebas de sangre."
+  },
+
+  // 🎬 VIDÉO D'ACCUEIL (facultative), affichée tout en haut. Vide "" = rien ne s'affiche.
+  // Lien YouTube (en « Non répertoriée »), Vimeo, Google Drive ou nom d'un fichier .mp4 du même dossier.
+  videoAccueil:   { fr: "", en: "", es: "" },
+  videoVerticale: false,   // true si tu as filmé avec ton téléphone tenu à la verticale
+
+  // Fichier central des chiffres des tests (géré par Agnès). NE PAS MODIFIER.
+  statsUrl: "https://agnesetvous.com/entreprise/chiffres.json",
+
+  // ─── TÉMOIGNAGES (carrousel de la section « Ils l'ont vécu ») ───
+  // Un témoignage par ligne, entre { }, séparés par une virgule. Liste vide [] = le carrousel disparaît.
+  //  • Texte : { texte: { fr: "…", en: "…", es: "…" }, nom: "Prénom, âge", detail: "Métier, ville", image: "" }
+  //  • Image (capture d'un message, photo) : { image: "temoignage1.jpg", nom: "Prénom", detail: "" }
+  //    → place le fichier image dans le même dossier que cette page.
+  temoignages: [
+    {"texte": {"fr": "Mon premier BalanceTest a montré un ratio de 58:1, ce qui m'a surprise. Après un an de BalanceOil+, mon test de suivi a montré un ratio de 5:1. J'ai hâte de découvrir mon prochain test.", "en": "My first BalanceTest showed a ratio of 58:1, which surprised me. After a year of BalanceOil+, my follow-up test showed a ratio of 5:1. I can't wait to see my next test.", "es": "Mi primer BalanceTest mostró una proporción de 58:1, lo que me sorprendió. Tras un año de BalanceOil+, mi prueba de seguimiento mostró una proporción de 5:1. Estoy deseando ver mi próxima prueba."}, "nom": {"fr": "Heike Schwiedeßen, 77 ans", "en": "Heike Schwiedeßen, 77", "es": "Heike Schwiedeßen, 77 años"}, "detail": {"fr": "Entrepreneuse, Autriche", "en": "Entrepreneur, Austria", "es": "Empresaria, Austria"}, "image": ""},
+    {"texte": {"fr": "Je prends BalanceOil+ et ZinoBiotic+ tous les jours. Au départ, j'étais sceptique. Aujourd'hui, je me sens plus motivée et ils s'intègrent à mon mode de vie sportif.", "en": "I take BalanceOil+ and ZinoBiotic+ every day. At first I was sceptical. Today I feel more motivated and they fit into my sporty lifestyle.", "es": "Tomo BalanceOil+ y ZinoBiotic+ todos los días. Al principio era escéptica. Hoy me siento más motivada y encajan en mi estilo de vida deportivo."}, "nom": {"fr": "Theresa Moser, 31 ans", "en": "Theresa Moser, 31", "es": "Theresa Moser, 31 años"}, "detail": {"fr": "Enseignante et triathlète, Autriche", "en": "Teacher and triathlete, Austria", "es": "Profesora y triatleta, Austria"}, "image": ""},
+    {"texte": {"fr": "Cela fait un an que j'ai décidé d'investir dans ma santé et je suis satisfaite. Les oméga-3 EPA et DHA de BalanceOil+ contribuent au maintien d'une fonction cardiaque et cérébrale normale.", "en": "It's been a year since I decided to invest in my health and I'm satisfied. The omega-3 EPA and DHA in BalanceOil+ contribute to the maintenance of normal heart and brain function.", "es": "Hace un año que decidí invertir en mi salud y estoy satisfecha. Los omega-3 EPA y DHA de BalanceOil+ contribuyen al funcionamiento normal del corazón y del cerebro."}, "nom": {"fr": "Belulah Basson, 52 ans", "en": "Belulah Basson, 52", "es": "Belulah Basson, 52 años"}, "detail": {"fr": "Responsable administratif, Afrique du Sud", "en": "Office manager, South Africa", "es": "Responsable administrativa, Sudáfrica"}, "image": ""}
+  ],
+
+  // Lien vers ta page Entreprise (bloc « sportifs »). "" = le bloc sportifs est masqué.
+  lienEntreprise: "https://agnesetvous.com/entreprise/",
+
   // Mentions légales
   statut:         "Entreprise individuelle",
   siret:          "502 712 466 00056",
@@ -525,7 +554,542 @@ section.ratios h2 em{color:#E6CFA0}
 .exit-box p{color:var(--muted); line-height:1.6; margin:0 0 20px}
 .exit-box .exit-btns{display:flex; flex-direction:column; gap:10px}
 .exit-box .exit-comm{display:flex; gap:10px; justify-content:center; margin-top:4px}
+/* Bandeau commun : remplace l'ancien bandeau, la barre « Agnès & Vous / Faire mon bilan » et les boutons flottants */
+html{scroll-padding-top:64px}
+.topbar, .top, .fab-col, .lecteur-tip{display:none !important}
+.hero #aevVideo{max-width:900px; margin:0 auto 26px}
 </style>
+<!-- ===== BLOC « VIDÉO D'ACCUEIL » (Agnès & Vous) — ne rien modifier ici ===== -->
+<style>
+  .aev-video { margin: 16px auto; padding: 16px; border: 1px solid #E3DDD0; border-radius: 12px; background: #FFFFFF;
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; align-items: center; color: #33372F;
+    font-family: inherit; text-align: left; }
+  .aev-video.aev-v { grid-template-columns: 230px minmax(0, 1fr); }
+  .aev-video[hidden] { display: none !important; }
+  .aev-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #4F5B4C; }
+  .aev-v .aev-frame { aspect-ratio: 9 / 16; }
+  .aev-frame iframe, .aev-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+  .aev-poster { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; cursor: pointer; color: #FFFFFF; font: inherit;
+    display: grid; place-items: center; align-content: center; gap: 10px; padding: 12px;
+    background: radial-gradient(circle at 75% 20%, rgba(200,169,107,.45), transparent 45%), linear-gradient(135deg, #4F5B4C, #7D8D79); }
+  .aev-play { width: 64px; height: 64px; border-radius: 50%; background: #B06D5D; display: grid; place-items: center;
+    box-shadow: 0 8px 22px rgba(0,0,0,.25); transition: transform .15s ease, background .15s ease; }
+  .aev-play::before { content: ""; margin-left: 5px; border-style: solid; border-width: 12px 0 12px 19px; border-color: transparent transparent transparent #FFFFFF; }
+  .aev-poster:hover .aev-play { transform: scale(1.06); background: #9C5D4E; }
+  .aev-poster span { font-weight: 800; font-size: 15px; text-shadow: 0 1px 3px rgba(0,0,0,.3); }
+  .aev-kicker { display: block; margin-bottom: 4px; color: #B06D5D; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+  .aev-title { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.15; font-weight: 700; color: #33372F; }
+  .aev-intro { margin: 8px 0 10px; color: #5E6459; }
+  .aev-tips { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .aev-tips li { padding: 8px 12px; border-radius: 8px; background: #F5F1E8; color: #33372F; font-size: 15px; line-height: 1.4; }
+  @media (max-width: 760px) {
+    .aev-video, .aev-video.aev-v { grid-template-columns: 1fr; gap: 14px; padding: 14px; }
+    .aev-v .aev-frame { width: min(100%, 200px); margin: 0 auto; }
+  }
+</style>
+<script>
+/* Bloc vidéo d'accueil : invisible tant qu'aucun lien vidéo n'est renseigné dans la zone de réglages.
+   Rien n'est chargé depuis YouTube, Vimeo ou Google Drive avant que la personne clique sur « lecture ». */
+window.aevVideoAccueil = function (opts) {
+  var box = document.getElementById(opts.conteneur || "aevVideo");
+  if (!box) return;
+  var LANGS = ["fr", "en", "es", "de"];
+  var T = {
+    fr: { k: "🎬 Message de bienvenue", play: "Lancer la vidéo",
+      tu: { t: "{p} t'accueille", i: "Avant de parcourir la page, prends une minute pour écouter ce message.",
+        a: ["📝 Garde de quoi noter : ce qui te parle, ce qui t'interroge.", "🔎 Parcours la page à ton rythme, jusqu'au bout.", "🤝 Tes notes seront le point de départ de notre échange."],
+        l: "Vidéo d'accueil : elle est hébergée par un service externe (YouTube, Vimeo ou Google Drive) et ne se charge que lorsque tu cliques dessus. Ce service peut alors déposer ses propres cookies." },
+      vous: { t: "{p} vous accueille", i: "Avant de parcourir la page, prenez une minute pour écouter ce message.",
+        a: ["📝 Gardez de quoi noter : ce qui vous parle, ce qui vous interroge.", "🔎 Parcourez la page à votre rythme, jusqu'au bout.", "🤝 Vos notes seront le point de départ de notre échange."],
+        l: "Vidéo d'accueil : elle est hébergée par un service externe (YouTube, Vimeo ou Google Drive) et ne se charge que lorsque vous cliquez dessus. Ce service peut alors déposer ses propres cookies." } },
+    en: { k: "🎬 Welcome message", play: "Play the video",
+      tu: { t: "{p} welcomes you", i: "Before exploring the page, take a minute to listen to this message.",
+        a: ["📝 Keep something to take notes: what speaks to you, what raises questions.", "🔎 Explore the page at your own pace, all the way to the end.", "🤝 Your notes will be the starting point of our conversation."],
+        l: "Welcome video: it is hosted by an external service (YouTube, Vimeo or Google Drive) and only loads when you click on it. That service may then set its own cookies." } },
+    es: { k: "🎬 Mensaje de bienvenida", play: "Ver el vídeo",
+      tu: { t: "{p} te da la bienvenida", i: "Antes de recorrer la página, tómate un minuto para escuchar este mensaje.",
+        a: ["📝 Ten a mano algo para anotar: lo que te llama la atención, lo que te plantea preguntas.", "🔎 Recorre la página a tu ritmo, hasta el final.", "🤝 Tus notas serán el punto de partida de nuestra conversación."],
+        l: "Vídeo de bienvenida: está alojado en un servicio externo (YouTube, Vimeo o Google Drive) y solo se carga cuando haces clic en él. Ese servicio puede entonces instalar sus propias cookies." },
+      vous: { t: "{p} le da la bienvenida", i: "Antes de recorrer la página, tómese un minuto para escuchar este mensaje.",
+        a: ["📝 Tenga a mano algo para anotar: lo que le llama la atención, lo que le plantea preguntas.", "🔎 Recorra la página a su ritmo, hasta el final.", "🤝 Sus notas serán el punto de partida de nuestra conversación."],
+        l: "Vídeo de bienvenida: está alojado en un servicio externo (YouTube, Vimeo o Google Drive) y solo se carga cuando usted hace clic en él. Ese servicio puede entonces instalar sus propias cookies." } },
+    de: { k: "🎬 Willkommensbotschaft", play: "Video abspielen",
+      tu: { t: "{p} heißt dich willkommen", i: "Bevor du die Seite erkundest, nimm dir eine Minute für diese Botschaft.",
+        a: ["📝 Halte etwas zum Notieren bereit: was dich anspricht, welche Fragen du hast.", "🔎 Erkunde die Seite in deinem Tempo, bis zum Ende.", "🤝 Deine Notizen sind der Ausgangspunkt für unser Gespräch."],
+        l: "Willkommensvideo: Es wird von einem externen Dienst (YouTube, Vimeo oder Google Drive) bereitgestellt und erst geladen, wenn du darauf klickst. Dieser Dienst kann dann eigene Cookies setzen." },
+      vous: { t: "{p} heißt Sie willkommen", i: "Bevor Sie die Seite erkunden, nehmen Sie sich eine Minute für diese Botschaft.",
+        a: ["📝 Halten Sie etwas zum Notieren bereit: was Sie anspricht, welche Fragen Sie haben.", "🔎 Erkunden Sie die Seite in Ihrem Tempo, bis zum Ende.", "🤝 Ihre Notizen sind der Ausgangspunkt für unser Gespräch."],
+        l: "Willkommensvideo: Es wird von einem externen Dienst (YouTube, Vimeo oder Google Drive) bereitgestellt und erst geladen, wenn Sie darauf klicken. Dieser Dienst kann dann eigene Cookies setzen." } }
+  };
+  var liens = opts.liens || {};
+  if (typeof liens === "string") liens = { fr: liens };
+
+  function langue() { var l = (document.documentElement.lang || "fr").slice(0, 2); return LANGS.indexOf(l) >= 0 ? l : "fr"; }
+  function textes(l) { var d = T[l] || T.fr; return { k: d.k, play: d.play, x: (opts.vous && d.vous) ? d.vous : d.tu }; }
+  function analyser(url) {
+    url = String(url || "").trim();
+    if (!url) return null;
+    var m;
+    if ((m = url.match(/youtube\.com\/shorts\/([\w-]{6,})/))) return { src: "https://www.youtube-nocookie.com/embed/" + m[1] + "?autoplay=1&rel=0&playsinline=1", vertical: true };
+    if ((m = url.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|live\/))([\w-]{6,})/))) return { src: "https://www.youtube-nocookie.com/embed/" + m[1] + "?autoplay=1&rel=0&playsinline=1" };
+    if ((m = url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([\da-f]+))?/))) return { src: "https://player.vimeo.com/video/" + m[1] + "?autoplay=1&dnt=1" + (m[2] ? "&h=" + m[2] : "") };
+    if ((m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]{10,})/))) return { src: "https://drive.google.com/file/d/" + m[1] + "/preview" };
+    if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(url)) return { fichier: url };
+    return null;
+  }
+
+  var enCours = "";
+  function afficher() {
+    var l = langue();
+    var url = liens[l] || liens.fr || "";
+    var v = analyser(url);
+    var legal = document.getElementById(opts.conteneurLegal || "aevVideoLegal");
+    if (!v) { box.hidden = true; box.innerHTML = ""; if (legal) legal.hidden = true; enCours = ""; return; }
+    var t = textes(l);
+    if (legal) { legal.textContent = t.x.l; legal.hidden = false; }
+    var cle = l + "|" + url;
+    if (cle === enCours) return;
+    enCours = cle;
+    var vertical = v.vertical || !!opts.verticale;
+    box.className = "aev-video" + (vertical ? " aev-v" : "");
+    box.hidden = false;
+    var p = opts.prenom || "";
+    box.innerHTML =
+      '<div class="aev-frame"><button type="button" class="aev-poster" aria-label="' + t.play + '"><i class="aev-play"></i><span></span></button></div>' +
+      '<div><span class="aev-kicker"></span><h2 class="aev-title"></h2><p class="aev-intro"></p><ul class="aev-tips"></ul></div>';
+    box.querySelector(".aev-poster span").textContent = t.play;
+    box.querySelector(".aev-kicker").textContent = t.k;
+    box.querySelector(".aev-title").textContent = t.x.t.replace("{p}", p);
+    box.querySelector(".aev-intro").textContent = t.x.i;
+    var ul = box.querySelector(".aev-tips");
+    t.x.a.forEach(function (s) { var li = document.createElement("li"); li.textContent = s; ul.appendChild(li); });
+    box.querySelector(".aev-poster").addEventListener("click", function () {
+      var frame = box.querySelector(".aev-frame");
+      if (v.fichier) {
+        var vid = document.createElement("video");
+        vid.src = v.fichier; vid.controls = true; vid.autoplay = true; vid.playsInline = true; vid.preload = "metadata";
+        vid.addEventListener("ended", function () { if (opts.suivi) try { opts.suivi("fin"); } catch (e) {} });
+        frame.innerHTML = ""; frame.appendChild(vid);
+      } else {
+        var f = document.createElement("iframe");
+        f.src = v.src; f.title = t.k;
+        f.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
+        f.allowFullscreen = true;
+        frame.innerHTML = ""; frame.appendChild(f);
+      }
+      if ("speechSynthesis" in window) try { speechSynthesis.cancel(); } catch (e) {}
+      if (opts.suivi) try { opts.suivi("lecture"); } catch (e) {}
+    });
+  }
+  afficher();
+  if ("MutationObserver" in window) new MutationObserver(afficher).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+};
+</script>
+<!-- ===== FIN DU BLOC « VIDÉO D'ACCUEIL » ===== -->
+
+<!-- ===== BANDEAU COMMUN « Agnès & Vous » (question · langues · écoute · WhatsApp) — ne rien modifier ici ===== -->
+<style>
+  .aevb { position: sticky; top: 0; z-index: 60; background: #4F5B4C; color: #FFFFFF; box-shadow: 0 2px 10px rgba(0,0,0,.12);
+    font-family: inherit; }
+  .aevb-in { max-width: 1160px; margin: 0 auto; padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 10px 16px; flex-wrap: wrap; }
+  .aevb-q { margin: 0; font-size: 15px; line-height: 1.3; text-align: center; }
+  .aevb-link { position: relative; display: inline-block; }
+  .aevb-open { padding: 0; border: 0; background: none; color: #F3D9A8; font: inherit; font-weight: 700; text-decoration: underline;
+    text-underline-offset: 3px; cursor: pointer; }
+  .aevb-open:hover { color: #FFFFFF; }
+  .aevb-menu { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 250px; max-width: calc(100vw - 24px); padding: 6px;
+    border-radius: 12px; background: #FFFFFF; box-shadow: 0 12px 30px rgba(0,0,0,.22); display: grid; gap: 4px; z-index: 70; }
+  .aevb-menu[hidden] { display: none; }
+  .aevb-menu a { display: block; padding: 10px 12px; border-radius: 8px; color: #33372F; text-decoration: none; font-size: 15px; font-weight: 600; text-align: left; white-space: nowrap; }
+  .aevb-menu a:hover { background: #F5F1E8; }
+  .aevb-tools { display: inline-flex; align-items: center; gap: 8px; }
+  .aevb-langs { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.14); }
+  .aevb-lang { min-width: 34px; padding: 5px 8px; border: 0; border-radius: 999px; background: transparent; color: #FFFFFF;
+    font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+  .aevb-lang[aria-pressed="true"] { background: #FFFFFF; color: #4F5B4C; }
+  .aevb-listen { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 5px 12px; border: 1px solid rgba(255,255,255,.45);
+    border-radius: 999px; background: transparent; color: #FFFFFF; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .aevb-listen:hover { background: rgba(255,255,255,.12); }
+  .aevb-listen[aria-pressed="true"] { background: #B06D5D; border-color: #B06D5D; }
+  .aevb-wa { position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 58px; height: 58px; border-radius: 50%;
+    display: grid; place-items: center; background: #25D366; box-shadow: 0 8px 22px rgba(0,0,0,.22); transition: transform .15s ease; }
+  .aevb-wa:hover { transform: scale(1.06); }
+  .aevb-wa svg { width: 30px; height: 30px; fill: #FFFFFF; }
+  @media (max-width: 620px) {
+    .aevb-in { padding: 7px 10px; gap: 6px 10px; }
+    .aevb-q { font-size: 14px; }
+    .aevb-long { display: none; }
+    .aevb-listen span { display: none; }
+    .aevb-wa { right: 14px; bottom: 14px; width: 52px; height: 52px; }
+  }
+  .aevb-pres { background: #E9EDE6; color: #33372F; border-bottom: 1px solid #E3DDD0; }
+  .aevb-pres-in { max-width: 1160px; margin: 0 auto; padding: 9px 16px; display: grid; gap: 2px; text-align: center; }
+  .aevb-pres-t { margin: 0; font-size: 15px; font-weight: 700; }
+  .aevb-pres-r { margin: 0; font-size: 14px; color: #5E6459; }
+  .aevb-pres-r[hidden] { display: none; }
+  @media (max-width: 620px) { .aevb-pres-t { font-size: 14px; } }
+  /* Sommaire */
+  .aevs { max-width: 1080px; margin: 0 auto; padding: 18px 16px 6px; }
+  .aevs-t { margin: 0 0 10px; text-align: center; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #B06D5D; }
+  .aevs-g { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .aevs-g a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border: 1px solid #E3DDD0; border-radius: 999px;
+    background: #FFFFFF; color: #4F5B4C; text-decoration: none; font-size: 15px; line-height: 1.2; box-shadow: 0 4px 14px rgba(51,55,47,.05); transition: border-color .15s, background .15s; }
+  .aevs-g a:hover { border-color: #B06D5D; background: #FBF7F1; }
+  .aevs-btn { position: fixed; right: 18px; bottom: 88px; z-index: 60; width: 50px; height: 50px; border-radius: 50%; border: 0;
+    background: #4F5B4C; color: #FFFFFF; font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,.22); }
+  .aevs-btn:hover { background: #33372F; }
+  .aevs-pop { position: fixed; right: 18px; bottom: 148px; z-index: 61; width: min(320px, calc(100vw - 36px)); max-height: 60vh; overflow: auto;
+    padding: 8px; border-radius: 14px; background: #FFFFFF; box-shadow: 0 16px 40px rgba(0,0,0,.25); }
+  .aevs-pop[hidden] { display: none; }
+  .aevs-pop p { margin: 6px 10px 6px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #B06D5D; }
+  .aevs-pop a { display: block; padding: 9px 10px; border-radius: 8px; color: #33372F; text-decoration: none; font-size: 15px; }
+  .aevs-pop a:hover { background: #F5F1E8; }
+  @media (max-width: 620px) {
+    .aevs-g a { font-size: 14px; padding: 7px 12px; }
+    .aevs-btn { right: 15px; bottom: 76px; width: 46px; height: 46px; font-size: 20px; }
+    .aevs-pop { right: 14px; bottom: 130px; }
+  }
+  @media print { .aevb, .aevb-wa, .aevs-btn, .aevs-pop { display: none !important; } }
+</style>
+<script>
+/* Bandeau commun des sites Agnès & Vous.
+   aevBandeau({ langues, getLang, setLang, rdv, whatsapp, waTexte, email, zoneLecture, lire, arreter, suivi, bandeau }) */
+window.aevBandeau = function (o) {
+  o = o || {};
+  var T = {
+    fr: { q: "Une question, ou envie d'aller plus loin ?", qs: "Une question ?", link: "Prendre rendez-vous ou m'écrire", rdv: "📅 Prendre rendez-vous", wa: "💬 M'écrire sur WhatsApp", mail: "✉️ M'écrire par e-mail", listen: "Écouter", stop: "Arrêter", langs: "Langue", waBtn: "Écrire sur WhatsApp", noVoice: "La lecture à voix haute n'est pas disponible sur ce navigateur." },
+    en: { q: "A question, or want to go further?", qs: "A question?", link: "Book a call or message me", rdv: "📅 Book a call", wa: "💬 Message me on WhatsApp", mail: "✉️ Email me", listen: "Listen", stop: "Stop", langs: "Language", waBtn: "Message on WhatsApp", noVoice: "Read-aloud is not available in this browser." },
+    es: { q: "¿Una pregunta, o ganas de ir más allá?", qs: "¿Una pregunta?", link: "Reservar una cita o escribirme", rdv: "📅 Reservar una cita", wa: "💬 Escríbeme por WhatsApp", mail: "✉️ Escríbeme por correo", listen: "Escuchar", stop: "Detener", langs: "Idioma", waBtn: "Escribir por WhatsApp", noVoice: "La lectura en voz alta no está disponible en este navegador." },
+    de: { q: "Eine Frage oder Lust, weiterzugehen?", qs: "Eine Frage?", link: "Termin buchen oder mir schreiben", rdv: "📅 Termin buchen", wa: "💬 Schreib mir auf WhatsApp", mail: "✉️ Schreib mir eine E-Mail", listen: "Anhören", stop: "Stopp", langs: "Sprache", waBtn: "Auf WhatsApp schreiben", noVoice: "Vorlesen ist in diesem Browser nicht verfügbar." },
+    nl: { q: "Een vraag, of zin om verder te gaan?", qs: "Een vraag?", link: "Afspraak maken of mij schrijven", rdv: "📅 Afspraak maken", wa: "💬 Stuur me een WhatsApp", mail: "✉️ Stuur me een e-mail", listen: "Luisteren", stop: "Stoppen", langs: "Taal", waBtn: "Schrijven via WhatsApp", noVoice: "Voorlezen is niet beschikbaar in deze browser." }
+  };
+  var VOIX = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE", nl: "nl-NL" };
+  var langues = (o.langues || ["fr", "en", "es"]).filter(function (l) { return T[l]; });
+  var suivi = function (a, b) { if (o.suivi) try { o.suivi(a, b); } catch (e) {} };
+  function lang() { var l = (o.getLang && o.getLang()) || document.documentElement.lang || "fr"; l = String(l).slice(0, 2); return T[l] ? l : "fr"; }
+  function waNum() {
+    var d = String(o.whatsapp || "").replace(/\D/g, "");
+    if (d.indexOf("00") === 0) d = d.slice(2);
+    if (d.length === 10 && d.charAt(0) === "0") d = "33" + d.slice(1);
+    return d;
+  }
+  function waHref() {
+    var n = waNum(); if (!n) return "";
+    var txt = o.waTexte ? o.waTexte(lang()) : "";
+    return "https://wa.me/" + n + (txt ? "?text=" + encodeURIComponent(txt) : "");
+  }
+
+  /* --- Bandeau --- */
+  var bar = null;
+  if (o.bandeau !== false) {
+    bar = document.createElement("div");
+    bar.className = "aevb";
+    bar.setAttribute("role", "region");
+    bar.innerHTML =
+      '<div class="aevb-in">' +
+        '<p class="aevb-q"><span class="aevb-long"></span><span class="aevb-short"></span> ' +
+          '<span class="aevb-link"><button type="button" class="aevb-open" aria-expanded="false"></button>' +
+          '<span class="aevb-menu" hidden></span></span></p>' +
+        '<span class="aevb-tools"><span class="aevb-langs" role="group"></span>' +
+          '<button type="button" class="aevb-listen" aria-pressed="false">🔊 <span></span></button></span>' +
+      '</div>';
+    document.body.insertBefore(bar, document.body.firstChild);
+    var langsBox = bar.querySelector(".aevb-langs");
+    if (langues.length < 2) langsBox.hidden = true;
+    langues.forEach(function (l) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "aevb-lang"; b.dataset.lang = l; b.textContent = l.toUpperCase();
+      b.addEventListener("click", function () { arreter(); if (o.setLang) o.setLang(l); maj(); suivi("bandeau-langue", l); });
+      langsBox.appendChild(b);
+    });
+    var open = bar.querySelector(".aevb-open"), menu = bar.querySelector(".aevb-menu");
+    open.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var ouvert = menu.hidden;
+      if (ouvert) maj();
+      menu.hidden = !ouvert; open.setAttribute("aria-expanded", String(ouvert));
+      if (ouvert) suivi("bandeau-contact");
+    });
+    document.addEventListener("click", function (e) { if (!menu.hidden && !e.target.closest(".aevb-link")) { menu.hidden = true; open.setAttribute("aria-expanded", "false"); } });
+    menu.addEventListener("click", function (e) {
+      var a = e.target.closest("a"); if (!a) return;
+      suivi("bandeau-" + a.dataset.k);
+      menu.hidden = true;
+    });
+    bar.querySelector(".aevb-listen").addEventListener("click", function () {
+      if (enLecture()) { arreter(); } else { lire(); suivi("bandeau-ecoute"); }
+      majEcoute();
+    });
+  }
+
+  /* --- Ligne de présentation (« Agnès te présente… ») + qui a recommandé la page --- */
+  var REC = { fr: "Présentation recommandée par", en: "Recommended by", es: "Presentación recomendada por", de: "Empfohlen von", nl: "Aanbevolen door" };
+  var origine = "";
+  try {
+    var pr = new URLSearchParams(location.search);
+    origine = (pr.get("origine") || pr.get("ref") || pr.get("par") || "").replace(/[<>"]/g, "").trim().slice(0, 40);
+    if (origine) localStorage.setItem("origine", origine); else origine = (localStorage.getItem("origine") || "").slice(0, 40);
+  } catch (e) {}
+  var pres = null;
+  if (o.presentation) {
+    pres = document.createElement("div");
+    pres.className = "aevb-pres";
+    pres.innerHTML = '<div class="aevb-pres-in"><p class="aevb-pres-t"></p><p class="aevb-pres-r"></p></div>';
+    if (bar) bar.parentNode.insertBefore(pres, bar.nextSibling); else document.body.insertBefore(pres, document.body.firstChild);
+  }
+
+  /* --- Sommaire : cartes dans la page (#aevSommaire) + bouton ☰ flottant --- */
+  var SOM = { fr: "Sommaire", en: "Contents", es: "Índice", de: "Inhalt", nl: "Inhoud" };
+  var som = (o.sommaire || []).filter(function (e) {
+    var el = e && e.id && document.getElementById(e.id);
+    return el && el.style.display !== "none" && !el.hidden;
+  });
+  var somBox = som.length ? document.getElementById(o.sommaireConteneur || "aevSommaire") : null;
+  var somBtn = null, somPop = null;
+  function allerA(id) {
+    var el = document.getElementById(id); if (!el) return;
+    if (el.tagName === "DETAILS") el.open = true;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    suivi("sommaire", id);
+  }
+  function somLiens(box) {
+    box.addEventListener("click", function (e) {
+      var a = e.target.closest("a[data-som]"); if (!a) return;
+      e.preventDefault(); if (somPop) somPop.hidden = true; allerA(a.dataset.som);
+    });
+  }
+  if (som.length) {
+    if (somBox) { somBox.className = "aevs"; somBox.hidden = false; somLiens(somBox); }
+    somBtn = document.createElement("button");
+    somBtn.type = "button"; somBtn.className = "aevs-btn"; somBtn.textContent = "☰";
+    somPop = document.createElement("div"); somPop.className = "aevs-pop"; somPop.hidden = true;
+    document.body.appendChild(somPop); document.body.appendChild(somBtn); somLiens(somPop);
+    somBtn.addEventListener("click", function (e) { e.stopPropagation(); somPop.hidden = !somPop.hidden; if (!somPop.hidden) suivi("sommaire-ouvert"); });
+    document.addEventListener("click", function (e) { if (!somPop.hidden && !e.target.closest(".aevs-pop")) somPop.hidden = true; });
+  }
+  function majSommaire(l) {
+    if (!som.length) return;
+    var html = som.map(function (e) {
+      var label = (e[l] || e.fr || "").replace(/</g, "&lt;");
+      return '<a href="#' + e.id + '" data-som="' + e.id + '">' + (e.emoji ? '<span aria-hidden="true">' + e.emoji + '</span> ' : '') + label + '</a>';
+    }).join("");
+    if (somBox) somBox.innerHTML = '<p class="aevs-t">' + (SOM[l] || SOM.fr) + '</p><nav class="aevs-g" aria-label="' + (SOM[l] || SOM.fr) + '">' + html + '</nav>';
+    somPop.innerHTML = '<p>' + (SOM[l] || SOM.fr) + '</p>' + html;
+    somBtn.setAttribute("aria-label", SOM[l] || SOM.fr); somBtn.title = SOM[l] || SOM.fr;
+  }
+
+  /* --- Bouton WhatsApp flottant --- */
+  var flot = null;
+  if (waNum() && o.boutonWhatsApp !== false) {
+    flot = document.createElement("a");
+    flot.className = "aevb-wa"; flot.target = "_blank"; flot.rel = "noopener";
+    flot.innerHTML = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.4.7 4.7 1.9 6.7L3 29l6.9-2.1c1.9 1 4 1.6 6.1 1.6 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.2c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.1 1.2 1.3-4-.3-.4c-1.1-1.7-1.7-3.6-1.7-5.6C5.4 9.8 10.1 5.1 16 5.1s10.6 4.7 10.6 10.5S21.9 26.2 16 26.2zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1c-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.6-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.7 5.8 5.1 2.9 1.1 3.4.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>';
+    flot.addEventListener("click", function () { flot.href = waHref(); suivi("bouton-whatsapp-flottant"); });
+    document.body.appendChild(flot);
+  }
+
+  /* --- Lecture à voix haute de ce qui est visible à l'écran --- */
+  var actif = false;
+  function enLecture() {
+    if (o.enLecture) try { return !!o.enLecture(); } catch (e) {}
+    return actif || ("speechSynthesis" in window && (speechSynthesis.speaking || speechSynthesis.pending));
+  }
+  function texteVisible() {
+    var zones = Array.prototype.slice.call(document.querySelectorAll(o.zoneLecture || "main section, main > *, footer"));
+    var vus = zones.filter(function (z) {
+      if (z.closest(".aevb") || z.offsetParent === null) return false;
+      var r = z.getBoundingClientRect(); return r.bottom > 60 && r.top < window.innerHeight && r.height > 0;
+    });
+    vus = vus.filter(function (z) { return !vus.some(function (p) { return p !== z && p.contains(z); }); });
+    return vus.map(function (z) { return z.innerText; }).join(". ").replace(/\s+/g, " ").trim();
+  }
+  function lire() {
+    if (o.lire) { o.lire(); return; }
+    if (!("speechSynthesis" in window)) { alert(T[lang()].noVoice); return; }
+    var txt = texteVisible(); if (!txt) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(txt);
+    u.lang = VOIX[lang()] || "fr-FR"; u.rate = 0.95;
+    u.onend = u.onerror = function () { actif = false; majEcoute(); };
+    actif = true; speechSynthesis.speak(u);
+  }
+  function arreter() {
+    if (o.arreter) try { o.arreter(); } catch (e) {}
+    actif = false;
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+    majEcoute();
+  }
+  function majEcoute() {
+    if (!bar) return;
+    var b = bar.querySelector(".aevb-listen"), on = enLecture(), t = T[lang()];
+    b.setAttribute("aria-pressed", String(on));
+    b.firstChild.nodeValue = on ? "⏹ " : "🔊 ";
+    b.querySelector("span").textContent = on ? t.stop : t.listen;
+    b.setAttribute("aria-label", on ? t.stop : t.listen);
+  }
+  setInterval(majEcoute, 700);
+
+  /* --- Textes selon la langue --- */
+  function maj() {
+    var l = lang(), t = T[l];
+    majSommaire(l);
+    if (pres) {
+      var p = typeof o.presentation === "string" ? o.presentation : (o.presentation[l] || o.presentation.fr || "");
+      pres.querySelector(".aevb-pres-t").textContent = p.replace(/\{prenom\}/g, o.prenom || "");
+      var r = pres.querySelector(".aevb-pres-r");
+      r.hidden = !origine;
+      r.textContent = origine ? (REC[l] || REC.fr) + " " + origine : "";
+      pres.hidden = !p;
+    }
+    if (flot) { flot.href = waHref(); flot.setAttribute("aria-label", t.waBtn); flot.title = t.waBtn; }
+    if (!bar) return;
+    bar.setAttribute("aria-label", t.q);
+    bar.querySelector(".aevb-long").textContent = t.q;
+    bar.querySelector(".aevb-short").textContent = "";
+    bar.querySelector(".aevb-open").textContent = t.link;
+    bar.querySelector(".aevb-langs").setAttribute("aria-label", t.langs);
+    Array.prototype.forEach.call(bar.querySelectorAll(".aevb-lang"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === l)); });
+    var m = bar.querySelector(".aevb-menu"), h = "";
+    if (o.rdv) h += '<a data-k="rdv" target="_blank" rel="noopener" href="' + o.rdv + '">' + t.rdv + '</a>';
+    if (waNum()) h += '<a data-k="whatsapp" target="_blank" rel="noopener" href="' + waHref().replace(/"/g, "&quot;") + '">' + t.wa + '</a>';
+    if (o.email) h += '<a data-k="email" href="mailto:' + o.email + '">' + t.mail + '</a>';
+    m.innerHTML = h;
+    var short = window.matchMedia("(max-width: 620px)").matches;
+    bar.querySelector(".aevb-short").textContent = short ? t.qs : "";
+    majEcoute();
+  }
+  maj();
+  window.addEventListener("resize", maj);
+  if ("MutationObserver" in window) new MutationObserver(maj).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+  return { maj: maj, arreter: arreter };
+};
+</script>
+<!-- ===== FIN DU BANDEAU COMMUN ===== -->
+
+<!-- ===== CARROUSEL DE TÉMOIGNAGES (Agnès & Vous) — ne rien modifier ici ===== -->
+<style>
+  .aevt { max-width: 1000px; margin: 0 auto; }
+  .aevt[hidden] { display: none !important; }
+  .aevt-titre { margin: 0 0 14px; text-align: center; font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: clamp(1.3rem, 2.6vw, 1.7rem); color: #4F5B4C; }
+  .aevt-cadre { position: relative; }
+  .aevt-piste { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 4px 2px 10px;
+    scrollbar-width: none; -ms-overflow-style: none; }
+  .aevt-piste::-webkit-scrollbar { display: none; }
+  .aevt-carte { flex: 0 0 calc(50% - 8px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 12px; margin: 0;
+    padding: 22px; border: 1px solid #E3DDD0; border-radius: 20px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(51,55,47,.05); }
+  .aevt-carte.seule { flex-basis: 100%; }
+  .aevt-carte img { display: block; width: 100%; max-height: 360px; object-fit: contain; border-radius: 12px; background: #F5F1E8; }
+  .aevt-texte { margin: 0; font-style: italic; color: #33372F; line-height: 1.6; flex: 1; }
+  .aevt-texte::before { content: "« "; color: #B06D5D; } .aevt-texte::after { content: " »"; color: #B06D5D; }
+  .aevt-nom { font-weight: 600; color: #4F5B4C; }
+  .aevt-detail { font-size: .88rem; color: #6B6F65; }
+  .aevt-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 6px; }
+  .aevt-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #E3DDD0; background: #FFFFFF; color: #4F5B4C;
+    font-size: 18px; line-height: 1; cursor: pointer; }
+  .aevt-btn:hover { border-color: #B06D5D; color: #B06D5D; }
+  .aevt-points { display: flex; gap: 7px; }
+  .aevt-point { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: #DEDDD2; cursor: pointer; }
+  .aevt-point[aria-current="true"] { background: #B06D5D; width: 22px; border-radius: 999px; }
+  .aevt-note { margin: 10px auto 0; max-width: 640px; text-align: center; font-size: .85rem; color: #6B6F65; }
+  @media (max-width: 760px) { .aevt-carte { flex-basis: 100%; } }
+</style>
+<script>
+/* Carrousel de témoignages : invisible tant que la liste « temoignages » des réglages est vide.
+   aevTemoignages({ conteneur, section, items, titre, note, suivi }) */
+window.aevTemoignages = function (o) {
+  o = o || {};
+  var box = document.getElementById(o.conteneur || "aevTemoins");
+  var section = o.section ? document.getElementById(o.section) : null;
+  var items = (o.items || []).filter(function (it) {
+    if (!it) return false;
+    var t = it.texte;
+    var aTexte = typeof t === "string" ? t.trim() : (t && Object.keys(t).some(function (k) { return String(t[k] || "").trim(); }));
+    return aTexte || it.image;
+  });
+  if (!box) return;
+  var autres = (o.masquer || []).map(function (sel) { return document.querySelector(sel); }).filter(Boolean);
+  if (!items.length) { box.hidden = true; if (section) section.hidden = true; autres.forEach(function (el) { el.hidden = true; el.style.display = "none"; }); return; }
+  box.hidden = false; if (section) section.hidden = false;
+  box.className = "aevt";
+  var LANGS = ["fr", "en", "es", "de", "nl"];
+  var UI = {
+    fr: { prec: "Témoignage précédent", suiv: "Témoignage suivant", aller: "Aller au témoignage" },
+    en: { prec: "Previous testimonial", suiv: "Next testimonial", aller: "Go to testimonial" },
+    es: { prec: "Testimonio anterior", suiv: "Testimonio siguiente", aller: "Ir al testimonio" },
+    de: { prec: "Vorheriges Zeugnis", suiv: "Nächstes Zeugnis", aller: "Zum Zeugnis" },
+    nl: { prec: "Vorige getuigenis", suiv: "Volgende getuigenis", aller: "Naar getuigenis" }
+  };
+  function lang() { var l = (document.documentElement.lang || "fr").slice(0, 2); return LANGS.indexOf(l) >= 0 ? l : "fr"; }
+  function tr(v, l) { if (v == null) return ""; if (typeof v === "string") return v; return v[l] || v.fr || ""; }
+  var auto = null, actif = 0, touche = false;
+
+  function rendre() {
+    var l = lang(), u = UI[l] || UI.fr;
+    var titre = tr(o.titre, l), note = tr(o.note, l);
+    box.innerHTML =
+      (titre ? '<h3 class="aevt-titre"></h3>' : '') +
+      '<div class="aevt-cadre"><div class="aevt-piste" tabindex="0"></div></div>' +
+      (items.length > 1 ? '<div class="aevt-nav"><button type="button" class="aevt-btn" data-dir="-1">‹</button><div class="aevt-points"></div><button type="button" class="aevt-btn" data-dir="1">›</button></div>' : '') +
+      (note ? '<p class="aevt-note"></p>' : '');
+    if (titre) box.querySelector(".aevt-titre").textContent = titre;
+    if (note) box.querySelector(".aevt-note").textContent = note;
+    var piste = box.querySelector(".aevt-piste");
+    items.forEach(function (it, i) {
+      var c = document.createElement("figure");
+      c.className = "aevt-carte" + (items.length === 1 ? " seule" : "");
+      if (it.image) { var img = document.createElement("img"); img.src = it.image; img.alt = tr(it.texte, l) || tr(it.nom, l) || ""; img.loading = "lazy"; c.appendChild(img); }
+      var t = tr(it.texte, l);
+      if (t) { var p = document.createElement("blockquote"); p.className = "aevt-texte"; p.textContent = t; c.appendChild(p); }
+      var nom = tr(it.nom, l), det = tr(it.detail, l);
+      if (nom || det) {
+        var cap = document.createElement("figcaption");
+        if (nom) { var n = document.createElement("div"); n.className = "aevt-nom"; n.textContent = nom; cap.appendChild(n); }
+        if (det) { var d = document.createElement("div"); d.className = "aevt-detail"; d.textContent = det; cap.appendChild(d); }
+        c.appendChild(cap);
+      }
+      piste.appendChild(c);
+    });
+    var points = box.querySelector(".aevt-points");
+    if (points) {
+      items.forEach(function (_, i) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "aevt-point";
+        b.setAttribute("aria-label", u.aller + " " + (i + 1)); b.dataset.i = i; points.appendChild(b);
+      });
+      box.querySelector('[data-dir="-1"]').setAttribute("aria-label", u.prec);
+      box.querySelector('[data-dir="1"]').setAttribute("aria-label", u.suiv);
+    }
+    box.querySelectorAll(".aevt-btn").forEach(function (b) {
+      b.addEventListener("click", function () { arreterAuto(); aller(actif + Number(b.dataset.dir)); if (o.suivi) try { o.suivi("fleche"); } catch (e) {} });
+    });
+    if (points) points.addEventListener("click", function (e) { var b = e.target.closest(".aevt-point"); if (b) { arreterAuto(); aller(Number(b.dataset.i)); } });
+    piste.addEventListener("scroll", function () {
+      var cartes = piste.children, best = 0, d = Infinity;
+      for (var i = 0; i < cartes.length; i++) { var dd = Math.abs(cartes[i].offsetLeft - piste.offsetLeft - piste.scrollLeft); if (dd < d) { d = dd; best = i; } }
+      actif = best; majPoints();
+    }, { passive: true });
+    ["pointerdown", "touchstart", "focusin", "mouseenter"].forEach(function (ev) { box.addEventListener(ev, function () { touche = true; }, { passive: true }); });
+    box.addEventListener("mouseleave", function () { touche = false; });
+    majPoints();
+  }
+  function aller(i) {
+    var piste = box.querySelector(".aevt-piste"); if (!piste) return;
+    var n = items.length; actif = ((i % n) + n) % n;
+    var c = piste.children[actif]; if (c) piste.scrollTo({ left: c.offsetLeft - piste.offsetLeft, behavior: "smooth" });
+    majPoints();
+  }
+  function majPoints() {
+    box.querySelectorAll(".aevt-point").forEach(function (p, i) { p.setAttribute("aria-current", String(i === actif)); });
+  }
+  function arreterAuto() { if (auto) { clearInterval(auto); auto = null; } }
+  rendre();
+  var reduit = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (items.length > 1 && !reduit) auto = setInterval(function () { if (!touche && document.visibilityState === "visible") aller(actif + 1); }, 7000);
+  if ("MutationObserver" in window) new MutationObserver(function () { var a = actif; rendre(); aller(a); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+};
+</script>
+<!-- ===== FIN DU CARROUSEL DE TÉMOIGNAGES ===== -->
+
 </head>
 <body>
 
@@ -552,12 +1116,15 @@ section.ratios h2 em{color:#E6CFA0}
 <!-- HERO -->
 <header class="hero" id="top">
   <div class="wrap">
+    <div id="aevVideo" hidden></div>
     <div data-t="3" class="marque">L'Essentiel</div>
     <h1 data-t="4">Agir aujourd'hui,<br>c'est déjà <em>prendre soin de demain.</em></h1>
     <p data-t="5" class="lead">Pas de solution miracle. Une démarche simple : comprendre ce qui se passe au cœur de ton corps, mesurer si nécessaire, agir, puis vérifier.</p>
     <div class="invite"><span class="dot"></span><span data-t="6">Quelqu'un a pensé à toi en te partageant cette page</span></div>
   </div>
 </header>
+
+<div id="aevSommaire" hidden></div>
 
 <!-- CITATION D'OUVERTURE -->
 <div class="citation">
@@ -824,8 +1391,10 @@ section.ratios h2 em{color:#E6CFA0}
 
       <div class="stats-choc">
         <div class="sc-ligne">
-          <div class="sc-chiffre">97 %</div>
-          <div data-t="80" class="sc-txt">Sur plus de <strong>1 800 000 personnes</strong> ayant réalisé ce test, 97 % des premiers tests révélaient un déséquilibre oméga-6 / oméga-3.</div>
+          <div class="sc-chiffre" data-stat="imbalance">97 %</div>
+          <div data-t="80" class="sc-txt">Sur plus de <strong><span data-stat="balanceArrondi">1 900 000</span> personnes</strong> ayant réalisé ce test, <span data-stat="imbalance">97 %</span> des premiers tests révélaient un déséquilibre oméga-6 / oméga-3.</div>
+        </div>
+        <div data-t="cpt1" class="small muted center" style="margin-top:8px">Compteur mis à jour en <span data-stat="testsDate">septembre 2026</span> · source : zinzinotest.com
         </div>
       </div>
 
@@ -982,7 +1551,7 @@ section.ratios h2 em{color:#E6CFA0}
 
 <!-- CITATION — TRANSITION VERS LA SOLUTION -->
 <div class="citation creme">
-  <blockquote data-t="115">Tu sais maintenant <em>où tu en es</em>.<br>Reste à savoir <strong>quoi faire</strong> de cette information.</blockquote>
+  <blockquote data-t="115">Tu as compris. Tu peux maintenant <strong>vérifier</strong>, puis <strong>agir</strong>…<br><em>À ton rythme, et seulement si tu le souhaites.</em></blockquote>
 </div>
 
 <!-- 08 — LA SOLUTION -->
@@ -1375,6 +1944,11 @@ section.ratios h2 em{color:#E6CFA0}
         </div>
       </details>
     </div>
+    <div class="narrow encart encart-terra" data-entreprise-bloc style="margin-top:30px; text-align:center">
+      <h3 data-t="sp1">🏅 Tu es sportif ou sportive ?</h3>
+      <p data-t="sp2" style="margin:0 0 14px; color:var(--muted)">Beaucoup de sportifs de haut niveau mesurent leur équilibre pour ajuster leur nutrition, un élément qui compte dans la récupération et la régularité à l'entraînement. Selon les conditions de l'entreprise partenaire, tu pourrais aussi devenir ambassadeur de la marque et recevoir des produits offerts.</p>
+      <a data-t="sp3" class="btn-demarrer" data-lien="entreprise-amb" href="#">Découvrir le programme ambassadeurs →</a>
+    </div>
     <div class="narrow" style="margin-top:40px">
       <h3 data-t="280" class="center">« Je veux juste faire le test, <em>sans rien d'autre</em> »</h3>
       <p data-t="281" class="center muted" style="max-width:600px;margin:0 auto 22px">C'est une réaction que je comprends : vouloir vérifier avant d'agir, c'est sain. Mais je préfère être honnête avec toi, chiffres en main.</p>
@@ -1412,6 +1986,24 @@ section.ratios h2 em{color:#E6CFA0}
           <div data-t="307" class="p-badge eco">📉 Chaque mois : le flacon BalanceOil+ passe de 61 € à 43 €.</div>
         </div>
         <a data-t="308" class="btn-wa" data-wa="Bonjour {prenom} ! Je souhaite démarrer avec le kit Oméga-3 + tests. C'est .......... qui m'a invité(e)." href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg>Je commande ce panier</a>
+        <p data-t="309" class="p-note-wa">Je te réponds avec le lien de commande adapté et je m'assure que tu sois bien rattaché·e à la personne qui t'a invité·e.</p>
+      </div>
+      <div class="panier">
+        <span data-t="kb1" class="p-ruban" style="background:var(--vert)">✨ Nouveau · petit budget</span>
+        <div data-t="kb2" class="p-nom">Oméga-3 + tests, en douceur</div>
+        <div data-t="kb3" class="p-sous">Kit premier BalanceOil+ x1 · 2 tests inclus</div>
+        <div data-t="kb4" class="p-contenu">1 BalanceTest + 1 flacon BalanceOil+ 300 ml + 1 verre doseur, puis 1 second test 4 mois après.</div>
+        <div class="p-prix"><span class="pp-gros">145 €</span><span data-t="301" class="pp-lab">1er paiement</span></div>
+        <div data-t="kb5" class="p-detail">136 € (kit) + 9 € port</div>
+        <div class="p-mois"><span class="pm-gros">52 €</span><span data-t="303" class="pm-lab">puis par mois</span></div>
+        <div data-t="kb6" class="p-mois-detail">43 € — 1 flacon 300 ml BalanceOil+ livré chaque mois · + 9 € port</div>
+        <div class="p-plus">
+          <div data-t="kb7" class="p-badge rembours">💶 Le démarrage le plus accessible : chaque test revient à 46,50 € (136 € − 43 € d'huile, pour 2 tests).</div>
+          <div data-t="306" class="p-badge test">🧪 2ᵉ test offert à 4 mois (kit premier + 4 mensualités).</div>
+          <div data-t="kb8" class="p-badge eco">📦 Une livraison chaque mois, et les frais de port reversés en produits offerts (programme fidélité).</div>
+          <div data-t="kb9" class="p-badge test">🆕 Livraison chaque mois (réservée aux nouveaux clients) : un flacon dure un mois, une livraison tous les 2 mois ne suffirait pas jusqu'à la suivante.</div>
+        </div>
+        <a data-t="kb10" class="btn-wa" data-wa="Bonjour {prenom} ! Je souhaite démarrer avec le kit Oméga-3 + tests en douceur (petit budget). C'est .......... qui m'a invité(e)." href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg>Je commande ce panier</a>
         <p data-t="309" class="p-note-wa">Je te réponds avec le lien de commande adapté et je m'assure que tu sois bien rattaché·e à la personne qui t'a invité·e.</p>
       </div>
       <div class="panier">
@@ -1500,13 +2092,9 @@ section.ratios h2 em{color:#E6CFA0}
       </div>
     </div>
     <div class="wrap" style="margin-top:40px">
-      <h3 data-t="363" class="center">Je ne suis <em>pas <span data-g="la seule|le seul">la seule</span></em></h3>
-      <p data-t="364" class="center muted" style="max-width:640px;margin:0 auto 8px">Les témoignages qui suivent reflètent des expériences personnelles. Chaque personne est différente et les ressentis peuvent varier. Ce qui rend cette démarche particulière, c'est qu'elle s'appuie aussi sur des mesures biologiques objectives.</p>
-      <div class="temoins">
-        <div class="temoin-carte"><p data-t="365" class="tc-txt">« Mon premier BalanceTest a montré un ratio de 58:1, ce qui m'a surprise. Après un an de BalanceOil+, mon test de suivi a montré un ratio de 5:1. J'ai hâte de découvrir mon prochain test. »</p><div data-t="366" class="tc-nom">Heike Schwiedeßen, 77 ans</div><div data-t="367" class="tc-meta">Entrepreneuse, Autriche</div></div>
-        <div class="temoin-carte"><p data-t="368" class="tc-txt">« Je prends BalanceOil+ et ZinoBiotic+ tous les jours. Au départ, j'étais sceptique. Aujourd'hui, je me sens plus motivée et ils s'intègrent à mon mode de vie sportif. »</p><div data-t="369" class="tc-nom">Theresa Moser, 31 ans</div><div data-t="370" class="tc-meta">Enseignante et triathlète, Autriche</div></div>
-        <div class="temoin-carte"><p data-t="371" class="tc-txt">« Cela fait un an que j'ai décidé d'investir dans ma santé et je suis satisfaite. Les oméga-3 EPA et DHA de BalanceOil+ contribuent au maintien d'une fonction cardiaque et cérébrale normale. »</p><div data-t="372" class="tc-nom">Belulah Basson, 52 ans</div><div data-t="373" class="tc-meta">Responsable administratif, Afrique du Sud</div></div>
-      </div>
+      <h3 data-t="363" class="center" id="temoinsTitre">Je ne suis <em>pas <span data-g="la seule|le seul">la seule</span></em></h3>
+      <p data-t="364" class="center muted" id="temoinsNote" style="max-width:640px;margin:0 auto 16px">Les témoignages qui suivent reflètent des expériences personnelles. Chaque personne est différente et les ressentis peuvent varier. Ce qui rend cette démarche particulière, c'est qu'elle s'appuie aussi sur des mesures biologiques objectives.</p>
+      <div id="aevTemoins" hidden></div>
       <div class="videos">
         <a class="video-carte" href="https://youtu.be/GARN1s6I434" target="_blank" rel="noopener"><div class="video-thumb"><img src="https://img.youtube.com/vi/GARN1s6I434/hqdefault.jpg" alt="Témoignage vidéo d'André"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div><div class="vc-cap"><span data-t="374" data-pa="6">Le témoignage d'André, mon tout premier client, dès l'arrivée du test en France il y a deux ans. Aujourd'hui âgé de 70 ans.</span></div></a>
         <a class="video-carte" href="https://www.youtube.com/channel/UChFzKYpIDAbHsjAisFaKzwA/featured" target="_blank" rel="noopener"><div class="video-thumb"><img src="https://img.youtube.com/vi/GARN1s6I434/hqdefault.jpg" alt="Chaîne YouTube de l'équipe"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div><div data-t="375" class="vc-cap">Notre chaîne YouTube — les témoignages et retours d'expérience de notre équipe.</div></a>
@@ -1784,6 +2372,43 @@ window.I18N_ATTR = {"Allégations de santé autorisées pour les oméga-3 EPA, D
 window.I18N_UI = {"titre":{"fr":"L'Essentiel","en":"The Essentials","es":"Lo esencial"},"partage":{"fr":"Coucou ! Je suis tombé·e sur ça, je crois que ça pourrait t'intéresser — une approche de la santé au quotidien, simple et bienveillante. J'ai pensé à toi : ","en":"Hi! I came across this and thought it might interest you — a simple, caring approach to everyday health. I thought of you: ","es":"¡Hola! Me he encontrado con esto y creo que te puede interesar: un enfoque de la salud en el día a día, sencillo y cercano. He pensado en ti: "},"sujet":{"fr":"J'ai pensé à toi","en":"I thought of you","es":"He pensado en ti"},"copie":{"fr":"✓ Lien copié — tu peux le coller où tu veux.","en":"✓ Link copied — you can paste it wherever you like.","es":"✓ Enlace copiado: puedes pegarlo donde quieras."},"vocal":{"fr":"La lecture vocale n'est pas disponible sur ce navigateur.","en":"Read-aloud is not available in this browser.","es":"La lectura en voz alta no está disponible en este navegador."},"voix":{"fr":"fr-FR","en":"en-GB","es":"es-ES"}};
 </script>
 
+<script>
+/* Traductions ajoutées : bloc sportifs */
+(function(){ var I = window.I18N || (window.I18N = {}); I.en = I.en || {}; I.es = I.es || {};
+  I.en.sp1 = "🏅 Are you an athlete?";
+  I.en.sp2 = "Many top athletes measure their balance to adjust their nutrition, which matters for recovery and training consistency. Depending on the partner company's conditions, you could also become a brand ambassador and receive complimentary products.";
+  I.en.sp3 = "Discover the ambassador programme →";
+  I.es.sp1 = "🏅 ¿Eres deportista?";
+  I.es.sp2 = "Muchos deportistas de alto nivel miden su equilibrio para ajustar su nutrición, algo que cuenta en la recuperación y la regularidad en el entrenamiento. Según las condiciones de la empresa colaboradora, también podrías ser embajador de la marca y recibir productos de regalo.";
+  I.es.sp3 = "Descubrir el programa de embajadores →";
+  I.en.kb1 = "✨ New · small budget"; I.es.kb1 = "✨ Nuevo · presupuesto ajustado";
+  I.en.kb2 = "Omega-3 + tests, gently"; I.es.kb2 = "Omega-3 + pruebas, con suavidad";
+  I.en.kb3 = "BalanceOil+ x1 starter kit · 2 tests included"; I.es.kb3 = "Kit de inicio BalanceOil+ x1 · 2 pruebas incluidas";
+  I.en.kb4 = "1 BalanceTest + 1 bottle of BalanceOil+ 300 ml + 1 measuring cup, then a second test 4 months later.";
+  I.es.kb4 = "1 BalanceTest + 1 frasco de BalanceOil+ 300 ml + 1 vaso dosificador, y una segunda prueba 4 meses después.";
+  I.en.kb5 = "€136 (kit) + €9 shipping"; I.es.kb5 = "136 € (kit) + 9 € de envío";
+  I.en.kb6 = "€43 — 1 bottle of BalanceOil+ 300 ml delivered every month · + €9 shipping";
+  I.es.kb6 = "43 € — 1 frasco de BalanceOil+ 300 ml entregado cada mes · + 9 € de envío";
+  I.en.kb7 = "💶 The most affordable start: each test works out at €46.50 (€136 − €43 of oil, for 2 tests).";
+  I.es.kb7 = "💶 El inicio más accesible: cada prueba sale a 46,50 € (136 € − 43 € de aceite, para 2 pruebas).";
+  I.en.kb8 = "📦 A delivery every month, with shipping costs returned as complimentary products (loyalty programme).";
+  I.es.kb8 = "📦 Una entrega cada mes, y los gastos de envío devueltos en productos de regalo (programa de fidelidad).";
+  I.en.kb9 = "🆕 Monthly delivery (new customers only): one bottle lasts a month, so a delivery every 2 months would not last until the next one.";
+  I.es.kb9 = "🆕 Entrega cada mes (reservada a nuevos clientes): un frasco dura un mes, una entrega cada 2 meses no alcanzaría hasta la siguiente.";
+  I.en.kb10 = "{svg}I'd like to order this basket"; I.es.kb10 = "{svg}Quiero pedir esta cesta";
+  var A = window.I18N_ATTR || (window.I18N_ATTR = {});
+  A["Bonjour {prenom} ! Je souhaite démarrer avec le kit Oméga-3 + tests en douceur (petit budget). C'est .......... qui m'a invité(e)."] = {
+    en: "Hello {prenom}! I would like to start with the gentle Omega-3 + tests kit (small budget). .......... invited me.",
+    es: "¡Hola {prenom}! Quiero empezar con el kit Omega-3 + pruebas con suavidad (presupuesto ajustado). Me invitó .........." };
+  I.en["115"] = "You've understood. You can now <strong>check</strong>, then <strong>act</strong>…<br><em>At your own pace, and only if you wish.</em>";
+  I.es["115"] = "Lo has entendido. Ahora puedes <strong>comprobar</strong> y luego <strong>actuar</strong>…<br><em>A tu ritmo, y solo si lo deseas.</em>";
+  I.en["80"] = "Out of more than <strong><span data-stat='balanceArrondi'>1,900,000</span> people</strong> who have taken this test, <span data-stat='imbalance'>97%</span> of first tests showed an omega-6 / omega-3 imbalance.";
+  I.es["80"] = "De más de <strong><span data-stat='balanceArrondi'>1.900.000</span> personas</strong> que han realizado esta prueba, el <span data-stat='imbalance'>97 %</span> de las primeras pruebas revelaba un desequilibrio omega-6 / omega-3.";
+  I.en.cpt1 = "Counter updated in <span data-stat='testsDate'>September 2026</span> · source: zinzinotest.com";
+  I.es.cpt1 = "Contador actualizado en <span data-stat='testsDate'>septiembre de 2026</span> · fuente: zinzinotest.com";
+})();
+</script>
+
 <!-- =================================================================== -->
 <!--  SCRIPT GÉNÉRAL — ne pas modifier (tout se règle dans CONFIG en haut) -->
 <!-- =================================================================== -->
@@ -1839,7 +2464,8 @@ window.I18N_UI = {"titre":{"fr":"L'Essentiel","en":"The Essentials","es":"Lo ese
     // Liens simples
     document.querySelectorAll('[data-lien]').forEach(function(el){
       var k = el.getAttribute('data-lien');
-      var map = { calendrier:C.lienCalendrier, bilan:C.lienBilan, telegram:C.lienTelegram, projet:C.lienProjet };
+      var lienAmb = C.lienEntreprise ? (C.lienEntreprise + (LANGUE !== 'fr' ? (C.lienEntreprise.indexOf('?') < 0 ? '?' : '&') + 'lang=' + LANGUE : '') + '#ambassadeurs') : '';
+      var map = { calendrier:C.lienCalendrier, bilan:C.lienBilan, telegram:C.lienTelegram, projet:C.lienProjet, 'entreprise-amb':lienAmb };
       if(map[k]) el.href = map[k];
     });
     document.querySelectorAll('[data-wa]').forEach(function(el){ el.href = wa(el.getAttribute('data-wa')); });
@@ -1879,6 +2505,7 @@ window.I18N_UI = {"titre":{"fr":"L'Essentiel","en":"The Essentials","es":"Lo ese
     });
     if(!C.urlMesure){ document.querySelectorAll('[data-mesure-info]').forEach(function(el){ el.style.display = 'none'; }); }
     if(!C.lienProjet){ document.querySelectorAll('[data-projet-bloc]').forEach(function(el){ el.style.display='none'; }); }
+    if(!C.lienEntreprise){ document.querySelectorAll('[data-entreprise-bloc]').forEach(function(el){ el.style.display='none'; }); }
 
     // Origine ajoutée aux liens vers les sites Agnès & Vous
     if(ORIGINE){
@@ -1985,6 +2612,8 @@ window.I18N_UI = {"titre":{"fr":"L'Essentiel","en":"The Essentials","es":"Lo ese
       }catch(e){ /* silencieux : ne jamais casser la page */ }
     }
 
+    window.__mesureEnvoyer = envoyer;
+
     // 1) Temps passé par section + 2) section de décrochage (dernière vue)
     var sections = document.querySelectorAll('section[id], header.hero');
     var tempsSection = {};      // cumul de secondes par section
@@ -2038,6 +2667,69 @@ window.I18N_UI = {"titre":{"fr":"L'Essentiel","en":"The Essentials","es":"Lo ese
     });
     window.addEventListener('pagehide', envoiFinal);
   })();
+
+  // --- Chiffres des tests : fichier central (mis à jour par Agnès), valeurs de secours sinon ---
+  var STATS = { balanceTests: 1904426, imbalancePercent: 97, testsDate: "2026-09" };
+  var LOC = { fr: "fr-FR", en: "en-GB", es: "es-ES" };
+  function rendreChiffres(){
+    var loc = LOC[LANGUE] || "fr-FR";
+    var n = Number(STATS.balanceTests) || 0;
+    var arrondi = n >= 1000000 ? Math.floor(n / 100000) * 100000 : Math.floor(n / 1000) * 1000;
+    var m = /^(\d{4})-(\d{2})$/.exec(String(STATS.testsDate || ""));
+    var v = {
+      balanceArrondi: new Intl.NumberFormat(loc).format(arrondi),
+      imbalance: new Intl.NumberFormat(loc, { style: "percent", maximumFractionDigits: 0 }).format((Number(STATS.imbalancePercent) || 0) / 100),
+      testsDate: m ? new Intl.DateTimeFormat(loc, { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(+m[1], +m[2] - 1, 15))) : String(STATS.testsDate || "")
+    };
+    document.querySelectorAll("[data-stat]").forEach(function(el){ var k = el.getAttribute("data-stat"); if (v[k] != null && n) el.textContent = v[k]; });
+  }
+  var choisirOrig = window.choisirLangue;
+  window.choisirLangue = function(l, s){ choisirOrig(l, s); rendreChiffres(); };
+  rendreChiffres();
+  if (C.statsUrl && window.fetch) {
+    fetch(C.statsUrl, { cache: "no-cache" }).then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ if (d && typeof d === "object") { for (var k in d) STATS[k] = d[k]; rendreChiffres(); } })
+      .catch(function(){});
+  }
+
+  // --- Carrousel de témoignages (avant le bandeau, pour le sommaire) ---
+  if(window.aevTemoignages) window.aevTemoignages({
+    items: C.temoignages, masquer: ["#temoinsTitre", "#temoinsNote"],
+    suivi: function(a){ mesurer('temoignages', { action: a }); }
+  });
+
+  // --- Bandeau commun + vidéo d'accueil ---
+  function mesurer(type, donnees){ if(window.__mesureEnvoyer) window.__mesureEnvoyer(type, donnees); }
+  if(window.aevBandeau) window.aevBandeau({
+    langues: ['fr','en','es'],
+    getLang: function(){ return LANGUE; },
+    setLang: function(l){ window.choisirLangue(l); },
+    prenom: C.prenom,
+    presentation: C.presentation,
+    rdv: C.lienCalendrier,
+    whatsapp: C.telWhatsApp,
+    email: C.email,
+    waTexte: function(l){
+      var t = { fr:"Bonjour {prenom} ! J'ai une question : ", en:"Hello {prenom}! I have a question: ", es:"¡Hola {prenom}! Tengo una pregunta: " }[l] || "";
+      return t.replace(/\{prenom\}/g, C.prenom || "") + (ORIGINE ? "(" + ORIGINE + ") " : "");
+    },
+    zoneLecture: "header.hero, .citation, section, footer",
+    sommaire: [
+      { id:"constat", emoji:"🔍", fr:"Le constat", en:"The starting point", es:"El punto de partida" },
+      { id:"inflammation", emoji:"🐟", fr:"Oméga et inflammation", en:"Omega & inflammation", es:"Omega e inflamación" },
+      { id:"test", emoji:"🧪", fr:"Le test", en:"The test", es:"La prueba" },
+      { id:"mon-histoire", emoji:"💬", fr:"Mon histoire", en:"My story", es:"Mi historia" },
+      { id:"solution", emoji:"🌿", fr:"Les solutions", en:"The solutions", es:"Las soluciones" },
+      { id:"devenir-client", emoji:"🛒", fr:"Devenir client", en:"Becoming a customer", es:"Hacerse cliente" },
+      { id:"temoignages", emoji:"⭐", fr:"Témoignages et questions", en:"Testimonials & questions", es:"Testimonios y preguntas" },
+      { id:"contact", emoji:"📅", fr:"Me contacter", en:"Contact me", es:"Contactarme" }
+    ],
+    suivi: function(action, detail){ mesurer('bandeau', { action: action, detail: detail || '' }); }
+  });
+  if(window.aevVideoAccueil) window.aevVideoAccueil({
+    liens: C.videoAccueil, verticale: C.videoVerticale, prenom: C.prenom, vous: false,
+    suivi: function(etat){ mesurer('video_accueil', { etat: etat }); }
+  });
 })();
 </script>
 
