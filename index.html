@@ -21,6 +21,8 @@ var CONFIG = {
   REGION      : "Corrèze",
   TELEPHONE   : "+33 6 63 93 21 12",
   EMAIL       : "contact@agnesetvous.com",
+  /* ⚠️ SITE_URL : l'adresse de VOTRE site, pas celle d'Agnès.
+     Si elle ne correspond pas, Google risque de ne pas montrer votre page. */
   SITE_URL    : "https://agnesetvous.com",
 
   /* ── Axes présentés (true = affiché, false = masqué) ──
@@ -49,7 +51,11 @@ var CONFIG = {
   /* ── Réception des formulaires (Google Apps Script) ── */
   ENDPOINT : "https://script.google.com/macros/s/AKfycbwMHFHpNdylLJyKHdS3MLqwq676-6wDv47iAvDdAKJgG8xoSQzKXu8FPfkImPiX5bc3/exec",
 
-  /* ── Liens proposés après le formulaire ── */
+  /* ── Liens proposés après le formulaire ──
+     ⚠️ À REMPLACER par les adresses de VOS propres pages bilan, essentiel,
+        évolution et projet. Sinon, les réponses de vos contacts arrivent
+        chez la personne propriétaire de ces pages, pas chez vous.
+     AGENDA : votre propre lien de prise de rendez-vous. */
   LIEN_BILAN     : "https://agnesetvous.com/bilan",
   LIEN_ESSENTIEL : "https://agnesetvous.com/essentiel",
   LIEN_EVOLUTION : "https://agnesetvous.com/evolution",
@@ -279,15 +285,20 @@ footer{text-align:center;padding:28px 24px;font-size:.82rem;color:var(--encre-do
     <label class="lbl" for="q2AutrePrecision" data-i18n="q2_autre_label"></label>
     <input type="text" id="q2AutrePrecision">
   </div>
-  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="reveal('divRdv','rdv')"></button>
+  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="reveal('div3','fin')"></button>
 </div>
 
-<div class="divider hidden" id="divRdv"></div>
+<div class="divider hidden" id="div3"></div>
 
-<div class="section hidden" id="rdv">
-  <h2 data-i18n="rdv_title"></h2>
-  <p class="sub" data-i18n="rdv_sub"></p>
-  <div class="options" data-name="rdv_choix">
+<div class="section hidden" id="fin">
+  <h2 data-i18n="fin_title"></h2>
+  <p class="sub" data-i18n="fin_p1"></p>
+  <p class="sub" style="margin-bottom:24px" data-i18n="fin_p2"></p>
+
+  <div id="rdv" style="margin-bottom:24px">
+  <p class="lbl" style="font-weight:500;color:var(--encre);font-size:1rem" data-i18n="rdv_title"></p>
+  <p class="lbl" style="margin-top:-4px" data-i18n="rdv_sub"></p>
+  <div class="options" data-name="rdv_choix" style="margin-top:8px">
     <label class="opt" data-multi><input type="checkbox" name="rdv_choix" value="Conférence en ligne" id="rdvConfCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_label"></span></label>
     <label class="opt" data-multi><input type="checkbox" name="rdv_choix" value="Événement local" id="rdvEventCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="rdv_event_label"></span></label>
   </div>
@@ -303,15 +314,8 @@ footer{text-align:center;padding:28px 24px;font-size:.82rem;color:var(--encre-do
     <label class="lbl" for="eventVille" data-i18n="rdv_event_ville_label"></label>
     <input type="text" id="eventVille" data-i18n-ph="rdv_event_ville_placeholder">
   </div>
-  <button class="btn-primary" style="margin-top:8px" data-i18n="btn_continuer" onclick="reveal('div3','fin')"></button>
-</div>
+  </div>
 
-<div class="divider hidden" id="div3"></div>
-
-<div class="section hidden" id="fin">
-  <h2 data-i18n="fin_title"></h2>
-  <p class="sub" data-i18n="fin_p1"></p>
-  <p class="sub" style="margin-bottom:24px" data-i18n="fin_p2"></p>
 
   <p class="lbl" data-i18n="canal_question"></p>
   <div class="options" data-name="canal">
@@ -443,7 +447,7 @@ var TRANSLATIONS = {
     filtre_moins_2: "Vous attendez que quelqu'un décide à votre place",
     connaissance_title: "Faisons connaissance",
     connaissance_lead: "Quelques questions pour comprendre ce qui vous amène et vous orienter vers les ressources qui pourraient vous être utiles.",
-    connaissance_note: "Il n'y a pas de bonne ou de mauvaise réponse. Répondez simplement selon votre situation aujourd'hui.",
+    connaissance_note: "3 courtes étapes, environ 1 minute. Il n'y a pas de bonne ou de mauvaise réponse. Répondez simplement selon votre situation aujourd'hui.",
     q1_title: "Comment avez-vous découvert {marque} ?",
     q1opt1: "Nous avons déjà échangé",
     q1opt2: "Une personne m'a parlé {de_marque}",
@@ -566,7 +570,7 @@ var TRANSLATIONS = {
     filtre_moins_2: "You expect someone to decide for you",
     connaissance_title: "Let's get acquainted",
     connaissance_lead: "A few questions to understand what brings you here and guide you toward the resources that might be useful to you.",
-    connaissance_note: "There's no right or wrong answer. Simply answer based on where you stand today.",
+    connaissance_note: "3 short steps, about 1 minute. There's no right or wrong answer. Simply answer based on where you stand today.",
     q1_title: "How did you discover {marque}?",
     q1opt1: "We've already talked",
     q1opt2: "Someone told me about {marque}",
@@ -689,7 +693,7 @@ var TRANSLATIONS = {
     filtre_moins_2: "Espera que alguien decida por usted",
     connaissance_title: "Conozcámonos",
     connaissance_lead: "Algunas preguntas para comprender qué le trae aquí y orientarle hacia los recursos que podrían serle útiles.",
-    connaissance_note: "No hay respuesta correcta ni incorrecta. Responda simplemente según su situación actual.",
+    connaissance_note: "3 pasos breves, aproximadamente 1 minuto. No hay respuesta correcta ni incorrecta. Responda simplemente según su situación actual.",
     q1_title: "¿Cómo descubrió {marque}?",
     q1opt1: "Ya hemos hablado",
     q1opt2: "Alguien me habló de {marque}",
@@ -897,7 +901,12 @@ function appliquerConfig(){
   remplirListe('listeCommu','blocCommu',[['@commu_telegram',C.COMMUNAUTE_TELEGRAM],['@commu_whatsapp',C.COMMUNAUTE_WHATSAPP]]);
 
   /* Référencement : adresse canonique + fiche Google */
-  if(C.SITE_URL){
+  var memeSite = false;
+  try {
+    var hoteConfig = new URL(C.SITE_URL).hostname.replace(/^www\./,'');
+    memeSite = (window.location.hostname.replace(/^www\./,'') === hoteConfig);
+  } catch(e){}
+  if(C.SITE_URL && memeSite){
     var link = document.createElement('link'); link.rel = 'canonical'; link.href = C.SITE_URL; document.head.appendChild(link);
   }
   var sameAs = [C.LINKEDIN, C.FACEBOOK, C.INSTAGRAM, C.TIKTOK].filter(Boolean);
