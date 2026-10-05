@@ -57,9 +57,9 @@ var CONFIG = {
         chez la personne propriétaire de ces pages, pas chez vous.
      AGENDA : votre propre lien de prise de rendez-vous. */
   LIEN_BILAN     : "https://agnesetvous.com/bilan",
-  LIEN_ESSENTIEL : "",   /* vide : Essentiel arrive après le bilan bien-être */
+  LIEN_ESSENTIEL : "https://agnesetvous.com/essentiel",
   LIEN_EVOLUTION : "https://agnesetvous.com/evolution",
-  LIEN_PROJET    : "",   /* vide : Projet arrive après le bilan d'évolution */
+  LIEN_PROJET    : "https://agnesetvous.com/projet",
   AGENDA         : "https://calendar.app.google/v4KtmbgVPWEHSejT8",
 
   /* ── Réseaux sociaux ── */
@@ -294,28 +294,6 @@ footer{text-align:center;padding:28px 24px;font-size:.82rem;color:var(--encre-do
   <h2 data-i18n="fin_title"></h2>
   <p class="sub" data-i18n="fin_p1"></p>
   <p class="sub" style="margin-bottom:24px" data-i18n="fin_p2"></p>
-
-  <div id="rdv" style="margin-bottom:24px">
-  <p class="lbl" style="font-weight:500;color:var(--encre);font-size:1rem" data-i18n="rdv_title"></p>
-  <p class="lbl" style="margin-top:-4px" data-i18n="rdv_sub"></p>
-  <div class="options" data-name="rdv_choix" style="margin-top:8px">
-    <label class="opt" data-multi><input type="checkbox" name="rdv_choix" value="Conférence en ligne" id="rdvConfCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_label"></span></label>
-    <label class="opt" data-multi><input type="checkbox" name="rdv_choix" value="Événement local" id="rdvEventCheckbox"><span class="mark"></span><span class="opt-text" data-i18n="rdv_event_label"></span></label>
-  </div>
-  <div class="field hidden" id="champConfSujet">
-    <p class="lbl" data-i18n="rdv_conf_sujet_label"></p>
-    <div class="options" data-name="conf_sujet">
-      <label class="opt"><input type="radio" name="conf_sujet" value="Bien-être"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt1"></span></label>
-      <label class="opt"><input type="radio" name="conf_sujet" value="Activité"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt2"></span></label>
-      <label class="opt"><input type="radio" name="conf_sujet" value="Les deux"><span class="mark"></span><span class="opt-text" data-i18n="rdv_conf_sujet_opt3"></span></label>
-    </div>
-  </div>
-  <div class="field hidden" id="champEventVille">
-    <label class="lbl" for="eventVille" data-i18n="rdv_event_ville_label"></label>
-    <input type="text" id="eventVille" data-i18n-ph="rdv_event_ville_placeholder">
-  </div>
-  </div>
-
 
   <p class="lbl" data-i18n="canal_question"></p>
   <div class="options" data-name="canal">
@@ -1078,7 +1056,7 @@ function submitForm(){
     q1Autre: document.getElementById('q1AutrePrecision').value.trim(),
     q2Autre: document.getElementById('q2AutrePrecision').value.trim(),
     confSujet: confSujet ? confSujet.value : "",
-    eventVille: document.getElementById('eventVille').value.trim(),
+    eventVille: "",
     consentement: "Oui",
     langue: currentLang,
     origine: ORIGINE ? origineLisible(ORIGINE) : "",
