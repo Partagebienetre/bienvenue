@@ -807,7 +807,7 @@ function lienParcours(base){try{const u=new URL(base,location.href);if(ORIGINE)u
 function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function appliquerReglages(){
  const set=(id,url)=>{const el=document.getElementById(id);if(el){el.href=lienParcours(url);}};
- set('lienEntreprise',CONFIG.LIEN_ENTREPRISE);set('lienEvolution',CONFIG.LIEN_EVOLUTION);set('lienEssentiel',CONFIG.LIEN_ESSENTIEL);
+ set('lienEntreprise',CONFIG.LIEN_ENTREPRISE);document.querySelectorAll('a[data-conf="entreprise"],a[data-conf="rdv"],a[data-conf="evolution"]').forEach(function(a){var k=a.getAttribute('data-conf');var u=k==='entreprise'?CONFIG.LIEN_ENTREPRISE:k==='evolution'?CONFIG.LIEN_EVOLUTION:k==='rdv'?CONFIG.LIEN_RDV:'';if(!u){a.style.display='none';return;}a.style.display='';a.href=(k==='rdv')?u:lienParcours(u);});set('lienEvolution',CONFIG.LIEN_EVOLUTION);set('lienEssentiel',CONFIG.LIEN_ESSENTIEL);
  const acc=document.getElementById('lienAccueil');if(acc){acc.href=lienParcours(CONFIG.LIEN_ACCUEIL);acc.firstChild.nodeValue=CONFIG.MARQUE;}
  const rdv=document.getElementById('lienRdv');if(rdv){rdv.href=CONFIG.LIEN_RDV||'#';rdv.hidden=!CONFIG.LIEN_RDV;}
  const pl=document.getElementById('printLine');if(pl)pl.textContent=CONFIG.MARQUE+' — '+CONFIG.EMAIL+' — '+String(CONFIG.LIEN_PARTAGE).replace(/^https?:\/\//,'');
