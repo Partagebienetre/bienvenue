@@ -42,8 +42,12 @@ h1 em{font-style:italic;font-weight:500;color:var(--accent)}
 #merci{display:none;text-align:center}
 #merci h2{font-family:'Playfair Display',serif;font-weight:600;font-size:1.4rem;color:var(--accent);margin-bottom:8px}
 #merci p{color:var(--encre-doux);font-size:.95rem;margin-bottom:14px}
-.demande{background:var(--sauge-bg);border-radius:10px;padding:14px;margin:18px 0 4px}
-.demande p{margin-bottom:10px!important;color:var(--encre)!important}
+.etape-label{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)!important;font-weight:500;margin:4px 0 6px!important}
+.suite{font-size:.88rem!important;margin:10px 0 0!important}
+.suite a{color:var(--accent)}
+.personne{border-top:1px solid #ece6d8;margin-top:20px;padding-top:18px}
+.personne h3{font-family:'Playfair Display',serif;font-weight:500;font-style:italic;font-size:1.15rem;color:var(--encre);margin-bottom:8px}
+.personne p{color:var(--encre)!important;font-size:.93rem!important;margin-bottom:14px!important}
 .lien-discret{display:inline-block;margin-top:10px;font-size:.88rem;color:var(--encre-doux)}
 details{max-width:480px;margin:16px auto 0;font-size:.74rem;color:#8f8a7a}
 summary{cursor:pointer;text-align:center;list-style:none}
@@ -82,17 +86,18 @@ details p{margin-bottom:6px}
 
     <button class="btn" id="btn" onclick="envoyer()">Je découvre mon bilan offert</button>
     <p class="erreur" id="erreur"></p>
-    <p class="rassure">Une seule chose en retour : me dire ce que vous en avez pensé.</p>
+    <p class="rassure">Vos coordonnées restent confidentielles.</p>
   </div>
 
   <div id="merci">
     <h2>Merci <span id="prenomMerci"></span>&nbsp;!</h2>
-    <p>Vous pouvez commencer tout de suite :</p>
+    <p class="etape-label">Étape 1 · 5 minutes</p>
     <a class="btn" href="https://agnesetvous.com/bilan/">Faire mon bilan bien-être</a>
-    <a class="btn btn-ligne" href="https://agnesetvous.com/essentiel/">Découvrir les essentiels</a>
-    <div class="demande">
-      <p>Ce que je vous demande en retour&nbsp;: <strong>me dire ce que vous en avez pensé.</strong> Un petit message suffit.</p>
-      <a class="btn" id="wa" href="https://wa.me/33663932112" target="_blank" rel="noopener">M'écrire sur WhatsApp</a>
+    <p class="suite">Ensuite, à la fin du bilan, je vous fais découvrir la prévention basée sur des tests&nbsp;: mesurer plutôt que supposer.</p>
+    <div class="personne">
+      <h3>Derrière cette page, il y a une personne</h3>
+      <p>Pas un robot&nbsp;: moi, Agnès. J'aurai vraiment plaisir à faire votre connaissance, à vous écouter et à voir ensemble si je peux vous apporter quelque chose sur ce qui vous préoccupe aujourd'hui.</p>
+      <a class="btn btn-ligne" id="wa" href="https://wa.me/33663932112" target="_blank" rel="noopener">M'écrire sur WhatsApp</a>
       <a class="lien-discret" href="https://calendar.app.google/JUywJcLFrJrdsnyN8" target="_blank" rel="noopener">ou réserver un échange offert</a>
     </div>
   </div>
@@ -152,7 +157,7 @@ function envoyer(){
   function merci(){
     document.getElementById("prenomMerci").textContent = prenom;
     document.getElementById("wa").href = "https://wa.me/33663932112?text=" +
-      encodeURIComponent("Bonjour Agnès, c'est " + prenom + ". Je viens de découvrir votre bilan bien-être, voici ce que j'en ai pensé : ");
+      encodeURIComponent("Bonjour Agnès, c'est " + prenom + ". Je viens de m'inscrire sur votre page bien-être, j'aimerais faire votre connaissance.");
     document.getElementById("formulaire").style.display = "none";
     document.getElementById("merci").style.display = "block";
     window.scrollTo(0, 0);
