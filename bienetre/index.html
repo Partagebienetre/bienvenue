@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prendre soin de vous — Agnès &amp; Vous</title>
+<meta name="description" content="Votre bilan bien-être offert et mes repères essentiels pour prendre soin de vous naturellement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sauge:#7D8D79;--sauge-bg:rgba(125,141,121,.09);
+  --terracotta:#B06D5D;--beige:#F5F1E8;--or:#C8A96B;
+  --encre:#33372F;--encre-doux:#6B6F65;--blanc:#FDFCF9;
+  --accent:var(--sauge);--accent-fonce:#6a7967;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',system-ui,sans-serif;font-weight:300;background:var(--beige);color:var(--encre);line-height:1.55;padding:20px 16px 28px}
+.carte{background:var(--blanc);border-radius:14px;box-shadow:0 8px 32px rgba(51,55,47,.1);max-width:480px;margin:0 auto;padding:28px 24px 22px}
+.photo{display:block;width:84px;height:84px;border-radius:50%;object-fit:cover;margin:0 auto 12px;border:3px solid var(--beige)}
+.surtitre{text-align:center;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:8px}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:1.55rem;line-height:1.25;text-align:center;margin-bottom:12px}
+h1 em{font-style:italic;font-weight:500;color:var(--accent)}
+.sub{text-align:center;color:var(--encre-doux);font-size:.97rem;margin-bottom:16px}
+.points{list-style:none;margin:0 0 18px;padding:12px 14px;background:var(--sauge-bg);border-radius:10px}
+.points li{font-size:.93rem;padding:3px 0 3px 22px;position:relative}
+.points li::before{content:"✓";position:absolute;left:2px;color:var(--accent);font-weight:500}
+.champ{margin-bottom:11px}
+.champ label{display:block;font-size:.84rem;color:var(--encre-doux);margin-bottom:4px}
+.champ input{width:100%;font-family:inherit;font-size:1rem;padding:12px 14px;background:var(--beige);border:1.5px solid transparent;border-radius:8px;color:var(--encre)}
+.champ input:focus{outline:none;border-color:var(--accent)}
+.consent{display:flex;gap:9px;align-items:flex-start;font-size:.8rem;color:var(--encre-doux);margin:4px 0 14px;cursor:pointer}
+.consent input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0}
+.btn{display:block;width:100%;text-align:center;text-decoration:none;font-family:inherit;font-size:1rem;font-weight:500;cursor:pointer;border:none;border-radius:8px;padding:15px 18px;background:var(--accent);color:var(--blanc);transition:background .2s}
+.btn:hover{background:var(--accent-fonce)}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn-ligne{background:transparent;color:var(--accent);border:1.5px solid var(--accent);margin-top:10px}
+.btn-ligne:hover{background:var(--accent);color:var(--blanc)}
+.erreur{color:var(--terracotta);font-size:.85rem;text-align:center;margin-top:10px;min-height:1.1em}
+.rassure{text-align:center;font-size:.76rem;color:#A6A08E;margin-top:6px}
+#merci{display:none;text-align:center}
+#merci h2{font-family:'Playfair Display',serif;font-weight:600;font-size:1.4rem;color:var(--accent);margin-bottom:8px}
+#merci p{color:var(--encre-doux);font-size:.95rem;margin-bottom:14px}
+.demande{background:var(--sauge-bg);border-radius:10px;padding:14px;margin:18px 0 4px}
+.demande p{margin-bottom:10px!important;color:var(--encre)!important}
+.lien-discret{display:inline-block;margin-top:10px;font-size:.88rem;color:var(--encre-doux)}
+details{max-width:480px;margin:16px auto 0;font-size:.74rem;color:#8f8a7a}
+summary{cursor:pointer;text-align:center;list-style:none}
+summary::-webkit-details-marker{display:none}
+details div{margin-top:8px;line-height:1.5}
+details p{margin-bottom:6px}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;animation:t .8s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes t{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="carte">
+  <img class="photo" src="https://agnesetvous.com/photo-agnes.png" alt="Agnès">
+
+  <div id="formulaire">
+    <p class="surtitre">Bien-être &amp; prévention</p>
+    <h1>Et si vous arrêtiez de <em>deviner</em> ce dont votre corps a besoin&nbsp;?</h1>
+    <p class="sub">21 ans infirmière, 12 ans en nutrition préventive : on prend bien mieux soin de soi quand on mesure, au lieu de supposer.</p>
+
+    <ul class="points">
+      <li>Votre bilan bien-être offert, en 5 minutes</li>
+      <li>Mes repères essentiels pour prendre soin de vous naturellement</li>
+      <li>Sans engagement, à votre rythme</li>
+    </ul>
+
+    <div class="champ">
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" autocomplete="given-name">
+    </div>
+    <div class="champ">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" autocomplete="email" inputmode="email">
+    </div>
+    <label class="consent"><input type="checkbox" id="rgpd"><span>J'accepte qu'Agnès conserve mes coordonnées pour m'envoyer ces contenus et me recontacter. Elles ne sont ni vendues ni cédées.</span></label>
+
+    <button class="btn" id="btn" onclick="envoyer()">Je découvre mon bilan offert</button>
+    <p class="erreur" id="erreur"></p>
+    <p class="rassure">Une seule chose en retour : me dire ce que vous en avez pensé.</p>
+  </div>
+
+  <div id="merci">
+    <h2>Merci <span id="prenomMerci"></span>&nbsp;!</h2>
+    <p>Vous pouvez commencer tout de suite :</p>
+    <a class="btn" href="https://agnesetvous.com/bilan/">Faire mon bilan bien-être</a>
+    <a class="btn btn-ligne" href="https://agnesetvous.com/essentiel/">Découvrir les essentiels</a>
+    <div class="demande">
+      <p>Ce que je vous demande en retour&nbsp;: <strong>me dire ce que vous en avez pensé.</strong> Un petit message suffit.</p>
+      <a class="btn" id="wa" href="https://wa.me/33663932112" target="_blank" rel="noopener">M'écrire sur WhatsApp</a>
+      <a class="lien-discret" href="https://calendar.app.google/JUywJcLFrJrdsnyN8" target="_blank" rel="noopener">ou réserver un échange offert</a>
+    </div>
+  </div>
+</div>
+
+<details>
+  <summary>Mentions légales &amp; confidentialité</summary>
+  <div>
+    <p><strong>Éditeur :</strong> Agnès Esclaire Riera — Agnès &amp; Vous, entreprise individuelle, Objat, Corrèze, France — SIRET 502 712 466 00056 — contact@agnesetvous.com</p>
+    <p><strong>Hébergement :</strong> GitHub Pages. Nom de domaine enregistré auprès d'IONOS.</p>
+    <p><strong>Données personnelles :</strong> votre prénom et votre e-mail sont collectés avec votre consentement, dans le seul but de vous envoyer les contenus demandés et de vous recontacter. Vous pouvez demander leur suppression à tout moment à contact@agnesetvous.com.</p>
+    <p>Les informations bien-être ont une vocation informative et ne remplacent pas l'avis d'un professionnel de santé.</p>
+    <p>Ce site a été créé par Agnès &amp; Vous.</p>
+  </div>
+</details>
+
+<script>
+/* Même script Google que la page Bienvenue : les contacts arrivent dans le même tableur */
+var ENDPOINT = "https://script.google.com/macros/s/AKfycbwMHFHpNdylLJyKHdS3MLqwq676-6wDv47iAvDdAKJgG8xoSQzKXu8FPfkImPiX5bc3/exec";
+var PORTE = "Bien-être";
+var INTERETS = ["Bien-être"];
+
+/* Provenance : lien du type agnesetvous.com/bienetre/?origine=facebook */
+var ORIGINE = (function(){
+  var o = "";
+  try {
+    var p = new URLSearchParams(location.search);
+    o = (p.get("origine") || p.get("o") || "").trim().slice(0, 60);
+    if (o) localStorage.setItem("origine", o); else o = localStorage.getItem("origine") || "";
+  } catch(e){}
+  return o;
+})();
+
+function envoyer(){
+  var prenom = document.getElementById("prenom").value.trim();
+  var email = document.getElementById("email").value.trim();
+  var err = document.getElementById("erreur");
+  if (!prenom){ err.textContent = "Votre prénom, s'il vous plaît."; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ err.textContent = "Cette adresse e-mail ne semble pas valide."; return; }
+  if (!document.getElementById("rgpd").checked){ err.textContent = "Cochez la case pour que je puisse vous répondre."; return; }
+  err.textContent = "";
+  var btn = document.getElementById("btn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Un instant…';
+
+  var payload = {
+    prenom: prenom, email: email, telephone: "",
+    source: "Réseaux sociaux", interets: INTERETS,
+    porte: PORTE, consentement: "Oui", langue: "fr",
+    origine: ORIGINE, destinataire: "contact@agnesetvous.com",
+    espace: "Agnès & Vous — Agnès — porte " + PORTE,
+    page: location.href, date: new Date().toISOString()
+  };
+  fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) })
+    .then(merci).catch(merci);
+
+  function merci(){
+    document.getElementById("prenomMerci").textContent = prenom;
+    document.getElementById("wa").href = "https://wa.me/33663932112?text=" +
+      encodeURIComponent("Bonjour Agnès, c'est " + prenom + ". Je viens de découvrir votre bilan bien-être, voici ce que j'en ai pensé : ");
+    document.getElementById("formulaire").style.display = "none";
+    document.getElementById("merci").style.display = "block";
+    window.scrollTo(0, 0);
+  }
+}
+</script>
+</body>
+</html>
